@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC. - FAQ</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet">
+
+<style>
+/* الأساس */
+body {
+    font-family: 'Ubuntu', sans-serif;
+    background: linear-gradient(135deg, #0047AB 0%, #4FA3FF 100%);
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+/* شريط التنقل */
+#bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 30px;
+    background-color: rgba(0, 71, 171, 0.9);
+    flex-wrap: wrap;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+}
+
+#bar .logo {
+    font-size: 32px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #FAF9F6;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+#bar .logo:hover {
+    transform: scale(1.05);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+}
+
+#bar nav {
+    display: flex;
+    gap: 20px;
+}
+
+#bar nav a {
+    color: #FAF9F6;
+    text-decoration: none;
+    font-weight: 400;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+#bar nav a:hover {
+    background-color: rgba(255,255,255,0.2);
+}
+
+/* العنوان الرئيسي */
+#alert {
+    text-align: center;
+    background-color: rgba(0, 71, 171, 0.85);
+    width: fit-content;
+    margin: 60px auto 20px;
+    border-radius: 40px;
+    padding: 15px 40px;
+    font-size: 24px;
+    font-weight: 400;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+/* القسم الرئيسي */
+#firstcolumn {
+    text-align: center;
+    width: 90%;
+    max-width: 900px;
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(8px);
+    padding: 50px 30px;
+    margin: 40px auto 80px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#firstcolumn h2 {
+    font-size: 30px;
+    margin-bottom: 40px;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+/* FAQ */
+.faq-container {
+    text-align: left;
+}
+
+.faq-item {
+    background: rgba(255,255,255,0.15);
+    color: #FAF9F6;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+}
+
+.faq-question {
+    width: 100%;
+    padding: 18px 20px;
+    border: none;
+    background: transparent;
+    color: #FAF9F6;
+    text-align: left;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 400;
+    position: relative;
+}
+
+.faq-question span.arrow {
+    font-size: 18px;
+    transition: transform 0.4s ease;
+}
+
+.faq-item.active .faq-question span.arrow {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    background: rgba(255,255,255,0.08);
+    color: #FAF9F6;
+    font-size: 16px;
+    line-height: 1.7;
+    padding: 0 20px;
+    transition: all 0.5s cubic-bezier(0.55, 0.06, 0.68, 0.19);
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    padding: 20px;
+    opacity: 1;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* زر التواصل */
+.contact-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 50px;
+    padding: 14px 35px;
+    background: linear-gradient(90deg, #0078FF, #00B4FF);
+    color: white;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    background: linear-gradient(90deg, #00B4FF, #0078FF);
+}
+
+.contact-btn svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* استجابة الشاشات */
+@media (max-width: 768px) {
+    #bar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #bar nav {
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    #alert {
+        width: 90%;
+        font-size: 20px;
+    }
+
+    .faq-question {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+<body>
+
+    <!-- شريط التنقل -->
+    <div id="bar">
+        <a href="mainpage.html" class="logo">ESC.</a>
+        <nav>
+            <a href="faq.html">FAQ</a>
+            <a href="course.html">Courses</a>
+        </nav>
+    </div>
+
+    <!-- التنبيه -->
+    <div id="alert">Frequently Asked Questions</div>
+
+    <!-- القسم الرئيسي -->
+    <div id="firstcolumn">
+        <h2>FAQ Section</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">
+                    Is there any chance in the future that the platform will cost money?
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    We are a non-profit organization. We are doing our best to make free courses reach you exclusively through this website. If, in the future, some courses cost something, we promise that a similar free course will appear soon for you.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What does ESC. stand for?
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    ESC. stands for "Elite Students Courses" — made for free.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Source of courses?
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    Our courses are based on previously prepared summaries of textbooks by PhDs and specialists in their respective fields. The majority of these summaries were created by Iraqi teachers.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How can I contact you?
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="faq-answer">
+                    You can reach us via email at <strong>serverkings04@gmail.com</strong>.
+                </div>
+            </div>
+        </div>
+
+        <!-- زر التواصل -->
+        <a href="mailto:serverkings04@gmail.com" class="contact-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l9 6 9-6m-9 6v8" />
+            </svg>
+            Contact Us
+        </a>
+    </div>
+
+<script>
+    // حركة فتح وغلق الأسئلة
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.parentElement;
+            item.classList.toggle('active');
+            document.querySelectorAll('.faq-item').forEach(other => {
+                if (other !== item) other.classList.remove('active');
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

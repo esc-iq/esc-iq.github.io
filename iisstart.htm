@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>Inferno Captcha</title>
+    <link rel="icon" href="media/sheldfavicon.png" type="image/png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0047AB;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            direction: rtl;
+        }
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            margin: auto;
+            width: 90%;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: rgb(22, 71, 176);
+            color: wheat;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0047AB;
+        }
+        img {
+            margin: 15px 0;
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>Please enter what you see in the picture</h2>
+
+    <img src="media/captcha.png" alt="captcha">
+
+    <input type="text" id="password" placeholder="What can you see">
+
+    <button onclick="checkPassword()">Check</button>
+</div>
+
+<script>
+    function checkPassword() {
+        var password = document.getElementById("password").value.trim();
+        if (password.toLowerCase() === "dog") {
+            window.location.href = "mainpage.html";
+        } else {
+             window.location.href = "https://ar.wikipedia.org/wiki/%D8%AC%D9%88%D9%86_%D9%81%D9%88%D8%B1%D8%A8%D8%B3_%D9%86%D8%A7%D8%B4#/media/%D9%85%D9%84%D9%81:John_Forbes_Nash,_Jr..jpg";
+        }
+    }
+</script>
+
+</body>
+</html>

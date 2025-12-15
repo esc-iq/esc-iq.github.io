@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC. — Course Player</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Ubuntu', sans-serif;
+    margin: 0;
+    background-color: #FAF9F6;
+    color: #111827;
+}
+  /* العمود الرئيسي */
+    #firstcolumn {
+        text-align: center;
+        background-color: #008080;
+        width: auto;
+        padding: 40px 20px;
+        margin: 60px auto 0 auto;
+        border-radius: 0px;
+    }
+
+    #firstcolumn h2 {
+        font-size: 25px;
+        margin-bottom: 30px;
+    }
+
+    /* صور الفريق */
+    .image-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .image-box {
+        text-align: center;
+    }
+
+    .image-box img {
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        transition: transform 0.3s;
+    }
+
+    .image-box img:hover {
+        transform: scale(1.05);
+    }
+
+    .image-box .name {
+        margin-top: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #FAF9F6;
+    }
+
+    .image-box .info {
+        font-size: 16px;
+        color: #FAF9F6;
+    }
+
+/* NAVBAR */
+#bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 20px;
+    background-color:#0047AB;
+    color:white;
+    flex-wrap:wrap;
+}
+#bar .logo{
+    font-size:28px;
+    font-weight:700;
+    cursor:pointer;
+}
+#bar nav{display:flex;gap:14px;align-items:center}
+#bar nav a{
+    color:white;
+    text-decoration:none;
+    padding:8px 12px;
+    border-radius:8px;
+    font-weight:600;
+}
+#bar nav a:hover{background:rgba(255,255,255,0.12)}
+
+/* GRID LAYOUT */
+.container{
+    display:flex;
+    max-width:1200px;
+    margin:30px auto;
+    gap:20px;
+    padding:0 20px;
+}
+
+/* LEFT SIDE — VIDEO PLAYER */
+.player-section{
+    flex:3;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.video-wrap{
+    width:100%;
+    position:relative;
+    padding-top:56.25%; /* 16:9 ratio */
+    background:#000;
+}
+.video-wrap video{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+.video-title{
+    font-size:22px;
+    font-weight:700;
+    margin-top:6px;
+}
+
+/* RIGHT SIDE — PLAYLIST */
+.playlist-section{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.vision-box{
+    background:linear-gradient(90deg,#008080,#0047AB);
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    font-size:14px;
+    text-align:center;
+}
+.playlist{
+    background:white;
+    border-radius:10px;
+    padding:10px;
+    max-height:calc(100vh - 160px);
+    overflow-y:auto;
+}
+.playlist h3{margin:6px 0 12px 0;font-size:18px;color:#111827}
+.video-item{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:6px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background 0.15s;
+}
+.video-item:hover{background:#f3f4f6;}
+.video-item.active{background:linear-gradient(90deg,#008080,#0047AB);color:white;}
+.video-item img{
+    width:100px;
+    height:56px;
+    object-fit:cover;
+    border-radius:6px;
+    flex-shrink:0;
+}
+.video-item .meta{font-size:14px}
+.video-item .meta .title{font-weight:700}
+.video-item .meta .duration{font-size:12px;color:#6B7280;margin-top:2px}
+
+/* RESPONSIVE */
+@media (max-width:1000px){
+    .container{
+        flex-direction:column;
+    }
+    .playlist-section{
+        order:2;
+    }
+    .player-section{
+        order:1;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div id="bar">
+    <div class="logo" onclick="location.href='mainpage.html'">ESC.</div>
+    <nav>
+        <a href="faq.html">FAQ</a>
+        <a href="course.html">Courses</a>
+    </nav>
+</div>
+
+<!-- MAIN GRID -->
+<div class="container">
+    <!-- LEFT: VIDEO PLAYER -->
+    <div class="player-section">
+        <div class="video-wrap">
+            <video id="mainVideo" controls></video>
+        </div>
+        <div id="videoTitle" class="video-title">Select a lecture from the playlist</div>
+    </div>
+
+    <!-- RIGHT: PLAYLIST -->
+    <div class="playlist-section">
+        <div class="vision-box">Free educational platform for everyone — non-profit.</div>
+        <div class="playlist">
+            <h3>Course Lectures</h3>
+            <div id="playlistItems"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Local videos and thumbnails
+const videos = [
+    {title:'Lecture 1: introduction to Soil Mechanics', src:'media/video/1.mp4', thumb:'media/thumb/soil1.png'},
+    {title:'Lecture 2: Particle Size and Gradation', src:'media/video/2.mp4', thumb:'media/thumb/soil2.png'},
+    {title:'Lecture 3: Phase diagram', src:'media/video/3.mp4', thumb:'media/thumb/soil3.png'},
+    {title:'Lecture 4: Fine-grained soil indcators', src:'media/video/4.mp4', thumb:'media/thumb/soil4.png'},
+    {title:'Lecture 5: Soil Classification', src:'media/video/4.mp4', thumb:'media/thumb/soil5.png'},
+    {title:'Lecture 6: Soil Compaction', src:'media/video/4.mp4', thumb:'media/thumb/soil6.png'},
+    {title:'Lecture 7: Soil Permeabilty', src:'media/video/4.mp4', thumb:'media/thumb/soil7.png'},
+    {title:'Lecture 8: No Flow - Geo.Static Stresses', src:'media/video/4.mp4', thumb:'media/thumb/soil8.png'},
+    {title:'Lecture 9: One-Dim. Flow', src:'media/video/4.mp4', thumb:'media/thumb/soil9.png'},
+    {title:'Lecture 10: One-Dim. Flow Part 2', src:'media/video/4.mp4', thumb:'media/thumb/soil10.png'},
+    {title:'Lecture 11: 2D Flow', src:'media/video/4.mp4', thumb:'media/thumb/soil11.png'},
+    {title:'Lecture 12: Stresses within soil mass', src:'media/video/4.mp4', thumb:'media/thumb/soil12.png'},
+    {title:'Lecture 13: One-Dim. consolidation', src:'media/video/4.mp4', thumb:'media/thumb/soil13.png'},
+    {title:'Lecture 14: One-Dim. consolidation', src:'media/video/4.mp4', thumb:'media/thumb/soil14.png'},
+    {title:'Lecture 15: Mohr Cycle', src:'media/video/4.mp4', thumb:'media/thumb/soil15.png'},
+    {title:'Lecture 16: Shear Strength', src:'media/video/4.mp4', thumb:'media/thumb/soil16.png'},
+
+];
+
+const mainVideo = document.getElementById('mainVideo');
+const videoTitle = document.getElementById('videoTitle');
+const playlistItems = document.getElementById('playlistItems');
+
+let currentIndex = 0;
+
+// Render playlist dynamically
+function renderPlaylist(){
+    playlistItems.innerHTML='';
+    videos.forEach((v,i)=>{
+        const item = document.createElement('div');
+        item.className='video-item'+(i===currentIndex?' active':'');
+        item.dataset.index=i;
+        item.innerHTML=`<img src="${v.thumb}" alt="${v.title}"><div class="meta"><div class="title">${v.title}</div></div>`;
+        item.addEventListener('click',()=>loadVideo(i));
+        playlistItems.appendChild(item);
+    });
+}
+
+// Load video
+function loadVideo(index){
+    currentIndex=index;
+    const v=videos[index];
+    mainVideo.src=v.src;
+    videoTitle.textContent=v.title;
+
+    // Update active class
+    document.querySelectorAll('.video-item').forEach(el=>{
+        el.classList.toggle('active',Number(el.dataset.index)===index);
+    });
+}
+
+// Dynamic update: if video dimensions change, update thumbnails container (simulated)
+mainVideo.addEventListener('loadedmetadata',()=>{
+    const h=mainVideo.videoHeight;
+    const w=mainVideo.videoWidth;
+    // Could dynamically adjust thumbnail aspect ratios here if needed
+});
+
+document.addEventListener('DOMContentLoaded',()=>{
+    renderPlaylist();
+    loadVideo(0);
+});
+</script>
+
+
+
+
+
+
+
+     <div id="firstcolumn">
+        <h2>OUR VISION</h2>
+
+        <p>This website was created to be free for students around the world. We believe that everyone, everywhere, deserves access to free education</p>
+    <p>We seek nothing but the success of our colleagues. non-profit organization</p>
+    
+    </div>
+
+
+</body>
+</html>
