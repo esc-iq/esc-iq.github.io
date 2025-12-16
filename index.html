@@ -31,10 +31,18 @@
         flex-wrap: wrap;
     }
 
+    /* ✅ الشعار أصبح رابط قابل للنقر */
     #bar .logo {
         font-size: 35px;
         font-weight: bold;
         color: #FAF9F6;
+        text-decoration: none;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    #bar .logo:hover {
+        opacity: 0.9;
     }
 
     #bar nav {
@@ -159,7 +167,9 @@
 
     <!-- ✅ شريط التنقل -->
     <div id="bar">
-        <div class="logo">ESC.</div>
+        <!-- ✅ الشعار الآن يوديك مباشرة إلى index.html -->
+        <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC.</a>
+
         <nav>
             <a href="faq.html">الأسئلة الشائعة</a>
             <a href="course.html">الدورات</a>
@@ -202,5 +212,3 @@
 
 </body>
 </html>
-
-
