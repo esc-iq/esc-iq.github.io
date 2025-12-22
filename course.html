@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" dir="rtl">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ESC.</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 
-<!-- ✅ ربط خط Baloo Bhaijaan 2 من Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<!-- ✅ ربط خط Baloo Bhaijaan 2 من Google Fonts --> <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --nav-height: 58px;   /* ثبّت هذا الرقم في كل صفحاتك */
+  --nav-height: 58px;
   --nav-pad-x: 20px;
 }
 
-/* الخط الأساسي */
+/* إعدادات عامة */
 body{
   font-family:'Ubuntu', sans-serif;
   background-color:#FAF9F6;
@@ -27,7 +26,7 @@ body{
 }
 
 /* =========================
-   NAVBAR (ثابت الارتفاع)
+   NAVBAR (نفس التصميم المرجعي)
    ========================= */
 #bar{
   height:var(--nav-height);
@@ -38,36 +37,34 @@ body{
   align-items:center;
   justify-content:space-between;
 
-  padding:0 var(--nav-pad-x);   /* بدون padding عمودي لتثبيت الارتفاع */
+  padding:0 var(--nav-pad-x);
   background-color:#0047AB;
 
   position:sticky;
   top:0;
   z-index:1000;
 
-  /* لضمان: ESC يسار + زر يمين حتى مع RTL */
   direction:ltr;
 }
 
+/* الشعار */
 #bar .logo{
   font-size:35px;
   font-weight:700;
-  line-height:1;
-  user-select:none;
-}
-#bar .logo a,
-#bar .logo{
   color:#FAF9F6;
   text-decoration:none;
+  cursor:pointer;
+  user-select:none;
+  line-height:1;
 }
 #bar .logo:hover{opacity:0.9;}
 
 /* روابط سطح المكتب */
 #bar nav{
   display:flex;
-  gap:16px;
-  align-items:center;
+  gap:20px;
   flex-wrap:wrap;
+  align-items:center;
 }
 #bar nav a{
   color:#FAF9F6;
@@ -120,7 +117,7 @@ body{
 .menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
 .menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
 
-/* Backdrop */
+/* خلفية/Backdrop */
 #menuBackdrop{
   display:none;
   position:fixed;
@@ -233,7 +230,6 @@ body{
    موبايل
    ========================= */
 @media (max-width:768px){
-  /* على الموبايل: نخفي nav ونظهر زر الخيارات */
   #bar nav{display:none;}
   .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
 
@@ -254,12 +250,10 @@ body{
 
 <body>
 
-<!-- NAVBAR (معدّل) -->
 <header id="bar">
-  <div class="logo" onclick="location.href='mainpage.html'">ESC</div>
+  <a class="logo" href="mainpage.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
 
-  <!-- روابط سطح المكتب (منسوخة من الكود السابق) -->
-  <nav aria-label="Primary">
+  <nav aria-label="روابط الموقع">
     <a href="faq.html">الأسئلة الشائعة</a>
     <a href="course.html">الدورات</a>
     <a href="graduationprojects.html">مشاريع التخرج</a>
@@ -267,12 +261,10 @@ body{
     <a href="volunteer.html">برامج التطوع</a>
   </nav>
 
-  <!-- زر خيارات للموبايل -->
   <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
 
-  <!-- قائمة الهاتف (نفس الأزرار) -->
   <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
     <a role="menuitem" href="course.html">الدورات</a>
@@ -282,13 +274,10 @@ body{
   </div>
 </header>
 
-<!-- Backdrop -->
 <div id="menuBackdrop" aria-hidden="true"></div>
 
-<!-- التنبيه -->
 <div id="alert">have a nice day!</div>
 
-<!-- العمود الرئيسي -->
 <div id="firstcolumn">
   <h2>Civil engineering Courses</h2>
 
@@ -342,7 +331,6 @@ body{
 </div>
 
 <script>
-/* Dropdown logic */
 const menuBtn = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const backdrop = document.getElementById('menuBackdrop');
