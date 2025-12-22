@@ -6,212 +6,352 @@
 <title>ESC</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 
-<!-- ✅ ربط خط Baloo Bhaijaan 2 من Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<!-- ✅ ربط خط Baloo Bhaijaan 2 من Google Fonts --> <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-    /* ✅ إعداد الخط العام والاتجاه */
-    body {
-        font-family: 'Baloo Bhaijaan 2', sans-serif;
-        background-color: #FAF9F6;
-        margin: 0;
-        padding: 0;
-        color: #fff;
-        direction: rtl;
-        text-align: right;
-    }
+:root{
+  --nav-height: 58px;
+  --nav-pad-x: 20px;
+}
 
-    /* شريط التنقل */
-    #bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 30px;
-        background-color: #0047AB;
-        flex-wrap: wrap;
-    }
+/* إعدادات عامة */
+body{
+  font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
+  background-color:#FAF9F6;
+  margin:0;
+  padding:0;
+  color:#fff;
+  direction:rtl;
+  text-align:right;
+}
 
-    /* ✅ الشعار أصبح رابط قابل للنقر */
-    #bar .logo {
-        font-size: 35px;
-        font-weight: bold;
-        color: #FAF9F6;
-        text-decoration: none;
-        cursor: pointer;
-        user-select: none;
-    }
+/* =========================
+   NAVBAR (ثابت الارتفاع)
+   ========================= */
+#bar{
+  height:var(--nav-height);
+  min-height:var(--nav-height);
+  box-sizing:border-box;
 
-    #bar .logo:hover {
-        opacity: 0.9;
-    }
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 
-    #bar nav {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
+  padding:0 var(--nav-pad-x); /* بدون padding عمودي لتثبيت الارتفاع */
+  background-color:#0047AB;
 
-    #bar nav a {
-        color: #FAF9F6;
-        text-decoration: none;
-        font-weight: bold;
-        padding: 8px 12px;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-    }
+  position:sticky;
+  top:0;
+  z-index:1000;
 
-    #bar nav a:hover {
-        background-color: rgba(255,255,255,0.2);
-    }
+  /* لضمان: ESC يسار + زر يمين حتى مع RTL */
+  direction:ltr;
+}
 
-    /* التنبيه */
-    #alert {
-        text-align: center;
-        background-color: #0047AB;
-        width: 450px;
-        margin: 40px auto 0 auto;
-        border-radius: 30px;
-        padding: 10px;
-        font-size: 25px;
-    }
+/* الشعار */
+#bar .logo{
+  font-size:35px;
+  font-weight:700;
+  color:#FAF9F6;
+  text-decoration:none;
+  cursor:pointer;
+  user-select:none;
+  line-height:1;
+}
+#bar .logo:hover{opacity:0.9;}
 
-    /* العمود الرئيسي */
-    #firstcolumn {
-        text-align: center;
-        background-color: #008080;
-        width: auto;
-        padding: 40px 20px;
-        margin: 60px auto 0 auto;
-        border-radius: 0;
-    }
+/* روابط سطح المكتب */
+#bar nav{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+#bar nav a{
+  color:#FAF9F6;
+  text-decoration:none;
+  font-weight:700;
+  padding:8px 12px;
+  border-radius:10px;
+  transition:background-color 0.2s;
+  line-height:1;
+}
+#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
 
-    #firstcolumn h2 {
-        font-size: 25px;
-        margin-bottom: 30px;
-        color: #FAF9F6;
-    }
+/* زر خيارات الموبايل */
+.menu-btn{
+  display:none;
+  height:42px;
+  width:42px;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  border-radius:10px;
+}
+.menu-btn:hover{background:rgba(255,255,255,0.18);}
 
-    #firstcolumn p {
-        font-size: 18px;
-        color: #FAF9F6;
-        line-height: 1.8;
-        margin: 10px auto;
-        width: 80%;
-    }
+/* أيقونة همبرغر */
+.menu-icon{
+  width:24px;
+  height:2px;
+  background:#fff;
+  display:block;
+  position:relative;
+  margin:auto;
+}
+.menu-icon::before,
+.menu-icon::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:24px;
+  height:2px;
+  background:#fff;
+  transition:transform .18s ease, top .18s ease, opacity .18s ease;
+}
+.menu-icon::before{top:-7px;}
+.menu-icon::after{top:7px;}
 
-    /* صور الفريق */
-    .image-container {
-        display: flex;
-        justify-content: center;
-        gap: 30px;
-        flex-wrap: wrap;
-    }
+/* عند الفتح تتحول إلى X */
+.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
+.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
 
-    .image-box {
-        text-align: center;
-    }
+/* خلفية/Backdrop */
+#menuBackdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:999;
+}
+#menuBackdrop.show{display:block;}
 
-    .image-box img {
-        width: 300px;
-        height: 300px;
-        object-fit: cover;
-        border-radius: 10px;
-        transition: transform 0.3s;
-    }
+/* القائمة المنسدلة للموبايل */
+.mobile-menu{
+  display:none;
+  position:absolute;
+  right:16px;
+  top:calc(var(--nav-height) + 8px);
+  min-width:240px;
+  background:#fff;
+  color:#111827;
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22);
+  border:1px solid rgba(0,0,0,0.06);
+  z-index:1001;
 
-    .image-box img:hover {
-        transform: scale(1.05);
-    }
+  direction:rtl;
+  text-align:right;
 
-    .image-box .name {
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #FAF9F6;
-    }
+  transform-origin:top right;
+  transform:translateY(-6px) scale(0.98);
+  opacity:0;
+  transition:opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open{
+  display:block;
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.mobile-menu a{
+  display:block;
+  padding:11px 12px;
+  border-radius:10px;
+  color:#111827;
+  text-decoration:none;
+  font-weight:800;
+}
+.mobile-menu a:hover{background:#f3f4f6;}
 
-    .image-box .info {
-        font-size: 16px;
-        color: #FAF9F6;
-    }
+/* التنبيه */
+#alert{
+  text-align:center;
+  background-color:#0047AB;
+  width:450px;
+  margin:40px auto 0 auto;
+  border-radius:30px;
+  padding:10px;
+  font-size:25px;
+}
 
-    /* ✅ استجابة الشاشات الصغيرة */
-    @media (max-width: 768px) {
-        #bar {
-            flex-direction: column;
-            align-items: center;
-        }
+/* العمود الرئيسي */
+#firstcolumn{
+  text-align:center;
+  background-color:#008080;
+  width:auto;
+  padding:40px 20px;
+  margin:60px auto 0 auto;
+  border-radius:0;
+}
+#firstcolumn h2{
+  font-size:25px;
+  margin-bottom:30px;
+  color:#FAF9F6;
+}
+#firstcolumn p{
+  font-size:18px;
+  color:#FAF9F6;
+  line-height:1.8;
+  margin:10px auto;
+  width:80%;
+}
 
-        #bar nav {
-            gap: 10px;
-            margin-top: 10px;
-        }
+/* صور الفريق */
+.image-container{
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+}
+.image-box{text-align:center;}
+.image-box img{
+  width:300px;
+  height:300px;
+  object-fit:cover;
+  border-radius:10px;
+  transition:transform 0.3s;
+}
+.image-box img:hover{transform:scale(1.05);}
+.image-box .name{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:800;
+  color:#FAF9F6;
+}
+.image-box .info{
+  font-size:16px;
+  color:#FAF9F6;
+}
 
-        .image-box img {
-            width: 90%;
-            height: auto;
-        }
+/* =========================
+   Mobile layout
+   ========================= */
+@media (max-width:768px){
+  /* على الموبايل: نخفي nav ونظهر زر الخيارات */
+  #bar nav{display:none;}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
 
-        #alert {
-            width: 90%;
-            font-size: 20px;
-        }
-
-        #firstcolumn p {
-            width: 95%;
-        }
-    }
+  /* تحسينات عامة */
+  .image-box img{
+    width:90%;
+    height:auto;
+  }
+  #alert{
+    width:90%;
+    font-size:20px;
+  }
+  #firstcolumn p{width:95%;}
+}
 </style>
 </head>
+
 <body>
 
-    <!-- ✅ شريط التنقل -->
-    <div id="bar">
-        <!-- ✅ الشعار الآن يوديك مباشرة إلى index.html -->
-        <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
+<!-- NAVBAR (معدّل) -->
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
 
-        <nav>
-            <a href="faq.html">الأسئلة الشائعة</a>
-            <a href="course.html">الدورات</a>
-            <a href="graduationprojects.html">مشاريع التخرج</a>
-            <a href="research.html">الأبحاث</a>
-            <a href="volunteer.html">برامج التطوع</a>
-        </nav>
+  <!-- روابط سطح المكتب -->
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="graduationprojects.html">مشاريع التخرج</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+
+  <!-- زر خيارات للموبايل -->
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <!-- قائمة منسدلة للموبايل -->
+  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="graduationprojects.html">مشاريع التخرج</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+
+<!-- Backdrop -->
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- التنبيه -->
+<div id="alert">نتمنى لك يومًا سعيدًا!</div>
+
+<!-- العمود الرئيسي -->
+<div id="firstcolumn">
+  <h2>فريقنا</h2>
+
+  <div class="image-container">
+    <div class="image-box">
+      <a href="founderprofile.html">
+        <img src="media/founder.JPG" alt="المؤسس">
+      </a>
+      <div class="name">محمد باقر علاء</div>
+      <div class="info">المؤسس، الرئيس التنفيذي</div>
     </div>
+  </div>
+</div>
 
-    <!-- ✅ التنبيه -->
-    <div id="alert">نتمنى لك يومًا سعيدًا!</div>
+<!-- قسم الرؤية -->
+<div id="firstcolumn">
+  <h2>رؤيتنا</h2>
+  <p>تم إنشاء هذا الموقع ليكون مجانيًا لجميع الطلاب في وطننا. نؤمن بأن الطريق الوحيد للنهوض من جديد تحت ضوء الشمس هو التعليم.</p>
+  <p>نحن لا نسعى إلى شيء سوى نجاح زملائنا. منظمة غير ربحية.</p>
+</div>
 
-    <!-- ✅ العمود الرئيسي -->
-    <div id="firstcolumn">
-        <h2>فريقنا</h2>
+<script>
+/* Dropdown logic */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop = document.getElementById('menuBackdrop');
 
-        <div class="image-container">
-            <div class="image-box">
-                <a href="founderprofile.html">
-                    <img src="media/founder.JPG" alt="المؤسس">
-                </a>
-                <div class="name">محمد باقر علاء</div>
-                <div class="info">المؤسس، الرئيس التنفيذي</div>
-            </div>
-        </div>
+function openMenu(){
+  mobileMenu.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function toggleMenu(){
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+  isOpen ? closeMenu() : openMenu();
+}
 
-    </div>
+menuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleMenu();
+});
 
-    <!-- ✅ قسم الرؤية -->
-    <div id="firstcolumn">
-        <h2>رؤيتنا</h2>
+backdrop.addEventListener('click', closeMenu);
 
-        <p>
-            تم إنشاء هذا الموقع ليكون مجانيًا لجميع الطلاب في وطننا. نؤمن بأن الطريق الوحيد للنهوض من جديد تحت ضوء الشمس هو التعليم.
-        </p>
-        <p>
-            نحن لا نسعى إلى شيء سوى نجاح زملائنا. منظمة غير ربحية.
-        </p>
-    </div>
+document.addEventListener('click', (e)=>{
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){
+    closeMenu();
+  }
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeMenu();
+});
+
+mobileMenu.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', closeMenu);
+});
+
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 768) closeMenu();
+});
+</script>
 
 </body>
 </html>
-
-
-
