@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ESC. — Course Player</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
-
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -30,7 +29,9 @@ body{
 #firstcolumn h2{font-size:25px;margin-bottom:30px;}
 #firstcolumn p{color:#FAF9F6}
 
-/* NAVBAR */
+/* =========================
+   NAVBAR (Desktop + Mobile)
+   ========================= */
 #bar{
     display:flex;
     align-items:center;
@@ -38,18 +39,134 @@ body{
     padding:12px 20px;
     background-color:#0047AB;
     color:white;
-    flex-wrap:wrap;
+
+    position:sticky;
+    top:0;
+    z-index:1000;
+
+    /* لضمان: ESC يسار + زر يمين (حتى مع RTL للصفحة) */
+    direction:ltr;
 }
-#bar .logo{font-size:28px;font-weight:700;cursor:pointer;}
-#bar nav{display:flex;gap:14px;align-items:center;}
-#bar nav a{
+
+/* Logo */
+#bar .logo{
+    font-size:28px;
+    font-weight:700;
+    cursor:pointer;
+    user-select:none;
+}
+
+/* Desktop links */
+#bar .nav-links{
+    display:flex;
+    gap:14px;
+    align-items:center;
+}
+#bar .nav-links a{
     color:white;
     text-decoration:none;
     padding:8px 12px;
-    border-radius:8px;
+    border-radius:10px;
     font-weight:600;
 }
-#bar nav a:hover{background:rgba(255,255,255,0.12);}
+#bar .nav-links a:hover{background:rgba(255,255,255,0.12);}
+
+/* Mobile menu button */
+.menu-btn{
+    display:none;
+    background:transparent;
+    border:0;
+    cursor:pointer;
+    padding:10px;
+    border-radius:10px;
+    color:#fff;
+}
+.menu-btn:hover{background:rgba(255,255,255,0.12);}
+
+/* Hamburger icon */
+.menu-icon{
+    width:24px;
+    height:2px;
+    background:#fff;
+    display:block;
+    position:relative;
+}
+.menu-icon::before,
+.menu-icon::after{
+    content:"";
+    position:absolute;
+    left:0;
+    width:24px;
+    height:2px;
+    background:#fff;
+    transition:transform .18s ease, top .18s ease, opacity .18s ease;
+}
+.menu-icon::before{ top:-7px; }
+.menu-icon::after{ top:7px; }
+
+/* When open => X */
+.menu-btn[aria-expanded="true"] .menu-icon{
+    background:transparent;
+}
+.menu-btn[aria-expanded="true"] .menu-icon::before{
+    top:0;
+    transform:rotate(45deg);
+}
+.menu-btn[aria-expanded="true"] .menu-icon::after{
+    top:0;
+    transform:rotate(-45deg);
+}
+
+/* Backdrop */
+#menuBackdrop{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:999; /* تحت البار */
+}
+#menuBackdrop.show{ display:block; }
+
+/* Mobile dropdown */
+.mobile-menu{
+    display:none;
+    position:absolute;
+    right:16px;
+    top:58px;
+    min-width:220px;
+    background:#fff;
+    color:#111827;
+    border-radius:14px;
+    padding:8px;
+    box-shadow:0 14px 35px rgba(0,0,0,0.22);
+    border:1px solid rgba(0,0,0,0.06);
+    z-index:1001;
+
+    /* محتوى القائمة بالعربي (RTL) */
+    direction:rtl;
+    text-align:right;
+
+    transform-origin:top right;
+    transform:translateY(-6px) scale(0.98);
+    opacity:0;
+    transition:opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open{
+    display:block;
+    opacity:1;
+    transform:translateY(0) scale(1);
+}
+.mobile-menu a{
+    display:block;
+    padding:10px 12px;
+    border-radius:10px;
+    color:#111827;
+    text-decoration:none;
+    font-weight:700;
+}
+.mobile-menu a:hover{
+    background:#f3f4f6;
+}
 
 /* GRID LAYOUT */
 .container{
@@ -183,7 +300,7 @@ body{
 }
 .video-item .meta{font-size:14px;min-width:0;}
 .video-item .meta .title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.video-item .meta .duration{font-size:12px;color:#6B7280;margin-top:2px;}
+.video-item .meta .duration{font-size:12px;color:#6B7280;margin-top:2px}
 
 /* keep English titles LTR without changing text */
 .keep-ltr{
@@ -198,26 +315,48 @@ body{
     .playlist-section{order:2;}
     .player-section{order:1;}
 }
+
+/* Mobile-specific navbar behavior */
+@media (max-width:768px){
+    #bar{ padding:10px 14px; }
+    #bar .nav-links{ display:none; }
+    .menu-btn{ display:inline-flex; align-items:center; justify-content:center; }
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAV -->
-<div id="bar">
+<!-- NAV (updated) -->
+<header id="bar">
     <div class="logo" onclick="location.href='mainpage.html'">ESC</div>
-    <nav>
+
+    <!-- Desktop nav -->
+    <nav class="nav-links">
         <a href="faq.html">FAQ</a>
         <a href="course.html">Courses</a>
     </nav>
-</div>
+
+    <!-- Mobile menu button -->
+    <button id="menuBtn" class="menu-btn" aria-label="Options" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="menu-icon" aria-hidden="true"></span>
+    </button>
+
+    <!-- Mobile dropdown -->
+    <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="Mobile menu">
+        <a role="menuitem" href="faq.html">FAQ</a>
+        <a role="menuitem" href="course.html">Courses</a>
+    </div>
+</header>
+
+<!-- Backdrop -->
+<div id="menuBackdrop" aria-hidden="true"></div>
 
 <!-- MAIN GRID -->
 <div class="container">
     <!-- LEFT: VIDEO PLAYER -->
     <div class="player-section">
         <div class="video-wrap">
-            <!-- YouTube iframe (replaces internal video player, same visible size) -->
             <iframe
                 id="ytPlayer"
                 src=""
@@ -227,20 +366,14 @@ body{
             </iframe>
         </div>
 
-        <!-- keep English title as-is (LTR) -->
         <div id="videoTitle" class="video-title keep-ltr">Select a lecture from the playlist</div>
 
-        <!-- Download box under title (same width as player) -->
         <div class="download-box" id="downloadBox">
-            <!-- put your file icon here -->
             <img id="fileThumb" class="file-thumb" src="media/icons/file.png" alt="Lecture file">
-
             <div class="dl-meta">
                 <div class="dl-title">تحميل محاضرة الدرس</div>
                 <div id="downloadName" class="dl-note keep-ltr">Lecture file will appear here</div>
             </div>
-
-            <!-- clicking this downloads the lecture file -->
             <a id="downloadLink" class="dl-link" href="#" download>تحميل</a>
         </div>
     </div>
@@ -256,29 +389,26 @@ body{
 </div>
 
 <script>
-/*
-IMPORTANT:
-- youtubeId: put the YouTube video ID for each lecture (e.g. https://www.youtube.com/watch?v=VIDEO_ID)
-- file: put the downloadable lecture file (pdf/mp4/zip/etc.) for that lecture
-- Titles are kept unchanged (English) and displayed LTR.
-*/
+/* =========================
+   Playlist + YouTube logic
+   ========================= */
 const videos = [
-  { title:'Lecture 1: introduction to Soil Mechanics', youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil1.png', file:'media/files/lecture1.pdf' },
-  { title:'Lecture 2: Particle Size and Gradation',     youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil2.png', file:'media/files/lecture2.pdf' },
-  { title:'Lecture 3: Phase diagram',                    youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil3.png', file:'media/files/lecture3.pdf' },
-  { title:'Lecture 4: Fine-grained soil indcators',      youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil4.png', file:'media/files/lecture4.pdf' },
-  { title:'Lecture 5: Soil Classification',              youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil5.png', file:'media/files/lecture5.pdf' },
-  { title:'Lecture 6: Soil Compaction',                  youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil6.png', file:'media/files/lecture6.pdf' },
-  { title:'Lecture 7: Soil Permeabilty',                 youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil7.png', file:'media/files/lecture7.pdf' },
-  { title:'Lecture 8: No Flow - Geo.Static Stresses',    youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil8.png', file:'media/files/lecture8.pdf' },
-  { title:'Lecture 9: One-Dim. Flow',                    youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil9.png', file:'media/files/lecture9.pdf' },
-  { title:'Lecture 10: One-Dim. Flow Part 2',            youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil10.png', file:'media/files/lecture10.pdf' },
-  { title:'Lecture 11: 2D Flow',                         youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil11.png', file:'media/files/lecture11.pdf' },
-  { title:'Lecture 12: Stresses within soil mass',       youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil12.png', file:'media/files/lecture12.pdf' },
-  { title:'Lecture 13: One-Dim. consolidation',          youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil13.png', file:'media/files/lecture13.pdf' },
-  { title:'Lecture 14: One-Dim. consolidation',          youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil14.png', file:'media/files/lecture14.pdf' },
-  { title:'Lecture 15: Mohr Cycle',                      youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil15.png', file:'media/files/lecture15.pdf' },
-  { title:'Lecture 16: Shear Strength',                  youtubeId:'dQw4w9WgXcQ', thumb:'media/thumb/soil16.png', file:'media/files/lecture16.pdf' },
+  { title:'Lecture 1: introduction to Soil Mechanics', youtubeId:'', thumb:'media/thumb/soil1.png', file:'media/files/lecture1.pdf' },
+  { title:'Lecture 2: Particle Size and Gradation',     youtubeId:'', thumb:'media/thumb/soil2.png', file:'media/files/lecture2.pdf' },
+  { title:'Lecture 3: Phase diagram',                   youtubeId:'', thumb:'media/thumb/soil3.png', file:'media/files/lecture3.pdf' },
+  { title:'Lecture 4: Fine-grained soil indcators',     youtubeId:'', thumb:'media/thumb/soil4.png', file:'media/files/lecture4.pdf' },
+  { title:'Lecture 5: Soil Classification',             youtubeId:'', thumb:'media/thumb/soil5.png', file:'media/files/lecture5.pdf' },
+  { title:'Lecture 6: Soil Compaction',                 youtubeId:'', thumb:'media/thumb/soil6.png', file:'media/files/lecture6.pdf' },
+  { title:'Lecture 7: Soil Permeabilty',                youtubeId:'', thumb:'media/thumb/soil7.png', file:'media/files/lecture7.pdf' },
+  { title:'Lecture 8: No Flow - Geo.Static Stresses',   youtubeId:'', thumb:'media/thumb/soil8.png', file:'media/files/lecture8.pdf' },
+  { title:'Lecture 9: One-Dim. Flow',                   youtubeId:'', thumb:'media/thumb/soil9.png', file:'media/files/lecture9.pdf' },
+  { title:'Lecture 10: One-Dim. Flow Part 2',           youtubeId:'', thumb:'media/thumb/soil10.png', file:'media/files/lecture10.pdf' },
+  { title:'Lecture 11: 2D Flow',                        youtubeId:'', thumb:'media/thumb/soil11.png', file:'media/files/lecture11.pdf' },
+  { title:'Lecture 12: Stresses within soil mass',      youtubeId:'', thumb:'media/thumb/soil12.png', file:'media/files/lecture12.pdf' },
+  { title:'Lecture 13: One-Dim. consolidation',         youtubeId:'', thumb:'media/thumb/soil13.png', file:'media/files/lecture13.pdf' },
+  { title:'Lecture 14: One-Dim. consolidation',         youtubeId:'', thumb:'media/thumb/soil14.png', file:'media/files/lecture14.pdf' },
+  { title:'Lecture 15: Mohr Cycle',                     youtubeId:'', thumb:'media/thumb/soil15.png', file:'media/files/lecture15.pdf' },
+  { title:'Lecture 16: Shear Strength',                 youtubeId:'', thumb:'media/thumb/soil16.png', file:'media/files/lecture16.pdf' },
 ];
 
 const ytPlayer = document.getElementById('ytPlayer');
@@ -287,12 +417,10 @@ const playlistItems = document.getElementById('playlistItems');
 
 const downloadLink = document.getElementById('downloadLink');
 const downloadName = document.getElementById('downloadName');
-const fileThumb = document.getElementById('fileThumb');
 
 let currentIndex = 0;
 
 function youtubeEmbedUrl(id){
-  // modestbranding + rel=0 is fine; autoplay intentionally OFF by default
   return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1`;
 }
 
@@ -315,13 +443,9 @@ function renderPlaylist(){
 }
 
 function setDownload(filePath, title){
-  // update download anchor
-  downloadLink.href = filePath;
-  // choose a filename in download attr (optional)
-  const safeName = title.replace(/[^\w\s.-]/g,'').replace(/\s+/g,'_') || 'lecture_file';
+  downloadLink.href = filePath || '#';
+  const safeName = (title || 'lecture_file').replace(/[^\w\s.-]/g,'').replace(/\s+/g,'_');
   downloadLink.setAttribute('download', safeName);
-
-  // show current file path/name (kept LTR)
   downloadName.textContent = filePath ? filePath.split('/').pop() : 'No file';
 }
 
@@ -330,19 +454,66 @@ function loadLecture(index){
   const v = videos[index];
 
   // YouTube
-  ytPlayer.src = youtubeEmbedUrl(v.youtubeId);
+  ytPlayer.src = v.youtubeId ? youtubeEmbedUrl(v.youtubeId) : '';
 
-  // Title (unchanged)
+  // Title
   videoTitle.textContent = v.title;
 
   // Download
   setDownload(v.file, v.title);
 
-  // Active item highlight
+  // Active
   document.querySelectorAll('.video-item').forEach(el=>{
     el.classList.toggle('active', Number(el.dataset.index) === index);
   });
 }
+
+/* =========================
+   Mobile Dropdown Menu logic
+   ========================= */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop = document.getElementById('menuBackdrop');
+
+function openMenu(){
+  mobileMenu.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function toggleMenu(){
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+  isOpen ? closeMenu() : openMenu();
+}
+
+menuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleMenu();
+});
+
+backdrop.addEventListener('click', closeMenu);
+
+document.addEventListener('click', (e)=>{
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){
+    closeMenu();
+  }
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeMenu();
+});
+
+mobileMenu.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', closeMenu);
+});
+
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 768) closeMenu();
+});
 
 document.addEventListener('DOMContentLoaded',()=>{
   renderPlaylist();
