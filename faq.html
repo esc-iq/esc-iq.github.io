@@ -67,7 +67,7 @@ body{
 
 #bar nav{
   display:flex;
-  gap:16px;
+  gap:20px;              /* ✅ تم توحيد التباعد مثل حجر الأساس */
   align-items:center;
   flex-wrap:wrap;
 }
@@ -318,11 +318,9 @@ body{
 
 <body>
 
-<!-- NAVBAR (معدّل) -->
 <header id="bar">
   <a href="mainpage.html" class="logo" aria-label="العودة للصفحة الرئيسية">ESC</a>
 
-  <!-- روابط سطح المكتب (منسوخة من الكود السابق) -->
   <nav aria-label="Primary">
     <a href="faq.html">الأسئلة الشائعة</a>
     <a href="course.html">الدورات</a>
@@ -331,12 +329,10 @@ body{
     <a href="volunteer.html">برامج التطوع</a>
   </nav>
 
-  <!-- زر خيارات للموبايل -->
   <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
 
-  <!-- قائمة الهاتف -->
   <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
     <a role="menuitem" href="course.html">الدورات</a>
@@ -346,14 +342,11 @@ body{
   </div>
 </header>
 
-<!-- Backdrop -->
 <div id="menuBackdrop" aria-hidden="true"></div>
 
-<!-- التنبيه -->
 <div id="alert">لايمكن حل المشكلات الرئيسية التي نواجهها بنفس مستوى التفكير الذي كنا عليه ساعة اوجدناها 
   -البريت اينيشتاين</div>
 
-<!-- القسم الرئيسي -->
 <div id="firstcolumn">
   <h2>الاسئلة الأكثر شيوعًا</h2>
 
@@ -409,7 +402,6 @@ body{
     </div>
   </div>
 
-  <!-- زر التواصل -->
   <a href="mailto:iraq@gov.iq" class="contact-btn">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l9 6 9-6m-9 6v8" />
@@ -419,7 +411,6 @@ body{
 </div>
 
 <script>
-/* FAQ toggles */
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
     const item = btn.parentElement;
@@ -430,7 +421,6 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   });
 });
 
-/* Dropdown logic */
 const menuBtn = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const backdrop = document.getElementById('menuBackdrop');
