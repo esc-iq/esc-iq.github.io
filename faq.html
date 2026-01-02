@@ -39,7 +39,7 @@ body{
   align-items:center;
   justify-content:space-between;
 
-  padding:0 var(--nav-pad-x); /* بدون padding عمودي لتثبيت الارتفاع */
+  padding:0 var(--nav-pad-x);
   background-color: rgba(0, 71, 171, 0.9);
 
   position:sticky;
@@ -47,7 +47,6 @@ body{
   z-index:1000;
   backdrop-filter: blur(10px);
 
-  /* لضمان: ESC يسار + زر يمين حتى مع RTL */
   direction:ltr;
 }
 
@@ -67,7 +66,7 @@ body{
 
 #bar nav{
   display:flex;
-  gap:20px;              /* ✅ تم توحيد التباعد مثل حجر الأساس */
+  gap:20px;              /* ✅ نفس تباعد حجر الأساس */
   align-items:center;
   flex-wrap:wrap;
 }
@@ -76,10 +75,11 @@ body{
   color:#FAF9F6;
   text-decoration:none;
   font-weight:700;
-  padding:8px 12px;
+  padding:8px 12px;      /* ✅ نفس حجم الأزرار */
   border-radius:10px;
   transition: background-color 0.3s;
   line-height:1;
+  white-space:nowrap;    /* ✅ يمنع كسر النص ويساعد بمنع عرض زائد */
 }
 #bar nav a:hover{
   background-color: rgba(255,255,255,0.2);
@@ -170,6 +170,7 @@ body{
   color:#111827;
   text-decoration:none;
   font-weight:800;
+  white-space:nowrap;
 }
 .mobile-menu a:hover{background:#f3f4f6;}
 
@@ -177,13 +178,17 @@ body{
 #alert{
   text-align:center;
   background-color: rgba(0, 71, 171, 0.85);
-  width:fit-content;
-  margin:60px auto 20px;
-  border-radius:40px;
-  padding:15px 40px;
-  font-size:24px;
+  width:92%;
+  max-width:900px;
+  margin:40px auto 20px;
+  border-radius:28px;
+  padding:12px 18px;
+  font-size:18px;        /* ✅ أصغر لتفادي العرض الزائد */
   font-weight:400;
   box-shadow:0 6px 20px rgba(0,0,0,0.2);
+  line-height:1.7;
+  box-sizing:border-box;
+  overflow-wrap:anywhere; /* ✅ يمنع خروج النص خارج العرض */
 }
 
 /* القسم الرئيسي */
@@ -198,6 +203,7 @@ body{
   border-radius:16px;
   box-shadow:0 10px 25px rgba(0,0,0,0.15);
   animation: fadeIn 1s ease forwards;
+  box-sizing:border-box;
 }
 
 @keyframes fadeIn{
@@ -295,23 +301,19 @@ body{
    استجابة الشاشات
    ========================= */
 @media (max-width:768px){
-  /* موبايل: نخفي الروابط ونفعل القائمة المنسدلة */
   #bar nav{display:none;}
   .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
 
   #alert{
-    width:90%;
-    font-size:20px;
+    width:92%;
+    font-size:16px;     /* ✅ أصغر بالموبايل */
+    padding:10px 14px;
+    margin:26px auto 16px;
   }
 
-  .faq-question{
-    font-size:16px;
-  }
+  .faq-question{ font-size:16px; }
 
-  /* الهوامش على الموبايل */
-  #firstcolumn{
-    padding:40px 18px;
-  }
+  #firstcolumn{ padding:40px 18px; }
 }
 </style>
 </head>
@@ -323,8 +325,8 @@ body{
 
   <nav aria-label="Primary">
     <a href="faq.html">الأسئلة الشائعة</a>
-    <a href="course.html">الدورات</a>
-    <a href="graduationprojects.html">مشاريع التخرج</a>
+    <a href="course.html">الدروس الأكاديمية</a>
+    <a href="graduationprojects.html">المساهمات العلمية</a>
     <a href="research.html">الأبحاث</a>
     <a href="volunteer.html">برامج التطوع</a>
   </nav>
@@ -335,8 +337,8 @@ body{
 
   <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="graduationprojects.html">مشاريع التخرج</a>
+    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="graduationprojects.html">المساهمات العلمية</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="volunteer.html">برامج التطوع</a>
   </div>
@@ -344,8 +346,7 @@ body{
 
 <div id="menuBackdrop" aria-hidden="true"></div>
 
-<div id="alert">لايمكن حل المشكلات الرئيسية التي نواجهها بنفس مستوى التفكير الذي كنا عليه ساعة اوجدناها 
-  -البريت اينيشتاين</div>
+<div id="alert">لايمكن حل المشكلات الرئيسية التي نواجهها بنفس مستوى التفكير الذي كنا عليه ساعة اوجدناها -البريت اينيشتاين</div>
 
 <div id="firstcolumn">
   <h2>الاسئلة الأكثر شيوعًا</h2>
