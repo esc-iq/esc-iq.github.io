@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no" />
 <title>ESC. — Research</title>
 <link rel="icon" href="media/favicon.png" type="image/png" />
 
@@ -167,7 +168,7 @@ body{
    ========================= */
 .page{
   max-width:1100px;
-  margin:24px auto 60px;
+  margin:24px auto 30px;
   padding:0 16px;
   box-sizing:border-box;
 }
@@ -178,7 +179,7 @@ body{
   align-items:center;
   gap:12px;
   flex-wrap:wrap;
-  margin:10px 0 18px;
+  margin:10px 0 14px;
 }
 
 .verify-btn{
@@ -208,7 +209,7 @@ body{
 .search-input{
   width:100%;
   height:40px;
-  padding:0 44px 0 14px; /* مساحة للأيقونة يمين */
+  padding:0 44px 0 14px;
   border-radius:10px;
   border:1px solid rgba(0,0,0,0.12);
   background:rgba(107,114,128,0.12);
@@ -233,6 +234,34 @@ body{
   justify-content:center;
 }
 .search-icon svg{width:18px;height:18px;}
+
+/* Mobile filter toggle */
+.filter-toggle{
+  display:none;
+  width:100%;
+  height:44px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.12);
+  background:#fff;
+  color:#111827;
+  font-weight:900;
+  letter-spacing:0.2px;
+  cursor:pointer;
+  direction:rtl;
+  text-align:right;
+  padding:0 14px;
+  box-sizing:border-box;
+
+  align-items:center;
+  justify-content:space-between;
+}
+.filter-toggle .icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0.7;
+}
+.filter-toggle svg{width:18px;height:18px;}
 
 /* Layout */
 .layout{
@@ -280,6 +309,27 @@ body{
 .year-btn.active{
   border-color:rgba(26,115,232,0.35);
   background:rgba(26,115,232,0.08);
+}
+
+/* Mobile filters drawer */
+.filters-drawer-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:1200;
+}
+.filters-drawer-backdrop.show{display:block;}
+
+.filters.drawer{
+  display:none;
+  position:fixed;
+  top:calc(var(--nav-height) + 10px);
+  left:12px;
+  right:12px;
+  width:auto;
+  z-index:1201;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22);
 }
 
 /* Research list */
@@ -331,10 +381,13 @@ body{
 }
 .research-authors .authors a:hover{text-decoration:underline;}
 .research-serial{
-  color:#374151; /* رصاصي داكن */
-  font-weight:800;
+  color:#374151;
+  font-weight:900;
   font-size:12px;
   letter-spacing:0.2px;
+  direction:ltr;
+  unicode-bidi:isolate;
+  white-space:nowrap;
 }
 
 .research-desc{
@@ -344,9 +397,7 @@ body{
   line-height:1.7;
 }
 
-.research-actions{
-  margin-top:10px;
-}
+.research-actions{margin-top:10px;}
 .scholar-btn{
   display:inline-flex;
   align-items:center;
@@ -398,6 +449,28 @@ body{
   line-height:1.8;
 }
 
+/* =========================
+   رؤيتنا (أسفل الصفحة)
+   ========================= */
+.vision{
+  background:#008080;
+  color:#FAF9F6;
+  text-align:center;
+  padding:40px 20px;
+  margin:40px 0 0;
+}
+.vision h2{
+  margin:0 0 18px;
+  font-size:25px;
+  font-weight:800;
+}
+.vision p{
+  margin:10px auto;
+  width:min(900px, 92%);
+  line-height:1.8;
+  font-size:18px;
+}
+
 /* Mobile */
 @media (max-width:900px){
   .layout{flex-direction:column;}
@@ -406,10 +479,48 @@ body{
 @media (max-width:768px){
   #bar nav{display:none;}
   .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
-  .search-wrap{min-width:100%;}
+
+  /* ✅ الزر يتوسط في الهاتف */
+  .top-row{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .verify-btn{
+    align-self:center;
+  }
+  .search-wrap{
+    min-width:100%;
+  }
+
+  /* ✅ زر تصفية يظهر في الهاتف */
+  .filter-toggle{
+    display:flex;
+  }
+
+  /* ✅ الفلتر يصبح مخفي داخل زر */
+  .filters{
+    display:none;
+  }
+  .filters.drawer.open{
+    display:block;
+  }
+
   .research-item{padding:14px 14px;}
   .research-title{font-size:16px;}
   .research-desc{font-size:13px;}
+
+  /* ✅ أسماء الباحثين جنب بعض + منع تكسر السطر */
+  .research-authors{
+    flex-wrap:nowrap;
+    gap:8px;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .research-authors::-webkit-scrollbar{height:0;}
+  .research-authors .authors{white-space:nowrap;}
+  .research-year{font-size:13px;}
+
+  .vision p{font-size:16px;}
 }
 </style>
 </head>
@@ -442,6 +553,9 @@ body{
 
 <div id="menuBackdrop" aria-hidden="true"></div>
 
+<!-- Backdrop للفلتر في الهاتف -->
+<div id="filtersBackdrop" class="filters-drawer-backdrop" aria-hidden="true"></div>
+
 <main class="page">
   <div class="top-row">
     <a class="verify-btn" href="CHECKLICENSE.HTML">التحقق من شهادات ESC</a>
@@ -455,10 +569,20 @@ body{
         </svg>
       </span>
     </div>
+
+    <!-- زر الفلتر للهاتف -->
+    <button id="filterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="filtersPanel">
+      <span>تصفية</span>
+      <span class="icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M4 6h16M7 12h10M10 18h4" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </button>
   </div>
 
   <div class="layout">
-    <aside class="filters" aria-label="فلتر السنوات">
+    <aside id="filtersPanel" class="filters drawer" aria-label="فلتر السنوات">
       <h3>YEAR</h3>
       <div class="year-list">
         <button class="year-btn active" type="button" data-year="all">All</button>
@@ -473,7 +597,7 @@ body{
 
     <section class="research-area" aria-label="قائمة الأبحاث">
       <div id="noResults" class="no-results" aria-live="polite">
-        <img src="media/ERROR.png" alt="Error">
+        <img src="media/ERROR.PNG" alt="Error">
         <div class="txt">تعذر العثور على الاطروحة/البحث المراد العثور عليه الرجاء التحقق من معرف البحث او عنوانه.</div>
       </div>
 
@@ -489,7 +613,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2025120601001</span>
+              <span class="research-serial">20251206&#8203;01&#8203;001</span>
             </div>
 
             <div class="research-desc">
@@ -517,7 +641,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2025111802002</span>
+              <span class="research-serial">20251118&#8203;02&#8203;002</span>
             </div>
 
             <div class="research-desc">
@@ -545,7 +669,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2026031401003</span>
+              <span class="research-serial">20260314&#8203;01&#8203;003</span>
             </div>
 
             <div class="research-desc">
@@ -573,7 +697,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2027072202004</span>
+              <span class="research-serial">20270722&#8203;02&#8203;004</span>
             </div>
 
             <div class="research-desc">
@@ -601,7 +725,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2028090501005</span>
+              <span class="research-serial">20280905&#8203;01&#8203;005</span>
             </div>
 
             <div class="research-desc">
@@ -629,7 +753,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2029021102006</span>
+              <span class="research-serial">20290211&#8203;02&#8203;006</span>
             </div>
 
             <div class="research-desc">
@@ -657,7 +781,7 @@ body{
               <span class="authors">
                 <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
               </span>
-              <span class="research-serial">2029103001007</span>
+              <span class="research-serial">20291030&#8203;01&#8203;007</span>
             </div>
 
             <div class="research-desc">
@@ -680,34 +804,67 @@ body{
   </div>
 </main>
 
+<!-- رؤيتنا -->
+<section class="vision">
+  <h2>رؤيتنا</h2>
+  <p>تم إنشاء هذا الموقع ليكون مجانيًا لجميع الطلاب في وطننا. نؤمن بأن الطريق الوحيد للنهوض من جديد تحت ضوء الشمس هو التعليم.</p>
+  <p>نحن لا نسعى إلى شيء سوى نجاح زملائنا. منظمة غير ربحية.</p>
+</section>
+
 <script>
 /* NAV dropdown logic */
 const menuBtn = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
-const backdrop = document.getElementById('menuBackdrop');
+const navBackdrop = document.getElementById('menuBackdrop');
 
-function openMenu(){
+function openNavMenu(){
   mobileMenu.classList.add('open');
-  backdrop.classList.add('show');
+  navBackdrop.classList.add('show');
   menuBtn.setAttribute('aria-expanded','true');
 }
-function closeMenu(){
+function closeNavMenu(){
   mobileMenu.classList.remove('open');
-  backdrop.classList.remove('show');
+  navBackdrop.classList.remove('show');
   menuBtn.setAttribute('aria-expanded','false');
 }
-function toggleMenu(){
+function toggleNavMenu(){
   const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
-  isOpen ? closeMenu() : openMenu();
+  isOpen ? closeNavMenu() : openNavMenu();
 }
-menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
-backdrop.addEventListener('click', closeMenu);
+menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleNavMenu(); });
+navBackdrop.addEventListener('click', closeNavMenu);
 document.addEventListener('click', (e)=>{
-  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeMenu(); }
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeNavMenu(); }
 });
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
-mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
-window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeNavMenu(); });
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNavMenu));
+window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeNavMenu(); });
+
+/* Mobile filters drawer */
+const filterToggle = document.getElementById('filterToggle');
+const filtersPanel = document.getElementById('filtersPanel');
+const filtersBackdrop = document.getElementById('filtersBackdrop');
+
+function isMobile(){
+  return window.innerWidth <= 768;
+}
+function openFilters(){
+  if(!isMobile()) return;
+  filtersPanel.classList.add('open');
+  filtersBackdrop.classList.add('show');
+  filterToggle.setAttribute('aria-expanded','true');
+}
+function closeFilters(){
+  filtersPanel.classList.remove('open');
+  filtersBackdrop.classList.remove('show');
+  filterToggle.setAttribute('aria-expanded','false');
+}
+function toggleFilters(){
+  const expanded = filterToggle.getAttribute('aria-expanded') === 'true';
+  expanded ? closeFilters() : openFilters();
+}
+filterToggle.addEventListener('click', (e)=>{ e.stopPropagation(); toggleFilters(); });
+filtersBackdrop.addEventListener('click', closeFilters);
 
 /* Research search + year filter */
 const searchInput = document.getElementById('searchInput');
@@ -745,6 +902,9 @@ yearButtons.forEach(btn=>{
     btn.classList.add('active');
     activeYear = btn.dataset.year;
     applyFilters();
+
+    /* ✅ بعد اختيار السنة في الهاتف: يرجع الفلتر مصغر */
+    if(isMobile()) closeFilters();
   });
 });
 
@@ -757,9 +917,13 @@ searchInput.addEventListener('input', ()=>{
   }, 120);
 });
 
+/* عند تكبير الشاشة: اغلق الفلتر */
+window.addEventListener('resize', ()=>{
+  if(!isMobile()) closeFilters();
+});
+
 applyFilters();
 </script>
 
 </body>
 </html>
-
