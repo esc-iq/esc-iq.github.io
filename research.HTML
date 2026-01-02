@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ESC. — Research</title>
+<link rel="icon" href="media/favicon.png" type="image/png" />
+
+<!-- ✅ ربط خط Baloo Bhaijaan 2 من Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --nav-height: 58px;
+  --nav-pad-x: 20px;
+}
+
+body{
+  font-family:'Ubuntu', sans-serif;
+  background:#FAF9F6;
+  margin:0;
+  padding:0;
+  color:#111827;
+  direction:rtl;
+  text-align:right;
+  overflow-x:hidden;
+}
+
+/* =========================
+   NAVBAR (ثابت الارتفاع)
+   ========================= */
+#bar{
+  height:var(--nav-height);
+  min-height:var(--nav-height);
+  box-sizing:border-box;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 var(--nav-pad-x);
+  background-color:#0047AB;
+
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  direction:ltr;
+}
+
+#bar .logo{
+  font-size:35px;
+  font-weight:700;
+  color:#FAF9F6;
+  text-decoration:none;
+  cursor:pointer;
+  user-select:none;
+  line-height:1;
+}
+#bar .logo:hover{opacity:0.9;}
+
+#bar nav{
+  display:flex;
+  gap:16px;              /* ✅ نفس تباعد صفحة الكورسات */
+  flex-wrap:wrap;
+  align-items:center;
+}
+#bar nav a{
+  color:#FAF9F6;
+  text-decoration:none;
+  font-weight:700;
+  padding:8px 12px;
+  border-radius:10px;
+  transition:background-color 0.2s;
+  line-height:1;
+  white-space:nowrap;
+}
+#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
+
+/* Mobile button */
+.menu-btn{
+  display:none;
+  height:42px;
+  width:42px;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  border-radius:10px;
+}
+.menu-btn:hover{background:rgba(255,255,255,0.18);}
+
+.menu-icon{
+  width:24px;
+  height:2px;
+  background:#fff;
+  display:block;
+  position:relative;
+  margin:auto;
+}
+.menu-icon::before,
+.menu-icon::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:24px;
+  height:2px;
+  background:#fff;
+  transition:transform .18s ease, top .18s ease, opacity .18s ease;
+}
+.menu-icon::before{top:-7px;}
+.menu-icon::after{top:7px;}
+
+.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
+.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
+
+#menuBackdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:999;
+}
+#menuBackdrop.show{display:block;}
+
+.mobile-menu{
+  display:none;
+  position:absolute;
+  right:16px;
+  top:calc(var(--nav-height) + 8px);
+  min-width:240px;
+  background:#fff;
+  color:#111827;
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22);
+  border:1px solid rgba(0,0,0,0.06);
+  z-index:1001;
+
+  direction:rtl;
+  text-align:right;
+
+  transform-origin:top right;
+  transform:translateY(-6px) scale(0.98);
+  opacity:0;
+  transition:opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open{
+  display:block;
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.mobile-menu a{
+  display:block;
+  padding:11px 12px;
+  border-radius:10px;
+  color:#111827;
+  text-decoration:none;
+  font-weight:800;
+  white-space:nowrap;
+}
+.mobile-menu a:hover{background:#f3f4f6;}
+
+/* =========================
+   Page layout
+   ========================= */
+.page{
+  max-width:1100px;
+  margin:24px auto 60px;
+  padding:0 16px;
+  box-sizing:border-box;
+}
+
+.top-row{
+  direction:ltr;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin:10px 0 18px;
+}
+
+.verify-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:10px 16px;
+  border-radius:8px;
+  background:#1a73e8;
+  color:#fff;
+  text-decoration:none;
+  font-weight:700;
+  border:1px solid rgba(0,0,0,0.08);
+  transition:filter .15s ease;
+  white-space:nowrap;
+}
+.verify-btn:hover{filter:brightness(0.95);}
+
+/* Search */
+.search-wrap{
+  flex:1;
+  min-width:260px;
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.search-input{
+  width:100%;
+  height:40px;
+  padding:0 44px 0 14px; /* مساحة للأيقونة يمين */
+  border-radius:10px;
+  border:1px solid rgba(0,0,0,0.12);
+  background:rgba(107,114,128,0.12);
+  outline:none;
+  color:#111827;
+  font-weight:700;
+  box-sizing:border-box;
+  direction:ltr;
+  text-align:left;
+}
+.search-input::placeholder{
+  color:rgba(17,24,39,0.55);
+  font-weight:700;
+}
+.search-icon{
+  position:absolute;
+  right:12px;
+  pointer-events:none;
+  opacity:0.65;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.search-icon svg{width:18px;height:18px;}
+
+/* Layout */
+.layout{
+  direction:ltr;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+
+/* Sidebar years */
+.filters{
+  width:190px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:12px;
+  padding:12px;
+  box-sizing:border-box;
+}
+.filters h3{
+  margin:0 0 10px 0;
+  font-size:14px;
+  color:#6b7280;
+  font-weight:800;
+  letter-spacing:0.2px;
+  text-align:left;
+}
+.year-list{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.year-btn{
+  appearance:none;
+  border:1px solid rgba(0,0,0,0.10);
+  background:#fff;
+  border-radius:10px;
+  padding:10px 10px;
+  cursor:pointer;
+  text-align:left;
+  font-weight:800;
+  color:#111827;
+  transition:background .15s ease, border-color .15s ease;
+}
+.year-btn:hover{background:#f3f4f6;}
+.year-btn.active{
+  border-color:rgba(26,115,232,0.35);
+  background:rgba(26,115,232,0.08);
+}
+
+/* Research list */
+.research-area{flex:1; min-width:0; position:relative;}
+
+.research-list{
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:12px;
+  overflow:hidden;
+  direction:ltr;
+  text-align:left;
+}
+
+.research-item{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  padding:16px 18px;
+  border-bottom:1px solid rgba(0,0,0,0.08);
+}
+.research-item:last-child{border-bottom:none;}
+.research-item.hidden{display:none;}
+
+.research-main{flex:1; min-width:0;}
+
+.research-title{
+  display:inline-block;
+  color:#1a0dab;
+  font-size:18px;
+  font-weight:700;
+  text-decoration:none;
+  line-height:1.35;
+}
+.research-title:hover{text-decoration:underline;}
+
+.research-authors{
+  margin-top:6px;
+  font-size:13px;
+  font-weight:800;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.research-authors .authors a{
+  color:#188038;
+  text-decoration:none;
+}
+.research-authors .authors a:hover{text-decoration:underline;}
+.research-serial{
+  color:#374151; /* رصاصي داكن */
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:0.2px;
+}
+
+.research-desc{
+  margin-top:6px;
+  color:#6b7280;
+  font-size:14px;
+  line-height:1.7;
+}
+
+.research-actions{
+  margin-top:10px;
+}
+.scholar-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 14px;
+  border-radius:999px;
+  background:rgba(107,114,128,0.12);
+  border:1px solid rgba(0,0,0,0.10);
+  color:#374151;
+  text-decoration:none;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:0.2px;
+  transition:filter .12s ease, background .12s ease;
+}
+.scholar-btn:hover{
+  filter:brightness(0.97);
+  background:rgba(107,114,128,0.16);
+}
+
+.research-year{
+  color:#6b7280;
+  font-size:14px;
+  white-space:nowrap;
+  padding-top:2px;
+}
+
+/* No results */
+.no-results{
+  display:none;
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:12px;
+  padding:32px 18px;
+  text-align:center;
+  direction:rtl;
+}
+.no-results.show{display:block;}
+.no-results img{
+  width:90px;
+  height:auto;
+  opacity:0.75;
+  display:block;
+  margin:0 auto 12px;
+}
+.no-results .txt{
+  color:#374151;
+  font-weight:800;
+  line-height:1.8;
+}
+
+/* Mobile */
+@media (max-width:900px){
+  .layout{flex-direction:column;}
+  .filters{width:100%;}
+}
+@media (max-width:768px){
+  #bar nav{display:none;}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
+  .search-wrap{min-width:100%;}
+  .research-item{padding:14px 14px;}
+  .research-title{font-size:16px;}
+  .research-desc{font-size:13px;}
+}
+</style>
+</head>
+
+<body>
+
+<header id="bar">
+  <a class="logo" href="mainpage.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
+
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدروس الأكاديمية</a>
+    <a href="graduationprojects.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="graduationprojects.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<main class="page">
+  <div class="top-row">
+    <a class="verify-btn" href="CHECKLICENSE.HTML">التحقق من شهادات ESC</a>
+
+    <div class="search-wrap" aria-label="بحث الأبحاث">
+      <input id="searchInput" class="search-input" type="search" placeholder="Search by title or ID..." autocomplete="off" />
+      <span class="search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
+          <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="filters" aria-label="فلتر السنوات">
+      <h3>YEAR</h3>
+      <div class="year-list">
+        <button class="year-btn active" type="button" data-year="all">All</button>
+        <button class="year-btn" type="button" data-year="2025">2025</button>
+        <button class="year-btn" type="button" data-year="2026">2026</button>
+        <button class="year-btn" type="button" data-year="2027">2027</button>
+        <button class="year-btn" type="button" data-year="2028">2028</button>
+        <button class="year-btn" type="button" data-year="2029">2029</button>
+        <button class="year-btn" type="button" data-year="2030">2030</button>
+      </div>
+    </aside>
+
+    <section class="research-area" aria-label="قائمة الأبحاث">
+      <div id="noResults" class="no-results" aria-live="polite">
+        <img src="media/ERROR.PNG" alt="Error">
+        <div class="txt">تعذر العثور على الاطروحة/البحث المراد العثور عليه الرجاء التحقق من معرف البحث او عنوانه.</div>
+      </div>
+
+      <div class="research-list" id="researchList">
+
+        <article class="research-item" data-year="2025" data-title="Design shallow foundation based on Pressuremeter data" data-id="2025120601001">
+          <div class="research-main">
+            <a class="research-title" href="research/Design_shallow_foundation_based_on_Pressuremeter_data.pdf" download>
+              Design shallow foundation based on Pressuremeter data
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2025120601001</span>
+            </div>
+
+            <div class="research-desc">
+              Practical design methods for shallow foundations using Pressuremeter test results, parameter selection, and application notes.
+              <br>
+              Includes calculation workflow and interpretation guidance.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2025</div>
+        </article>
+
+        <article class="research-item" data-year="2025" data-title="Bearing capacity evaluation using pressuremeter limit pressure" data-id="2025111802002">
+          <div class="research-main">
+            <a class="research-title" href="research/Bearing_capacity_evaluation_pressuremeter_limit_pressure.pdf" download>
+              Bearing capacity evaluation using pressuremeter limit pressure
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2025111802002</span>
+            </div>
+
+            <div class="research-desc">
+              A compact review of bearing capacity estimates derived from pressuremeter limit pressure and practical correction factors.
+              <br>
+              Includes worked methodology outline and assumptions.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2025</div>
+        </article>
+
+        <article class="research-item" data-year="2026" data-title="Shallow footing design workflow from pressuremeter modulus and pl" data-id="2026031401003">
+          <div class="research-main">
+            <a class="research-title" href="research/Shallow_footing_design_workflow_pressuremeter_modulus_PL.pdf" download>
+              Shallow footing design workflow from pressuremeter modulus and PL
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2026031401003</span>
+            </div>
+
+            <div class="research-desc">
+              Step-by-step workflow connecting pressuremeter modulus and limit pressure to shallow footing sizing and serviceability checks.
+              <br>
+              Notes on parameter selection and reporting.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2026</div>
+        </article>
+
+        <article class="research-item" data-year="2027" data-title="Comparative study of k-factor charts in pressuremeter foundation design" data-id="2027072202004">
+          <div class="research-main">
+            <a class="research-title" href="research/Comparative_study_K_factor_charts_pressuremeter_design.pdf" download>
+              Comparative study of K-factor charts in pressuremeter foundation design
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2027072202004</span>
+            </div>
+
+            <div class="research-desc">
+              Comparison between common K-factor chart interpretations, sensitivity to soil state, and implications for design outcomes.
+              <br>
+              Structured summary and recommended documentation practice.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2027</div>
+        </article>
+
+        <article class="research-item" data-year="2028" data-title="Serviceability settlement checks for shallow foundations using pressuremeter data" data-id="2028090501005">
+          <div class="research-main">
+            <a class="research-title" href="research/Serviceability_settlement_checks_pressuremeter_data.pdf" download>
+              Serviceability settlement checks for shallow foundations using pressuremeter data
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2028090501005</span>
+            </div>
+
+            <div class="research-desc">
+              Settlement and serviceability verification approach built on pressuremeter modulus interpretation with practical limits and reporting.
+              <br>
+              Includes notes for layered profiles.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2028</div>
+        </article>
+
+        <article class="research-item" data-year="2029" data-title="Practical parameter selection in pressuremeter-based shallow foundation design" data-id="2029021102006">
+          <div class="research-main">
+            <a class="research-title" href="research/Practical_parameter_selection_pressuremeter_foundation_design.pdf" download>
+              Practical parameter selection in pressuremeter-based shallow foundation design
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2029021102006</span>
+            </div>
+
+            <div class="research-desc">
+              Guidance on selecting representative parameters (PL, EM, OCR adjustments) for design and consistency in technical reporting.
+              <br>
+              Includes checklist-style recommendations.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2029</div>
+        </article>
+
+        <article class="research-item" data-year="2029" data-title="Unified reporting template for pressuremeter test results in foundation projects" data-id="2029103001007">
+          <div class="research-main">
+            <a class="research-title" href="research/Unified_reporting_template_pressuremeter_foundation_projects.pdf" download>
+              Unified reporting template for pressuremeter test results in foundation projects
+            </a>
+
+            <div class="research-authors">
+              <span class="authors">
+                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
+              </span>
+              <span class="research-serial">2029103001007</span>
+            </div>
+
+            <div class="research-desc">
+              A clean template for presenting pressuremeter results, assumptions, derived parameters, and foundation design outputs.
+              <br>
+              Designed for consistent project documentation.
+            </div>
+
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">
+                GO TO SCHOLAR
+              </a>
+            </div>
+          </div>
+          <div class="research-year">2029</div>
+        </article>
+
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+/* NAV dropdown logic */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop = document.getElementById('menuBackdrop');
+
+function openMenu(){
+  mobileMenu.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function toggleMenu(){
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+  isOpen ? closeMenu() : openMenu();
+}
+menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('click', (e)=>{
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeMenu(); }
+});
+document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeMenu));
+window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
+
+/* Research search + year filter */
+const searchInput = document.getElementById('searchInput');
+const yearButtons = document.querySelectorAll('.year-btn');
+const items = Array.from(document.querySelectorAll('.research-item'));
+const noResults = document.getElementById('noResults');
+
+let activeYear = 'all';
+let activeQuery = '';
+
+function applyFilters(){
+  const q = (activeQuery || '').trim().toLowerCase();
+  let visibleCount = 0;
+
+  items.forEach(item=>{
+    const yearOk = (activeYear === 'all') || (item.dataset.year === activeYear);
+
+    const title = (item.dataset.title || '').toLowerCase();
+    const id = (item.dataset.id || '').toLowerCase();
+
+    const queryOk = (q === '') || title.includes(q) || id.includes(q);
+
+    const show = yearOk && queryOk;
+    item.classList.toggle('hidden', !show);
+    if(show) visibleCount++;
+  });
+
+  noResults.classList.toggle('show', visibleCount === 0);
+  document.getElementById('researchList').style.display = (visibleCount === 0) ? 'none' : 'block';
+}
+
+yearButtons.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    yearButtons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    activeYear = btn.dataset.year;
+    applyFilters();
+  });
+});
+
+let t = null;
+searchInput.addEventListener('input', ()=>{
+  clearTimeout(t);
+  t = setTimeout(()=>{
+    activeQuery = searchInput.value || '';
+    applyFilters();
+  }, 120);
+});
+
+applyFilters();
+</script>
+
+</body>
+</html>
