@@ -272,4 +272,86 @@ body{
   <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
     <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
-    <a role="menuitem" href="graduationprojects.html">المساهمات العلم
+    <a role="menuitem" href="graduationprojects.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+
+<!-- Backdrop -->
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- التنبيه -->
+<div id="alert">نتمنى لك يومًا سعيدًا!</div>
+
+<!-- العمود الرئيسي -->
+<div id="firstcolumn">
+  <h2>فريقنا</h2>
+
+  <div class="image-container">
+    <div class="image-box">
+      <a href="founderprofile.html">
+        <img src="media/founder.JPG" alt="المؤسس">
+      </a>
+      <div class="name">محمد باقر علاء</div>
+      <div class="info">المؤسس، الرئيس التنفيذي</div>
+    </div>
+  </div>
+</div>
+
+<!-- قسم الرؤية -->
+<div id="firstcolumn">
+  <h2>رؤيتنا</h2>
+  <p>تم إنشاء هذا الموقع ليكون مجانيًا لجميع الطلاب في وطننا. نؤمن بأن الطريق الوحيد للنهوض من جديد تحت ضوء الشمس هو التعليم.</p>
+  <p>نحن لا نسعى إلى شيء سوى نجاح زملائنا. منظمة غير ربحية.</p>
+</div>
+
+<script>
+/* Dropdown logic */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop = document.getElementById('menuBackdrop');
+
+function openMenu(){
+  mobileMenu.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function toggleMenu(){
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+  isOpen ? closeMenu() : openMenu();
+}
+
+menuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleMenu();
+});
+
+backdrop.addEventListener('click', closeMenu);
+
+document.addEventListener('click', (e)=>{
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){
+    closeMenu();
+  }
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeMenu();
+});
+
+mobileMenu.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', closeMenu);
+});
+
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 768) closeMenu();
+});
+</script>
+
+</body>
+</html>
