@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إطلاق مكتبة المصادر الهندسية - ESC</title>
+<link rel="icon" href="../media/favicon.png" type="image/png">
+
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --nav-height: 58px;
+  --nav-pad-x: 20px;
+}
+
+/* إعدادات عامة مطابقة للأصل */
+body{
+  font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
+  background-color:#FAF9F6;
+  margin:0;
+  padding:0;
+  color:#111827; /* تغيير لون النص الأساسي هنا ليكون غامقاً ومناسباً للقراءة */
+  direction:rtl;
+  text-align:right;
+}
+
+/* =========================
+   NAVBAR (ثابت الارتفاع)
+   ========================= */
+#bar{
+  height:var(--nav-height);
+  min-height:var(--nav-height);
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 var(--nav-pad-x);
+  background-color:#0047AB;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  direction:ltr;
+}
+
+#bar .logo{
+  font-size:35px;
+  font-weight:700;
+  color:#FAF9F6;
+  text-decoration:none;
+  cursor:pointer;
+  user-select:none;
+  line-height:1;
+}
+#bar .logo:hover{opacity:0.9;}
+
+#bar nav{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+#bar nav a{
+  color:#FAF9F6;
+  text-decoration:none;
+  font-weight:700;
+  padding:8px 12px;
+  border-radius:10px;
+  transition:background-color 0.2s;
+  line-height:1;
+}
+#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
+
+/* أزرار وقوائم الموبايل */
+.menu-btn{
+  display:none;
+  height:42px;
+  width:42px;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  border-radius:10px;
+}
+.menu-btn:hover{background:rgba(255,255,255,0.18);}
+
+.menu-icon{
+  width:24px;
+  height:2px;
+  background:#fff;
+  display:block;
+  position:relative;
+  margin:auto;
+}
+.menu-icon::before,
+.menu-icon::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:24px;
+  height:2px;
+  background:#fff;
+  transition:transform .18s ease, top .18s ease, opacity .18s ease;
+}
+.menu-icon::before{top:-7px;}
+.menu-icon::after{top:7px;}
+
+.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
+.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
+
+#menuBackdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:999;
+}
+#menuBackdrop.show{display:block;}
+
+.mobile-menu{
+  display:none;
+  position:absolute;
+  right:16px;
+  top:calc(var(--nav-height) + 8px);
+  min-width:240px;
+  background:#fff;
+  color:#111827;
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22);
+  border:1px solid rgba(0,0,0,0.06);
+  z-index:1001;
+  direction:rtl;
+  text-align:right;
+  transform-origin:top right;
+  transform:translateY(-6px) scale(0.98);
+  opacity:0;
+  transition:opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open{
+  display:block;
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.mobile-menu a{
+  display:block;
+  padding:11px 12px;
+  border-radius:10px;
+  color:#111827;
+  text-decoration:none;
+  font-weight:800;
+}
+.mobile-menu a:hover{background:#f3f4f6;}
+
+/* =========================
+   تصميم صفحة المقال/الخبر العصري
+   ========================= */
+.article-wrapper {
+  max-width: 850px;
+  margin: 40px auto 60px auto;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+/* صورة المقال البارزة */
+.article-hero-image {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+/* حاوية محتوى المقال */
+.article-content {
+  padding: 40px 50px;
+}
+
+/* قسم العنوان والتاريخ */
+.article-header {
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+
+.article-title {
+  color: #0047AB;
+  font-size: 36px;
+  font-weight: 800;
+  margin: 0 0 15px 0;
+  line-height: 1.3;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #666;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* نصوص المقال */
+.article-body p {
+  font-size: 18px;
+  line-height: 1.9;
+  color: #374151;
+  margin-bottom: 25px;
+}
+
+.article-body h2 {
+  color: #008080;
+  font-size: 26px;
+  margin: 40px 0 15px 0;
+}
+
+/* زر العودة */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 12px 25px;
+  background-color: #008080;
+  color: #FAF9F6;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+  background-color: #006666;
+  transform: translateX(-5px); /* حركة خفيفة لليسار عند التمرير */
+}
+
+/* =========================
+   Mobile layout
+   ========================= */
+@media (max-width:768px){
+  #bar nav{display:none;}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
+  
+  .article-wrapper {
+    margin: 20px;
+    border-radius: 15px;
+  }
+  
+  .article-hero-image {
+    height: 250px;
+  }
+  
+  .article-content {
+    padding: 25px 20px;
+  }
+  
+  .article-title {
+    font-size: 26px;
+  }
+  
+  .article-body p {
+    font-size: 16px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header id="bar">
+  <a class="logo" href="../index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
+
+  <nav aria-label="روابط الموقع">
+    <a href="../faq.html">الأسئلة الشائعة</a>
+    <a href="../course.html">الدروس الأكاديمية</a>
+    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="../research.html">الأبحاث</a>
+    <a href="../volunteer.html">برامج التطوع</a>
+  </nav>
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
+    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="../course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="../research.html">الأبحاث</a>
+    <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<div class="article-wrapper">
+  
+  <img src="20260313.jpg" alt="إطلاق مكتبة المصادر الهندسية" class="article-hero-image">
+
+  <div class="article-content">
+    
+    <div class="article-header">
+      <h1 class="article-title">إطلاق مكتبة المصادر الهندسية المفتوحة</h1>
+      <div class="article-meta">
+        <span class="meta-item">📅 2026/03/13</span>
+        <span class="meta-item">✍️ فريق ESC</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+      <p>في خطوة جديدة نحو دعم المسيرة التعليمية وتوفير بيئة أكاديمية متكاملة، يسرنا في منصة ESC الإعلان عن إطلاق "مكتبة المصادر الهندسية المفتوحة". تهدف هذه المبادرة إلى تذليل العقبات أمام الطلبة والباحثين من خلال توفير وصول مجاني وسهل إلى مجموعة واسعة من المراجع القيمة.</p>
+      
+      <h2>ماذا تتضمن المكتبة؟</h2>
+      <p>قمنا بجمع وتصنيف أكثر من 50 مرجعاً حديثاً، تغطي مختلف التخصصات الحيوية. سيجد زملاؤنا المهندسون مصادر غنية ومحدثة تدعم دراساتهم في مجالات متعددة، بدءاً من الهندسة الجيوتقنية وتصميم الأساسات العميقة، وصولاً إلى أحدث أساليب إدارة التشييد والمشاريع.</p>
+      
+      <p>نحن نؤمن بأن المعرفة يجب أن تكون متاحة للجميع، وأن التعاون ومشاركة الموارد هما حجر الأساس للارتقاء بمستوى مشاريع التخرج والأبحاث العلمية في جامعاتنا. ندعو جميع الطلبة للاستفادة من هذه المكتبة، ونرحب دائماً بمساهماتكم لإثرائها بمزيد من المصادر.</p>
+    </div>
+
+    <a href="../Scientific_contributions.html" class="back-button">← العودة إلى المساهمات العلمية</a>
+
+  </div>
+</div>
+
+<script>
+/* أكواد القائمة المنسدلة (مطابقة للأصل) */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop = document.getElementById('menuBackdrop');
+
+function openMenu(){
+  mobileMenu.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function toggleMenu(){
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+  isOpen ? closeMenu() : openMenu();
+}
+
+menuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleMenu();
+});
+
+backdrop.addEventListener('click', closeMenu);
+
+document.addEventListener('click', (e)=>{
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){
+    closeMenu();
+  }
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeMenu();
+});
+
+mobileMenu.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', closeMenu);
+});
+
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 768) closeMenu();
+});
+</script>
+
+</body>
+</html>
