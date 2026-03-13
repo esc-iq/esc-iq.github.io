@@ -3,616 +3,340 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESC</title>
-<link rel="icon" href="media/favicon.png" type="image/png">
-
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --nav-height: 58px;
-  --nav-pad-x: 20px;
-}
-
-/* إعداداتك الأصلية 100% */
-body{
-  font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
-  background-color:#FAF9F6;
-  margin:0;
-  padding:0;
-  color:#fff;
-  direction:rtl;
-  text-align:right;
-}
-
-/* =========================
-   NAVBAR الأصلية (بدون أي تعديل على تباعد الأزرار)
-   ========================= */
-#bar{
-  height:var(--nav-height);
-  min-height:var(--nav-height);
-  box-sizing:border-box;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 var(--nav-pad-x); 
-  background-color:#0047AB;
-
-  position:sticky;
-  top:0;
-  z-index:1000;
-  direction:ltr;
-}
-
-#bar .logo{
-  font-size:35px;
-  font-weight:700;
-  color:#FAF9F6;
-  text-decoration:none;
-  cursor:pointer;
-  user-select:none;
-  line-height:1;
-}
-#bar .logo:hover{opacity:0.9;}
-
-#bar nav{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-#bar nav a{
-  color:#FAF9F6;
-  text-decoration:none;
-  font-weight:700;
-  padding:8px 12px;
-  border-radius:10px;
-  transition:background-color 0.2s;
-  line-height:1;
-}
-#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
-
-.menu-btn{
-  display:none;
-  height:42px;
-  width:42px;
-  padding:0;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  border-radius:10px;
-}
-.menu-btn:hover{background:rgba(255,255,255,0.18);}
-
-.menu-icon{
-  width:24px;
-  height:2px;
-  background:#fff;
-  display:block;
-  position:relative;
-  margin:auto;
-}
-.menu-icon::before,
-.menu-icon::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width:24px;
-  height:2px;
-  background:#fff;
-  transition:transform .18s ease, top .18s ease, opacity .18s ease;
-}
-.menu-icon::before{top:-7px;}
-.menu-icon::after{top:7px;}
-
-.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
-.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
-.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
-
-#menuBackdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  z-index:999;
-}
-#menuBackdrop.show{display:block;}
-
-.mobile-menu{
-  display:none;
-  position:absolute;
-  right:16px;
-  top:calc(var(--nav-height) + 8px);
-  min-width:240px;
-  background:#fff;
-  color:#111827;
-  border-radius:14px;
-  padding:8px;
-  box-shadow:0 14px 35px rgba(0,0,0,0.22);
-  border:1px solid rgba(0,0,0,0.06);
-  z-index:1001;
-
-  direction:rtl;
-  text-align:right;
-
-  transform-origin:top right;
-  transform:translateY(-6px) scale(0.98);
-  opacity:0;
-  transition:opacity .14s ease, transform .14s ease;
-}
-.mobile-menu.open{
-  display:block;
-  opacity:1;
-  transform:translateY(0) scale(1);
-}
-.mobile-menu a{
-  display:block;
-  padding:11px 12px;
-  border-radius:10px;
-  color:#111827;
-  text-decoration:none;
-  font-weight:800;
-}
-.mobile-menu a:hover{background:#f3f4f6;}
-
-
-/* =========================
-   محتوى الصفحة الجديدة (البحث والبطاقات)
-   ========================= */
-.hero-section {
-  text-align: center;
-  background-color: #008080;
-  padding: 40px 20px;
-  margin-top: 0;
-}
-.hero-section h1 {
-  font-size: 30px;
-  margin-bottom: 20px;
-  color: #FAF9F6;
-}
-.search-input {
-  width: 90%;
-  max-width: 500px;
-  padding: 15px 20px;
-  font-size: 16px;
-  font-family: inherit;
-  border: none;
-  border-radius: 30px;
-  outline: none;
-  color: #000;
-}
-
-.news-container {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.news-card {
-  background-color: #008080;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #FAF9F6;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s;
-}
-.news-card:hover {
-  transform: translateY(-5px);
-}
-
-.news-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background-color: #0047AB; 
-}
-
-.news-content {
-  padding: 20px;
-}
-.news-date {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-.news-title {
-  font-size: 20px;
-  margin: 0 0 10px 0;
-  font-weight: 700;
-}
-.news-summary {
-  font-size: 16px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.no-results {
-  text-align: center;
-  color: #333; 
-  font-size: 18px;
-  grid-column: 1 / -1;
-  display: none;
-}
-
-@media (max-width:768px){
-  #bar nav{display:none;}
-  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
-  .news-container { grid-template-columns: 1fr; }
-}
-</style>
-</head>
-
-<body>
-
-<header id="bar">
-  <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
-
-  <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
-    <a href="course.html">الدروس الأكاديمية</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
-    <a href="research.html">الأبحاث</a>
-    <a href="volunteer.html">برامج التطوع</a>
-  </nav>
-
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
-    <span class="menu-icon" aria-hidden="true"></span>
-  </button>
-
-  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
-    <a role="menuitem" href="research.html">الأبحاث</a>
-    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
-  </div>
-</header>
-<div id="menuBackdrop" aria-hidden="true"></div>
-
-<div class="hero-section">
-  <h1>المساهمات العلمية</h1>
-  <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مساهمة، خبر، أو كلمة مفتاحية...">
-</div>
-
-<div class="news-container" id="newsGrid">
-  </div>
-<div id="noResults" class="no-results">لم نتمكن من العثور على نتائج تطابق بحثك.</div>
-
-<script>
-/* =========================================
-   أكواد القائمة المنسدلة (مطابقة للأصل)
-   ========================================= */
-const menuBtn = document.getElementById('menuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-const backdrop = document.getElementById('menuBackdrop');
-
-function openMenu(){ mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-function closeMenu(){ mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-function toggleMenu(){ const isOpen = menuBtn.getAttribute('aria-expanded') === 'true'; isOpen ? closeMenu() : openMenu(); }
-
-menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
-backdrop.addEventListener('click', closeMenu);
-document.addEventListener('click', (e)=>{ if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeMenu(); } });
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
-mobileMenu.querySelectorAll('a').forEach(a=>{ a.addEventListener('click', closeMenu); });
-window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
-
-/* =========================================
-   إدارة الأخبار والبحث (مطابقة للأصل)
-   ========================================= */
-const newsData = [
-  {
-    id: "20260313",
-    title: "إطلاق مكتبة المصادر الهندسية المفتوحة",
-    summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث."
-  },
-  {
-    id: "20260228",
-    title: "ورشة عمل: أساسيات لغات البرمجة للمهندسين",
-    summary: "بمساهمة من نخبة من أعضاء المنصة، أقمنا ورشة عمل ناجحة لمساعدة الطلاب على دمج البرمجة في الحلول الهندسية."
-  }
-];
-
-const newsGrid = document.getElementById('newsGrid');
-const searchInput = document.getElementById('searchInput');
-const noResults = document.getElementById('noResults');
-
-function renderNews(newsArray) {
-  newsGrid.innerHTML = ''; 
-  if (newsArray.length === 0) {
-    noResults.style.display = 'block';
-    return;
-  }
-  noResults.style.display = 'none';
-
-  newsArray.forEach(news => {
-    const year = news.id.substring(0, 4);
-    const month = news.id.substring(4, 6);
-    const day = news.id.substring(6, 8);
-    
-    const card = document.createElement('a');
-    card.href = `news/${news.id}.html`;
-    card.className = 'news-card';
-
-    card.innerHTML = `
-      <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image" onerror="this.src='media/favicon.png';">
-      <div class="news-content">
-        <div class="news-date">${year}/${month}/${day}</div>
-        <div class="news-title">${news.title}</div>
-        <div class="news-summary">${news.summary}</div>
-      </div>
-    `;
-    newsGrid.appendChild(card);
-  });
-}
-
-renderNews(newsData);
-
-searchInput.addEventListener('input', function(e) {
-  const searchTerm = e.target.value.toLowerCase();
-  const filteredNews = newsData.filter(news => {
-    return news.title.toLowerCase().includes(searchTerm) || news.summary.toLowerCase().includes(searchTerm);
-  });
-  renderNews(filteredNews);
-});
-</script>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>المساهمات العلمية - ESC</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 
-<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
   --nav-height: 58px;
   --nav-pad-x: 20px;
+  --primary-color: #0047AB;
+  --accent-color: #008080;
+  --green-bar: #10B981;
+  --bg-color: #FAF9F6;
+  --text-dark: #111827;
+  --text-light: #4B5563;
 }
 
 body{
+  /* إعدادات الخط الأصلية الخاصة بك */
   font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
-  background-color:#FAF9F6;
-  margin:0;
-  padding:0;
-  color:#fff;
-  direction:rtl;
-  text-align:right;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* =========================
-   NAVBAR (مطابقة 100% للصفحة الرئيسية)
+   NAVBAR (ثابت ومطابق للأصل لمنع تكراره بالأسفل)
    ========================= */
 #bar{
-  height:var(--nav-height);
-  min-height:var(--nav-height);
-  box-sizing:border-box;
+  height: var(--nav-height);
+  min-height: var(--nav-height);
+  box-sizing: border-box;
 
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  padding:0 var(--nav-pad-x); 
-  background-color:#0047AB;
+  padding: 0 var(--nav-pad-x); 
+  background-color: var(--primary-color);
 
-  position:sticky;
-  top:0;
-  z-index:1000;
-  direction:ltr;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  direction: ltr; 
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 #bar .logo{
-  font-size:35px;
-  font-weight:700;
-  color:#FAF9F6;
-  text-decoration:none;
-  cursor:pointer;
-  user-select:none;
-  line-height:1;
+  font-size: 35px;
+  font-weight: 700;
+  color: #FAF9F6;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  line-height: 1;
 }
-#bar .logo:hover{opacity:0.9;}
+#bar .logo:hover{opacity: 0.9;}
 
 #bar nav{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  align-items:center;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
 }
 #bar nav a{
-  color:#FAF9F6;
-  text-decoration:none;
-  font-weight:700;
-  padding:8px 12px;
-  border-radius:10px;
-  transition:background-color 0.2s;
-  line-height:1;
+  color: #FAF9F6;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 10px;
+  transition: background-color 0.2s;
+  line-height: 1;
 }
-#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
+#bar nav a:hover{background-color: rgba(255,255,255,0.2);}
 
 .menu-btn{
-  display:none;
-  height:42px;
-  width:42px;
-  padding:0;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  border-radius:10px;
+  display: none;
+  height: 42px;
+  width: 42px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 10px;
 }
-.menu-btn:hover{background:rgba(255,255,255,0.18);}
+.menu-btn:hover{background: rgba(255,255,255,0.18);}
 
 .menu-icon{
-  width:24px;
-  height:2px;
-  background:#fff;
-  display:block;
-  position:relative;
-  margin:auto;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  display: block;
+  position: relative;
+  margin: auto;
 }
 .menu-icon::before,
 .menu-icon::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width:24px;
-  height:2px;
-  background:#fff;
-  transition:transform .18s ease, top .18s ease, opacity .18s ease;
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  transition: transform .18s ease, top .18s ease, opacity .18s ease;
 }
-.menu-icon::before{top:-7px;}
-.menu-icon::after{top:7px;}
+.menu-icon::before{top: -7px;}
+.menu-icon::after{top: 7px;}
 
-.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
-.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
-.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon{background: transparent;}
+.menu-btn[aria-expanded="true"] .menu-icon::before{top: 0; transform: rotate(45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon::after{top: 0; transform: rotate(-45deg);}
 
 #menuBackdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  z-index:999;
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.35);
+  z-index: 999;
 }
-#menuBackdrop.show{display:block;}
+#menuBackdrop.show{display: block;}
 
 .mobile-menu{
-  display:none;
-  position:absolute;
-  right:16px;
-  top:calc(var(--nav-height) + 8px);
-  min-width:240px;
-  background:#fff;
-  color:#111827;
-  border-radius:14px;
-  padding:8px;
-  box-shadow:0 14px 35px rgba(0,0,0,0.22);
-  border:1px solid rgba(0,0,0,0.06);
-  z-index:1001;
+  display: none;
+  position: absolute;
+  right: 16px;
+  top: calc(var(--nav-height) + 8px);
+  min-width: 240px;
+  background: #fff;
+  color: var(--text-dark);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001;
 
-  direction:rtl;
-  text-align:right;
+  direction: rtl;
+  text-align: right;
 
-  transform-origin:top right;
-  transform:translateY(-6px) scale(0.98);
-  opacity:0;
-  transition:opacity .14s ease, transform .14s ease;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98);
+  opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
 }
 .mobile-menu.open{
-  display:block;
-  opacity:1;
-  transform:translateY(0) scale(1);
+  display: block;
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 .mobile-menu a{
-  display:block;
-  padding:11px 12px;
-  border-radius:10px;
-  color:#111827;
-  text-decoration:none;
-  font-weight:800;
+  display: block;
+  padding: 11px 12px;
+  border-radius: 10px;
+  color: var(--text-dark);
+  text-decoration: none;
+  font-weight: 800;
 }
-.mobile-menu a:hover{background:#f3f4f6;}
+.mobile-menu a:hover{background: #f3f4f6;}
 
 
 /* =========================
-   محتوى الصفحة (البحث والبطاقات)
+   UI راقي: قسم البحث والخلفية المتدرجة
    ========================= */
-.hero-section {
-  text-align: center;
-  background-color: #008080; 
-  padding: 40px 20px;
-  margin-top: 0;
-}
-.hero-section h1 {
-  font-size: 30px;
-  margin-bottom: 20px;
-  color: #FAF9F6;
-}
-.search-input {
-  width: 90%;
-  max-width: 500px;
-  padding: 15px 20px;
-  font-size: 16px;
-  font-family: inherit;
-  border: none;
-  border-radius: 30px;
-  outline: none;
-  color: #000; 
+main {
+  flex-grow: 1; 
 }
 
+.hero-section {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+  padding: 70px 20px;
+  margin-top: 0;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.hero-section h1 {
+  font-size: 38px;
+  margin-bottom: 30px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.search-wrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 18px 25px;
+  font-size: 18px;
+  font-family: inherit;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  color: var(--text-dark);
+  background-color: #fff;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+/* =========================
+   تصميم البطاقات (شريط أخضر + مربع للصورة)
+   ========================= */
 .news-container {
-  max-width: 1000px;
-  margin: 40px auto;
+  max-width: 1100px;
+  margin: 60px auto;
   padding: 0 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 .news-card {
-  background-color: #008080;
-  border-radius: 10px;
+  background-color: #fff;
+  border-radius: 16px;
   text-decoration: none;
-  color: #FAF9F6;
-  overflow: hidden;
+  color: inherit;
   display: flex;
-  flex-direction: column;
-  transition: transform 0.3s;
+  flex-direction: row; 
+  align-items: center;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-right: 6px solid var(--green-bar);
 }
+
 .news-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+
+.news-image-wrapper {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  background-color: #e5e7eb; 
+  overflow: hidden;
 }
 
 .news-image {
   width: 100%;
-  height: 200px;
+  height: 100%;
   object-fit: cover;
-  /* ✅ تم التعديل لتجنب اللون الأزرق المزعج في حال عدم تحميل الصورة */
-  background-color: #FAF9F6; 
+  transition: transform 0.5s ease;
+}
+
+.news-card:hover .news-image {
+  transform: scale(1.08);
 }
 
 .news-content {
-  padding: 20px;
+  padding: 25px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
 }
+
 .news-date {
   font-size: 14px;
   font-weight: bold;
+  color: var(--primary-color);
   margin-bottom: 10px;
-  color: #E2E8F0; /* لون أفتح قليلاً للتمييز */
+  display: inline-block;
+  background: rgba(0, 71, 171, 0.1);
+  padding: 4px 12px;
+  border-radius: 20px;
+  align-self: flex-start;
 }
+
 .news-title {
-  font-size: 20px;
-  margin: 0 0 10px 0;
-  font-weight: 700;
+  font-size: 22px;
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  color: var(--text-dark);
+  line-height: 1.4;
 }
+
 .news-summary {
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.7;
+  color: var(--text-light);
   margin: 0;
 }
 
 .no-results {
   text-align: center;
-  color: #333; 
-  font-size: 18px;
-  grid-column: 1 / -1;
+  color: var(--text-light);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 40px;
   display: none;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
-@media (max-width:768px){
-  #bar nav{display:none;}
-  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
-  .news-container { grid-template-columns: 1fr; }
+@media (max-width: 768px){
+  #bar nav {display: none;}
+  .menu-btn {display: inline-flex; align-items: center; justify-content: center;}
+  
+  .hero-section {
+    padding: 50px 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+  }
+  
+  .news-card {
+    flex-direction: column; 
+  }
+  
+  .news-image-wrapper {
+    width: 100%;
+    height: 200px;
+  }
+  
+  .news-content {
+    padding: 20px;
+  }
 }
 </style>
 </head>
@@ -644,14 +368,19 @@ body{
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
 
-<div class="hero-section">
-  <h1>المساهمات العلمية</h1>
-  <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مساهمة، خبر، أو كلمة مفتاحية...">
-</div>
-
-<div class="news-container" id="newsGrid">
+<main>
+  <div class="hero-section">
+    <h1>المساهمات العلمية وأخر الأخبار</h1>
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="تحاول الوصول لخبر معين؟ جرب البحث...">
+    </div>
   </div>
-<div id="noResults" class="no-results">لم نتمكن من العثور على نتائج تطابق بحثك.</div>
+
+  <div class="news-container" id="newsGrid">
+    </div>
+  
+  <div id="noResults" class="no-results">لم نتمكن من العثور على نتائج تطابق بحثك. يرجى المحاولة بكلمات أخرى.</div>
+</main>
 
 <script>
 /* =========================================
@@ -661,401 +390,64 @@ const menuBtn = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const backdrop = document.getElementById('menuBackdrop');
 
-function openMenu(){ mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-function closeMenu(){ mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-function toggleMenu(){ const isOpen = menuBtn.getAttribute('aria-expanded') === 'true'; isOpen ? closeMenu() : openMenu(); }
-
-menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
-backdrop.addEventListener('click', closeMenu);
-document.addEventListener('click', (e)=>{ if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeMenu(); } });
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
-mobileMenu.querySelectorAll('a').forEach(a=>{ a.addEventListener('click', closeMenu); });
-window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
-
-/* =========================================
-   إدارة الأخبار والبحث 
-   ========================================= */
-const newsData = [
-  {
-    id: "20260313",
-    title: "إطلاق مكتبة المصادر الهندسية المفتوحة",
-    summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث."
-  },
-  {
-    id: "20260228",
-    title: "ورشة عمل: أساسيات لغات البرمجة للمهندسين",
-    summary: "بمساهمة من نخبة من أعضاء المنصة، أقمنا ورشة عمل ناجحة لمساعدة الطلاب على دمج البرمجة في الحلول الهندسية."
-  }
-];
-
-const newsGrid = document.getElementById('newsGrid');
-const searchInput = document.getElementById('searchInput');
-const noResults = document.getElementById('noResults');
-
-function renderNews(newsArray) {
-  newsGrid.innerHTML = ''; 
-  if (newsArray.length === 0) {
-    noResults.style.display = 'block';
-    return;
-  }
-  noResults.style.display = 'none';
-
-  newsArray.forEach(news => {
-    const year = news.id.substring(0, 4);
-    const month = news.id.substring(4, 6);
-    const day = news.id.substring(6, 8);
-    
-    const card = document.createElement('a');
-    /* ✅ السلوك المطلوب: عند النقر يوجه إلى 20260313.html داخل مجلد news */
-    card.href = `news/${news.id}.html`;
-    card.className = 'news-card';
-
-    /* ✅ المربع يتضمن صورة تسحب من مجلد news بناءً على رقم الملف */
-    card.innerHTML = `
-      <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image" onerror="this.src='media/favicon.png';">
-      <div class="news-content">
-        <div class="news-date">${year}/${month}/${day}</div>
-        <div class="news-title">${news.title}</div>
-        <div class="news-summary">${news.summary}</div>
-      </div>
-    `;
-    newsGrid.appendChild(card);
-  });
+function openMenu(){ 
+  mobileMenu.classList.add('open'); 
+  backdrop.classList.add('show'); 
+  menuBtn.setAttribute('aria-expanded','true'); 
 }
 
-renderNews(newsData);
+function closeMenu(){ 
+  mobileMenu.classList.remove('open'); 
+  backdrop.classList.remove('show'); 
+  menuBtn.setAttribute('aria-expanded','false'); 
+}
 
-searchInput.addEventListener('input', function(e) {
-  const searchTerm = e.target.value.toLowerCase();
-  const filteredNews = newsData.filter(news => {
-    return news.title.toLowerCase().includes(searchTerm) || news.summary.toLowerCase().includes(searchTerm);
-  });
-  renderNews(filteredNews);
+function toggleMenu(){ 
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true'; 
+  isOpen ? closeMenu() : openMenu(); 
+}
+
+menuBtn.addEventListener('click', (e)=>{ 
+  e.stopPropagation(); 
+  toggleMenu(); 
 });
-</script>
 
-</body>
-</html><!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESC</title>
-<link rel="icon" href="media/favicon.png" type="image/png">
-
-<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-:root{
-  --nav-height: 58px;
-  --nav-pad-x: 20px;
-}
-
-/* إعداداتك الأصلية 100% */
-body{
-  font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
-  background-color:#FAF9F6;
-  margin:0;
-  padding:0;
-  color:#fff;
-  direction:rtl;
-  text-align:right;
-}
-
-/* =========================
-   NAVBAR الأصلية (بدون أي تعديل على تباعد الأزرار)
-   ========================= */
-#bar{
-  height:var(--nav-height);
-  min-height:var(--nav-height);
-  box-sizing:border-box;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 var(--nav-pad-x); 
-  background-color:#0047AB;
-
-  position:sticky;
-  top:0;
-  z-index:1000;
-  direction:ltr;
-}
-
-#bar .logo{
-  font-size:35px;
-  font-weight:700;
-  color:#FAF9F6;
-  text-decoration:none;
-  cursor:pointer;
-  user-select:none;
-  line-height:1;
-}
-#bar .logo:hover{opacity:0.9;}
-
-#bar nav{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-#bar nav a{
-  color:#FAF9F6;
-  text-decoration:none;
-  font-weight:700;
-  padding:8px 12px;
-  border-radius:10px;
-  transition:background-color 0.2s;
-  line-height:1;
-}
-#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
-
-.menu-btn{
-  display:none;
-  height:42px;
-  width:42px;
-  padding:0;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  border-radius:10px;
-}
-.menu-btn:hover{background:rgba(255,255,255,0.18);}
-
-.menu-icon{
-  width:24px;
-  height:2px;
-  background:#fff;
-  display:block;
-  position:relative;
-  margin:auto;
-}
-.menu-icon::before,
-.menu-icon::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width:24px;
-  height:2px;
-  background:#fff;
-  transition:transform .18s ease, top .18s ease, opacity .18s ease;
-}
-.menu-icon::before{top:-7px;}
-.menu-icon::after{top:7px;}
-
-.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
-.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
-.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
-
-#menuBackdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  z-index:999;
-}
-#menuBackdrop.show{display:block;}
-
-.mobile-menu{
-  display:none;
-  position:absolute;
-  right:16px;
-  top:calc(var(--nav-height) + 8px);
-  min-width:240px;
-  background:#fff;
-  color:#111827;
-  border-radius:14px;
-  padding:8px;
-  box-shadow:0 14px 35px rgba(0,0,0,0.22);
-  border:1px solid rgba(0,0,0,0.06);
-  z-index:1001;
-
-  direction:rtl;
-  text-align:right;
-
-  transform-origin:top right;
-  transform:translateY(-6px) scale(0.98);
-  opacity:0;
-  transition:opacity .14s ease, transform .14s ease;
-}
-.mobile-menu.open{
-  display:block;
-  opacity:1;
-  transform:translateY(0) scale(1);
-}
-.mobile-menu a{
-  display:block;
-  padding:11px 12px;
-  border-radius:10px;
-  color:#111827;
-  text-decoration:none;
-  font-weight:800;
-}
-.mobile-menu a:hover{background:#f3f4f6;}
-
-
-/* =========================
-   محتوى الصفحة الجديدة (البحث والبطاقات)
-   ========================= */
-.hero-section {
-  text-align: center;
-  background-color: #008080; /* اللون الأخضر الخاص بك */
-  padding: 40px 20px;
-  margin-top: 0;
-}
-.hero-section h1 {
-  font-size: 30px;
-  margin-bottom: 20px;
-  color: #FAF9F6;
-}
-.search-input {
-  width: 90%;
-  max-width: 500px;
-  padding: 15px 20px;
-  font-size: 16px;
-  font-family: inherit;
-  border: none;
-  border-radius: 30px;
-  outline: none;
-  color: #000; /* لون النص داخل البحث أسود ليكون مقروءاً */
-}
-
-.news-container {
-  max-width: 1000px;
-  margin: 40px auto;
-  padding: 0 20px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.news-card {
-  background-color: #008080;
-  border-radius: 10px;
-  text-decoration: none;
-  color: #FAF9F6;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.3s;
-}
-.news-card:hover {
-  transform: translateY(-5px);
-}
-
-.news-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  background-color: #0047AB; /* لون بديل لو لم توجد صورة */
-}
-
-.news-content {
-  padding: 20px;
-}
-.news-date {
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-.news-title {
-  font-size: 20px;
-  margin: 0 0 10px 0;
-  font-weight: 700;
-}
-.news-summary {
-  font-size: 16px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-.no-results {
-  text-align: center;
-  color: #333; /* رمادي غامق ليكون مقروءاً على الخلفية الفاتحة */
-  font-size: 18px;
-  grid-column: 1 / -1;
-  display: none;
-}
-
-@media (max-width:768px){
-  #bar nav{display:none;}
-  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
-  .news-container { grid-template-columns: 1fr; }
-}
-</style>
-</head>
-
-<body>
-
-<header id="bar">
-  <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
-
-  <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
-    <a href="course.html">الدروس الأكاديمية</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
-    <a href="research.html">الأبحاث</a>
-    <a href="volunteer.html">برامج التطوع</a>
-  </nav>
-
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
-    <span class="menu-icon" aria-hidden="true"></span>
-  </button>
-
-  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
-    <a role="menuitem" href="research.html">الأبحاث</a>
-    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
-  </div>
-</header>
-<div id="menuBackdrop" aria-hidden="true"></div>
-
-<div class="hero-section">
-  <h1>المساهمات العلمية</h1>
-  <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن مساهمة، خبر، أو كلمة مفتاحية...">
-</div>
-
-<div class="news-container" id="newsGrid">
-  </div>
-<div id="noResults" class="no-results">لم نتمكن من العثور على نتائج تطابق بحثك.</div>
-
-<script>
-/* =========================================
-   أكواد القائمة المنسدلة (مطابقة للأصل)
-   ========================================= */
-const menuBtn = document.getElementById('menuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-const backdrop = document.getElementById('menuBackdrop');
-
-function openMenu(){ mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
-function closeMenu(){ mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-function toggleMenu(){ const isOpen = menuBtn.getAttribute('aria-expanded') === 'true'; isOpen ? closeMenu() : openMenu(); }
-
-menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleMenu(); });
 backdrop.addEventListener('click', closeMenu);
-document.addEventListener('click', (e)=>{ if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeMenu(); } });
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeMenu(); });
-mobileMenu.querySelectorAll('a').forEach(a=>{ a.addEventListener('click', closeMenu); });
-window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeMenu(); });
+
+document.addEventListener('click', (e)=>{ 
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ 
+    closeMenu(); 
+  } 
+});
+
+document.addEventListener('keydown', (e)=>{ 
+  if(e.key === 'Escape') closeMenu(); 
+});
+
+mobileMenu.querySelectorAll('a').forEach(a=>{ 
+  a.addEventListener('click', closeMenu); 
+});
+
+window.addEventListener('resize', ()=>{ 
+  if(window.innerWidth > 768) closeMenu(); 
+});
 
 /* =========================================
-   إدارة الأخبار والبحث (بسيطة جداً)
+   إدارة الأخبار والتوجيه السليم
    ========================================= */
-// يمكنك إضافة الأخبار الجديدة هنا بسهولة بوضعها في أعلى القائمة
 const newsData = [
+  
   {
-    id: "20260313",
+    id: "20260313", 
     title: "إطلاق مكتبة المصادر الهندسية المفتوحة",
-    summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث."
+    summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث وتوفير بيئة أكاديمية متكاملة."
   },
   {
     id: "20260228",
     title: "ورشة عمل: أساسيات لغات البرمجة للمهندسين",
-    summary: "بمساهمة من نخبة من أعضاء المنصة، أقمنا ورشة عمل ناجحة لمساعدة الطلاب على دمج البرمجة في الحلول الهندسية."
+    summary: "بمساهمة من نخبة من أعضاء المنصة، أقمنا ورشة عمل ناجحة لمساعدة الطلاب على دمج البرمجة في الحلول الهندسية وربطها بسوق العمل."
   }
+
 ];
 
 const newsGrid = document.getElementById('newsGrid');
@@ -1064,10 +456,12 @@ const noResults = document.getElementById('noResults');
 
 function renderNews(newsArray) {
   newsGrid.innerHTML = ''; 
+  
   if (newsArray.length === 0) {
     noResults.style.display = 'block';
     return;
   }
+  
   noResults.style.display = 'none';
 
   newsArray.forEach(news => {
@@ -1076,18 +470,22 @@ function renderNews(newsArray) {
     const day = news.id.substring(6, 8);
     
     const card = document.createElement('a');
+    // توجيه صحيح إلى ملف html داخل مجلد news بناء على المعرف
     card.href = `news/${news.id}.html`;
     card.className = 'news-card';
 
-    // نستخدم مسار الصورة وصورة بديلة في حال غيابها
+    // سحب الصورة من مجلد news
     card.innerHTML = `
-      <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image" onerror="this.src='media/favicon.png';">
+      <div class="news-image-wrapper">
+        <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image" onerror="this.src='media/icons/news.png';">
+      </div>
       <div class="news-content">
         <div class="news-date">${year}/${month}/${day}</div>
         <div class="news-title">${news.title}</div>
         <div class="news-summary">${news.summary}</div>
       </div>
     `;
+    
     newsGrid.appendChild(card);
   });
 }
