@@ -6,6 +6,391 @@
 <title>المساهمات العلمية - ESC</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --nav-height: 58px;
+  --nav-pad-x: 20px;
+}
+
+/* إعدادات عامة مطابقة للأصل */
+body{
+  font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
+  background-color:#FAF9F6;
+  margin:0;
+  padding:0;
+  color:#fff;
+  direction:rtl;
+  text-align:right;
+}
+
+/* =========================
+   NAVBAR (ثابت الارتفاع)
+   ========================= */
+#bar{
+  height:var(--nav-height);
+  min-height:var(--nav-height);
+  box-sizing:border-box;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 var(--nav-pad-x);
+  background-color:#0047AB;
+  position:sticky;
+  top:0;
+  z-index:1000;
+  direction:ltr;
+}
+
+#bar .logo{
+  font-size:35px;
+  font-weight:700;
+  color:#FAF9F6;
+  text-decoration:none;
+  cursor:pointer;
+  user-select:none;
+  line-height:1;
+}
+#bar .logo:hover{opacity:0.9;}
+
+#bar nav{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+#bar nav a{
+  color:#FAF9F6;
+  text-decoration:none;
+  font-weight:700;
+  padding:8px 12px;
+  border-radius:10px;
+  transition:background-color 0.2s;
+  line-height:1;
+}
+#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
+
+/* أزرار وقوائم الموبايل (مطابقة للأصل) */
+.menu-btn{
+  display:none;
+  height:42px;
+  width:42px;
+  padding:0;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  border-radius:10px;
+}
+.menu-btn:hover{background:rgba(255,255,255,0.18);}
+
+.menu-icon{
+  width:24px;
+  height:2px;
+  background:#fff;
+  display:block;
+  position:relative;
+  margin:auto;
+}
+.menu-icon::before,
+.menu-icon::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:24px;
+  height:2px;
+  background:#fff;
+  transition:transform .18s ease, top .18s ease, opacity .18s ease;
+}
+.menu-icon::before{top:-7px;}
+.menu-icon::after{top:7px;}
+
+.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
+.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
+
+#menuBackdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+  z-index:999;
+}
+#menuBackdrop.show{display:block;}
+
+.mobile-menu{
+  display:none;
+  position:absolute;
+  right:16px;
+  top:calc(var(--nav-height) + 8px);
+  min-width:240px;
+  background:#fff;
+  color:#111827;
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22);
+  border:1px solid rgba(0,0,0,0.06);
+  z-index:1001;
+  direction:rtl;
+  text-align:right;
+  transform-origin:top right;
+  transform:translateY(-6px) scale(0.98);
+  opacity:0;
+  transition:opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open{
+  display:block;
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+.mobile-menu a{
+  display:block;
+  padding:11px 12px;
+  border-radius:10px;
+  color:#111827;
+  text-decoration:none;
+  font-weight:800;
+}
+.mobile-menu a:hover{background:#f3f4f6;}
+
+/* =========================
+   تصميم قسم الأخبار والمساهمات الجديد (Cards)
+   ========================= */
+.page-header {
+  text-align: center;
+  color: #008080;
+  margin: 40px auto 20px auto;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.news-container {
+  max-width: 900px;
+  margin: 0 auto 60px auto;
+  padding: 20px;
+}
+
+/* بطاقة الخبر */
+.news-card {
+  display: flex;
+  background-color: #008080; /* نفس اللون الأخضر الجميل في صفحتك الرئيسية */
+  border-radius: 15px;
+  margin-bottom: 25px;
+  text-decoration: none; /* إخفاء خط الروابط */
+  color: #FAF9F6;
+  overflow: hidden; /* لقص زوايا الصورة مع البطاقة */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.news-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* الصورة الجانبية */
+.news-image {
+  width: 250px;
+  min-width: 250px;
+  object-fit: cover;
+  background-color: #006666; /* لون احتياطي في حال تأخرت الصورة */
+}
+
+/* محتوى البطاقة */
+.news-content {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.news-date {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.news-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #FAF9F6;
+}
+
+.news-excerpt {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  color: #FAF9F6;
+}
+
+/* =========================
+   Mobile layout
+   ========================= */
+@media (max-width:768px){
+  #bar nav{display:none;}
+  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
+  
+  .news-card {
+    flex-direction: column; /* جعل الصورة فوق النص في الجوال */
+  }
+  
+  .news-image {
+    width: 100%;
+    min-width: 100%;
+    height: 220px;
+  }
+  
+  .page-header {
+    font-size: 24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
+
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدروس الأكاديمية</a>
+    <a href="graduationprojects.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="graduationprojects.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<h1 class="page-header">آخر الأخبار والمساهمات</h1>
+
+<div id="news-container" class="news-container">
+  </div>
+
+
+<script>
+/* =========================================
+   آلية الأخبار الديناميكية (Dynamic News)
+   ========================================= */
+
+// 💡 ضع أخبارك هنا! الأحدث دائماً في الأعلى.
+// يكفي أن تضع رقم الملف (id)، والعنوان، ووصف قصير.
+// سيقوم الكود بربطها بملف: news/رقم_الملف.html والصورة: news/رقم_الملف.jpg
+const newsData = [
+  {
+    id: "20260313",
+    title: "إطلاق مكتبة المصادر الهندسية المفتوحة",
+    summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية. هذه المصادر متاحة الآن لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث."
+  },
+  {
+    id: "20260228",
+    title: "ورشة عمل: أساسيات لغات البرمجة للمهندسين",
+    summary: "بمساهمة من نخبة من أعضاء المنصة، أقمنا ورشة عمل ناجحة لمساعدة الطلاب على دمج البرمجة في الحلول الهندسية."
+  }
+];
+
+// دالة لتوليد وعرض البطاقات
+const container = document.getElementById('news-container');
+
+newsData.forEach(news => {
+  // تحويل الرقم (مثال 20260313) إلى تاريخ جميل للعرض (2026/03/13)
+  const year = news.id.substring(0, 4);
+  const month = news.id.substring(4, 6);
+  const day = news.id.substring(6, 8);
+  const formattedDate = `${year}/${month}/${day}`;
+
+  // إنشاء البطاقة القابلة للنقر بالكامل
+  const card = document.createElement('a');
+  card.href = `news/${news.id}.html`; // التوجيه إلى ملف الخبر
+  card.className = 'news-card';
+
+  card.innerHTML = `
+    <img src="news/${news.id}.jpg" alt="صورة ${news.title}" class="news-image">
+    
+    <div class="news-content">
+      <span class="news-date">${formattedDate}</span>
+      <h3 class="news-title">${news.title}</h3>
+      <p class="news-excerpt">${news.summary}</p>
+    </div>
+  `;
+  
+  // إضافة البطاقة للصفحة
+  container.appendChild(card);
+});
+
+
+/* =========================================
+   أكواد القائمة المنسدلة (مطابقة للأصل)
+   ========================================= */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop = document.getElementById('menuBackdrop');
+
+function openMenu(){
+  mobileMenu.classList.add('open');
+  backdrop.classList.add('show');
+  menuBtn.setAttribute('aria-expanded','true');
+}
+function closeMenu(){
+  mobileMenu.classList.remove('open');
+  backdrop.classList.remove('show');
+  menuBtn.setAttribute('aria-expanded','false');
+}
+function toggleMenu(){
+  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
+  isOpen ? closeMenu() : openMenu();
+}
+
+menuBtn.addEventListener('click', (e)=>{
+  e.stopPropagation();
+  toggleMenu();
+});
+
+backdrop.addEventListener('click', closeMenu);
+
+document.addEventListener('click', (e)=>{
+  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){
+    closeMenu();
+  }
+});
+
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeMenu();
+});
+
+mobileMenu.querySelectorAll('a').forEach(a=>{
+  a.addEventListener('click', closeMenu);
+});
+
+window.addEventListener('resize', ()=>{
+  if(window.innerWidth > 768) closeMenu();
+});
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المساهمات العلمية - ESC</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -386,4 +771,5 @@ window.addEventListener('resize', ()=>{
 </script>
 
 </body>
+
 </html>
