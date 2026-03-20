@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>برامج التطوع - ESC</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+  --text-dark: #111827;
+  --text-light: #4B5563;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+#bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+#bar nav a.active { background-color: rgba(255,255,255,0.22); }
+.menu-btn {
+  display: none;
+  height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px;
+  background: #fff; display: block;
+  position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: "";
+  position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after { top: 7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after { top: 0; transform: rotate(-45deg); }
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98);
+  opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px;
+  border-radius: 10px; color: var(--text-dark);
+  text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+main { flex-grow: 1; }
+.hero-section {
+  text-align: center;
+  background: linear-gradient(135deg, var(--blue) 0%, var(--teal) 100%);
+  padding: 70px 20px;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+.hero-section h1 {
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+.search-wrapper {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.search-input {
+  width: 100%;
+  padding: 16px 52px 16px 24px;
+  font-size: 15px;
+  font-family: 'Ubuntu', sans-serif;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+  color: var(--text-dark);
+  background-color: #fff;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.15);
+  transition: box-shadow var(--transition);
+  direction: rtl;
+}
+.search-input::placeholder { color: #aaa; }
+.search-input:focus { box-shadow: 0 12px 36px rgba(0,0,0,0.22); }
+.search-icon {
+  position: absolute;
+  left: 18px; top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; opacity: 0.4;
+  display: flex; align-items: center;
+}
+.search-icon svg { width: 18px; height: 18px; }
+.content-container {
+  max-width: 1100px;
+  margin: 52px auto 60px;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.empty-box {
+  background: #fff;
+  border: 2px dashed rgba(0,0,0,0.15);
+  border-radius: var(--card-radius);
+  padding: 72px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.empty-icon { font-size: 52px; opacity: 0.3; }
+.empty-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: #9ca3af;
+}
+.no-results {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 48px 40px;
+  display: none;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.volunteer-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  border: 1.5px solid rgba(0,0,0,0.06);
+  border-right: 5px solid var(--teal);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.volunteer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 28px rgba(0,128,128,0.13);
+}
+.vol-image-wrapper {
+  width: 200px; flex-shrink: 0;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--blue), var(--teal));
+}
+.vol-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+.volunteer-card:hover .vol-image { transform: scale(1.06); }
+.vol-content {
+  padding: 22px 28px;
+  display: flex; flex-direction: column;
+  justify-content: center; flex: 1; gap: 10px;
+}
+.vol-date {
+  display: inline-block;
+  font-size: 12px; font-weight: 700;
+  color: var(--teal);
+  background: rgba(0,128,128,0.08);
+  padding: 3px 12px; border-radius: 20px;
+  align-self: flex-start;
+}
+.vol-title { font-size: 18px; font-weight: 700; color: var(--text-dark); line-height: 1.45; }
+.vol-summary { font-size: 14px; line-height: 1.75; color: var(--text-light); }
+.vol-readmore { font-size: 13px; font-weight: 700; color: var(--teal); align-self: flex-start; }
+.vision-section {
+  background: var(--blue);
+  padding: 20px 30px;
+  text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
+}
+footer {
+  background: #06101f;
+  color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px;
+  direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .hero-section { padding: 50px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
+  .content-container { padding: 0 16px; margin-top: 32px; }
+  .volunteer-card { flex-direction: column; border-right: none; border-top: 5px solid var(--teal); }
+  .vol-image-wrapper { width: 100%; height: 200px; }
+  .vol-content { padding: 18px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدروس الأكاديمية</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html" class="active">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<main>
+  <div class="hero-section">
+    <h1>برامج التطوع</h1>
+    <div class="search-wrapper">
+      <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن برنامج تطوعي...">
+      <span class="search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
+          <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </div>
+  </div>
+
+  <div class="content-container">
+    <div class="empty-box" id="emptyBox">
+      <div class="empty-icon">🌱</div>
+      <div class="empty-text">لا توجد أعمال تطوعية متاحة الآن</div>
+    </div>
+    <div id="volunteerGrid"></div>
+    <div id="noResults" class="no-results">لم نتمكن من العثور على نتائج. يرجى المحاولة بكلمات أخرى.</div>
+  </div>
+</main>
+
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:contact@esc-iq.com">contact@esc-iq.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script>
+var menuBtn = document.getElementById('menuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+var backdrop = document.getElementById('menuBackdrop');
+
+function openMenu() { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeMenu() { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+
+menuBtn.addEventListener('click', function(e) { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('click', function(e) { if(!mobileMenu.contains(e.target) && e.target !== menuBtn) closeMenu(); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
+
+var volunteerData = [];
+
+var volunteerGrid = document.getElementById('volunteerGrid');
+var searchInput = document.getElementById('searchInput');
+var noResults = document.getElementById('noResults');
+var emptyBox = document.getElementById('emptyBox');
+
+function renderVolunteer(arr) {
+  volunteerGrid.innerHTML = '';
+  if (volunteerData.length === 0) {
+    emptyBox.style.display = 'flex';
+    noResults.style.display = 'none';
+    return;
+  }
+  emptyBox.style.display = 'none';
+  if (arr.length === 0) {
+    noResults.style.display = 'block';
+    return;
+  }
+  noResults.style.display = 'none';
+  arr.forEach(function(item) {
+    var y = item.id.substring(0,4);
+    var m = item.id.substring(4,6);
+    var d = item.id.substring(6,8);
+    var card = document.createElement('a');
+    card.href = 'volunteer/' + item.id + '.html';
+    card.className = 'volunteer-card';
+    card.innerHTML = '<div class="vol-image-wrapper"><img src="volunteer/' + item.id + '.jpg" alt="' + item.title + '" class="vol-image" onerror="this.src=\'media/icon-512.png\';"></div><div class="vol-content"><span class="vol-date">' + y + '/' + m + '/' + d + '</span><div class="vol-title">' + item.title + '</div><div class="vol-summary">' + item.summary + '</div><span class="vol-readmore">اقرأ المزيد</span></div>';
+    volunteerGrid.appendChild(card);
+  });
+}
+
+renderVolunteer(volunteerData);
+
+var searchTimer = null;
+searchInput.addEventListener('input', function() {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(function() {
+    var q = searchInput.value.toLowerCase();
+    renderVolunteer(volunteerData.filter(function(n) {
+      return n.title.toLowerCase().indexOf(q) !== -1 || n.summary.toLowerCase().indexOf(q) !== -1;
+    }));
+  }, 120);
+});
+</script>
+
+</body>
+</html>
