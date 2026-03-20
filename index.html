@@ -47,13 +47,6 @@ body {
   direction: ltr;
   box-shadow: 0 2px 20px rgba(0,0,0,0.25);
 }
-#bar .logo {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--cream);
-  text-decoration: none;
-  letter-spacing: 2px;
-}
 #bar nav { display: flex; gap: 4px; align-items: center; }
 #bar nav a {
   color: var(--cream);
@@ -126,13 +119,11 @@ body {
   background: var(--dark);
   direction: rtl;
 }
-
 .hero-track {
   display: flex;
   height: 100%;
   transition: transform 0.7s cubic-bezier(0.77,0,0.175,1);
 }
-
 .hero-slide {
   min-width: 100%;
   height: 100%;
@@ -142,118 +133,74 @@ body {
   padding: 50px 60px;
   flex-shrink: 0;
 }
-
 .slide-1 { background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%); }
 .slide-2 { background: linear-gradient(135deg, #004d00 0%, #0047AB 60%, #001a00 100%); }
 .slide-3 { background: linear-gradient(135deg, #3a0060 0%, #0047AB 60%, #001a30 100%); }
-
 .hero-slide::before {
   content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
+  position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 65%);
 }
-
 .hero-slide .deco {
   position: absolute;
   top: -80px; left: -80px;
   width: 420px; height: 420px;
-  border-radius: 50%;
-  opacity: 0.08;
+  border-radius: 50%; opacity: 0.08;
   pointer-events: none;
 }
 .slide-1 .deco { background: radial-gradient(circle, #00cfff, transparent 70%); }
 .slide-2 .deco { background: radial-gradient(circle, #00ff99, transparent 70%); }
 .slide-3 .deco { background: radial-gradient(circle, #cc88ff, transparent 70%); }
-
 .slide-content {
-  position: relative;
-  z-index: 2;
-  max-width: 600px;
-    padding: 0 30px;
+  position: relative; z-index: 2;
+  max-width: 600px; padding: 0 30px;
 }
 .slide-tag {
   display: inline-block;
   background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 14px;
+  backdrop-filter: blur(6px); color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
   border: 1px solid rgba(255,255,255,0.2);
 }
 .slide-content h1 {
   font-size: clamp(24px, 3.5vw, 42px);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.3;
-  margin-bottom: 14px;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  font-weight: 700; color: #fff; line-height: 1.3;
+  margin-bottom: 14px; text-shadow: 0 2px 20px rgba(0,0,0,0.5);
 }
 .slide-content p {
-  font-size: 15px;
-  color: rgba(255,255,255,0.82);
-  line-height: 1.75;
-  margin-bottom: 26px;
-  max-width: 480px;
+  font-size: 15px; color: rgba(255,255,255,0.82);
+  line-height: 1.75; margin-bottom: 26px; max-width: 480px;
 }
 .slide-btn {
-  display: inline-block;
-  background: var(--blue);
-  color: #fff;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 15px;
-  padding: 12px 28px;
-  border-radius: 10px;
+  display: inline-block; background: var(--blue);
+  color: #fff; text-decoration: none; font-weight: 700;
+  font-size: 15px; padding: 12px 28px; border-radius: 10px;
   transition: background var(--transition), transform var(--transition);
   border: 2px solid rgba(255,255,255,0.2);
 }
 .slide-btn:hover { background: #0059d4; transform: translateY(-2px); }
 
 .hero-dots {
-  position: absolute;
-  bottom: 22px;
-  left: 50%;
+  position: absolute; bottom: 22px; left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 10;
+  display: flex; gap: 10px; z-index: 10;
 }
 .hero-dot {
-  width: 10px; height: 10px;
-  border-radius: 5px;
-  background: rgba(255,255,255,0.35);
-  border: none;
-  cursor: pointer;
-  transition: all 0.35s;
-  padding: 0;
+  width: 10px; height: 10px; border-radius: 5px;
+  background: rgba(255,255,255,0.35); border: none;
+  cursor: pointer; transition: all 0.35s; padding: 0;
 }
-.hero-dot.active {
-  background: #fff;
-  width: 28px;
-}
+.hero-dot.active { background: #fff; width: 28px; }
 
 .hero-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.25);
-  color: #fff;
-  width: 46px; height: 46px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 22px;
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 10; background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25);
+  color: #fff; width: 46px; height: 46px; border-radius: 50%;
+  cursor: pointer; font-size: 22px;
   display: flex; align-items: center; justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease, background 0.3s ease;
+  opacity: 0; transition: opacity 0.3s ease, background 0.3s ease;
 }
 .hero-arrow:hover { background: rgba(255,255,255,0.32); }
 .hero-section:hover .hero-arrow { opacity: 1; }
@@ -261,57 +208,38 @@ body {
 .hero-arrow.next { left: 22px; }
 
 .hero-progress {
-  position: absolute;
-  bottom: 0; left: 0;
-  height: 3px;
-  background: var(--teal);
-  width: 0%;
-  z-index: 10;
-  transition: width 7s linear;
+  position: absolute; bottom: 0; left: 0;
+  height: 3px; background: var(--teal);
+  width: 0%; z-index: 10; transition: width 7s linear;
 }
 
 /* ===================== ALERT STRIP ===================== */
 .alert-strip {
   background: linear-gradient(90deg, var(--blue) 0%, var(--teal) 100%);
-  color: #fff;
-  text-align: center;
-  padding: 10px 20px;
-  font-size: 15px;
-  font-weight: 700;
+  color: #fff; text-align: center;
+  padding: 10px 20px; font-size: 15px; font-weight: 700;
 }
 
 /* ===================== SECTION HEADER ===================== */
 .section-header {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  margin-bottom: 18px;
+  padding: 0 30px; margin-bottom: 18px;
 }
 .section-header h2 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #0d1b2a;
-  position: relative;
-  padding-right: 14px;
+  font-size: 22px; font-weight: 700;
+  color: #0d1b2a; position: relative; padding-right: 14px;
 }
 .section-header h2::before {
-  content: '';
-  position: absolute;
-  right: 0; top: 50%;
-  transform: translateY(-50%);
+  content: ''; position: absolute;
+  right: 0; top: 50%; transform: translateY(-50%);
   width: 4px; height: 22px;
-  background: var(--teal);
-  border-radius: 3px;
+  background: var(--teal); border-radius: 3px;
 }
 .section-header a {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--blue);
-  text-decoration: none;
-  padding: 6px 14px;
-  border: 1.5px solid var(--blue);
-  border-radius: 20px;
+  font-size: 13px; font-weight: 700; color: var(--blue);
+  text-decoration: none; padding: 6px 14px;
+  border: 1.5px solid var(--blue); border-radius: 20px;
   transition: all var(--transition);
 }
 .section-header a:hover { background: var(--blue); color: #fff; }
@@ -319,16 +247,11 @@ body {
 /* ===================== SCROLL SECTIONS ===================== */
 .scroll-section { padding: 36px 0 40px; }
 .scroll-section + .scroll-section { border-top: 1px solid rgba(0,0,0,0.07); }
-
 .scroll-track-wrapper { padding: 0 30px; }
 .scroll-track {
-  display: flex;
-  gap: 18px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 12px;
-  scrollbar-width: thin;
+  display: flex; gap: 18px; overflow-x: auto;
+  scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;
+  padding-bottom: 12px; scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
 }
 .scroll-track::-webkit-scrollbar { height: 5px; }
@@ -338,216 +261,160 @@ body {
 /* ===================== COURSE CARD ===================== */
 .course-card {
   min-width: 240px; max-width: 240px;
-  background: #fff;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  scroll-snap-align: start;
+  background: #fff; border-radius: var(--card-radius);
+  overflow: hidden; scroll-snap-align: start;
   box-shadow: 0 2px 14px rgba(0,0,0,0.08);
   transition: transform var(--transition), box-shadow var(--transition);
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column; flex-shrink: 0;
 }
 .course-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0,71,171,0.18);
 }
-.course-card .thumb {
-  width: 100%; height: 148px;
-  object-fit: cover;
-  display: block;
-}
+.course-card .thumb { width: 100%; height: 148px; object-fit: cover; display: block; }
 .course-card .thumb-placeholder {
-  width: 100%; height: 148px;
-  display: none;
+  width: 100%; height: 148px; display: none;
   align-items: center; justify-content: center;
-  font-size: 40px;
-  background: linear-gradient(135deg, #003f8a, #006060);
+  font-size: 40px; background: linear-gradient(135deg, #003f8a, #006060);
 }
 .course-card .card-body { padding: 14px; flex: 1; }
 .course-card .card-tag {
-  font-size: 11px; font-weight: 700;
-  color: var(--teal); letter-spacing: 1px;
-  text-transform: uppercase; margin-bottom: 6px;
+  font-size: 11px; font-weight: 700; color: var(--teal);
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
 }
 .course-card .card-title {
-  font-size: 14px; font-weight: 700;
-  color: #0d1b2a; line-height: 1.4;
-  margin-bottom: 10px;
+  font-size: 14px; font-weight: 700; color: #0d1b2a;
+  line-height: 1.4; margin-bottom: 10px;
 }
 .course-card .card-meta {
   font-size: 12px; color: #666;
   display: flex; align-items: center; gap: 6px;
 }
 .badge-free {
-  display: inline-block;
-  background: #e6f7f1; color: #007a50;
-  font-size: 11px; font-weight: 700;
-  padding: 2px 9px; border-radius: 20px;
+  display: inline-block; background: #e6f7f1; color: #007a50;
+  font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
 }
 .badge-new {
-  display: inline-block;
-  background: #e6eeff; color: var(--blue);
-  font-size: 11px; font-weight: 700;
-  padding: 2px 9px; border-radius: 20px;
+  display: inline-block; background: #e6eeff; color: var(--blue);
+  font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
 }
 
 /* ===================== NEWS CARD ===================== */
 .news-card {
   min-width: 300px; max-width: 300px;
-  background: #fff;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  scroll-snap-align: start;
+  background: #fff; border-radius: var(--card-radius);
+  overflow: hidden; scroll-snap-align: start;
   box-shadow: 0 2px 14px rgba(0,0,0,0.08);
   transition: transform var(--transition), box-shadow var(--transition);
   text-decoration: none; color: inherit;
-  display: flex; flex-direction: column;
-  flex-shrink: 0;
+  display: flex; flex-direction: column; flex-shrink: 0;
 }
 .news-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0,128,128,0.18);
 }
-.news-card .thumb {
-  width: 100%; height: 168px;
-  object-fit: cover; display: block;
-}
+.news-card .thumb { width: 100%; height: 168px; object-fit: cover; display: block; }
 .news-card .thumb-placeholder {
-  width: 100%; height: 168px;
-  display: none;
+  width: 100%; height: 168px; display: none;
   align-items: center; justify-content: center;
-  font-size: 48px;
-  background: linear-gradient(135deg, var(--teal), var(--blue));
+  font-size: 48px; background: linear-gradient(135deg, var(--teal), var(--blue));
 }
 .news-card .card-body { padding: 16px; flex: 1; }
 .news-card .card-date {
-  font-size: 11px; color: #888;
-  font-weight: 700; margin-bottom: 6px;
-  letter-spacing: 0.5px;
+  font-size: 11px; color: #888; font-weight: 700;
+  margin-bottom: 6px; letter-spacing: 0.5px;
 }
 .news-card .card-title {
-  font-size: 15px; font-weight: 700;
-  color: #0d1b2a; line-height: 1.45;
-  margin-bottom: 8px;
+  font-size: 15px; font-weight: 700; color: #0d1b2a;
+  line-height: 1.45; margin-bottom: 8px;
 }
-.news-card .card-excerpt {
-  font-size: 13px; color: #555; line-height: 1.6;
-}
+.news-card .card-excerpt { font-size: 13px; color: #555; line-height: 1.6; }
 
-/* ===================== TEAM & VISION ===================== */
+/* ===================== TEAM ===================== */
 .team-section {
-  background: var(--teal);
-  padding: 60px 30px;
-  text-align: center;
+  background: var(--teal); padding: 60px 30px; text-align: center;
 }
 .team-section h2 {
-  font-size: 26px; font-weight: 700;
-  color: #fff; margin-bottom: 36px;
-  display: inline-block;
-  padding-bottom: 12px;
-  position: relative;
+  font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 36px;
+  display: inline-block; padding-bottom: 12px; position: relative;
 }
 .team-section h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 50%;
+  content: ''; position: absolute; bottom: 0; left: 50%;
   transform: translateX(-50%);
   width: 50px; height: 3px;
-  background: rgba(255,255,255,0.45);
-  border-radius: 3px;
+  background: rgba(255,255,255,0.45); border-radius: 3px;
 }
 .team-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
 .member-card { text-align: center; transition: transform var(--transition); }
 .member-card:hover { transform: translateY(-6px); }
 .member-card img {
-  width: 160px; height: 160px;
-  object-fit: cover; border-radius: 16%;
+  width: 160px; height: 160px; object-fit: cover; border-radius: 16%;
   border: 4px solid rgba(255,255,255,0.3);
   display: block; margin: 0 auto 14px;
 }
 .member-card .name { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
 .member-card .role { font-size: 13px; color: rgba(255,255,255,0.75); }
 
-.vision-section {
-  background: var(--blue);
-  padding: 20px 30px;
-  text-align: center;
+.team-see-all {
+  display: inline-block;
+  margin-top: 32px;
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+  transition: color var(--transition);
 }
-.vision-section h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+.team-see-all:hover { color: #fff; }
+
+/* ===================== VISION ===================== */
+.vision-section {
+  background: var(--blue); padding: 20px 30px; text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
 .vision-section p {
-  font-size: 16px; color: rgba(255,255,255,0.85);
-  line-height: 1.85; max-width: 680px;
-  margin: 0 auto 12px;
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
 }
 
 /* ===================== FOOTER ===================== */
 footer {
-  background: #06101f;
-  color: rgba(255,255,255,0.6);
-  padding: 52px 30px 26px;
-  direction: rtl;
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
 }
 .footer-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 48px;
-  padding-bottom: 38px;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 .footer-brand img {
   width: 54px; height: 54px;
-  border-radius: 12px;
-  margin-bottom: 14px;
-  object-fit: cover;
+  border-radius: 12px; margin-bottom: 14px; object-fit: cover;
 }
 .footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
 .footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
-
 .footer-col h4 {
-  font-size: 11px; font-weight: 700;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  margin-bottom: 18px;
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
 }
-.footer-col ul { list-style: none; }
-.footer-col ul li { margin-bottom: 11px; }
-.footer-col ul li a {
-  color: rgba(255,255,255,0.55);
-  text-decoration: none; font-size: 14px;
-  transition: color var(--transition);
-}
-.footer-col ul li a:hover { color: #fff; }
-
 .footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
 .footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
 .footer-contact a:hover { color: #fff; }
-
 .footer-bottom {
-  max-width: 1100px;
-  margin: 26px auto 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
 .footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
 .footer-bottom .esc-mark {
   font-size: 24px; font-weight: 700;
-  color: rgba(255,255,255,0.1);
-  letter-spacing: 4px;
+  color: rgba(255,255,255,0.1); letter-spacing: 4px;
 }
 
 /* ===================== RESPONSIVE ===================== */
-@media (max-width: 900px) {
-  .footer-inner { grid-template-columns: 1fr 1fr; }
-}
 @media (max-width: 768px) {
   #bar nav { display: none; }
   .menu-btn { display: inline-flex; }
@@ -566,11 +433,11 @@ footer {
 <!-- NAVBAR -->
 <header id="bar">
   <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
-  <img src="media/icon-512.png" alt="ESC" style="height:38px; width:auto; display:block;">
-</a>
+    <img src="media/icon-512.png" alt="ESC" style="height:38px; width:auto; display:block;">
+  </a>
   <nav aria-label="روابط الموقع">
     <a href="faq.html">الأسئلة الشائعة</a>
-    <a href="course.html">الدورات</a>
+    <a href="course.html">الدروس الأكاديمية</a>
     <a href="Scientific_contributions.html">المساهمات العلمية</a>
     <a href="research.html">الأبحاث</a>
     <a href="volunteer.html">برامج التطوع</a>
@@ -580,7 +447,7 @@ footer {
   </button>
   <div id="mobileMenu" class="mobile-menu" role="menu">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
     <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="volunteer.html">برامج التطوع</a>
@@ -592,7 +459,7 @@ footer {
 <section class="hero-section" aria-label="العرض الرئيسي">
   <div class="hero-track" id="heroTrack">
 
-        <div class="hero-slide slide-1">
+    <div class="hero-slide slide-1">
       <div class="deco"></div>
       <div class="slide-content">
         <span class="slide-tag">🌍 مجتمع</span>
@@ -606,8 +473,8 @@ footer {
       <div class="deco"></div>
       <div class="slide-content">
         <span class="slide-tag">🎓 أكاديمي</span>
-        <h1>مشاريع تخرج اعضاء إيسك <br>المثمرة</h1>
-        <p>إطلع على أخر أخبار اعضاء مجتمع طلاب الهندسة والتحديات التي واجهتهم</p>
+        <h1>مشاريع تخرج أعضاء إيسك<br>المثمرة</h1>
+        <p>إطّلع على آخر أخبار أعضاء مجتمع طلاب الهندسة والتحديات التي واجهتهم.</p>
         <a href="Scientific_contributions.html" class="slide-btn">انتقل للأخبار ←</a>
       </div>
     </div>
@@ -617,17 +484,15 @@ footer {
       <div class="slide-content">
         <span class="slide-tag">📊 دورة مجانية</span>
         <h1>إيسك تطلق الدورات المجانية<br>للجميع</h1>
-        <p>أطلق فريق إيسك اولى دوراته المجانية للهندسة بشكل عام والمدنية بشكل خاص لتعزيز إمكانيات المهندس حديث التخرج داخل السوق العراقي</p>
+        <p>أطلق فريق إيسك أولى دوراته المجانية للهندسة بشكل عام والمدنية بشكل خاص لتعزيز إمكانيات المهندس حديث التخرج.</p>
         <a href="course.html" class="slide-btn">عرض الدورات المتاحة ←</a>
       </div>
     </div>
 
-
-
   </div>
 
-<button class="hero-arrow prev" id="heroNext" aria-label="السابق">&#8249;</button>
-<button class="hero-arrow next" id="heroPrev" aria-label="التالي">&#8250;</button>
+  <button class="hero-arrow prev" id="heroPrev" aria-label="السابق">&#8249;</button>
+  <button class="hero-arrow next" id="heroNext" aria-label="التالي">&#8250;</button>
 
   <div class="hero-dots">
     <button class="hero-dot active" data-index="0"></button>
@@ -656,7 +521,7 @@ footer {
         <div class="thumb-placeholder">📐</div>
         <div class="card-body">
           <div class="card-tag">هندسة مدنية</div>
-          <div class="card-title">أوتوكاد المهندس المدني - صمم خريطتك الأولى</div>
+          <div class="card-title">دورة أوتوكاد المهندس المدني</div>
           <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
         </div>
       </a>
@@ -668,7 +533,7 @@ footer {
         <div class="card-body">
           <div class="card-tag">تقنية</div>
           <div class="card-title">دورة Excel للمبتدئين</div>
-          <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
+          <div class="card-meta"><span class="badge-free">مجاني</span></div>
         </div>
       </a>
 
@@ -679,7 +544,7 @@ footer {
         <div class="card-body">
           <div class="card-tag">عام</div>
           <div class="card-title">اسم الدورة الثالثة</div>
-          <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
+          <div class="card-meta"><span class="badge-free">مجاني</span></div>
         </div>
       </a>
 
@@ -690,7 +555,7 @@ footer {
         <div class="card-body">
           <div class="card-tag">هندسة</div>
           <div class="card-title">اسم الدورة الرابعة</div>
-          <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
+          <div class="card-meta"><span class="badge-free">مجاني</span></div>
         </div>
       </a>
 
@@ -701,7 +566,7 @@ footer {
         <div class="card-body">
           <div class="card-tag">هندسة</div>
           <div class="card-title">اسم الدورة الخامسة</div>
-          <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
+          <div class="card-meta"><span class="badge-free">مجاني</span></div>
         </div>
       </a>
 
@@ -712,7 +577,7 @@ footer {
         <div class="card-body">
           <div class="card-tag">هندسة</div>
           <div class="card-title">اسم الدورة السادسة</div>
-          <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
+          <div class="card-meta"><span class="badge-free">مجاني</span></div>
         </div>
       </a>
 
@@ -723,7 +588,7 @@ footer {
         <div class="card-body">
           <div class="card-tag">عام</div>
           <div class="card-title">اسم الدورة السابعة</div>
-          <div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div>
+          <div class="card-meta"><span class="badge-free">مجاني</span></div>
         </div>
       </a>
 
@@ -735,7 +600,7 @@ footer {
 <section class="scroll-section">
   <div class="section-header">
     <h2>آخر الأخبار</h2>
-    <a href="research.html">عرض الكل</a>
+    <a href="Scientific_contributions.html">عرض الكل</a>
   </div>
   <div class="scroll-track-wrapper">
     <div class="scroll-track">
@@ -771,78 +636,65 @@ footer {
   <h2>فريقنا</h2>
   <div class="team-grid">
 
+    <div class="member-card">
+      <a href="profile/member2.html">
+        <img src="media/member2.jpg" alt="عضو 2" onerror="this.src='media/icon-512.png'">
+      </a>
+      <div class="name">محمد باسم الشيباني</div>
+      <div class="role">مهندس كهرباء والكترونيك</div>
+    </div>
 
-  <!-- عضو 2 -->
-  <div class="member-card">
-    <a href="profile/member2.html">
-      <img src="media/member2.jpg" alt="عضو 2" onerror="this.src='media/icon-512.png'">
-    </a>
-    <div class="name">محمد باسم الشيباني</div>
-    <div class="role">مهندس كهرباء والكترونيك</div>
-  </div>
-
-  <!-- عضو 3 -->
-  <div class="member-card">
-    <a href="profile/member3.html">
-      <img src="media/member3.jpg" alt="عضو 3" onerror="this.src='media/icon-512.png'">
-    </a>
-    <div class="name">علي سعد الأسدي</div>
-    <div class="role">مهندس مدني</div>
-  </div>
+    <div class="member-card">
+      <a href="profile/member3.html">
+        <img src="media/member3.jpg" alt="عضو 3" onerror="this.src='media/icon-512.png'">
+      </a>
+      <div class="name">علي سعد الأسدي</div>
+      <div class="role">مهندس مدني</div>
+    </div>
 
     <div class="member-card">
       <a href="profile/founderprofile.html">
         <img src="media/founder.JPG" alt="المؤسس" onerror="this.src='media/icon-512.png'">
       </a>
-      <div class="name">محمدباقر الجبوري</div>
+      <div class="name">محمد باقر الجبوري</div>
       <div class="role">مهندس مدني</div>
     </div>
 
+    <div class="member-card">
+      <a href="profile/member4.html">
+        <img src="media/member4.jpg" alt="عضو 4" onerror="this.src='media/icon-512.png'">
+      </a>
+      <div class="name">جعفر محمد الحلفي</div>
+      <div class="role">مهندس مدني</div>
+    </div>
 
-  <!-- عضو 4 -->
-  <div class="member-card">
-    <a href="profile/member4.html">
-      <img src="media/member4.jpg" alt="عضو 4" onerror="this.src='media/icon-512.png'">
-    </a>
-    <div class="name">جعفر محمد الحلفي</div>
-    <div class="role">مهندس مدني</div>
+    <div class="member-card">
+      <a href="profile/member5.html">
+        <img src="media/member5.jpg" alt="عضو 5" onerror="this.src='media/icon-512.png'">
+      </a>
+      <div class="name">منتظر ضياء الربيعي</div>
+      <div class="role">مهندس مدني</div>
+    </div>
+
   </div>
 
-  <!-- عضو 5 -->
-  <div class="member-card">
-    <a href="profile/member5.html">
-      <img src="media/member5.jpg" alt="عضو 5" onerror="this.src='media/icon-512.png'">
-    </a>
-    <div class="name">منتظر ضياء الربيعي</div>
-    <div class="role">مهندس مدني</div>
-  </div>
-  </div>
+  <a href="team.html" class="team-see-all">عرض كل الفريق</a>
 </section>
 
 <!-- VISION -->
 <section class="vision-section">
   <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للانسان حتى يحيا من جديد من خلال التعليم.</p>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-
     <div class="footer-brand">
       <img src="media/icon-512.png" alt="شعار ESC">
       <h3>مجتمع طلبة الهندسة</h3>
       <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
     </div>
-
-    <div class="footer-col">
-      <h4> </h4>
-      <ul>
-   
-        
-      </ul>
-    </div>
-
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>
@@ -851,9 +703,7 @@ footer {
         <a href="mailto:contact@esc-iq.com">contact@esc-iq.com</a>
       </p>
     </div>
-
   </div>
-
   <div class="footer-bottom">
     <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
     <span class="esc-mark">ESC</span>
@@ -899,8 +749,8 @@ function resetProgress() {
   progTimer = setTimeout(() => goTo(current + 1), 7000);
 }
 
-document.getElementById('heroPrev').addEventListener('click', () => { clearTimeout(progTimer); goTo(current + 1); });
-document.getElementById('heroNext').addEventListener('click', () => { clearTimeout(progTimer); goTo(current - 1); });
+document.getElementById('heroPrev').addEventListener('click', () => { clearTimeout(progTimer); goTo(current - 1); });
+document.getElementById('heroNext').addEventListener('click', () => { clearTimeout(progTimer); goTo(current + 1); });
 dots.forEach(d => d.addEventListener('click', () => { clearTimeout(progTimer); goTo(+d.dataset.index); }));
 
 const heroSection = document.querySelector('.hero-section');
