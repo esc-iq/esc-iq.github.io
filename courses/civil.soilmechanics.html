@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — Soil Mechanics</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../media/icon-512.png">
+<link rel="apple-touch-icon" href="../media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 12px;
+  --transition: 0.25s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: #111827;
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===================== NAVBAR ===================== */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: var(--blue);
+  position: sticky; top: 0; z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background: rgba(255,255,255,0.18); }
+
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px; background: #fff;
+  display: block; position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px; border-radius: 10px;
+  color: #111827; text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===================== LAYOUT ===================== */
+.container {
+  display: flex;
+  max-width: 1280px;
+  margin: 28px auto 60px;
+  gap: 20px;
+  padding: 0 20px;
+  align-items: flex-start;
+}
+
+/* ===================== PLAYER ===================== */
+.player-section { flex: 3; display: flex; flex-direction: column; gap: 14px; }
+
+.video-wrap {
+  width: 100%; position: relative;
+  padding-top: 56.25%;
+  background: #000;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+.video-wrap iframe {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; border: 0;
+}
+.video-wrap .no-video {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #001a40, #003060);
+  color: rgba(255,255,255,0.5);
+  font-size: 15px; gap: 12px;
+}
+.video-wrap .no-video span { font-size: 40px; }
+
+.video-title {
+  font-size: 20px; font-weight: 700;
+  color: #0d1b2a; direction: ltr;
+  text-align: left; line-height: 1.4;
+}
+
+/* Download box */
+.download-box {
+  display: flex; align-items: center; gap: 14px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--card-radius);
+  padding: 12px 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.dl-icon { font-size: 32px; flex-shrink: 0; }
+.dl-meta { flex: 1; min-width: 0; }
+.dl-title { font-weight: 700; font-size: 14px; color: #0d1b2a; margin-bottom: 3px; direction: ltr; text-align: left; }
+.dl-note { font-size: 12px; color: #888; direction: ltr; text-align: left; }
+.dl-btn {
+  text-decoration: none; font-weight: 700;
+  padding: 10px 20px; border-radius: 10px;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  color: #fff; white-space: nowrap; font-size: 14px;
+  transition: opacity var(--transition);
+}
+.dl-btn:hover { opacity: 0.88; }
+
+/* ===================== PLAYLIST ===================== */
+.playlist-section { flex: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+.quote-box {
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  color: #fff; padding: 14px 16px;
+  border-radius: var(--card-radius);
+  text-align: center;
+}
+.quote-box .quote-text { font-size: 14px; font-weight: 700; line-height: 1.6; margin-bottom: 6px; }
+.quote-box .quote-attr { font-size: 11px; color: rgba(255,255,255,0.7); letter-spacing: 0.5px; }
+
+.playlist-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0,0,0,0.07);
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.playlist-card h3 {
+  font-size: 15px; font-weight: 700; color: #0d1b2a;
+  padding: 14px 16px 10px; border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.playlist-scroll {
+  max-height: calc(100vh - 260px);
+  overflow-y: auto;
+}
+.playlist-scroll::-webkit-scrollbar { width: 4px; }
+.playlist-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+
+.video-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; cursor: pointer;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background var(--transition);
+  direction: ltr; text-align: left;
+}
+.video-item:last-child { border-bottom: none; }
+.video-item:hover { background: #f8f9ff; }
+.video-item.active {
+  background: linear-gradient(90deg, rgba(0,71,171,0.1), rgba(0,128,128,0.08));
+  border-right: 3px solid var(--teal);
+}
+.video-item.exam-item {
+  background: rgba(0,71,171,0.04);
+  border-top: 1px solid rgba(0,71,171,0.15);
+}
+.video-item.exam-item.active {
+  background: linear-gradient(90deg, rgba(0,71,171,0.15), rgba(0,128,128,0.1));
+}
+
+.item-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(0,71,171,0.08);
+  color: var(--blue);
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.video-item.active .item-num {
+  background: var(--teal); color: #fff;
+}
+.video-item.exam-item .item-num {
+  background: var(--blue); color: #fff;
+}
+.item-title { font-size: 13px; font-weight: 700; color: #0d1b2a; line-height: 1.4; }
+.video-item.active .item-title { color: var(--blue); }
+
+/* ===================== QUIZ OVERLAY ===================== */
+#quizOverlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 2000;
+  overflow-y: auto;
+  padding: 30px 16px;
+}
+.quiz-modal {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+.quiz-modal h2 {
+  font-size: 22px; font-weight: 700;
+  color: var(--blue); margin-bottom: 8px;
+  text-align: center;
+}
+.quiz-modal .quiz-sub {
+  font-size: 14px; color: #666;
+  text-align: center; margin-bottom: 28px;
+}
+
+.question-block { margin-bottom: 28px; }
+.question-text {
+  font-size: 15px; font-weight: 700;
+  color: #0d1b2a; margin-bottom: 12px;
+  direction: ltr; text-align: left; line-height: 1.5;
+}
+.option-label {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 10px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  cursor: pointer; margin-bottom: 8px;
+  transition: border-color var(--transition), background var(--transition);
+  direction: ltr; text-align: left;
+  font-size: 14px; color: #374151;
+}
+.option-label:hover { border-color: var(--blue); background: rgba(0,71,171,0.04); }
+.option-label input { accent-color: var(--blue); }
+.option-label.correct { border-color: var(--teal); background: rgba(0,128,128,0.07); color: #005050; }
+.option-label.wrong   { border-color: #e53e3e; background: rgba(229,62,62,0.06); color: #c53030; }
+
+.quiz-divider { height: 1px; background: rgba(0,0,0,0.07); margin: 20px 0; }
+
+.quiz-submit-btn {
+  display: block; width: 100%;
+  padding: 14px; border: none;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  color: #fff; font-family: 'Ubuntu', sans-serif;
+  font-size: 16px; font-weight: 700;
+  border-radius: 12px; cursor: pointer;
+  transition: opacity var(--transition);
+}
+.quiz-submit-btn:hover { opacity: 0.88; }
+.quiz-close-btn {
+  display: block; width: 100%;
+  padding: 12px; border: 1.5px solid rgba(0,0,0,0.15);
+  background: transparent;
+  color: #555; font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; font-weight: 700;
+  border-radius: 12px; cursor: pointer; margin-top: 10px;
+  transition: background var(--transition);
+}
+.quiz-close-btn:hover { background: #f3f4f6; }
+
+/* Result panel */
+.result-panel {
+  display: none;
+  text-align: center; padding: 20px 0;
+}
+.result-score {
+  font-size: 52px; font-weight: 700;
+  color: var(--blue); line-height: 1;
+  margin-bottom: 8px;
+}
+.result-msg { font-size: 16px; color: #555; margin-bottom: 24px; }
+.result-msg.pass { color: var(--teal); font-weight: 700; }
+.result-msg.fail { color: #c53030; font-weight: 700; }
+
+/* Cert form */
+.cert-form { display: none; }
+.cert-form h3 {
+  font-size: 18px; font-weight: 700;
+  color: #0d1b2a; margin-bottom: 16px;
+  text-align: center;
+}
+.cert-input {
+  width: 100%; padding: 12px 16px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; border-radius: 10px;
+  border: 1.5px solid rgba(0,0,0,0.15);
+  outline: none; margin-bottom: 12px;
+  transition: border-color var(--transition);
+  direction: ltr; text-align: left;
+}
+.cert-input:focus { border-color: var(--blue); }
+.cert-send-btn {
+  display: block; width: 100%;
+  padding: 13px; border: none;
+  background: linear-gradient(90deg, var(--teal), var(--blue));
+  color: #fff; font-family: 'Ubuntu', sans-serif;
+  font-size: 15px; font-weight: 700;
+  border-radius: 12px; cursor: pointer;
+  transition: opacity var(--transition);
+}
+.cert-send-btn:hover { opacity: 0.88; }
+
+/* ===================== VISION + FOOTER ===================== */
+.vision-section {
+  background: var(--blue); padding: 20px 30px; text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
+}
+
+footer {
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img {
+  width: 54px; height: 54px;
+  border-radius: 12px; margin-bottom: 14px; object-fit: cover;
+}
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark {
+  font-size: 24px; font-weight: 700;
+  color: rgba(255,255,255,0.1); letter-spacing: 4px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+  .container { flex-direction: column; }
+  .playlist-scroll { max-height: 320px; }
+}
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .container { padding: 0 12px; margin-top: 16px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .quiz-modal { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="../media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="../faq.html">الأسئلة الشائعة</a>
+    <a href="../course.html">الدروس الأكاديمية</a>
+    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="../research.html">الأبحاث</a>
+    <a href="../volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="../course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="../research.html">الأبحاث</a>
+    <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- MAIN CONTAINER -->
+<div class="container">
+
+  <!-- PLAYER -->
+  <div class="player-section">
+    <div class="video-wrap">
+      <iframe id="ytPlayer" src="" title="Soil Mechanics Lecture"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+      <div class="no-video" id="noVideo">
+        <span>🎬</span>
+        اختر محاضرة من القائمة للبدء
+      </div>
+    </div>
+
+    <div id="videoTitle" class="video-title">Select a lecture from the playlist</div>
+
+    <div class="download-box">
+      <div class="dl-icon">📄</div>
+      <div class="dl-meta">
+        <div class="dl-title" id="dlTitle">Lecture File</div>
+        <div class="dl-note" id="dlNote">Select a lecture to load its file</div>
+      </div>
+      <a id="downloadLink" class="dl-btn" href="#" download>⬇ تحميل</a>
+    </div>
+  </div>
+
+  <!-- PLAYLIST -->
+  <div class="playlist-section">
+
+    <div class="quote-box">
+      <div class="quote-text">ليس الفتى من قال كان أبي،<br>بل من قال ها أنا ذا</div>
+      <div class="quote-attr">— الإمام علي بن أبي طالب (ع)</div>
+    </div>
+
+    <div class="playlist-card">
+      <h3>📚 Course Lectures</h3>
+      <div class="playlist-scroll">
+        <div id="playlistItems"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- QUIZ OVERLAY -->
+<div id="quizOverlay">
+  <div class="quiz-modal">
+    <h2>🎓 Final Exam — Soil Mechanics</h2>
+    <p class="quiz-sub">أجب على الأسئلة التالية. تحتاج إلى 60% للنجاح والحصول على شهادتك.</p>
+
+    <div id="questionsContainer"></div>
+
+    <div id="submitArea">
+      <button class="quiz-submit-btn" onclick="submitQuiz()">✅ أكملت إجاباتي</button>
+      <button class="quiz-close-btn" onclick="closeQuiz()">إغلاق</button>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+      <div class="result-score" id="resultScore">--</div>
+      <div class="result-msg" id="resultMsg"></div>
+    </div>
+
+    <div class="cert-form" id="certForm">
+      <div class="quiz-divider"></div>
+      <h3>🏅 احصل على شهادتك</h3>
+      <input type="text" id="certName" class="cert-input" placeholder="Your full name in English (e.g. Mohammed Baqir)">
+      <input type="email" id="certEmail" class="cert-input" placeholder="Your email address">
+      <button class="cert-send-btn" onclick="sendCertificate()">📧 إرسال طلب الشهادة</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- VISION -->
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="../media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>
+        هل لديك سؤال أو مقترح؟<br>
+        يسعدنا التواصل معك.<br><br>
+        <a href="mailto:contact@esc-iq.com">contact@esc-iq.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+/* =========================================
+   COURSE DATA
+   ========================================= */
+const lectures = [
+  { title:'Lecture 1: Introduction to Soil Mechanics', url:'', file:'media/files/lecture1.pdf' },
+  { title:'Lecture 2: Particle Size and Gradation',    url:'', file:'media/files/lecture2.pdf' },
+  { title:'Lecture 3: Phase Diagram',                  url:'', file:'media/files/lecture3.pdf' },
+  { title:'Lecture 4: Fine-Grained Soil Indicators',   url:'', file:'media/files/lecture4.pdf' },
+  { title:'Lecture 5: Soil Classification',            url:'', file:'media/files/lecture5.pdf' },
+  { title:'Lecture 6: Soil Compaction',                url:'', file:'media/files/lecture6.pdf' },
+  { title:'Lecture 7: Soil Permeability',              url:'', file:'media/files/lecture7.pdf' },
+  { title:'Lecture 8: No Flow - Geostatic Stresses',   url:'', file:'media/files/lecture8.pdf' },
+  { title:'Lecture 9: One-Dimensional Flow',           url:'', file:'media/files/lecture9.pdf' },
+  { title:'Lecture 10: One-Dimensional Flow Part 2',   url:'', file:'media/files/lecture10.pdf' },
+  { title:'Lecture 11: 2D Flow',                       url:'', file:'media/files/lecture11.pdf' },
+  { title:'Lecture 12: Stresses Within Soil Mass',     url:'', file:'media/files/lecture12.pdf' },
+  { title:'Lecture 13: One-Dim. Consolidation',        url:'', file:'media/files/lecture13.pdf' },
+  { title:'Lecture 14: One-Dim. Consolidation Pt. 2',  url:'', file:'media/files/lecture14.pdf' },
+  { title:'Lecture 15: Mohr Circle',                   url:'', file:'media/files/lecture15.pdf' },
+  { title:'Lecture 16: Shear Strength',                url:'', file:'media/files/lecture16.pdf' },
+];
+
+/* =========================================
+   QUIZ QUESTIONS (30 questions, 3 options each)
+   ========================================= */
+const quizQuestions = [
+  { q:"What is soil mechanics primarily concerned with?", options:["Behavior of soil under load","Study of rocks","Design of steel structures"], answer:0 },
+  { q:"Which sieve size defines gravel vs sand?", options:["4.75 mm","0.075 mm","0.425 mm"], answer:0 },
+  { q:"The phase diagram of soil includes:", options:["Solid, Water, Air","Solid, Liquid, Gas, Plasma","Organic, Inorganic, Water"], answer:0 },
+  { q:"Atterberg limits apply to:", options:["Fine-grained soils","Coarse-grained soils","Rocks"], answer:0 },
+  { q:"The Unified Soil Classification System (USCS) uses:", options:["Letter symbols","Numbers only","Color codes"], answer:0 },
+  { q:"Standard Proctor compaction test uses a hammer of:", options:["5.5 lb","10 lb","2.5 kg"], answer:0 },
+  { q:"Darcy's law relates flow velocity to:", options:["Hydraulic gradient","Normal stress","Shear strength"], answer:0 },
+  { q:"Geostatic vertical stress increases with:", options:["Depth","Time","Temperature"], answer:0 },
+  { q:"Seepage force per unit volume equals:", options:["γw × i","γw × e","σ × i"], answer:0 },
+  { q:"A flow net consists of:", options:["Flow lines and equipotential lines","Only flow lines","Only pressure lines"], answer:0 },
+  { q:"The 2:1 method is used to estimate:", options:["Stress distribution with depth","Permeability","Compaction energy"], answer:0 },
+  { q:"Consolidation is the process of:", options:["Gradual expulsion of water under load","Immediate settlement","Shear failure"], answer:0 },
+  { q:"The coefficient of consolidation (cv) controls:", options:["Rate of consolidation","Amount of settlement","Shear strength"], answer:0 },
+  { q:"On a Mohr circle, the center is located at:", options:["(σ1+σ3)/2","(σ1-σ3)/2","σ1×σ3"], answer:0 },
+  { q:"Shear strength of soil is given by:", options:["τ = c + σ tanφ","τ = σ/c","τ = φ × c"], answer:0 },
+  { q:"Effective stress equals:", options:["Total stress minus pore water pressure","Total stress plus pore pressure","Unit weight times depth"], answer:0 },
+  { q:"A well-graded soil has:", options:["Wide range of particle sizes","Uniform particle size","High plasticity"], answer:0 },
+  { q:"The plastic limit is defined as:", options:["Moisture content at which soil rolls to 3mm threads","Moisture content at liquid state","Moisture content at zero volume"], answer:0 },
+  { q:"Relative density is used for:", options:["Granular soils","Cohesive soils","Organic soils"], answer:0 },
+  { q:"The coefficient of permeability has units of:", options:["m/s or cm/s","m²/s","Pa/s"], answer:0 },
+  { q:"Capillary rise in soil is inversely proportional to:", options:["Particle size","Particle shape","Unit weight"], answer:0 },
+  { q:"The compression index (Cc) is obtained from:", options:["e-log σ' curve slope","Grain size curve","Compaction curve"], answer:0 },
+  { q:"Normally consolidated clay means:", options:["Current stress = past max stress","Current stress < past max stress","Overconsolidation ratio > 1"], answer:0 },
+  { q:"The angle of internal friction (φ) is zero for:", options:["Saturated undrained clay (φu=0)","Sand","Gravel"], answer:0 },
+  { q:"Quick sand condition occurs when:", options:["Upward seepage force equals submerged weight","Soil is fully dry","Compaction is too high"], answer:0 },
+  { q:"The liquid limit is determined using the:", options:["Casagrande cup","Standard Proctor mold","Hydrometer"], answer:0 },
+  { q:"Preconsolidation pressure is determined from:", options:["Casagrande construction on e-log σ' plot","Standard penetration test","Direct shear test"], answer:0 },
+  { q:"In a direct shear test, failure occurs along:", options:["A predetermined horizontal plane","The weakest plane","A vertical plane"], answer:0 },
+  { q:"The void ratio (e) is defined as:", options:["Volume of voids / Volume of solids","Volume of voids / Total volume","Mass of water / Mass of solids"], answer:0 },
+  { q:"Degree of saturation of 100% means:", options:["All voids filled with water","Soil is dry","50% voids filled"], answer:0 },
+];
+
+/* =========================================
+   PLAYER LOGIC
+   ========================================= */
+let currentIndex = -1;
+
+function buildPlaylist() {
+  const container = document.getElementById('playlistItems');
+  container.innerHTML = '';
+
+  lectures.forEach((lec, i) => {
+    const item = document.createElement('div');
+    item.className = 'video-item';
+    item.dataset.index = i;
+    item.innerHTML = `
+      <div class="item-num">${i+1}</div>
+      <div class="item-title">${lec.title}</div>
+    `;
+    item.addEventListener('click', () => loadLecture(i));
+    container.appendChild(item);
+  });
+
+  // Exam item
+  const examItem = document.createElement('div');
+  examItem.className = 'video-item exam-item';
+  examItem.dataset.index = 'exam';
+  examItem.innerHTML = `
+    <div class="item-num" style="background:var(--blue);color:#fff;">📝</div>
+    <div class="item-title" style="color:var(--blue);font-weight:700;">الاختبار النهائي</div>
+  `;
+  examItem.addEventListener('click', openQuiz);
+  container.appendChild(examItem);
+}
+
+function loadLecture(index) {
+  currentIndex = index;
+  const lec = lectures[index];
+
+  // Update active state
+  document.querySelectorAll('.video-item').forEach(el => {
+    el.classList.toggle('active', Number(el.dataset.index) === index);
+  });
+
+  // Load video
+  const player = document.getElementById('ytPlayer');
+  const noVideo = document.getElementById('noVideo');
+
+  if (lec.url) {
+    player.src = lec.url;
+    player.style.display = 'block';
+    noVideo.style.display = 'none';
+  } else {
+    player.src = '';
+    player.style.display = 'none';
+    noVideo.style.display = 'flex';
+  }
+
+  document.getElementById('videoTitle').textContent = lec.title;
+  document.getElementById('dlTitle').textContent = lec.title;
+  document.getElementById('dlNote').textContent = lec.file ? lec.file.split('/').pop() : 'No file available';
+  const dl = document.getElementById('downloadLink');
+  dl.href = lec.file || '#';
+  dl.setAttribute('download', lec.file ? lec.file.split('/').pop() : '');
+}
+
+/* =========================================
+   QUIZ LOGIC
+   ========================================= */
+function buildQuiz() {
+  const container = document.getElementById('questionsContainer');
+  container.innerHTML = '';
+  quizQuestions.forEach((q, qi) => {
+    const block = document.createElement('div');
+    block.className = 'question-block';
+    let optHtml = q.options.map((opt, oi) => `
+      <label class="option-label" id="lbl_${qi}_${oi}">
+        <input type="radio" name="q${qi}" value="${oi}"> ${opt}
+      </label>
+    `).join('');
+    block.innerHTML = `
+      <div class="question-text">Q${qi+1}. ${q.q}</div>
+      ${optHtml}
+    `;
+    container.appendChild(block);
+    if (qi < quizQuestions.length - 1) {
+      const div = document.createElement('div');
+      div.className = 'quiz-divider';
+      container.appendChild(div);
+    }
+  });
+}
+
+function openQuiz() {
+  buildQuiz();
+  document.getElementById('quizOverlay').style.display = 'block';
+  document.getElementById('submitArea').style.display = 'block';
+  document.getElementById('resultPanel').style.display = 'none';
+  document.getElementById('certForm').style.display = 'none';
+  document.body.style.overflow = 'hidden';
+
+  // Deactivate exam item highlight
+  document.querySelectorAll('.video-item').forEach(el => el.classList.remove('active'));
+}
+
+function closeQuiz() {
+  document.getElementById('quizOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function encodeScore(score) {
+  /* تشفير بدائي: 3 أرقام عشوائية + درجة الطالب + حروف عشوائية + رقم عشوائي
+     مثال: درجة 73 → JHv273nOik5-vwq2v3
+     الأرقام المهمة: الموضع 7 و 8 (index 6,7 في السلسلة)
+     القيمة الحقيقية = score */
+  const prefix = 'JHv';
+  const fakeA  = String(Math.floor(Math.random()*9)+1);
+  const fakeB  = String(Math.floor(Math.random()*9)+1);
+  const fakeC  = String(Math.floor(Math.random()*9)+1);
+  const suffix = 'nOik5-vwq2v3';
+  // درجة الطالب مضمنة كـ رقمين بعد 3 أرقام تمويه
+  const s = String(score).padStart(2,'0');
+  return `${prefix}${fakeA}${fakeB}${fakeC}${s}${suffix}`;
+}
+
+function submitQuiz() {
+  let correct = 0;
+  quizQuestions.forEach((q, qi) => {
+    const selected = document.querySelector(`input[name="q${qi}"]:checked`);
+    const val = selected ? parseInt(selected.value) : -1;
+    q.options.forEach((_, oi) => {
+      const lbl = document.getElementById(`lbl_${qi}_${oi}`);
+      if (lbl) {
+        if (oi === q.answer) lbl.classList.add('correct');
+        else if (oi === val && val !== q.answer) lbl.classList.add('wrong');
+        const inp = lbl.querySelector('input');
+        if (inp) inp.disabled = true;
+      }
+    });
+    if (val === q.answer) correct++;
+  });
+
+  const pct = Math.round((correct / quizQuestions.length) * 100);
+
+  document.getElementById('submitArea').style.display = 'none';
+  const rp = document.getElementById('resultPanel');
+  rp.style.display = 'block';
+  document.getElementById('resultScore').textContent = `${pct}%`;
+
+  const msg = document.getElementById('resultMsg');
+  if (pct >= 60) {
+    msg.textContent = `🎉 مبروك! لقد اجتزت الاختبار بنجاح (${correct}/${quizQuestions.length} إجابة صحيحة)`;
+    msg.className = 'result-msg pass';
+    setTimeout(() => {
+      document.getElementById('certForm').style.display = 'block';
+    }, 600);
+  } else {
+    msg.textContent = `لم تصل إلى حد النجاح (${correct}/${quizQuestions.length}). يمكنك إعادة المحاولة بعد مراجعة المحاضرات.`;
+    msg.className = 'result-msg fail';
+    setTimeout(() => {
+      const retry = document.createElement('button');
+      retry.className = 'quiz-close-btn';
+      retry.textContent = '🔄 إعادة الاختبار';
+      retry.style.marginTop = '14px';
+      retry.onclick = openQuiz;
+      rp.appendChild(retry);
+    }, 400);
+  }
+
+  window._quizScore = pct;
+}
+
+function sendCertificate() {
+  const name  = document.getElementById('certName').value.trim();
+  const email = document.getElementById('certEmail').value.trim();
+
+  if (!name || !email) {
+    alert('الرجاء إدخال الاسم والبريد الإلكتروني.');
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('الرجاء إدخال بريد إلكتروني صحيح.');
+    return;
+  }
+
+  const score   = window._quizScore || 0;
+  const encoded = encodeScore(score);
+  const to      = 'serverkings04@gmail.com';
+
+  const subject = encodeURIComponent(`Certificate Request — Soil Mechanics`);
+  const body    = encodeURIComponent(
+    `Student Name: ${name}\n` +
+    `Email: ${email}\n\n` +
+    `--- Verification ---\n` +
+    `ID No. : ${encoded}\n`
+  );
+
+  window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+}
+
+/* =========================================
+   MOBILE MENU
+   ========================================= */
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop   = document.getElementById('menuBackdrop');
+const openMenu   = () => { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeMenu2 = () => { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu2() : openMenu(); });
+backdrop.addEventListener('click', closeMenu2);
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeMenu2(); closeQuiz(); } });
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu2));
+window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu2(); });
+
+/* Init */
+document.addEventListener('DOMContentLoaded', buildPlaylist);
+</script>
+
+</body>
+</html>
