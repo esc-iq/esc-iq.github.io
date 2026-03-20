@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الفريق - ESC</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 12px;
+  --transition: 0.3s ease;
+  --text-dark: #0d1b2a;
+  --text-light: #555;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky; top: 0; z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px; background: #fff;
+  display: block; position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px; border-radius: 10px;
+  color: var(--text-dark); text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===== PAGE HERO ===== */
+.page-hero {
+  background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
+  padding: 52px 40px;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; top: -80px; left: -80px;
+  width: 380px; height: 380px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.1), transparent 70%);
+  pointer-events: none;
+}
+.page-hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(6px); color: #fff;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+  position: relative; z-index: 1;
+}
+.page-hero h1 {
+  font-size: clamp(24px, 3vw, 38px);
+  font-weight: 700; color: #fff; line-height: 1.3;
+  position: relative; z-index: 1;
+}
+
+/* ===== MAIN ===== */
+main { flex: 1; }
+
+.page-content {
+  max-width: 1100px;
+  margin: 48px auto 64px;
+  padding: 0 24px;
+}
+
+/* ===== SECTION HEADER ===== */
+.section-header {
+  display: flex; align-items: center;
+  gap: 14px; margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid rgba(0,0,0,0.07);
+}
+.section-header .section-bar {
+  width: 5px; height: 36px;
+  background: var(--teal); border-radius: 3px;
+  flex-shrink: 0;
+}
+.section-header h2 {
+  font-size: 22px; font-weight: 700; color: var(--text-dark);
+}
+.section-header .section-count {
+  font-size: 13px; font-weight: 700;
+  color: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.06);
+  padding: 3px 10px; border-radius: 20px;
+  margin-right: auto;
+}
+
+/* ===== TEAM GRID ===== */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 64px;
+}
+
+/* ===== MEMBER CARD ===== */
+.member-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+  cursor: pointer;
+}
+.member-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 36px rgba(0,71,171,0.14);
+  border-color: rgba(0,71,171,0.2);
+}
+
+.member-photo-wrap {
+  position: relative;
+  width: 100%; padding-top: 100%; /* square */
+  overflow: hidden;
+  background: linear-gradient(135deg, #003060, #006060);
+}
+.member-photo {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; display: block;
+  transition: transform 0.5s ease;
+}
+.member-card:hover .member-photo { transform: scale(1.06); }
+
+.member-photo-placeholder {
+  position: absolute; inset: 0;
+  display: none;
+  align-items: center; justify-content: center;
+  font-size: 52px;
+  background: linear-gradient(135deg, #003060, #006060);
+}
+
+/* Overlay on hover */
+.member-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,71,171,0.7) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity var(--transition);
+  display: flex; align-items: flex-end;
+  padding: 16px;
+}
+.member-card:hover .member-overlay { opacity: 1; }
+.overlay-cta {
+  color: #fff; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; gap: 6px;
+}
+
+.member-info {
+  padding: 16px;
+  flex: 1; display: flex; flex-direction: column; gap: 4px;
+}
+.member-name {
+  font-size: 15px; font-weight: 700; color: var(--text-dark);
+  line-height: 1.3;
+}
+.member-role {
+  font-size: 12px; color: var(--teal);
+  font-weight: 700; letter-spacing: 0.3px;
+}
+.member-dept {
+  font-size: 11px; color: rgba(0,0,0,0.35);
+  font-weight: 700; margin-top: 2px;
+}
+
+/* ===== VISION ===== */
+.vision-section {
+  background: var(--blue); padding: 20px 30px; text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark {
+  font-size: 24px; font-weight: 700;
+  color: rgba(255,255,255,0.1); letter-spacing: 4px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1000px) {
+  .team-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 700px) {
+  .team-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+}
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .page-hero { padding: 36px 20px; }
+  .page-content { padding: 0 16px; margin-top: 32px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 420px) {
+  .team-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدروس الأكاديمية</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <span class="page-hero-tag">👥 الفريق</span>
+  <h1>تعرّف على فريق مجتمع طلبة الهندسة</h1>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="page-content">
+
+    <!-- ===== قسم الهندسة المدنية ===== -->
+    <div class="section-header">
+      <div class="section-bar"></div>
+      <h2>فريق الهندسة المدنية</h2>
+      <span class="section-count">4 أعضاء</span>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- المؤسس -->
+      <a href="profile/founderprofile.html" class="member-card">
+        <div class="member-photo-wrap">
+          <img src="media/founder.JPG" alt="محمد باقر الجبوري" class="member-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="member-photo-placeholder">👤</div>
+          <div class="member-overlay">
+            <span class="overlay-cta">عرض الملف ←</span>
+          </div>
+        </div>
+        <div class="member-info">
+          <div class="member-name">محمد باقر الجبوري</div>
+          <div class="member-role">المؤسس والرئيس التنفيذي</div>
+          <div class="member-dept">هندسة مدنية — جيوتقنية</div>
+        </div>
+      </a>
+
+      <!-- باحث 3 -->
+      <a href="profile/member3.html" class="member-card">
+        <div class="member-photo-wrap">
+          <img src="media/member3.jpg" alt="علي سعد الأسدي" class="member-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="member-photo-placeholder">👤</div>
+          <div class="member-overlay">
+            <span class="overlay-cta">عرض الملف ←</span>
+          </div>
+        </div>
+        <div class="member-info">
+          <div class="member-name">علي سعد الأسدي</div>
+          <div class="member-role">باحث الفريق</div>
+          <div class="member-dept">هندسة مدنية</div>
+        </div>
+      </a>
+
+      <!-- باحث 4 -->
+      <a href="profile/member4.html" class="member-card">
+        <div class="member-photo-wrap">
+          <img src="media/jaffer.JPG" alt="جعفر محمد الحلفي" class="member-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="member-photo-placeholder">👤</div>
+          <div class="member-overlay">
+            <span class="overlay-cta">عرض الملف ←</span>
+          </div>
+        </div>
+        <div class="member-info">
+          <div class="member-name">جعفر محمد الحلفي</div>
+          <div class="member-role">باحث الفريق</div>
+          <div class="member-dept">هندسة مدنية</div>
+        </div>
+      </a>
+
+      <!-- باحث 5 -->
+      <a href="profile/member5.html" class="member-card">
+        <div class="member-photo-wrap">
+          <img src="media/member5.jpg" alt="منتظر ضياء الربيعي" class="member-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="member-photo-placeholder">👤</div>
+          <div class="member-overlay">
+            <span class="overlay-cta">عرض الملف ←</span>
+          </div>
+        </div>
+        <div class="member-info">
+          <div class="member-name">منتظر ضياء الربيعي</div>
+          <div class="member-role">باحث الفريق</div>
+          <div class="member-dept">هندسة مدنية</div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ===== قسم الهندسة الكهربائية ===== -->
+    <div class="section-header">
+      <div class="section-bar" style="background: var(--blue);"></div>
+      <h2>فريق الهندسة الكهربائية والإلكترونيك</h2>
+      <span class="section-count">1 باحث</span>
+    </div>
+
+    <div class="team-grid">
+
+      <!-- باحث 2 -->
+      <a href="profile/member2.html" class="member-card">
+        <div class="member-photo-wrap">
+          <img src="media/member2.jpg" alt="محمد باسم الشيباني" class="member-photo"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="member-photo-placeholder">👤</div>
+          <div class="member-overlay">
+            <span class="overlay-cta">عرض الملف ←</span>
+          </div>
+        </div>
+        <div class="member-info">
+          <div class="member-name">محمد باسم الشيباني</div>
+          <div class="member-role">مسؤول فريق الإلكترونيك</div>
+          <div class="member-dept">هندسة كهرباء والكترونيك</div>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+</main>
+
+<!-- VISION -->
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc-irq@gmail.com">esc-irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script>
+var menuBtn = document.getElementById('menuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+var backdrop = document.getElementById('menuBackdrop');
+function openMenu() { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeMenu() { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn.addEventListener('click', function(e) { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('click', function(e) { if(!mobileMenu.contains(e.target) && e.target !== menuBtn) closeMenu(); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
+</script>
+
+</body>
+</html>
