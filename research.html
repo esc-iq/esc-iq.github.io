@@ -1,868 +1,757 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="format-detection" content="telephone=no,date=no,address=no,email=no" />
-<title>ESC. — Research</title>
-<link rel="icon" href="media/favicon.png" type="image/png" />
-
-<!-- ✅ ربط خط Baloo Bhaijaan 2 من Google Fonts -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
+<title>ESC — الأبحاث</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
+/* ===================== VARIABLES ===================== */
+:root {
   --nav-height: 58px;
-  --nav-pad-x: 20px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
 }
 
-body{
-  font-family:'Ubuntu', sans-serif;
-  background:#FAF9F6;
-  margin:0;
-  padding:0;
-  color:#111827;
-  direction:rtl;
-  text-align:right;
-  overflow-x:hidden;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: #111827;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* =========================
-   NAVBAR (ثابت الارتفاع)
-   ========================= */
-#bar{
-  height:var(--nav-height);
-  min-height:var(--nav-height);
-  box-sizing:border-box;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 var(--nav-pad-x);
-  background-color:#0047AB;
-
-  position:sticky;
-  top:0;
-  z-index:1000;
-
-  direction:ltr;
+/* ===================== NAVBAR ===================== */
+#bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
 }
-
-#bar .logo{
-  font-size:35px;
-  font-weight:700;
-  color:#FAF9F6;
-  text-decoration:none;
-  cursor:pointer;
-  user-select:none;
-  line-height:1;
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  transition: background-color var(--transition);
+  white-space: nowrap;
 }
-#bar .logo:hover{opacity:0.9;}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+#bar nav a.active { background-color: rgba(255,255,255,0.22); }
 
-#bar nav{
-  display:flex;
-  gap:16px;              /* ✅ نفس تباعد صفحة الكورسات */
-  flex-wrap:wrap;
-  align-items:center;
+.menu-btn {
+  display: none;
+  height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
 }
-#bar nav a{
-  color:#FAF9F6;
-  text-decoration:none;
-  font-weight:700;
-  padding:8px 12px;
-  border-radius:10px;
-  transition:background-color 0.2s;
-  line-height:1;
-  white-space:nowrap;
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px;
+  background: #fff; display: block;
+  position: relative; margin: auto;
 }
-#bar nav a:hover{background-color:rgba(255,255,255,0.2);}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
 
-/* Mobile button */
-.menu-btn{
-  display:none;
-  height:42px;
-  width:42px;
-  padding:0;
-  border:0;
-  background:transparent;
-  cursor:pointer;
-  border-radius:10px;
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
 }
-.menu-btn:hover{background:rgba(255,255,255,0.18);}
+#menuBackdrop.show { display: block; }
 
-.menu-icon{
-  width:24px;
-  height:2px;
-  background:#fff;
-  display:block;
-  position:relative;
-  margin:auto;
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98);
+  opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
 }
-.menu-icon::before,
-.menu-icon::after{
-  content:"";
-  position:absolute;
-  left:0;
-  width:24px;
-  height:2px;
-  background:#fff;
-  transition:transform .18s ease, top .18s ease, opacity .18s ease;
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px;
+  border-radius: 10px; color: #111827;
+  text-decoration: none; font-weight: 700;
+  white-space: nowrap;
 }
-.menu-icon::before{top:-7px;}
-.menu-icon::after{top:7px;}
+.mobile-menu a:hover { background: #f3f4f6; }
 
-.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
-.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
-.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
+/* ===================== MAIN CONTENT ===================== */
+main { flex: 1; }
 
-#menuBackdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  z-index:999;
-}
-#menuBackdrop.show{display:block;}
-
-.mobile-menu{
-  display:none;
-  position:absolute;
-  right:16px;
-  top:calc(var(--nav-height) + 8px);
-  min-width:240px;
-  background:#fff;
-  color:#111827;
-  border-radius:14px;
-  padding:8px;
-  box-shadow:0 14px 35px rgba(0,0,0,0.22);
-  border:1px solid rgba(0,0,0,0.06);
-  z-index:1001;
-
-  direction:rtl;
-  text-align:right;
-
-  transform-origin:top right;
-  transform:translateY(-6px) scale(0.98);
-  opacity:0;
-  transition:opacity .14s ease, transform .14s ease;
-}
-.mobile-menu.open{
-  display:block;
-  opacity:1;
-  transform:translateY(0) scale(1);
-}
-.mobile-menu a{
-  display:block;
-  padding:11px 12px;
-  border-radius:10px;
-  color:#111827;
-  text-decoration:none;
-  font-weight:800;
-  white-space:nowrap;
-}
-.mobile-menu a:hover{background:#f3f4f6;}
-
-/* =========================
-   Page layout
-   ========================= */
-.page{
-  max-width:1100px;
-  margin:24px auto 30px;
-  padding:0 16px;
-  box-sizing:border-box;
+.page {
+  max-width: 1100px;
+  margin: 24px auto 30px;
+  padding: 0 16px;
 }
 
-.top-row{
-  direction:ltr;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-  margin:10px 0 14px;
+.top-row {
+  direction: ltr;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+}
+.top-row .verify-btn { width: 165px; }
+.top-row .search-wrap { flex: 1; }
+
+.verify-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 16px;
+  border-radius: 8px;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  border: none;
+  transition: background var(--transition);
+  white-space: nowrap;
+}
+.verify-btn:hover { background: #0059d4; }
+
+.search-wrap {
+  flex: 1; min-width: 260px;
+  position: relative; display: flex; align-items: center;
+}
+.search-input {
+  width: 100%; height: 40px;
+  padding: 0 44px 0 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(107,114,128,0.1);
+  outline: none; color: #111827;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 14px;
+  direction: ltr; text-align: left;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.search-input::placeholder { color: rgba(17,24,39,0.45); font-weight: 400; }
+.search-input:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0,71,171,0.1);
+}
+.search-icon {
+  position: absolute; right: 12px;
+  pointer-events: none; opacity: 0.55;
+  display: flex; align-items: center;
+}
+.search-icon svg { width: 18px; height: 18px; }
+
+.filter-toggle {
+  display: none; width: 100%; height: 44px;
+  border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
+  background: #fff; color: #111827;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; cursor: pointer;
+  direction: rtl; text-align: right;
+  padding: 0 14px;
+  align-items: center; justify-content: space-between;
+}
+.filter-toggle .icon { display: inline-flex; align-items: center; opacity: 0.7; }
+.filter-toggle svg { width: 18px; height: 18px; }
+
+.layout {
+  direction: ltr;
+  display: flex; gap: 16px; align-items: flex-start;
 }
 
-.verify-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:10px 16px;
-  border-radius:8px;
-  background:#1a73e8;
-  color:#fff;
-  text-decoration:none;
-  font-weight:700;
-  border:1px solid rgba(0,0,0,0.08);
-  transition:filter .15s ease;
-  white-space:nowrap;
+.filters {
+  width: 190px; background: #fff;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 12px; padding: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-.verify-btn:hover{filter:brightness(0.95);}
-
-/* Search */
-.search-wrap{
-  flex:1;
-  min-width:260px;
-  position:relative;
-  display:flex;
-  align-items:center;
+.filters h3 {
+  margin: 0 0 10px; font-size: 11px;
+  color: rgba(0,0,0,0.4); font-weight: 700;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  text-align: left;
 }
-.search-input{
-  width:100%;
-  height:40px;
-  padding:0 44px 0 14px;
-  border-radius:10px;
-  border:1px solid rgba(0,0,0,0.12);
-  background:rgba(107,114,128,0.12);
-  outline:none;
-  color:#111827;
-  font-weight:700;
-  box-sizing:border-box;
-  direction:ltr;
-  text-align:left;
+.year-list { display: flex; flex-direction: column; gap: 5px; }
+.year-btn {
+  appearance: none;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: #fff; border-radius: 8px;
+  padding: 9px 10px; cursor: pointer; text-align: left;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 13px; color: #111827;
+  transition: background var(--transition), border-color var(--transition);
 }
-.search-input::placeholder{
-  color:rgba(17,24,39,0.55);
-  font-weight:700;
-}
-.search-icon{
-  position:absolute;
-  right:12px;
-  pointer-events:none;
-  opacity:0.65;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.search-icon svg{width:18px;height:18px;}
-
-/* Mobile filter toggle */
-.filter-toggle{
-  display:none;
-  width:100%;
-  height:44px;
-  border-radius:12px;
-  border:1px solid rgba(0,0,0,0.12);
-  background:#fff;
-  color:#111827;
-  font-weight:900;
-  letter-spacing:0.2px;
-  cursor:pointer;
-  direction:rtl;
-  text-align:right;
-  padding:0 14px;
-  box-sizing:border-box;
-
-  align-items:center;
-  justify-content:space-between;
-}
-.filter-toggle .icon{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  opacity:0.7;
-}
-.filter-toggle svg{width:18px;height:18px;}
-
-/* Layout */
-.layout{
-  direction:ltr;
-  display:flex;
-  gap:16px;
-  align-items:flex-start;
+.year-btn:hover { background: #f3f4f6; }
+.year-btn.active {
+  border-color: rgba(0,71,171,0.3);
+  background: rgba(0,71,171,0.07);
+  color: var(--blue);
 }
 
-/* Sidebar years (Desktop visible) */
-.filters{
-  width:190px;
-  background:#fff;
-  border:1px solid rgba(0,0,0,0.10);
-  border-radius:12px;
-  padding:12px;
-  box-sizing:border-box;
+.filters-drawer-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35); z-index: 1200;
 }
-.filters h3{
-  margin:0 0 10px 0;
-  font-size:14px;
-  color:#6b7280;
-  font-weight:800;
-  letter-spacing:0.2px;
-  text-align:left;
-}
-.year-list{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-.year-btn{
-  appearance:none;
-  border:1px solid rgba(0,0,0,0.10);
-  background:#fff;
-  border-radius:10px;
-  padding:10px 10px;
-  cursor:pointer;
-  text-align:left;
-  font-weight:800;
-  color:#111827;
-  transition:background .15s ease, border-color .15s ease;
-}
-.year-btn:hover{background:#f3f4f6;}
-.year-btn.active{
-  border-color:rgba(26,115,232,0.35);
-  background:rgba(26,115,232,0.08);
+.filters-drawer-backdrop.show { display: block; }
+
+.research-area { flex: 1; min-width: 0; }
+
+.research-list {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 12px; overflow: hidden;
+  direction: ltr; text-align: left;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-/* Backdrop للفلتر في الهاتف */
-.filters-drawer-backdrop{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.35);
-  z-index:1200;
+.research-item {
+  display: flex; gap: 16px; align-items: flex-start;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  transition: background var(--transition);
 }
-.filters-drawer-backdrop.show{display:block;}
+.research-item:last-child { border-bottom: none; }
+.research-item:hover { background: #fafbff; }
+.research-item.hidden { display: none; }
 
-/* Research list */
-.research-area{flex:1; min-width:0; position:relative;}
+.research-main { flex: 1; min-width: 0; }
 
-.research-list{
-  background:#fff;
-  border:1px solid rgba(0,0,0,0.10);
-  border-radius:12px;
-  overflow:hidden;
-  direction:ltr;
-  text-align:left;
+.research-title {
+  display: inline-block; color: #1a0dab;
+  font-size: 17px; font-weight: 700;
+  text-decoration: none; line-height: 1.35;
 }
+.research-title:hover { text-decoration: underline; }
 
-.research-item{
-  display:flex;
-  gap:16px;
-  align-items:flex-start;
-  padding:16px 18px;
-  border-bottom:1px solid rgba(0,0,0,0.08);
+.research-authors {
+  margin-top: 6px; font-size: 13px; font-weight: 700;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
 }
-.research-item:last-child{border-bottom:none;}
-.research-item.hidden{display:none;}
-
-.research-main{flex:1; min-width:0;}
-
-.research-title{
-  display:inline-block;
-  color:#1a0dab;
-  font-size:18px;
-  font-weight:700;
-  text-decoration:none;
-  line-height:1.35;
-}
-.research-title:hover{text-decoration:underline;}
-
-.research-authors{
-  margin-top:6px;
-  font-size:13px;
-  font-weight:800;
-  display:flex;
-  gap:10px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.research-authors .authors a{
-  color:#188038;
-  text-decoration:none;
-}
-.research-authors .authors a:hover{text-decoration:underline;}
-.research-serial{
-  color:#374151;
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:0.2px;
-  direction:ltr;
-  unicode-bidi:isolate;
-  white-space:nowrap;
+.research-authors .authors a { color: #188038; text-decoration: none; }
+.research-authors .authors a:hover { text-decoration: underline; }
+.research-serial {
+  color: #374151; font-weight: 700; font-size: 11px;
+  letter-spacing: 0.2px; direction: ltr; unicode-bidi: isolate;
+  white-space: nowrap;
+  background: rgba(0,0,0,0.05);
+  padding: 2px 8px; border-radius: 6px;
 }
 
-.research-desc{
-  margin-top:6px;
-  color:#6b7280;
-  font-size:14px;
-  line-height:1.7;
+.research-desc {
+  margin-top: 6px; color: #6b7280;
+  font-size: 13px; line-height: 1.7;
 }
 
-.research-actions{margin-top:10px;}
-.scholar-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  padding:8px 14px;
-  border-radius:999px;
-  background:rgba(107,114,128,0.12);
-  border:1px solid rgba(0,0,0,0.10);
-  color:#374151;
-  text-decoration:none;
-  font-weight:900;
-  font-size:12px;
-  letter-spacing:0.2px;
-  transition:filter .12s ease, background .12s ease;
+.research-actions { margin-top: 10px; }
+.scholar-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 7px 14px; border-radius: 20px;
+  background: rgba(107,114,128,0.1);
+  border: 1px solid rgba(0,0,0,0.10);
+  color: #374151; text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 12px;
+  transition: background var(--transition);
 }
-.scholar-btn:hover{
-  filter:brightness(0.97);
-  background:rgba(107,114,128,0.16);
+.scholar-btn:hover { background: rgba(107,114,128,0.18); }
+
+.research-year {
+  color: #9ca3af; font-size: 13px; font-weight: 700;
+  white-space: nowrap; padding-top: 2px; flex-shrink: 0;
 }
 
-.research-year{
-  color:#6b7280;
-  font-size:14px;
-  white-space:nowrap;
-  padding-top:2px;
+.no-results {
+  display: none; background: #fff;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 12px; padding: 32px 18px;
+  text-align: center; direction: rtl;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.no-results.show { display: block; }
+.no-results img { width: 80px; opacity: 0.65; display: block; margin: 0 auto 12px; }
+.no-results .txt { color: #374151; font-weight: 700; line-height: 1.8; font-size: 14px; }
+
+/* ===================== VISION ===================== */
+.vision-section {
+  background: var(--blue);
+  padding: 20px 30px;
+  text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
 }
 
-/* No results */
-.no-results{
-  display:none;
-  background:#fff;
-  border:1px solid rgba(0,0,0,0.10);
-  border-radius:12px;
-  padding:32px 18px;
-  text-align:center;
-  direction:rtl;
+/* ===================== FOOTER ===================== */
+footer {
+  background: #06101f;
+  color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px;
+  direction: rtl;
 }
-.no-results.show{display:block;}
-.no-results img{
-  width:90px;
-  height:auto;
-  opacity:0.75;
-  display:block;
-  margin:0 auto 12px;
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
 }
-.no-results .txt{
-  color:#374151;
-  font-weight:800;
-  line-height:1.8;
+.footer-brand img {
+  width: 54px; height: 54px;
+  border-radius: 12px; margin-bottom: 14px; object-fit: cover;
 }
-
-/* =========================
-   رؤيتنا (أسفل الصفحة)
-   ========================= */
-.vision{
-  background:#008080;
-  color:#FAF9F6;
-  text-align:center;
-  padding:40px 20px;
-  margin:40px 0 0;
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
 }
-.vision h2{
-  margin:0 0 18px;
-  font-size:25px;
-  font-weight:800;
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
-.vision p{
-  margin:10px auto;
-  width:min(900px, 92%);
-  line-height:1.8;
-  font-size:18px;
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark {
+  font-size: 24px; font-weight: 700;
+  color: rgba(255,255,255,0.1); letter-spacing: 4px;
 }
 
-/* Responsive */
-@media (max-width:900px){
-  .layout{flex-direction:column;}
-  .filters{width:100%;}
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .filters { width: 100%; }
 }
-
-@media (max-width:768px){
-  #bar nav{display:none;}
-  .menu-btn{display:inline-flex;align-items:center;justify-content:center;}
-
-  /* زر التحقق يتوسط */
-  .top-row{
-    flex-direction:column;
-    align-items:stretch;
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .top-row { flex-direction: column; align-items: stretch; }
+  .verify-btn { text-align: center; justify-content: center; }
+  .search-wrap { min-width: 100%; }
+  .filter-toggle { display: flex; }
+  .filters { display: none; }
+  .filters.open {
+    display: block; position: fixed;
+    top: calc(var(--nav-height) + 10px);
+    left: 12px; right: 12px; width: auto;
+    z-index: 1201;
+    box-shadow: 0 14px 35px rgba(0,0,0,0.22);
   }
-  .verify-btn{align-self:center;}
-  .search-wrap{min-width:100%;}
-
-  /* زر تصفية */
-  .filter-toggle{display:flex;}
-
-  /* ✅ إخفاء الفلتر فقط على الهاتف + تحويله لنافذة عند الفتح */
-  .filters{
-    display:none;
-  }
-  .filters.open{
-    display:block;
-    position:fixed;
-    top:calc(var(--nav-height) + 10px);
-    left:12px;
-    right:12px;
-    width:auto;
-    z-index:1201;
-    box-shadow:0 14px 35px rgba(0,0,0,0.22);
-  }
-
-  .research-item{padding:14px 14px;}
-  .research-title{font-size:16px;}
-  .research-desc{font-size:13px;}
-
-  /* أسماء الباحثين جنب بعض + منع تكسير */
-  .research-authors{
-    flex-wrap:nowrap;
-    gap:8px;
-    overflow-x:auto;
-    -webkit-overflow-scrolling:touch;
-  }
-  .research-authors::-webkit-scrollbar{height:0;}
-  .research-authors .authors{white-space:nowrap;}
-
-  .vision p{font-size:16px;}
+  .research-item { padding: 14px 14px; }
+  .research-title { font-size: 15px; }
+  .research-desc { font-size: 13px; }
+  .research-authors { flex-wrap: nowrap; gap: 8px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .research-authors::-webkit-scrollbar { height: 0; }
+  .research-authors .authors { white-space: nowrap; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
-
 <body>
 
+<!-- NAVBAR -->
 <header id="bar">
-  <a class="logo" href="mainpage.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
-
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
   <nav aria-label="روابط الموقع">
     <a href="faq.html">الأسئلة الشائعة</a>
-    <a href="course.html">الدروس الأكاديمية</a>
-    <a href="graduationprojects.html">المساهمات العلمية</a>
-    <a href="research.html">الأبحاث</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html" class="active">الأبحاث</a>
     <a href="volunteer.html">برامج التطوع</a>
   </nav>
-
   <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
-
-  <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
+  <div id="mobileMenu" class="mobile-menu" role="menu">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
-    <a role="menuitem" href="graduationprojects.html">المساهمات العلمية</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="volunteer.html">برامج التطوع</a>
   </div>
 </header>
-
 <div id="menuBackdrop" aria-hidden="true"></div>
 <div id="filtersBackdrop" class="filters-drawer-backdrop" aria-hidden="true"></div>
 
-<main class="page">
-  <div class="top-row">
-    <a class="verify-btn" href="CHECKLICENSE.HTML">التحقق من شهادات ESC</a>
+<!-- MAIN -->
+<main>
+  <div class="page">
+    <div class="top-row">
+      <a class="verify-btn" href="check_lic.html">التحقق من شهادات ESC</a>
 
-    <div class="search-wrap" aria-label="بحث الأبحاث">
-      <input id="searchInput" class="search-input" type="search" placeholder="Search by title or ID..." autocomplete="off" />
-      <span class="search-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
-          <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </span>
+      <div class="search-wrap" aria-label="بحث الأبحاث">
+        <input id="searchInput" class="search-input" type="search"
+               placeholder="Search by title or ID..." autocomplete="off">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
+            <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+
+      <button id="filterToggle" class="filter-toggle" type="button"
+              aria-expanded="false" aria-controls="filtersPanel">
+        <span>تصفية</span>
+        <span class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16M7 12h10M10 18h4" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
     </div>
 
-    <button id="filterToggle" class="filter-toggle" type="button" aria-expanded="false" aria-controls="filtersPanel">
-      <span>تصفية</span>
-      <span class="icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M4 6h16M7 12h10M10 18h4" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </span>
-    </button>
-  </div>
+    <div class="layout">
+      <aside id="filtersPanel" class="filters" aria-label="فلتر السنوات">
+        <h3>YEAR</h3>
+        <div class="year-list">
+          <button class="year-btn active" type="button" data-year="all">All</button>
+          <button class="year-btn" type="button" data-year="2025">2025</button>
+          <button class="year-btn" type="button" data-year="2026">2026</button>
+          <button class="year-btn" type="button" data-year="2027">2027</button>
+          <button class="year-btn" type="button" data-year="2028">2028</button>
+          <button class="year-btn" type="button" data-year="2029">2029</button>
+          <button class="year-btn" type="button" data-year="2030">2030</button>
+        </div>
+      </aside>
 
-  <div class="layout">
-    <aside id="filtersPanel" class="filters" aria-label="فلتر السنوات">
-      <h3>YEAR</h3>
-      <div class="year-list">
-        <button class="year-btn active" type="button" data-year="all">All</button>
-        <button class="year-btn" type="button" data-year="2025">2025</button>
-        <button class="year-btn" type="button" data-year="2026">2026</button>
-        <button class="year-btn" type="button" data-year="2027">2027</button>
-        <button class="year-btn" type="button" data-year="2028">2028</button>
-        <button class="year-btn" type="button" data-year="2029">2029</button>
-        <button class="year-btn" type="button" data-year="2030">2030</button>
-      </div>
-    </aside>
+      <section class="research-area" aria-label="قائمة الأبحاث">
+        <div id="noResults" class="no-results" aria-live="polite">
+          <img src="media/ERROR.png" alt="Error">
+          <div class="txt">تعذر العثور على الأطروحة أو البحث المطلوب.<br>تحقق من معرف البحث أو عنوانه.</div>
+        </div>
 
-    <section class="research-area" aria-label="قائمة الأبحاث">
-      <div id="noResults" class="no-results" aria-live="polite">
-        <img src="media/ERROR.png" alt="Error">
-        <div class="txt">تعذر العثور على الاطروحة/البحث المراد العثور عليه الرجاء التحقق من معرف البحث او عنوانه.</div>
-      </div>
+        <div class="research-list" id="researchList">
 
-      <div class="research-list" id="researchList">
-        <article class="research-item" data-year="2025" data-title="Design shallow foundation based on Pressuremeter data" data-id="2025120601001">
-          <div class="research-main">
-            <a class="research-title" href="research/Design_shallow_foundation_based_on_Pressuremeter_data.pdf" download>
-              Design shallow foundation based on Pressuremeter data
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20251206&#8203;01&#8203;001</span>
+          <article class="research-item" data-year="2026"
+                   data-title="Design shallow foundation based on Pressuremeter data"
+                   data-id="2026120601001">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Design_shallow_foundation_based_on_Pressuremeter_data.pdf" download>
+                Design shallow foundation based on Pressuremeter data
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="profile/founderprofile.html">Mohammed Baqer A. Azeez</a>,
+                  <a href="profile/jaffer.html">Jaffer M. Mohammed Baqer</a>
+                </span>
+                <span class="research-serial">2026120601001</span>
+              </div>
+              <div class="research-desc">
+                Practical design methods for shallow foundations using Pressuremeter test results, parameter selection, and application notes.<br>
+                Includes calculation workflow and interpretation guidance.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              Practical design methods for shallow foundations using Pressuremeter test results, parameter selection, and application notes.
-              <br>
-              Includes calculation workflow and interpretation guidance.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2025</div>
-        </article>
+            <div class="research-year">2026</div>
+          </article>
 
-        <article class="research-item" data-year="2025" data-title="Bearing capacity evaluation using pressuremeter limit pressure" data-id="2025111802002">
-          <div class="research-main">
-            <a class="research-title" href="research/Bearing_capacity_evaluation_pressuremeter_limit_pressure.pdf" download>
-              Bearing capacity evaluation using pressuremeter limit pressure
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20251118&#8203;02&#8203;002</span>
+          <article class="research-item" style="display:none" data-year="2025"
+                   data-title="Bearing capacity evaluation using pressuremeter limit pressure"
+                   data-id="2025111802002">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Bearing_capacity_evaluation_pressuremeter_limit_pressure.pdf" download>
+                Bearing capacity evaluation using pressuremeter limit pressure
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="RESEARCHERS/Steve.html">Steve</a>,
+                  <a href="RESEARCHERS/Alex.html">Alex</a>
+                </span>
+                <span class="research-serial">2025111802002</span>
+              </div>
+              <div class="research-desc">
+                A compact review of bearing capacity estimates derived from pressuremeter limit pressure and practical correction factors.<br>
+                Includes worked methodology outline and assumptions.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              A compact review of bearing capacity estimates derived from pressuremeter limit pressure and practical correction factors.
-              <br>
-              Includes worked methodology outline and assumptions.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2025</div>
-        </article>
+            <div class="research-year">2025</div>
+          </article>
 
-        <article class="research-item" data-year="2026" data-title="Shallow footing design workflow from pressuremeter modulus and pl" data-id="2026031401003">
-          <div class="research-main">
-            <a class="research-title" href="research/Shallow_footing_design_workflow_pressuremeter_modulus_PL.pdf" download>
-              Shallow footing design workflow from pressuremeter modulus and PL
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20260314&#8203;01&#8203;003</span>
+          <article class="research-item" style="display:none" data-year="2026"
+                   data-title="Shallow footing design workflow from pressuremeter modulus and pl"
+                   data-id="2026031401003">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Shallow_footing_design_workflow_pressuremeter_modulus_PL.pdf" download>
+                Shallow footing design workflow from pressuremeter modulus and PL
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="RESEARCHERS/Steve.html">Steve</a>,
+                  <a href="RESEARCHERS/Alex.html">Alex</a>
+                </span>
+                <span class="research-serial">2026031401003</span>
+              </div>
+              <div class="research-desc">
+                Step-by-step workflow connecting pressuremeter modulus and limit pressure to shallow footing sizing and serviceability checks.<br>
+                Notes on parameter selection and reporting.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              Step-by-step workflow connecting pressuremeter modulus and limit pressure to shallow footing sizing and serviceability checks.
-              <br>
-              Notes on parameter selection and reporting.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2026</div>
-        </article>
+            <div class="research-year">2026</div>
+          </article>
 
-        <article class="research-item" data-year="2027" data-title="Comparative study of k-factor charts in pressuremeter foundation design" data-id="2027072202004">
-          <div class="research-main">
-            <a class="research-title" href="research/Comparative_study_K_factor_charts_pressuremeter_design.pdf" download>
-              Comparative study of K-factor charts in pressuremeter foundation design
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20270722&#8203;02&#8203;004</span>
+          <article class="research-item" style="display:none" data-year="2027"
+                   data-title="Comparative study of k-factor charts in pressuremeter foundation design"
+                   data-id="2027072202004">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Comparative_study_K_factor_charts_pressuremeter_design.pdf" download>
+                Comparative study of K-factor charts in pressuremeter foundation design
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="RESEARCHERS/Steve.html">Steve</a>,
+                  <a href="RESEARCHERS/Alex.html">Alex</a>
+                </span>
+                <span class="research-serial">2027072202004</span>
+              </div>
+              <div class="research-desc">
+                Comparison between common K-factor chart interpretations, sensitivity to soil state, and implications for design outcomes.<br>
+                Structured summary and recommended documentation practice.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              Comparison between common K-factor chart interpretations, sensitivity to soil state, and implications for design outcomes.
-              <br>
-              Structured summary and recommended documentation practice.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2027</div>
-        </article>
+            <div class="research-year">2027</div>
+          </article>
 
-        <article class="research-item" data-year="2028" data-title="Serviceability settlement checks for shallow foundations using pressuremeter data" data-id="2028090501005">
-          <div class="research-main">
-            <a class="research-title" href="research/Serviceability_settlement_checks_pressuremeter_data.pdf" download>
-              Serviceability settlement checks for shallow foundations using pressuremeter data
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20280905&#8203;01&#8203;005</span>
+          <article class="research-item" style="display:none" data-year="2028"
+                   data-title="Serviceability settlement checks for shallow foundations using pressuremeter data"
+                   data-id="2028090501005">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Serviceability_settlement_checks_pressuremeter_data.pdf" download>
+                Serviceability settlement checks for shallow foundations using pressuremeter data
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="RESEARCHERS/Steve.html">Steve</a>,
+                  <a href="RESEARCHERS/Alex.html">Alex</a>
+                </span>
+                <span class="research-serial">2028090501005</span>
+              </div>
+              <div class="research-desc">
+                Settlement and serviceability verification approach built on pressuremeter modulus interpretation with practical limits and reporting.<br>
+                Includes notes for layered profiles.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              Settlement and serviceability verification approach built on pressuremeter modulus interpretation with practical limits and reporting.
-              <br>
-              Includes notes for layered profiles.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2028</div>
-        </article>
+            <div class="research-year">2028</div>
+          </article>
 
-        <article class="research-item" data-year="2029" data-title="Practical parameter selection in pressuremeter-based shallow foundation design" data-id="2029021102006">
-          <div class="research-main">
-            <a class="research-title" href="research/Practical_parameter_selection_pressuremeter_foundation_design.pdf" download>
-              Practical parameter selection in pressuremeter-based shallow foundation design
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20290211&#8203;02&#8203;006</span>
+          <article class="research-item" style="display:none" data-year="2029"
+                   data-title="Practical parameter selection in pressuremeter-based shallow foundation design"
+                   data-id="2029021102006">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Practical_parameter_selection_pressuremeter_foundation_design.pdf" download>
+                Practical parameter selection in pressuremeter-based shallow foundation design
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="RESEARCHERS/Steve.html">Steve</a>,
+                  <a href="RESEARCHERS/Alex.html">Alex</a>
+                </span>
+                <span class="research-serial">2029021102006</span>
+              </div>
+              <div class="research-desc">
+                Guidance on selecting representative parameters (PL, EM, OCR adjustments) for design and consistency in technical reporting.<br>
+                Includes checklist-style recommendations.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              Guidance on selecting representative parameters (PL, EM, OCR adjustments) for design and consistency in technical reporting.
-              <br>
-              Includes checklist-style recommendations.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2029</div>
-        </article>
+            <div class="research-year">2029</div>
+          </article>
 
-        <article class="research-item" data-year="2029" data-title="Unified reporting template for pressuremeter test results in foundation projects" data-id="2029103001007">
-          <div class="research-main">
-            <a class="research-title" href="research/Unified_reporting_template_pressuremeter_foundation_projects.pdf" download>
-              Unified reporting template for pressuremeter test results in foundation projects
-            </a>
-            <div class="research-authors">
-              <span class="authors">
-                <a href="RESEARCHERS/Steve.html">Steve</a>, <a href="RESEARCHERS/Alex.html">Alex</a>
-              </span>
-              <span class="research-serial">20291030&#8203;01&#8203;007</span>
+          <article class="research-item" style="display:none" data-year="2029"
+                   data-title="Unified reporting template for pressuremeter test results in foundation projects"
+                   data-id="2029103001007">
+            <div class="research-main">
+              <a class="research-title"
+                 href="research/Unified_reporting_template_pressuremeter_foundation_projects.pdf" download>
+                Unified reporting template for pressuremeter test results in foundation projects
+              </a>
+              <div class="research-authors">
+                <span class="authors">
+                  <a href="RESEARCHERS/Steve.html">Steve</a>,
+                  <a href="RESEARCHERS/Alex.html">Alex</a>
+                </span>
+                <span class="research-serial">2029103001007</span>
+              </div>
+              <div class="research-desc">
+                A clean template for presenting pressuremeter results, assumptions, derived parameters, and foundation design outputs.<br>
+                Designed for consistent project documentation.
+              </div>
+              <div class="research-actions">
+                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+              </div>
             </div>
-            <div class="research-desc">
-              A clean template for presenting pressuremeter results, assumptions, derived parameters, and foundation design outputs.
-              <br>
-              Designed for consistent project documentation.
-            </div>
-            <div class="research-actions">
-              <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-            </div>
-          </div>
-          <div class="research-year">2029</div>
-        </article>
-      </div>
-    </section>
+            <div class="research-year">2029</div>
+          </article>
+
+        </div>
+      </section>
+    </div>
   </div>
 </main>
 
-<section class="vision">
+<!-- VISION -->
+<section class="vision-section">
   <h2>رؤيتنا</h2>
-  <p>تم إنشاء هذا الموقع ليكون مجانيًا لجميع الطلاب في وطننا. نؤمن بأن الطريق الوحيد للنهوض من جديد تحت ضوء الشمس هو التعليم.</p>
-  <p>نحن لا نسعى إلى شيء سوى نجاح زملائنا. منظمة غير ربحية.</p>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
 </section>
 
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>
+        هل لديك سؤال أو مقترح؟<br>
+        يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
 <script>
-/* NAV dropdown logic */
-const menuBtn = document.getElementById('menuBtn');
+/* Mobile Menu */
+const menuBtn    = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
-const navBackdrop = document.getElementById('menuBackdrop');
+const navBd      = document.getElementById('menuBackdrop');
+const openNav    = () => { mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeNav   = () => { mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeNav() : openNav(); });
+navBd.addEventListener('click', closeNav);
+document.addEventListener('click', e => { if(!mobileMenu.contains(e.target) && e.target !== menuBtn) closeNav(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeNav(); closeFiltersPanel(); } });
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+window.addEventListener('resize', () => { if(window.innerWidth > 768) closeNav(); });
 
-function openNavMenu(){
-  mobileMenu.classList.add('open');
-  navBackdrop.classList.add('show');
-  menuBtn.setAttribute('aria-expanded','true');
-}
-function closeNavMenu(){
-  mobileMenu.classList.remove('open');
-  navBackdrop.classList.remove('show');
-  menuBtn.setAttribute('aria-expanded','false');
-}
-function toggleNavMenu(){
-  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true';
-  isOpen ? closeNavMenu() : openNavMenu();
-}
-menuBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleNavMenu(); });
-navBackdrop.addEventListener('click', closeNavMenu);
-document.addEventListener('click', (e)=>{
-  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ closeNavMenu(); }
-});
-document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeNavMenu(); });
-mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNavMenu));
-window.addEventListener('resize', ()=>{ if(window.innerWidth > 768) closeNavMenu(); });
+/* Filters */
+const filterToggle      = document.getElementById('filterToggle');
+const filtersPanel      = document.getElementById('filtersPanel');
+const filtersBd         = document.getElementById('filtersBackdrop');
+const isMobile          = () => window.innerWidth <= 768;
+const openFiltersPanel  = () => { if(!isMobile()) return; filtersPanel.classList.add('open'); filtersBd.classList.add('show'); filterToggle.setAttribute('aria-expanded','true'); };
+const closeFiltersPanel = () => { filtersPanel.classList.remove('open'); filtersBd.classList.remove('show'); filterToggle.setAttribute('aria-expanded','false'); };
+filterToggle.addEventListener('click', e => { e.stopPropagation(); filterToggle.getAttribute('aria-expanded')==='true' ? closeFiltersPanel() : openFiltersPanel(); });
+filtersBd.addEventListener('click', closeFiltersPanel);
+window.addEventListener('resize', () => { if(!isMobile()) closeFiltersPanel(); });
 
-/* Mobile filters */
-const filterToggle = document.getElementById('filterToggle');
-const filtersPanel = document.getElementById('filtersPanel');
-const filtersBackdrop = document.getElementById('filtersBackdrop');
-
-function isMobile(){ return window.innerWidth <= 768; }
-
-function openFilters(){
-  if(!isMobile()) return;
-  filtersPanel.classList.add('open');
-  filtersBackdrop.classList.add('show');
-  filterToggle.setAttribute('aria-expanded','true');
-}
-function closeFilters(){
-  filtersPanel.classList.remove('open');
-  filtersBackdrop.classList.remove('show');
-  filterToggle.setAttribute('aria-expanded','false');
-}
-function toggleFilters(){
-  const expanded = filterToggle.getAttribute('aria-expanded') === 'true';
-  expanded ? closeFilters() : openFilters();
-}
-filterToggle.addEventListener('click', (e)=>{ e.stopPropagation(); toggleFilters(); });
-filtersBackdrop.addEventListener('click', closeFilters);
-window.addEventListener('resize', ()=>{ if(!isMobile()) closeFilters(); });
-
-/* Research search + year filter */
+/* Search + Year Filter */
 const searchInput = document.getElementById('searchInput');
-const yearButtons = document.querySelectorAll('.year-btn');
-const items = Array.from(document.querySelectorAll('.research-item'));
-const noResults = document.getElementById('noResults');
-const listBox = document.getElementById('researchList');
+const yearBtns    = document.querySelectorAll('.year-btn');
+const items       = Array.from(document.querySelectorAll('.research-item'));
+const noResults   = document.getElementById('noResults');
+const listBox     = document.getElementById('researchList');
+let activeYear = 'all', activeQuery = '';
 
-let activeYear = 'all';
-let activeQuery = '';
-
-function applyFilters(){
-  const q = (activeQuery || '').trim().toLowerCase();
-  let visibleCount = 0;
-
-  items.forEach(item=>{
-    const yearOk = (activeYear === 'all') || (item.dataset.year === activeYear);
-
-    const title = (item.dataset.title || '').toLowerCase();
-    const id = (item.dataset.id || '').toLowerCase();
-
-    const queryOk = (q === '') || title.includes(q) || id.includes(q);
-
-    const show = yearOk && queryOk;
+function applyFilters() {
+  const q = activeQuery.trim().toLowerCase();
+  let count = 0;
+  items.forEach(item => {
+    if (item.style.display === 'none' && !item.classList.contains('hidden')) return;
+    const yearOk  = activeYear === 'all' || item.dataset.year === activeYear;
+    const queryOk = !q || (item.dataset.title||'').toLowerCase().includes(q) || (item.dataset.id||'').toLowerCase().includes(q);
+    const show    = yearOk && queryOk;
     item.classList.toggle('hidden', !show);
-    if(show) visibleCount++;
+    if (show) count++;
   });
-
-  noResults.classList.toggle('show', visibleCount === 0);
-  listBox.style.display = (visibleCount === 0) ? 'none' : 'block';
+  noResults.classList.toggle('show', count === 0);
+  listBox.style.display = count === 0 ? 'none' : 'block';
 }
 
-yearButtons.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    yearButtons.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    activeYear = btn.dataset.year;
-    applyFilters();
-    if(isMobile()) closeFilters();
-  });
-});
+yearBtns.forEach(btn => btn.addEventListener('click', () => {
+  yearBtns.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeYear = btn.dataset.year;
+  applyFilters();
+  if (isMobile()) closeFiltersPanel();
+}));
 
 let t = null;
-searchInput.addEventListener('input', ()=>{
+searchInput.addEventListener('input', () => {
   clearTimeout(t);
-  t = setTimeout(()=>{
-    activeQuery = searchInput.value || '';
-    applyFilters();
-  }, 120);
+  t = setTimeout(() => { activeQuery = searchInput.value || ''; applyFilters(); }, 120);
 });
 
 applyFilters();
@@ -870,4 +759,3 @@ applyFilters();
 
 </body>
 </html>
-
