@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>المساهمات العلمية - ESC</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
-
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -21,8 +23,7 @@
 }
 
 body{
-  /* إعدادات الخط الأصلية الخاصة بك */
-  font-family: 'Baloo Bhaijaan 2', 'Ubuntu', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   background-color: var(--bg-color);
   margin: 0;
   padding: 0;
@@ -34,55 +35,48 @@ body{
   flex-direction: column;
 }
 
-/* =========================
-   NAVBAR (ثابت ومطابق للأصل لمنع تكراره بالأسفل)
-   ========================= */
+/* ===================== NAVBAR ===================== */
 #bar{
   height: var(--nav-height);
   min-height: var(--nav-height);
   box-sizing: border-box;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  padding: 0 var(--nav-pad-x); 
+  padding: 0 24px;
   background-color: var(--primary-color);
-
   position: sticky;
   top: 0;
   z-index: 1000;
-  direction: ltr; 
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
 }
 
 #bar .logo{
-  font-size: 35px;
+  font-size: 32px;
   font-weight: 700;
   color: #FAF9F6;
   text-decoration: none;
-  cursor: pointer;
-  user-select: none;
   line-height: 1;
 }
-#bar .logo:hover{opacity: 0.9;}
 
 #bar nav{
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 4px;
   align-items: center;
 }
 #bar nav a{
   color: #FAF9F6;
   text-decoration: none;
   font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 10px;
+  font-size: 14px;
+  padding: 7px 13px;
+  border-radius: 8px;
   transition: background-color 0.2s;
   line-height: 1;
 }
-#bar nav a:hover{background-color: rgba(255,255,255,0.2);}
+#bar nav a:hover{ background-color: rgba(255,255,255,0.18); }
+#bar nav a.active{ background-color: rgba(255,255,255,0.22); }
 
 .menu-btn{
   display: none;
@@ -93,8 +87,10 @@ body{
   background: transparent;
   cursor: pointer;
   border-radius: 10px;
+  align-items: center;
+  justify-content: center;
 }
-.menu-btn:hover{background: rgba(255,255,255,0.18);}
+.menu-btn:hover{ background: rgba(255,255,255,0.18); }
 
 .menu-icon{
   width: 24px;
@@ -112,14 +108,14 @@ body{
   width: 24px;
   height: 2px;
   background: #fff;
-  transition: transform .18s ease, top .18s ease, opacity .18s ease;
+  transition: transform .18s ease, top .18s ease;
 }
-.menu-icon::before{top: -7px;}
-.menu-icon::after{top: 7px;}
+.menu-icon::before{ top: -7px; }
+.menu-icon::after{ top: 7px; }
 
-.menu-btn[aria-expanded="true"] .menu-icon{background: transparent;}
-.menu-btn[aria-expanded="true"] .menu-icon::before{top: 0; transform: rotate(45deg);}
-.menu-btn[aria-expanded="true"] .menu-icon::after{top: 0; transform: rotate(-45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon{ background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before{ top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after{ top: 0; transform: rotate(-45deg); }
 
 #menuBackdrop{
   display: none;
@@ -128,7 +124,7 @@ body{
   background: rgba(0,0,0,0.35);
   z-index: 999;
 }
-#menuBackdrop.show{display: block;}
+#menuBackdrop.show{ display: block; }
 
 .mobile-menu{
   display: none;
@@ -143,10 +139,8 @@ body{
   box-shadow: 0 14px 35px rgba(0,0,0,0.22);
   border: 1px solid rgba(0,0,0,0.06);
   z-index: 1001;
-
   direction: rtl;
   text-align: right;
-
   transform-origin: top right;
   transform: translateY(-6px) scale(0.98);
   opacity: 0;
@@ -163,17 +157,12 @@ body{
   border-radius: 10px;
   color: var(--text-dark);
   text-decoration: none;
-  font-weight: 800;
+  font-weight: 700;
 }
-.mobile-menu a:hover{background: #f3f4f6;}
+.mobile-menu a:hover{ background: #f3f4f6; }
 
-
-/* =========================
-   UI راقي: قسم البحث والخلفية المتدرجة
-   ========================= */
-main {
-  flex-grow: 1; 
-}
+/* ===================== HERO — محافظ على الأصل ===================== */
+main{ flex-grow: 1; }
 
 .hero-section {
   text-align: center;
@@ -212,15 +201,12 @@ main {
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
   transition: all 0.3s ease;
 }
-
 .search-input:focus {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-/* =========================
-   تصميم البطاقات (شريط أخضر + مربع للصورة)
-   ========================= */
+/* ===================== CARDS — محافظ على الأصل ===================== */
 .news-container {
   max-width: 1100px;
   margin: 60px auto;
@@ -236,14 +222,13 @@ main {
   text-decoration: none;
   color: inherit;
   display: flex;
-  flex-direction: row; 
+  flex-direction: row;
   align-items: center;
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-right: 6px solid var(--green-bar);
 }
-
 .news-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -253,20 +238,16 @@ main {
   width: 180px;
   height: 180px;
   flex-shrink: 0;
-  background-color: #e5e7eb; 
+  background-color: #e5e7eb;
   overflow: hidden;
 }
-
 .news-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
-
-.news-card:hover .news-image {
-  transform: scale(1.08);
-}
+.news-card:hover .news-image{ transform: scale(1.08); }
 
 .news-content {
   padding: 25px 30px;
@@ -275,27 +256,24 @@ main {
   justify-content: center;
   flex-grow: 1;
 }
-
 .news-date {
   font-size: 14px;
   font-weight: bold;
   color: var(--primary-color);
   margin-bottom: 10px;
   display: inline-block;
-  background: rgba(0, 71, 171, 0.1);
+  background: rgba(0,71,171,0.1);
   padding: 4px 12px;
   border-radius: 20px;
   align-self: flex-start;
 }
-
 .news-title {
   font-size: 22px;
   margin: 0 0 12px 0;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--text-dark);
   line-height: 1.4;
 }
-
 .news-summary {
   font-size: 16px;
   line-height: 1.7;
@@ -315,49 +293,91 @@ main {
   box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
+/* ===================== VISION ===================== */
+.vision-section {
+  background: var(--primary-color);
+  padding: 20px 30px;
+  text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: #06101f;
+  color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px;
+  direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img {
+  width: 54px; height: 54px;
+  border-radius: 12px; margin-bottom: 14px; object-fit: cover;
+}
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark {
+  font-size: 24px; font-weight: 700;
+  color: rgba(255,255,255,0.1); letter-spacing: 4px;
+}
+
+/* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px){
-  #bar nav {display: none;}
-  .menu-btn {display: inline-flex; align-items: center; justify-content: center;}
-  
+  #bar nav{ display: none; }
+  .menu-btn{ display: inline-flex; }
   .hero-section {
     padding: 50px 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
   }
-  
-  .news-card {
-    flex-direction: column; 
-  }
-  
-  .news-image-wrapper {
-    width: 100%;
-    height: 200px;
-  }
-  
-  .news-content {
-    padding: 20px;
-  }
+  .news-card{ flex-direction: column; }
+  .news-image-wrapper{ width: 100%; height: 200px; }
+  .news-content{ padding: 20px; }
+  .footer-inner{ grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom{ flex-direction: column; align-items: flex-start; }
 }
 </style>
 </head>
 
 <body>
 
+<!-- NAVBAR -->
 <header id="bar">
-  <a class="logo" href="index.html" aria-label="العودة للصفحة الرئيسية">ESC</a>
-
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" style="height:38px; width:auto; display:block;">
+  </a>
   <nav aria-label="روابط الموقع">
     <a href="faq.html">الأسئلة الشائعة</a>
     <a href="course.html">الدروس الأكاديمية</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html" class="active">المساهمات العلمية</a>
     <a href="research.html">الأبحاث</a>
     <a href="volunteer.html">برامج التطوع</a>
   </nav>
-
   <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
-
   <div id="mobileMenu" class="mobile-menu" role="menu" aria-label="قائمة الهاتف">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
     <a role="menuitem" href="course.html">الدروس الأكاديمية</a>
@@ -368,77 +388,75 @@ main {
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
 
+<!-- HERO — محافظ على الأصل بالكامل -->
 <main>
   <div class="hero-section">
     <h1>المساهمات العلمية وأخر الأخبار</h1>
     <div class="search-wrapper">
-      <input type="text" id="searchInput" class="search-input" placeholder="تحاول الوصول لخبر معين؟ جرب البحث...">
+      <input type="text" id="searchInput" class="search-input"
+             placeholder="تحاول الوصول لخبر معين؟ جرب البحث...">
     </div>
   </div>
 
-  <div class="news-container" id="newsGrid">
-    </div>
-  
-  <div id="noResults" class="no-results">لم نتمكن من العثور على نتائج تطابق بحثك. يرجى المحاولة بكلمات أخرى.</div>
+  <div class="news-container" id="newsGrid"></div>
+  <div id="noResults" class="no-results">
+    لم نتمكن من العثور على نتائج تطابق بحثك. يرجى المحاولة بكلمات أخرى.
+  </div>
 </main>
 
+<!-- VISION -->
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>
+        هل لديك سؤال أو مقترح؟<br>
+        يسعدنا التواصل معك.<br><br>
+        <a href="mailto:contact@esc-iq.com">contact@esc-iq.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
 <script>
-/* =========================================
-   أكواد القائمة المنسدلة 
-   ========================================= */
-const menuBtn = document.getElementById('menuBtn');
+/* Mobile Menu */
+const menuBtn    = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
-const backdrop = document.getElementById('menuBackdrop');
-
-function openMenu(){ 
-  mobileMenu.classList.add('open'); 
-  backdrop.classList.add('show'); 
-  menuBtn.setAttribute('aria-expanded','true'); 
-}
-
-function closeMenu(){ 
-  mobileMenu.classList.remove('open'); 
-  backdrop.classList.remove('show'); 
-  menuBtn.setAttribute('aria-expanded','false'); 
-}
-
-function toggleMenu(){ 
-  const isOpen = menuBtn.getAttribute('aria-expanded') === 'true'; 
-  isOpen ? closeMenu() : openMenu(); 
-}
-
-menuBtn.addEventListener('click', (e)=>{ 
-  e.stopPropagation(); 
-  toggleMenu(); 
-});
-
+const backdrop   = document.getElementById('menuBackdrop');
+const openMenu   = () => { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeMenu  = () => { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
 backdrop.addEventListener('click', closeMenu);
+document.addEventListener('click', (e) => { if(!mobileMenu.contains(e.target) && e.target !== menuBtn) closeMenu(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
 
-document.addEventListener('click', (e)=>{ 
-  if(!mobileMenu.contains(e.target) && e.target !== menuBtn){ 
-    closeMenu(); 
-  } 
-});
-
-document.addEventListener('keydown', (e)=>{ 
-  if(e.key === 'Escape') closeMenu(); 
-});
-
-mobileMenu.querySelectorAll('a').forEach(a=>{ 
-  a.addEventListener('click', closeMenu); 
-});
-
-window.addEventListener('resize', ()=>{ 
-  if(window.innerWidth > 768) closeMenu(); 
-});
-
-/* =========================================
-   إدارة الأخبار والتوجيه السليم
-   ========================================= */
+/* News Data — محافظ على الأصل بالكامل */
 const newsData = [
-  
   {
-    id: "20260313", 
+    id: "20260413",
+    title: "إطلاق مكتبة المصادر الهندسية المفتوحة",
+    summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث وتوفير بيئة أكاديمية متكاملة."
+  },
+  {
+    id: "20260313",
     title: "إطلاق مكتبة المصادر الهندسية المفتوحة",
     summary: "تمت إضافة أكثر من 50 مرجعاً جديداً في مختلف التخصصات الهندسية لخدمة الطلاب لتسهيل مشاريع التخرج والأبحاث وتوفير بيئة أكاديمية متكاملة."
   },
@@ -447,37 +465,30 @@ const newsData = [
     title: "ورشة عمل: أساسيات لغات البرمجة للمهندسين",
     summary: "بمساهمة من نخبة من أعضاء المنصة، أقمنا ورشة عمل ناجحة لمساعدة الطلاب على دمج البرمجة في الحلول الهندسية وربطها بسوق العمل."
   }
-
 ];
 
-const newsGrid = document.getElementById('newsGrid');
+const newsGrid    = document.getElementById('newsGrid');
 const searchInput = document.getElementById('searchInput');
-const noResults = document.getElementById('noResults');
+const noResults   = document.getElementById('noResults');
 
 function renderNews(newsArray) {
-  newsGrid.innerHTML = ''; 
-  
+  newsGrid.innerHTML = '';
   if (newsArray.length === 0) {
     noResults.style.display = 'block';
     return;
   }
-  
   noResults.style.display = 'none';
-
   newsArray.forEach(news => {
-    const year = news.id.substring(0, 4);
+    const year  = news.id.substring(0, 4);
     const month = news.id.substring(4, 6);
-    const day = news.id.substring(6, 8);
-    
-    const card = document.createElement('a');
-    // توجيه صحيح إلى ملف html داخل مجلد news بناء على المعرف
-    card.href = `news/${news.id}.html`;
+    const day   = news.id.substring(6, 8);
+    const card  = document.createElement('a');
+    card.href      = `news/${news.id}.html`;
     card.className = 'news-card';
-
-    // سحب الصورة من مجلد news
     card.innerHTML = `
       <div class="news-image-wrapper">
-        <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image" onerror="this.src='media/icons/news.png';">
+        <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image"
+             onerror="this.src='media/icons/news.png';">
       </div>
       <div class="news-content">
         <div class="news-date">${year}/${month}/${day}</div>
@@ -485,7 +496,6 @@ function renderNews(newsArray) {
         <div class="news-summary">${news.summary}</div>
       </div>
     `;
-    
     newsGrid.appendChild(card);
   });
 }
@@ -493,11 +503,11 @@ function renderNews(newsArray) {
 renderNews(newsData);
 
 searchInput.addEventListener('input', function(e) {
-  const searchTerm = e.target.value.toLowerCase();
-  const filteredNews = newsData.filter(news => {
-    return news.title.toLowerCase().includes(searchTerm) || news.summary.toLowerCase().includes(searchTerm);
-  });
-  renderNews(filteredNews);
+  const q = e.target.value.toLowerCase();
+  renderNews(newsData.filter(n =>
+    n.title.toLowerCase().includes(q) ||
+    n.summary.toLowerCase().includes(q)
+  ));
 });
 </script>
 
