@@ -3,6 +3,810 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — محمد باقر الجبوري</title>
+<link rel="icon" href="../media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="../media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../media/icon-512.png">
+<link rel="apple-touch-icon" href="../media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: #111;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+#bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+
+.menu-btn {
+  display: none;
+  height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px;
+  background: #fff; display: block;
+  position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98);
+  opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px;
+  border-radius: 10px; color: #111827;
+  text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* PROFILE COVER */
+.profile-cover {
+  height: 200px;
+  background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
+  position: relative;
+  overflow: hidden;
+}
+.profile-cover::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 360px; height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.1), transparent 70%);
+}
+.cover-logo {
+  position: absolute;
+  bottom: 16px; left: 24px;
+  width: 52px; height: 52px;
+  object-fit: contain; opacity: 0.8;
+}
+
+/* PROFILE HEADER */
+.profile-header-wrap {
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  padding-bottom: 20px;
+  position: relative;
+}
+.profile-avatar-wrap {
+  position: absolute;
+  top: -60px; right: 40px;
+}
+.profile-avatar {
+  width: 120px; height: 120px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  display: block;
+}
+.profile-info {
+  padding: 16px 40px 0 40px;
+  padding-right: 180px;
+}
+.profile-name {
+  font-size: 24px; font-weight: 700;
+  color: #0d1b2a; margin-bottom: 4px;
+}
+.profile-title {
+  font-size: 14px; color: #555;
+  margin-bottom: 12px; line-height: 1.5;
+}
+.profile-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.profile-tag {
+  display: inline-block;
+  background: #e6eeff; color: var(--blue);
+  font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+}
+.profile-tag.teal { background: #e6f7f4; color: var(--teal); }
+
+/* PAGE LAYOUT */
+.profile-body {
+  max-width: 1000px;
+  margin: 28px auto 60px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+/* SIDEBAR */
+.sidebar-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 22px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.sidebar-card + .sidebar-card { margin-top: 16px; }
+.sidebar-card h3 {
+  font-size: 13px; font-weight: 700;
+  color: #888; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.info-row {
+  display: flex; align-items: flex-start;
+  gap: 10px; margin-bottom: 13px;
+}
+.info-row:last-child { margin-bottom: 0; }
+.info-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+.info-label {
+  font-size: 11px; color: #999; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;
+}
+.info-value {
+  font-size: 14px; color: #0d1b2a;
+  font-weight: 700; line-height: 1.4;
+}
+.info-value a { color: var(--blue); text-decoration: none; }
+.info-value a:hover { text-decoration: underline; }
+
+/* CONTENT CARDS */
+.content-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+}
+.content-card h2 {
+  font-size: 17px; font-weight: 700;
+  color: #0d1b2a; margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  position: relative; padding-right: 14px;
+}
+.content-card h2::before {
+  content: '';
+  position: absolute;
+  right: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 4px; height: 18px;
+  background: var(--teal); border-radius: 3px;
+}
+.about-text { font-size: 14px; color: #444; line-height: 1.85; }
+
+/* RESEARCH */
+.search-wrap {
+  position: relative; display: flex;
+  align-items: center; margin-bottom: 14px;
+}
+.search-input {
+  width: 100%; height: 40px;
+  padding: 0 44px 0 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(107,114,128,0.1);
+  outline: none; color: #111827;
+  font-weight: 700; font-family: 'Ubuntu', sans-serif;
+  direction: ltr; text-align: left;
+}
+.search-input::placeholder { color: rgba(17,24,39,0.45); font-weight: 400; }
+.search-icon {
+  position: absolute; right: 12px;
+  pointer-events: none; opacity: 0.55;
+  display: flex; align-items: center;
+}
+.search-icon svg { width: 17px; height: 17px; }
+
+.research-list {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 12px;
+  overflow: hidden;
+  direction: ltr; text-align: left;
+}
+.research-item {
+  display: flex; gap: 16px;
+  align-items: flex-start;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.research-item:last-child { border-bottom: none; }
+.research-item.off { display: none; }
+.research-main { flex: 1; min-width: 0; }
+.research-title {
+  display: inline-block; color: #1a0dab;
+  font-size: 16px; font-weight: 700;
+  text-decoration: none; line-height: 1.35;
+}
+.research-title:hover { text-decoration: underline; }
+.research-authors {
+  margin-top: 5px; font-size: 12px; font-weight: 700;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.research-authors .authors a { color: #188038; text-decoration: none; }
+.research-authors .authors a:hover { text-decoration: underline; }
+.research-serial {
+  color: #374151; font-weight: 900; font-size: 11px;
+  direction: ltr; unicode-bidi: isolate; white-space: nowrap;
+}
+.research-desc { margin-top: 5px; color: #6b7280; font-size: 13px; line-height: 1.65; }
+.research-actions { margin-top: 9px; }
+.scholar-btn {
+  display: inline-flex; align-items: center;
+  padding: 7px 13px; border-radius: 999px;
+  background: rgba(107,114,128,0.12);
+  border: 1px solid rgba(0,0,0,0.10);
+  color: #374151; text-decoration: none;
+  font-weight: 900; font-size: 11px;
+  transition: filter .12s ease, background .12s ease;
+}
+.scholar-btn:hover { filter: brightness(0.97); background: rgba(107,114,128,0.2); }
+.research-year { color: #6b7280; font-size: 13px; white-space: nowrap; padding-top: 2px; }
+
+.no-results-inline {
+  display: none; padding: 28px 18px;
+  text-align: center; color: #6b7280;
+  font-weight: 700; font-size: 14px; direction: rtl;
+}
+.no-results-inline.show { display: block; }
+
+/* SLIDES GRID */
+.slides-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* CONTRIB SLIDE */
+.contrib-slide {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px; overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.contrib-slide:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,128,128,0.15);
+}
+.contrib-slide .slide-thumb { width: 100%; height: 120px; object-fit: cover; display: block; }
+.contrib-slide .slide-thumb-placeholder {
+  width: 100%; height: 120px; display: none;
+  align-items: center; justify-content: center;
+  font-size: 36px;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+}
+.contrib-slide .slide-body { padding: 12px; flex: 1; }
+.contrib-slide .slide-date { font-size: 11px; color: #999; font-weight: 700; margin-bottom: 4px; }
+.contrib-slide .slide-title { font-size: 13px; font-weight: 700; color: #0d1b2a; line-height: 1.4; }
+.contrib-slide.off { display: none; }
+
+/* VOLUNTEER SLIDE */
+.volunteer-slide {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px; overflow: hidden;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.volunteer-slide:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,71,171,0.15);
+}
+.volunteer-slide .slide-thumb { width: 100%; height: 120px; object-fit: cover; display: block; }
+.volunteer-slide .slide-thumb-placeholder {
+  width: 100%; height: 120px; display: none;
+  align-items: center; justify-content: center;
+  font-size: 36px;
+  background: linear-gradient(135deg, var(--blue), #003080);
+}
+.volunteer-slide .slide-body { padding: 12px; flex: 1; }
+.volunteer-slide .slide-date { font-size: 11px; color: #999; font-weight: 700; margin-bottom: 4px; }
+.volunteer-slide .slide-title { font-size: 13px; font-weight: 700; color: #0d1b2a; line-height: 1.4; }
+.volunteer-slide.off { display: none; }
+
+/* VISION */
+.vision-section {
+  background: var(--blue); padding: 20px 30px; text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.85; max-width: 680px; margin: 0 auto 10px; }
+
+/* FOOTER */
+footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 26px; direction: rtl; }
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom { max-width: 1100px; margin: 26px auto 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .profile-avatar-wrap { right: 20px; top: -50px; }
+  .profile-avatar { width: 100px; height: 100px; }
+  .profile-info { padding: 12px 20px 0 20px; padding-right: 140px; }
+  .profile-name { font-size: 18px; }
+  .profile-body { grid-template-columns: 1fr; padding: 0 16px; margin-top: 20px; }
+  .slides-grid { grid-template-columns: 1fr; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="bar">
+  <a class="logo" href="../index.html" aria-label="الصفحة الرئيسية">
+    <img src="../media/icon-512.png" alt="ESC" style="height:38px; width:auto; display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="../faq.html">الأسئلة الشائعة</a>
+    <a href="../course.html">الدروس الأكاديمية</a>
+    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="../research.html">الأبحاث</a>
+    <a href="../volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="../course.html">الدروس الأكاديمية</a>
+    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="../research.html">الأبحاث</a>
+    <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- COVER -->
+<div class="profile-cover">
+  <img src="../media/uok.PNG" alt="جامعة كربلاء" class="cover-logo">
+</div>
+
+<!-- PROFILE HEADER -->
+<div class="profile-header-wrap">
+  <div class="profile-avatar-wrap">
+    <img src="../media/founder.JPG" alt="محمد باقر الجبوري" class="profile-avatar"
+         onerror="this.src='../media/icon-512.png'">
+  </div>
+  <div class="profile-info">
+    <div class="profile-name">المهندس محمد باقر الجبوري</div>
+    <div class="profile-title">
+      باحث ومهندس جيوتقني · خريج جامعة كربلاء المقدسة — قسم الهندسة المدنية<br>
+      مؤسس مجتمع طلبة الهندسة (ESC)
+    </div>
+    <div class="profile-tags">
+      <span class="profile-tag">🏗️ هندسة مدنية</span>
+      <span class="profile-tag teal">🔬 باحث</span>
+    </div>
+  </div>
+</div>
+
+<!-- PROFILE BODY -->
+<div class="profile-body">
+
+  <!-- SIDEBAR -->
+  <div>
+    <div class="sidebar-card">
+      <h3>معلومات</h3>
+      <div class="info-row">
+        <span class="info-icon">🎓</span>
+        <div>
+          <div class="info-label">التعليم</div>
+          <div class="info-value">جامعة كربلاء المقدسة</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🏛️</span>
+        <div>
+          <div class="info-label">القسم</div>
+          <div class="info-value">هندسة مدنية</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📍</span>
+        <div>
+          <div class="info-label">الموقع</div>
+          <div class="info-value">كربلاء، العراق</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🔬</span>
+        <div>
+          <div class="info-label">التخصص</div>
+          <div class="info-value">هندسة جيوتقنية · تصميم الأسس</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">✉️</span>
+        <div>
+          <div class="info-label">التواصل</div>
+          <div class="info-value"><a href="mailto:contact@esc-iq.com">contact@esc-iq.com</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>المنظمة</h3>
+      <div class="info-row">
+        <span class="info-icon">🏢</span>
+        <div>
+          <div class="info-label">الاسم</div>
+          <div class="info-value">مجتمع طلبة الهندسة — ESC</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📌</span>
+        <div>
+          <div class="info-label">الدور</div>
+          <div class="info-value">المؤسس والرئيس التنفيذي</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🌐</span>
+        <div>
+          <div class="info-label">الموقع</div>
+          <div class="info-value"><a href="../index.html">esc-iq.github.io/esc</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div>
+
+    <!-- ABOUT -->
+    <div class="content-card">
+      <h2>حول</h2>
+      <p class="about-text">
+        <strong>محمد باقر الجبوري</strong> هو خريج بكالوريوس من جامعة كربلاء، قسم الهندسة المدنية،
+        ومؤسس منظمة <strong>"مجتمع طلبة الهندسة"</strong> (ESC)،
+        التي تقدم دورات مجانية في العلوم الهندسية، وتشارك في الفعاليات الأكاديمية،
+        وتساهم من خلال التمويل الشخصي في حملات دعم البيئة.<br><br>
+        يتخصص في مجال الهندسة الجيوتقنية وميكانيك التربة، وقد أسهم في نشر عدد من الأبحاث
+        العلمية المتعلقة بتصميم الأساسات وتحليل بيانات جهاز الضغط الأرضي (Pressuremeter).
+      </p>
+    </div>
+
+    <!-- RESEARCH -->
+    <div class="content-card">
+      <h2>الأبحاث العلمية</h2>
+      <div class="search-wrap">
+        <input id="profileSearch" class="search-input" type="search"
+               placeholder="Search by title or ID..." autocomplete="off">
+        <span class="search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
+            <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="no-results-inline" id="noResultsInline">لا توجد نتائج مطابقة.</div>
+      <div class="research-list" id="profileResearchList">
+
+        <!-- بحث ظاهر -->
+        <article class="research-item" data-title="Design shallow foundation based on Pressuremeter data" data-id="2025120601001">
+          <div class="research-main">
+            <a class="research-title" href="../research/Design_shallow_foundation_based_on_Pressuremeter_data.pdf" download>
+              Design shallow foundation based on Pressuremeter data
+            </a>
+            <div class="research-authors">
+              <span class="authors">
+                <a href="#">Mohammad Baqer A. Azeez</a>, <a href="#">Jaffer M. Mohammed Baqer</a>
+              </span>
+              <span class="research-serial">2025120601001</span>
+            </div>
+            <div class="research-desc">
+              Practical design methods for shallow foundations using Pressuremeter test results, parameter selection, and application notes.
+            </div>
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+            </div>
+          </div>
+          <div class="research-year">2026</div>
+        </article>
+
+        <!-- بحث مخفي — لإظهاره احذف class="off" -->
+        <article class="research-item off" data-title="Bearing capacity evaluation using pressuremeter limit pressure" data-id="2025111802002">
+          <div class="research-main">
+            <a class="research-title" href="../research/Bearing_capacity_evaluation_pressuremeter_limit_pressure.pdf" download>
+              Bearing capacity evaluation using pressuremeter limit pressure
+            </a>
+            <div class="research-authors">
+              <span class="authors">
+                <a href="#">Mohammad Baqir</a>, <a href="#">Co-Author</a>
+              </span>
+              <span class="research-serial">2025111802002</span>
+            </div>
+            <div class="research-desc">
+              A compact review of bearing capacity estimates derived from pressuremeter limit pressure and practical correction factors.
+            </div>
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+            </div>
+          </div>
+          <div class="research-year">2025</div>
+        </article>
+
+        <!-- بحث مخفي — لإظهاره احذف class="off" -->
+        <article class="research-item off" data-title="Shallow footing design workflow from pressuremeter modulus and pl" data-id="2026031401003">
+          <div class="research-main">
+            <a class="research-title" href="../research/Shallow_footing_design_workflow_pressuremeter_modulus_PL.pdf" download>
+              Shallow footing design workflow from pressuremeter modulus and PL
+            </a>
+            <div class="research-authors">
+              <span class="authors">
+                <a href="#">Mohammad Baqir</a>, <a href="#">Co-Author</a>
+              </span>
+              <span class="research-serial">2026031401003</span>
+            </div>
+            <div class="research-desc">
+              Step-by-step workflow connecting pressuremeter modulus and limit pressure to shallow footing sizing and serviceability checks.
+            </div>
+            <div class="research-actions">
+              <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+            </div>
+          </div>
+          <div class="research-year">2026</div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- SCIENTIFIC CONTRIBUTIONS — لإخفاء القسم كله أضف style="display:none" على الـ div -->
+    <div class="content-card" style="display:none">
+      <h2>المساهمات العلمية</h2>
+      <div class="slides-grid">
+
+        <a href="../Scientific_contributions.html" class="contrib-slide">
+          <img src="../media/contrib1.png" alt="مساهمة 1" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">🔬</div>
+          <div class="slide-body">
+            <div class="slide-date">2025</div>
+            <div class="slide-title">عنوان المساهمة الأولى — قابل للتعديل</div>
+          </div>
+        </a>
+
+        <a href="../Scientific_contributions.html" class="contrib-slide">
+          <img src="../media/contrib2.png" alt="مساهمة 2" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">📊</div>
+          <div class="slide-body">
+            <div class="slide-date">2025</div>
+            <div class="slide-title">عنوان المساهمة الثانية — قابل للتعديل</div>
+          </div>
+        </a>
+
+        <a href="../Scientific_contributions.html" class="contrib-slide">
+          <img src="../media/contrib3.png" alt="مساهمة 3" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">🏗️</div>
+          <div class="slide-body">
+            <div class="slide-date">2026</div>
+            <div class="slide-title">عنوان المساهمة الثالثة — قابل للتعديل</div>
+          </div>
+        </a>
+
+        <a href="../Scientific_contributions.html" class="contrib-slide">
+          <img src="../media/contrib4.png" alt="مساهمة 4" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">📐</div>
+          <div class="slide-body">
+            <div class="slide-date">2026</div>
+            <div class="slide-title">عنوان المساهمة الرابعة — قابل للتعديل</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- VOLUNTEER PROGRAMS — لإخفاء القسم كله أضف style="display:none" على الـ div -->
+    <div class="content-card" style="display:none">
+      <h2>برامج التطوع</h2>
+      <div class="slides-grid">
+
+        <a href="../volunteer.html" class="volunteer-slide">
+          <img src="../media/volunteer1.png" alt="تطوع 1" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">🌱</div>
+          <div class="slide-body">
+            <div class="slide-date">2025</div>
+            <div class="slide-title">عنوان البرنامج الأول — قابل للتعديل</div>
+          </div>
+        </a>
+
+        <a href="../volunteer.html" class="volunteer-slide">
+          <img src="../media/volunteer2.png" alt="تطوع 2" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">🤝</div>
+          <div class="slide-body">
+            <div class="slide-date">2025</div>
+            <div class="slide-title">عنوان البرنامج الثاني — قابل للتعديل</div>
+          </div>
+        </a>
+
+        <a href="../volunteer.html" class="volunteer-slide">
+          <img src="../media/volunteer3.png" alt="تطوع 3" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">🌍</div>
+          <div class="slide-body">
+            <div class="slide-date">2026</div>
+            <div class="slide-title">عنوان البرنامج الثالث — قابل للتعديل</div>
+          </div>
+        </a>
+
+        <a href="../volunteer.html" class="volunteer-slide">
+          <img src="../media/volunteer4.png" alt="تطوع 4" class="slide-thumb"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="slide-thumb-placeholder">♻️</div>
+          <div class="slide-body">
+            <div class="slide-date">2026</div>
+            <div class="slide-title">عنوان البرنامج الرابع — قابل للتعديل</div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- VISION -->
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="../media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>
+        هل لديك سؤال أو مقترح؟<br>
+        يسعدنا التواصل معك.<br><br>
+        <a href="mailto:contact@esc-iq.com">contact@esc-iq.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script>
+/* Mobile Menu */
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop   = document.getElementById('menuBackdrop');
+const openMenu   = () => { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeMenu  = () => { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
+
+/* Research Search — يتجاهل العناصر المخفية بـ .off */
+const searchInput = document.getElementById('profileSearch');
+const noResults   = document.getElementById('noResultsInline');
+const listBox     = document.getElementById('profileResearchList');
+
+function applySearch() {
+  const q = searchInput.value.trim().toLowerCase();
+  const items = Array.from(listBox.querySelectorAll('.research-item:not(.off)'));
+  let count = 0;
+  items.forEach(item => {
+    const title = (item.dataset.title || '').toLowerCase();
+    const id    = (item.dataset.id   || '').toLowerCase();
+    const show  = q === '' || title.includes(q) || id.includes(q);
+    item.style.display = show ? '' : 'none';
+    if (show) count++;
+  });
+  noResults.classList.toggle('show', count === 0);
+  listBox.style.display = count === 0 ? 'none' : 'block';
+}
+
+let t = null;
+searchInput.addEventListener('input', () => { clearTimeout(t); t = setTimeout(applySearch, 120); });
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ESC.</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 
