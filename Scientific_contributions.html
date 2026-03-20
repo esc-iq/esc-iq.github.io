@@ -161,7 +161,7 @@ body{
 }
 .mobile-menu a:hover{ background: #f3f4f6; }
 
-/* ===================== HERO — محافظ على الأصل ===================== */
+/* ===================== HERO ===================== */
 main{ flex-grow: 1; }
 
 .hero-section {
@@ -192,7 +192,7 @@ main{ flex-grow: 1; }
   box-sizing: border-box;
   padding: 18px 25px;
   font-size: 18px;
-  font-family: inherit;
+  font-family: 'Ubuntu', sans-serif;
   border: none;
   border-radius: 50px;
   outline: none;
@@ -206,9 +206,9 @@ main{ flex-grow: 1; }
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
 }
 
-/* ===================== CARDS — محافظ على الأصل ===================== */
+/* ===================== CARDS ===================== */
 .news-container {
-  max-width: 1100px;
+  max-width: 860px;
   margin: 60px auto;
   padding: 0 20px;
   display: flex;
@@ -258,7 +258,7 @@ main{ flex-grow: 1; }
 }
 .news-date {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: 700;
   color: var(--primary-color);
   margin-bottom: 10px;
   display: inline-block;
@@ -313,9 +313,12 @@ footer {
   direction: rtl;
 }
 .footer-inner {
-  max-width: 1100px; margin: 0 auto;
-  display: grid; grid-template-columns: 1.4fr 1fr;
-  gap: 48px; padding-bottom: 38px;
+  max-width: 860px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+  padding-bottom: 38px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 .footer-brand img {
@@ -388,7 +391,7 @@ footer {
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
 
-<!-- HERO — محافظ على الأصل بالكامل -->
+<!-- HERO -->
 <main>
   <div class="hero-section">
     <h1>المساهمات العلمية وأخر الأخبار</h1>
@@ -435,7 +438,6 @@ footer {
 
 <!-- SCRIPTS -->
 <script>
-/* Mobile Menu */
 const menuBtn    = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const backdrop   = document.getElementById('menuBackdrop');
@@ -448,7 +450,6 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); })
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
 
-/* News Data — محافظ على الأصل بالكامل */
 const newsData = [
   {
     id: "20260413",
