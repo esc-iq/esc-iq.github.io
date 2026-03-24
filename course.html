@@ -11,7 +11,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== VARIABLES ===================== */
 :root {
   --nav-height: 58px;
   --blue: #0047AB;
@@ -46,13 +45,6 @@ body {
   z-index: 1000;
   direction: ltr;
   box-shadow: 0 2px 20px rgba(0,0,0,0.25);
-}
-#bar .logo {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--cream);
-  text-decoration: none;
-  letter-spacing: 2px;
 }
 #bar nav { display: flex; gap: 4px; align-items: center; }
 #bar nav a {
@@ -134,76 +126,47 @@ body {
   background: radial-gradient(circle, rgba(0,207,255,0.1), transparent 70%);
   pointer-events: none;
 }
-.page-hero-inner {
-  max-width: 800px;
-  position: relative; z-index: 1;
-}
+.page-hero-inner { max-width: 800px; position: relative; z-index: 1; }
 .page-hero-tag {
   display: inline-block;
   background: rgba(255,255,255,0.15);
   backdrop-filter: blur(6px);
   color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  padding: 4px 14px;
-  border-radius: 20px;
-  margin-bottom: 14px;
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
   border: 1px solid rgba(255,255,255,0.2);
 }
 .page-hero h1 {
   font-size: clamp(24px, 3vw, 38px);
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.3;
-  margin-bottom: 12px;
+  font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 12px;
 }
 .page-hero p {
-  font-size: 15px;
-  color: rgba(255,255,255,0.78);
-  line-height: 1.75;
-  max-width: 560px;
+  font-size: 15px; color: rgba(255,255,255,0.78);
+  line-height: 1.75; max-width: 560px;
 }
 
 /* ===================== ALERT STRIP ===================== */
 .alert-strip {
   background: linear-gradient(90deg, var(--blue) 0%, var(--teal) 100%);
-  color: #fff;
-  text-align: center;
-  padding: 10px 20px;
-  font-size: 15px;
-  font-weight: 700;
+  color: #fff; text-align: center;
+  padding: 10px 20px; font-size: 15px; font-weight: 700;
 }
 
 /* ===================== SECTION HEADER ===================== */
 .section-header {
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
-  margin-bottom: 22px;
+  padding: 0 30px; margin-bottom: 22px;
 }
 .section-header h2 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #0d1b2a;
-  position: relative;
-  padding-right: 14px;
+  font-size: 22px; font-weight: 700;
+  color: #0d1b2a; position: relative; padding-right: 14px;
 }
 .section-header h2::before {
-  content: '';
-  position: absolute;
-  right: 0; top: 50%;
-  transform: translateY(-50%);
+  content: ''; position: absolute;
+  right: 0; top: 50%; transform: translateY(-50%);
   width: 4px; height: 22px;
-  background: var(--teal);
-  border-radius: 3px;
-}
-.section-header .sub-label {
-  font-size: 13px;
-  color: #666;
-  font-weight: 400;
-  margin-top: 4px;
+  background: var(--teal); border-radius: 3px;
 }
 
 /* ===================== CATEGORY BLOCK ===================== */
@@ -211,106 +174,67 @@ body {
 .category-block + .category-block { border-top: 1px solid rgba(0,0,0,0.07); }
 
 /* ===================== COURSES GRID ===================== */
-.courses-grid-wrapper { 
-  padding: 0 30px;
-  overflow: visible;
-}
+.courses-grid-wrapper { padding: 0 30px; overflow: visible; }
 .courses-grid {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  overflow-y: visible;
+  display: flex; gap: 20px;
+  overflow-x: auto; overflow-y: visible;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-    padding-top: 8px;
-  padding-bottom: 14px;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
-
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding-bottom: 14px;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc transparent;
+  padding-top: 8px; padding-bottom: 14px;
+  scrollbar-width: thin; scrollbar-color: #ccc transparent;
 }
 .courses-grid::-webkit-scrollbar { height: 5px; }
 .courses-grid::-webkit-scrollbar-track { background: transparent; }
 .courses-grid::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
 
-/* ===================== COURSE CARD (FREE) ===================== */
+/* ===================== COURSE CARD ===================== */
 .course-card {
   min-width: 250px; max-width: 250px;
-  background: #fff;
-  border-radius: var(--card-radius);
-  overflow: hidden;
-  scroll-snap-align: start;
+  background: #fff; border-radius: var(--card-radius);
+  overflow: hidden; scroll-snap-align: start;
   box-shadow: 0 2px 14px rgba(0,0,0,0.08);
   transition: transform var(--transition), box-shadow var(--transition);
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  border: 1.5px solid transparent;
+  text-decoration: none; color: inherit;
+  display: flex; flex-direction: column;
+  flex-shrink: 0; border: 1.5px solid transparent;
 }
 .course-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 30px rgba(0,71,171,0.18);
   border-color: rgba(0,71,171,0.12);
 }
-.course-card .thumb {
-  width: 100%; height: 148px;
-  object-fit: cover; display: block;
-}
+.course-card .thumb { width: 100%; height: 148px; object-fit: cover; display: block; }
 .course-card .thumb-placeholder {
-  width: 100%; height: 148px;
-  display: none;
+  width: 100%; height: 148px; display: none;
   align-items: center; justify-content: center;
   font-size: 42px;
   background: linear-gradient(135deg, #003f8a, #006060);
 }
 .course-card .card-body { padding: 14px; flex: 1; display: flex; flex-direction: column; }
 .course-card .card-tag {
-  font-size: 11px; font-weight: 700;
-  color: var(--teal); letter-spacing: 1px;
-  text-transform: uppercase; margin-bottom: 6px;
+  font-size: 11px; font-weight: 700; color: var(--teal);
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px;
 }
 .course-card .card-title {
-  font-size: 14px; font-weight: 700;
-  color: #0d1b2a; line-height: 1.4;
-  margin-bottom: 6px; flex: 1;
+  font-size: 14px; font-weight: 700; color: #0d1b2a;
+  line-height: 1.4; margin-bottom: 6px; flex: 1;
 }
-.course-card .card-instructor {
-  font-size: 12px; color: #777;
-  margin-bottom: 10px;
-}
-.course-card .card-meta {
-  display: flex; align-items: center;
-  gap: 6px; flex-wrap: wrap;
-}
+.course-card .card-instructor { font-size: 12px; color: #777; margin-bottom: 10px; }
+.course-card .card-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 
-/* ===================== COURSE CARD (PAID) ===================== */
-.course-card.paid {
-  border-color: rgba(0,71,171,0.15);
-}
+/* ===================== PAID CARD ===================== */
+.course-card.paid { border-color: rgba(0,71,171,0.15); }
 .course-card.paid:hover {
   box-shadow: 0 10px 30px rgba(0,71,171,0.25);
   border-color: rgba(0,71,171,0.3);
 }
 .paid-ribbon {
-  position: absolute;
-  top: 12px; left: 12px;
-  background: var(--blue);
-  color: #fff;
+  position: absolute; top: 12px; left: 12px;
+  background: var(--blue); color: #fff;
   font-size: 11px; font-weight: 700;
-  padding: 3px 10px;
-  border-radius: 20px;
-  z-index: 2;
+  padding: 3px 10px; border-radius: 20px; z-index: 2;
 }
-.card-thumb-wrap {
-  position: relative;
-  flex-shrink: 0;
-}
+.card-thumb-wrap { position: relative; flex-shrink: 0; }
 
 /* ===================== BADGES ===================== */
 .badge-free {
@@ -337,66 +261,71 @@ body {
   font-size: 11px; font-weight: 700;
   padding: 3px 10px; border-radius: 20px;
 }
+/* [تعديل 3] badge مبتدئين */
+.badge-beginner {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #e0f2fe; color: #0369a1;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
 
 /* ===================== SECTION DIVIDER ===================== */
 .section-divider {
   background: var(--blue);
   padding: 28px 40px;
+  display: flex; align-items: center; gap: 18px;
+}
+.section-divider .divider-icon { font-size: 32px; flex-shrink: 0; }
+.section-divider h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.section-divider p { font-size: 13px; color: rgba(255,255,255,0.7); }
+
+/* [تعديل 1] مستطيل "تتوفر قريباً" */
+.coming-soon-box {
+  background: #fff;
+  border: 2px dashed rgba(0,71,171,0.2);
+  border-radius: var(--card-radius);
+  padding: 48px 24px;
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 18px;
+  gap: 12px;
+  width: 100%;
 }
-.section-divider .divider-icon {
-  font-size: 32px;
-  flex-shrink: 0;
+.coming-soon-box .cs-icon { font-size: 40px; opacity: 0.4; }
+.coming-soon-box .cs-text {
+  font-size: 16px; font-weight: 700; color: #9ca3af;
 }
-.section-divider h2 {
-  font-size: 20px; font-weight: 700;
-  color: #fff; margin-bottom: 4px;
-}
-.section-divider p {
-  font-size: 13px;
-  color: rgba(255,255,255,0.7);
+.coming-soon-box .cs-sub {
+  font-size: 13px; color: #bbb; font-weight: 400;
 }
 
-/* ===================== VISION SECTION ===================== */
+/* ===================== VISION ===================== */
 .vision-section {
-  background: var(--blue);
-  padding: 20px 30px;
-  text-align: center;
+  background: var(--blue); padding: 20px 30px; text-align: center;
 }
 .vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
 .vision-section p {
   font-size: 14px; color: rgba(255,255,255,0.85);
-  line-height: 1.85; max-width: 680px;
-  margin: 0 auto 10px;
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
 }
 
 /* ===================== FOOTER ===================== */
 footer {
-  background: #06101f;
-  color: rgba(255,255,255,0.6);
-  padding: 52px 30px 26px;
-  direction: rtl;
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
 }
 .footer-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 48px;
-  padding-bottom: 38px;
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
-.footer-brand img {
-  width: 54px; height: 54px;
-  border-radius: 12px; margin-bottom: 14px; object-fit: cover;
-}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
 .footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
 .footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
 .footer-col h4 {
-  font-size: 11px; font-weight: 700;
-  color: rgba(255,255,255,0.5);
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
   letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
 }
 .footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
@@ -408,10 +337,7 @@ footer {
   justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
 .footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
-.footer-bottom .esc-mark {
-  font-size: 24px; font-weight: 700;
-  color: rgba(255,255,255,0.1); letter-spacing: 4px;
-}
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
 
 /* ===================== RESPONSIVE ===================== */
 @media (max-width: 768px) {
@@ -423,6 +349,16 @@ footer {
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
   .section-divider { padding: 22px 20px; }
+}
+
+@keyframes floatPulse {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0,71,171,0.2); }
+  50%       { box-shadow: 0 12px 40px rgba(0,71,171,0.38); }
+}
+#floatingBtn:hover {
+  transform: translateX(-50%) translateY(-3px) !important;
+  box-shadow: 0 14px 40px rgba(0,71,171,0.35) !important;
+  background: rgba(255,255,255,0.92) !important;
 }
 </style>
 </head>
@@ -460,33 +396,26 @@ footer {
     <h1>تعلّم مع مجتمع طلبة الهندسة</h1>
     <p>دورات مجانية ومدفوعة مصممة خصيصاً لطلاب الهندسة في العراق — من الأساسيات حتى المستوى المتقدم.</p>
     <a href="check_lic.html" style="
-      display: inline-block;
-      margin-top: 20px;
-      background: rgba(255,255,255,0.15);
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 14px;
-      padding: 10px 24px;
-      border-radius: 10px;
+      display: inline-block; margin-top: 20px;
+      background: rgba(255,255,255,0.15); color: #fff;
+      text-decoration: none; font-weight: 700; font-size: 14px;
+      padding: 10px 24px; border-radius: 10px;
       border: 1.5px solid rgba(255,255,255,0.35);
-      backdrop-filter: blur(6px);
-      transition: background 0.3s;
-    "
-    onmouseover="this.style.background='rgba(255,255,255,0.28)'"
-    onmouseout="this.style.background='rgba(255,255,255,0.15)'">
-التحقق من الشهادات    </a>
+      backdrop-filter: blur(6px); transition: background 0.3s;"
+      onmouseover="this.style.background='rgba(255,255,255,0.28)'"
+      onmouseout="this.style.background='rgba(255,255,255,0.15)'">
+      التحقق من الشهادات
+    </a>
   </div>
 </div>
 
-<!-- ALERT STRIP -->
-<div class="alert-strip">🎉 الدورات المجانية تتضمن شهادة إتمام — سجّل الآن!</div>
-
+<!-- [تعديل 2] ALERT STRIP — السعر المحدّث -->
+<div class="alert-strip">🏆 سعر الدورة المدفوعة الواحدة: 66,750 دينار عراقي — شهادة معتمدة + امتحان إلكتروني</div>
 
 <!-- ================================================
      القسم الأول: الدورات المجانية
      ================================================ -->
-<div class="section-divider"  style="margin-top: 20px;">
+<div class="section-divider" style="margin-top: 20px;">
   <div class="divider-icon">🆓</div>
   <div>
     <h2>الدورات المجانية</h2>
@@ -496,11 +425,7 @@ footer {
 
 <!-- كورسات عامة -->
 <div class="category-block">
-  <div class="section-header">
-    <div>
-      <h2>كورسات عامة</h2>
-    </div>
-  </div>
+  <div class="section-header"><div><h2>كورسات عامة</h2></div></div>
   <div class="courses-grid-wrapper">
     <div class="courses-grid">
 
@@ -511,48 +436,49 @@ footer {
           <div class="thumb-placeholder">📊</div>
         </div>
         <div class="card-body">
-          <div class="card-tag">عام</div>
+          <div class="card-tag">تقنية</div>
           <div class="card-title">دورة Excel للمبتدئين</div>
           <div class="card-instructor">👤 محمد باقر علاء</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
 
-      <!-- بطاقة فارغة 1 -->
       <a href="#" class="course-card">
         <div class="card-thumb-wrap">
-          <img src="media/generalcourse2.png" alt="دورة عامة" class="thumb"
+          <img src="media/wordcourse.png" alt="Word" class="thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="thumb-placeholder">📚</div>
         </div>
         <div class="card-body">
-          <div class="card-tag">عام</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
+          <div class="card-tag">تقنية</div>
+          <div class="card-title">أساسيات برنامج الوورد</div>
+          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
 
-      <!-- بطاقة فارغة 2 -->
       <a href="#" class="course-card">
         <div class="card-thumb-wrap">
-          <img src="media/generalcourse3.png" alt="دورة عامة" class="thumb"
+          <img src="media/powerpointcourse.png" alt="PowerPoint" class="thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="thumb-placeholder">💡</div>
         </div>
         <div class="card-body">
-          <div class="card-tag">عام</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
+          <div class="card-tag">تقنية</div>
+          <div class="card-title">إعداد العرض التقديمي عبر PowerPoint للمبتدئين</div>
+          <div class="card-instructor">👤 المهندس جعفر الحلفي</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
@@ -563,15 +489,11 @@ footer {
 
 <!-- كورسات الهندسة المدنية -->
 <div class="category-block">
-  <div class="section-header">
-    <div>
-      <h2>كورسات الهندسة المدنية</h2>
-    </div>
-  </div>
+  <div class="section-header"><div><h2>كورسات الهندسة المدنية</h2></div></div>
   <div class="courses-grid-wrapper">
     <div class="courses-grid">
 
-      <a href="courses/civil.soilmechanics.html" class="course-card">
+      <a href="course_soilmechanics.html" class="course-card">
         <div class="card-thumb-wrap">
           <img src="media/mainsoil.png" alt="ميكانيك التربة" class="thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -580,10 +502,11 @@ footer {
         <div class="card-body">
           <div class="card-tag">هندسة مدنية</div>
           <div class="card-title">ميكانيك التربة</div>
-          <div class="card-instructor">👤 محمد باقر علاء</div>
+          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
@@ -597,28 +520,29 @@ footer {
         <div class="card-body">
           <div class="card-tag">هندسة مدنية</div>
           <div class="card-title">دورة أوتوكاد للمبتدئين للمهندس المدني</div>
-          <div class="card-instructor">👤 محمد باقر علاء</div>
+          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
 
-      <!-- بطاقة فارغة -->
       <a href="#" class="course-card">
         <div class="card-thumb-wrap">
-          <img src="media/civilcourse3.png" alt="دورة مدنية" class="thumb"
+          <img src="media/plaxis2dcourse.png" alt="PLAXIS" class="thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="thumb-placeholder">🔩</div>
         </div>
         <div class="card-body">
           <div class="card-tag">هندسة مدنية</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
+          <div class="card-title">تحليل وتصميم الأسس عبر PLAXIS 2D</div>
+          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
@@ -629,33 +553,28 @@ footer {
 
 <!-- كورسات الهندسة الكهربائية -->
 <div class="category-block">
-  <div class="section-header">
-    <div>
-      <h2>كورسات الهندسة الكهربائية</h2>
-    </div>
-  </div>
+  <div class="section-header"><div><h2>كورسات الهندسة الكهربائية</h2></div></div>
   <div class="courses-grid-wrapper">
     <div class="courses-grid">
 
-      <!-- بطاقة فارغة 1 -->
       <a href="#" class="course-card">
         <div class="card-thumb-wrap">
-          <img src="media/electricalcourse1.png" alt="دورة كهربائية" class="thumb"
+          <img src="media/pythoncourse.png" alt="Python" class="thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="thumb-placeholder">⚡</div>
         </div>
         <div class="card-body">
           <div class="card-tag">هندسة كهربائية</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
+          <div class="card-title">أساسيات البرمجة عبر بايثون</div>
+          <div class="card-instructor">👤 المهندس محمد الشيباني</div>
           <div class="card-meta">
             <span class="badge-free">🆓 مجاني</span>
             <span class="badge-cert">🏅 شهادة</span>
+            <span class="badge-beginner">مبتدئين</span>
           </div>
         </div>
       </a>
 
-      <!-- بطاقة فارغة 2 -->
       <a href="#" class="course-card">
         <div class="card-thumb-wrap">
           <img src="media/electricalcourse2.png" alt="دورة كهربائية" class="thumb"
@@ -677,7 +596,6 @@ footer {
   </div>
 </div>
 
-
 <!-- ================================================
      القسم الثاني: الدورات المدفوعة
      ================================================ -->
@@ -685,154 +603,31 @@ footer {
   <div class="divider-icon">🏆</div>
   <div>
     <h2>الدورات المدفوعة</h2>
-    <p>امتحان إلكتروني + شهادة معتمدة — 48,000 دينار عراقي للدورة الواحدة</p>
+    <!-- [تعديل 2] السعر المحدّث -->
+    <p>امتحان إلكتروني + شهادة معتمدة — 66,750 دينار عراقي للدورة الواحدة</p>
   </div>
 </div>
 
-<!-- كورسات الهندسة المدنية المتقدمة -->
+<!-- [تعديل 1] كورسات المدنية المتقدمة — تتوفر قريباً -->
 <div class="category-block">
-  <div class="section-header">
-    <div>
-      <h2>كورسات الهندسة المدنية المتقدمة</h2>
-    </div>
-  </div>
+  <div class="section-header"><div><h2>كورسات الهندسة المدنية المتقدمة</h2></div></div>
   <div class="courses-grid-wrapper">
-    <div class="courses-grid">
-
-      <!-- بطاقة فارغة 1 -->
-      <a href="#" class="course-card paid">
-        <div class="card-thumb-wrap">
-          <span class="paid-ribbon">مدفوع</span>
-          <img src="media/civiladvanced1.png" alt="دورة متقدمة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🏗️</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">مدنية متقدمة</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
-          <div class="card-meta">
-            <span class="badge-paid">48,000 IQD</span>
-            <span class="badge-exam">📝 امتحان</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- بطاقة فارغة 2 -->
-      <a href="#" class="course-card paid">
-        <div class="card-thumb-wrap">
-          <span class="paid-ribbon">مدفوع</span>
-          <img src="media/civiladvanced2.png" alt="دورة متقدمة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">📐</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">مدنية متقدمة</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
-          <div class="card-meta">
-            <span class="badge-paid">48,000 IQD</span>
-            <span class="badge-exam">📝 امتحان</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- بطاقة فارغة 3 -->
-      <a href="#" class="course-card paid">
-        <div class="card-thumb-wrap">
-          <span class="paid-ribbon">مدفوع</span>
-          <img src="media/civiladvanced3.png" alt="دورة متقدمة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🔩</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">مدنية متقدمة</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
-          <div class="card-meta">
-            <span class="badge-paid">48,000 IQD</span>
-            <span class="badge-exam">📝 امتحان</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-      </a>
-
+    <div class="coming-soon-box">
+      <div class="cs-icon">🚧</div>
+      <div class="cs-text">تتوفر قريباً</div>
+      <div class="cs-sub">نعمل على إطلاق هذه الدورات — ترقّبوا التحديثات</div>
     </div>
   </div>
 </div>
 
-<!-- كورسات الهندسة الكهربائية والإلكترونيك -->
+<!-- [تعديل 1] كورسات الكهربائية والإلكترونيك — تتوفر قريباً -->
 <div class="category-block">
-  <div class="section-header">
-    <div>
-      <h2>كورسات الهندسة الكهربائية والإلكترونيك</h2>
-    </div>
-  </div>
+  <div class="section-header"><div><h2>كورسات الهندسة الكهربائية والإلكترونيك</h2></div></div>
   <div class="courses-grid-wrapper">
-    <div class="courses-grid">
-
-      <!-- بطاقة فارغة 1 -->
-      <a href="#" class="course-card paid">
-        <div class="card-thumb-wrap">
-          <span class="paid-ribbon">مدفوع</span>
-          <img src="media/electricaladvanced1.png" alt="دورة كهربائية متقدمة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">⚡</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">كهربائية وإلكترونيك</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
-          <div class="card-meta">
-            <span class="badge-paid">48,000 IQD</span>
-            <span class="badge-exam">📝 امتحان</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- بطاقة فارغة 2 -->
-      <a href="#" class="course-card paid">
-        <div class="card-thumb-wrap">
-          <span class="paid-ribbon">مدفوع</span>
-          <img src="media/electricaladvanced2.png" alt="دورة كهربائية متقدمة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🔌</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">كهربائية وإلكترونيك</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
-          <div class="card-meta">
-            <span class="badge-paid">48,000 IQD</span>
-            <span class="badge-exam">📝 امتحان</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-      </a>
-
-      <!-- بطاقة فارغة 3 -->
-      <a href="#" class="course-card paid">
-        <div class="card-thumb-wrap">
-          <span class="paid-ribbon">مدفوع</span>
-          <img src="media/electricaladvanced3.png" alt="دورة كهربائية متقدمة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🖥️</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">كهربائية وإلكترونيك</div>
-          <div class="card-title">اسم الدورة — قابل للتعديل</div>
-          <div class="card-instructor">👤 اسم المحاضر</div>
-          <div class="card-meta">
-            <span class="badge-paid">48,000 IQD</span>
-            <span class="badge-exam">📝 امتحان</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-      </a>
-
+    <div class="coming-soon-box">
+      <div class="cs-icon">🚧</div>
+      <div class="cs-text">تتوفر قريباً</div>
+      <div class="cs-sub">نعمل على إطلاق هذه الدورات — ترقّبوا التحديثات</div>
     </div>
   </div>
 </div>
@@ -853,10 +648,8 @@ footer {
     </div>
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
-      <p>
-        هل لديك سؤال أو مقترح؟<br>
-        يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc-irq@gmail.com">esc-irq@gmail.com</a>
       </p>
     </div>
   </div>
@@ -885,49 +678,26 @@ window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(
   top: document.getElementById('section-paid').offsetTop - 80,
   behavior: 'smooth'
 })" style="
-  position: fixed;
-  bottom: 28px;
-  left: 50%;
+  position: fixed; bottom: 28px; left: 50%;
   transform: translateX(-50%);
   background: rgba(255,255,255,0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  color: #0047AB;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 12px 28px;
-  border-radius: 14px;
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  color: #0047AB; font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; font-weight: 700;
+  padding: 12px 28px; border-radius: 14px;
   border: 1.5px solid rgba(0,71,171,0.35);
-  cursor: pointer;
-  z-index: 800;
+  cursor: pointer; z-index: 800;
   box-shadow: 0 8px 32px rgba(0,71,171,0.2);
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s;
-  animation: floatPulse 2.5s ease-in-out infinite;
-">
+  animation: floatPulse 2.5s ease-in-out infinite;">
   🏆 اكتشف الدورات المدفوعة
   <span style="font-size:18px;">↓</span>
 </div>
 
-<style>
-@keyframes floatPulse {
-  0%, 100% { box-shadow: 0 8px 32px rgba(0,71,171,0.2); }
-  50%       { box-shadow: 0 12px 40px rgba(0,71,171,0.38); }
-}
-#floatingBtn:hover {
-  transform: translateX(-50%) translateY(-3px) !important;
-  box-shadow: 0 14px 40px rgba(0,71,171,0.35) !important;
-  background: rgba(255,255,255,0.92) !important;
-}
-</style>
-
 <script>
 const floatingBtn = document.getElementById('floatingBtn');
 const paidSection = document.getElementById('section-paid');
-
 window.addEventListener('scroll', () => {
   const rect = paidSection.getBoundingClientRect();
   if (rect.top <= window.innerHeight) {
@@ -942,5 +712,4 @@ window.addEventListener('scroll', () => {
 });
 </script>
 </body>
-
 </html>
