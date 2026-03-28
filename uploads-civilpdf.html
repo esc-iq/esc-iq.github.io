@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — مرفوعات الهندسة المدنية</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 12px;
+  --transition: 0.25s ease;
+  --text-dark: #111827;
+  --text-light: #6b7280;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky; top: 0; z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background-color var(--transition);
+  white-space: nowrap;
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+#bar nav a.active { background-color: rgba(255,255,255,0.22); }
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px; background: #fff;
+  display: block; position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top: 7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px; border-radius: 10px;
+  color: var(--text-dark); text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===== PAGE HERO ===== */
+.page-hero {
+  background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; top: -80px; left: -80px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.1), transparent 70%);
+  pointer-events: none;
+}
+.page-hero-inner { max-width: 860px; position: relative; z-index: 1; }
+.page-hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.15); backdrop-filter: blur(6px);
+  color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.page-hero h1 {
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.3;
+}
+.page-hero p {
+  font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.7;
+}
+
+/* ===== DEPT SWITCHER ===== */
+.dept-switcher {
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding: 0 24px;
+  display: flex; align-items: center;
+  gap: 0; direction: ltr;
+  overflow-x: auto;
+}
+.dept-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 20px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; font-weight: 700;
+  color: var(--text-light);
+  text-decoration: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: color var(--transition), border-color var(--transition);
+  cursor: pointer; background: none; border-top: none; border-left: none; border-right: none;
+}
+.dept-tab:hover { color: var(--blue); }
+.dept-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.dept-tab .dept-arrow {
+  font-size: 16px; opacity: 0.5;
+  transition: opacity var(--transition);
+}
+.dept-tab:hover .dept-arrow { opacity: 1; }
+
+/* ===== MAIN ===== */
+main { flex: 1; }
+
+.page {
+  max-width: 1100px;
+  margin: 28px auto 60px;
+  padding: 0 20px;
+}
+
+.filter-toggle {
+  display: none; width: 100%; height: 44px;
+  border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
+  background: #fff; color: var(--text-dark);
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; cursor: pointer;
+  direction: rtl; text-align: right;
+  padding: 0 14px; margin-bottom: 14px;
+  align-items: center; justify-content: space-between;
+}
+.filter-toggle svg { width: 18px; height: 18px; }
+
+.layout { display: flex; gap: 18px; align-items: flex-start; direction: ltr; }
+
+/* ===== SIDEBAR ===== */
+.filters {
+  width: 210px; flex-shrink: 0;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--card-radius);
+  padding: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.filters h3 {
+  font-size: 11px; font-weight: 700;
+  color: rgba(0,0,0,0.4); letter-spacing: 1.8px;
+  text-transform: uppercase; margin-bottom: 14px;
+  text-align: left;
+}
+
+/* Stage group */
+.stage-group { margin-bottom: 6px; }
+.stage-btn {
+  width: 100%; appearance: none;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: #fff; border-radius: 8px;
+  padding: 9px 11px; cursor: pointer; text-align: left;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 13px; color: var(--text-dark);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background var(--transition), border-color var(--transition);
+}
+.stage-btn:hover { background: #f3f4f6; }
+.stage-btn.active {
+  border-color: rgba(0,71,171,0.3);
+  background: rgba(0,71,171,0.07);
+  color: var(--blue);
+}
+.stage-btn .chevron {
+  font-size: 10px; opacity: 0.5;
+  transition: transform var(--transition);
+}
+.stage-btn.open .chevron { transform: rotate(180deg); }
+
+/* Sub items */
+.sub-list {
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 0 4px 0;
+}
+.sub-list.open { display: flex; }
+.sub-btn {
+  appearance: none;
+  border: none; background: transparent;
+  border-radius: 7px; padding: 7px 10px 7px 24px;
+  cursor: pointer; text-align: left;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sub-btn:hover { background: #f3f4f6; color: var(--text-dark); }
+.sub-btn.active {
+  background: rgba(0,71,171,0.07);
+  color: var(--blue);
+}
+
+.filters-drawer-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35); z-index: 1200;
+}
+.filters-drawer-backdrop.show { display: block; }
+
+/* ===== FILES AREA ===== */
+.files-area { flex: 1; min-width: 0; }
+
+/* No results */
+.no-results {
+  display: none; background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--card-radius);
+  padding: 48px 20px; text-align: center; direction: rtl;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.no-results.show { display: block; }
+.no-results img { width: 72px; opacity: 0.55; display: block; margin: 0 auto 14px; }
+.no-results .txt { color: #374151; font-weight: 700; line-height: 1.8; font-size: 14px; }
+
+/* Files list */
+.files-list {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  direction: ltr; text-align: left;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* File item */
+.file-item {
+  display: flex; gap: 16px; align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: background var(--transition);
+}
+.file-item:last-child { border-bottom: none; }
+.file-item:hover { background: #fafbff; }
+
+.file-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #fff; font-weight: 700;
+  box-shadow: 0 2px 8px rgba(220,38,38,0.25);
+}
+
+.file-main { flex: 1; min-width: 0; }
+
+.file-name {
+  color: #1a0dab; font-size: 15px; font-weight: 700;
+  text-decoration: none; line-height: 1.35;
+  display: block;
+}
+.file-name:hover { text-decoration: underline; }
+
+.file-meta {
+  margin-top: 4px; font-size: 12px;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.file-uploader {
+  color: #188038; font-weight: 700;
+  cursor: default; text-decoration: none;
+}
+.file-desc { color: var(--text-light); font-size: 12px; }
+.file-tag {
+  background: rgba(0,0,0,0.05);
+  color: #374151; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 6px;
+}
+
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 20px;
+  background: rgba(0,71,171,0.08);
+  border: 1px solid rgba(0,71,171,0.18);
+  color: var(--blue); text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 12px; white-space: nowrap;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+.dl-btn:hover { background: rgba(0,71,171,0.16); }
+
+/* ===== VISION ===== */
+.vision-section { background: var(--blue); padding: 20px 30px; text-align: center; }
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .filters { width: 100%; }
+}
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .page-hero { padding: 36px 20px; }
+  .page { padding: 0 14px; margin-top: 20px; }
+  .filter-toggle { display: flex; }
+  .filters { display: none; }
+  .filters.open {
+    display: block; position: fixed;
+    top: calc(var(--nav-height) + 10px);
+    left: 12px; right: 12px; width: auto;
+    z-index: 1201; box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  }
+  .file-item { flex-wrap: wrap; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+<div id="filtersBackdrop" class="filters-drawer-backdrop" aria-hidden="true"></div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-tag">📂 المكتبة</span>
+    <h1>مرفوعات الهندسة المدنية</h1>
+    <p>ملخصات، ملازم MCQ، اختبارات سابقة — مرفوعة من طلاب لطلاب.</p>
+  </div>
+</div>
+
+<!-- DEPT SWITCHER -->
+<div class="dept-switcher">
+  <span class="dept-tab active">📐 هندسة مدنية</span>
+  <a href="uploads-electricalpdf.html" class="dept-tab">
+    ⚡ هندسة كهرباء والكترونيك
+  </a>
+</div>
+
+<!-- MAIN -->
+<main>
+  <div class="page">
+
+    <button id="filterToggle" class="filter-toggle" type="button" aria-expanded="false">
+      <span>تصفية حسب المرحلة</span>
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M4 6h16M7 12h10M10 18h4" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <div class="layout">
+
+      <!-- SIDEBAR -->
+      <aside id="filtersPanel" class="filters">
+        <h3>المرحلة</h3>
+
+        <!-- المرحلة الرابعة -->
+        <div class="stage-group">
+          <button class="stage-btn open active" data-stage="4" type="button">
+            <span>المرحلة الرابعة</span>
+            <span class="chevron">▲</span>
+          </button>
+          <div class="sub-list open" id="sub-4">
+            <button class="sub-btn active" data-sub="estimation" type="button">هندسة التخمين</button>
+            <button class="sub-btn" data-sub="steel" type="button">المنشآت الحديدية</button>
+            <button class="sub-btn" data-sub="foundations" type="button">تصميم الأسس</button>
+            <button class="sub-btn" data-sub="concrete" type="button">الخرسانة المسلحة</button>
+            <button class="sub-btn" data-sub="sanitary" type="button">الصحية</button>
+            <button class="sub-btn" data-sub="hydrology" type="button">علم المياه</button>
+            <button class="sub-btn" data-sub="hydraulic" type="button">المنشآت الهيدروليكية</button>
+          </div>
+        </div>
+
+        <!-- المرحلة الثالثة -->
+        <div class="stage-group">
+          <button class="stage-btn" data-stage="3" type="button">
+            <span>المرحلة الثالثة</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div class="sub-list" id="sub-3"></div>
+        </div>
+
+        <!-- المرحلة الثانية -->
+        <div class="stage-group">
+          <button class="stage-btn" data-stage="2" type="button">
+            <span>المرحلة الثانية</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div class="sub-list" id="sub-2"></div>
+        </div>
+
+        <!-- المرحلة الأولى -->
+        <div class="stage-group">
+          <button class="stage-btn" data-stage="1" type="button">
+            <span>المرحلة الأولى</span>
+            <span class="chevron">▼</span>
+          </button>
+          <div class="sub-list" id="sub-1"></div>
+        </div>
+
+      </aside>
+
+      <!-- FILES AREA -->
+      <section class="files-area">
+
+        <div id="noResults" class="no-results">
+          <img src="media/ERROR.png" alt="لا توجد مرفوعات">
+          <div class="txt">لا توجد مرفوعات لهذا القسم حتى الآن.<br>تحاول تقديم العون؟ تواصل معنا!</div>
+        </div>
+
+        <div class="files-list" id="filesList"></div>
+
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- VISION -->
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc-irq@gmail.com">esc-irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   بيانات الملفات
+   =====================================================================
+   لإضافة ملف جديد: أضف كائناً في المصفوفة المناسبة بهذا الشكل:
+   {
+     name: "اسم الملف كما يظهر للمستخدم",
+     file: "uploads/civil/stage4/estimation/filename.pdf",  // مسار الملف
+     desc: "وصف مختصر سطر واحد",
+     tag: "ملخص"   // نوع الملف: ملخص / MCQ / اختبار / ملزمة
+   }
+   ===================================================================== */
+
+var filesData = {
+
+  /* ===== المرحلة الرابعة ===== */
+  estimation: [
+    /* أضف ملفات هندسة التخمين هنا */
+    /* مثال:
+    { name: "ملخص هندسة التخمين — الفصل الأول", file: "uploads/civil/s4/estimation/ch1.pdf", desc: "يغطي مواد الفصل الأول كاملاً", tag: "ملخص" },
+    { name: "MCQ هندسة التخمين", file: "uploads/civil/s4/estimation/mcq.pdf", desc: "150 سؤال متعدد الخيارات", tag: "MCQ" },
+    */
+
+    { name: "MCQ  الفصل الثاني - هندسة التخمين", file: "uploads/civil/s4/estimation/mcq-ch2.pdf", desc: "للجامعات الحكومية ذات النظام الفصلي", tag: "MCQ" },
+
+  ],
+  steel: [
+    /* أضف ملفات المنشآت الحديدية هنا */
+  ],
+  foundations: [
+    /* أضف ملفات تصميم الأسس هنا */
+    /* مثال:
+    { name: "ملخص تصميم الأسس الضحلة", file: "uploads/civil/s4/foundations/shallow.pdf", desc: "أسس الأسس الضحلة والعميقة", tag: "ملخص" },
+    */
+  ],
+  concrete: [
+    /* أضف ملفات الخرسانة المسلحة هنا */
+  ],
+  sanitary: [
+    /* أضف ملفات الصحية هنا */
+  ],
+  hydrology: [
+    /* أضف ملفات علم المياه هنا */
+  ],
+  hydraulic: [
+    /* أضف ملفات المنشآت الهيدروليكية هنا */
+  ],
+
+  /* ===== المرحلة الثالثة (فارغة) ===== */
+  stage3: [],
+
+  /* ===== المرحلة الثانية (فارغة) ===== */
+  stage2: [],
+
+  /* ===== المرحلة الأولى (فارغة) ===== */
+  stage1: []
+};
+
+/* =====================================================================
+   منطق الصفحة — لا تعدّل هنا
+   ===================================================================== */
+var currentFilter = 'estimation';
+var emptyStages   = ['stage1','stage2','stage3'];
+
+var filesList  = document.getElementById('filesList');
+var noResults  = document.getElementById('noResults');
+
+function renderFiles(key) {
+  filesList.innerHTML = '';
+  var data = filesData[key] || [];
+
+  if (data.length === 0) {
+    noResults.classList.add('show');
+    filesList.style.display = 'none';
+    return;
+  }
+
+  noResults.classList.remove('show');
+  filesList.style.display = 'block';
+
+  data.forEach(function(f) {
+    var item = document.createElement('div');
+    item.className = 'file-item';
+    item.innerHTML =
+      '<div class="file-icon">PDF</div>' +
+      '<div class="file-main">' +
+        '<a href="' + f.file + '" download class="file-name">' + f.name + '</a>' +
+        '<div class="file-meta">' +
+          '<span class="file-uploader">فريق ESC</span>' +
+          '<span class="file-desc">' + f.desc + '</span>' +
+          '<span class="file-tag">' + f.tag + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<a href="' + f.file + '" download class="dl-btn">⬇ تحميل</a>';
+    filesList.appendChild(item);
+  });
+}
+
+/* Stage buttons */
+var stageBtns = document.querySelectorAll('.stage-btn');
+
+stageBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var stage = btn.dataset.stage;
+    var subList = document.getElementById('sub-' + stage);
+
+    /* Toggle accordion */
+    var isOpen = btn.classList.contains('open');
+    stageBtns.forEach(function(b) {
+      b.classList.remove('open');
+      b.querySelector('.chevron').textContent = '▼';
+    });
+    document.querySelectorAll('.sub-list').forEach(function(sl) { sl.classList.remove('open'); });
+
+    if (!isOpen) {
+      btn.classList.add('open');
+      btn.querySelector('.chevron').textContent = '▲';
+      if (subList) subList.classList.add('open');
+    }
+
+    /* If stage has no subs (1,2,3) show empty */
+    if (!subList || subList.children.length === 0) {
+      document.querySelectorAll('.sub-btn').forEach(function(sb) { sb.classList.remove('active'); });
+      document.querySelectorAll('.stage-btn').forEach(function(sb) { sb.classList.remove('active'); });
+      btn.classList.add('active');
+      currentFilter = 'stage' + stage;
+      renderFiles(currentFilter);
+    }
+  });
+});
+
+/* Sub buttons */
+document.querySelectorAll('.sub-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.sub-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.stage-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    /* Mark parent stage active too */
+    var parentList = btn.closest('.sub-list');
+    if (parentList) {
+      var parentBtn = parentList.previousElementSibling;
+      if (parentBtn) parentBtn.classList.add('active');
+    }
+    currentFilter = btn.dataset.sub;
+    renderFiles(currentFilter);
+    if (typeof closeFiltersPanel === 'function' && window.innerWidth <= 768) closeFiltersPanel();
+  });
+});
+
+/* Init */
+renderFiles('estimation');
+
+/* Mobile Menu */
+var menuBtn    = document.getElementById('menuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+var navBd      = document.getElementById('menuBackdrop');
+function openNav()  { mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeNav() { mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn.addEventListener('click', function(e) { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeNav() : openNav(); });
+navBd.addEventListener('click', closeNav);
+document.addEventListener('click', function(e) { if(!mobileMenu.contains(e.target) && e.target !== menuBtn) closeNav(); });
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') { closeNav(); closeFiltersPanel(); } });
+mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeNav); });
+window.addEventListener('resize', function() { if(window.innerWidth > 768) closeNav(); });
+
+/* Mobile Filters */
+var filterToggle = document.getElementById('filterToggle');
+var filtersPanel = document.getElementById('filtersPanel');
+var filtersBd    = document.getElementById('filtersBackdrop');
+function openFiltersPanel()  { filtersPanel.classList.add('open'); filtersBd.classList.add('show'); filterToggle.setAttribute('aria-expanded','true'); }
+function closeFiltersPanel() { filtersPanel.classList.remove('open'); filtersBd.classList.remove('show'); filterToggle.setAttribute('aria-expanded','false'); }
+filterToggle.addEventListener('click', function(e) { e.stopPropagation(); filterToggle.getAttribute('aria-expanded')==='true' ? closeFiltersPanel() : openFiltersPanel(); });
+filtersBd.addEventListener('click', closeFiltersPanel);
+window.addEventListener('resize', function() { if(window.innerWidth > 900) closeFiltersPanel(); });
+</script>
+
+</body>
+</html>
