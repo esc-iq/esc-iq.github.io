@@ -1,16 +1,9 @@
 <!DOCTYPE html>
-<title>مجتمع طلبة الهندسة — ESC</title>
-
 <html lang="ar" dir="rtl">
 <head>
-  <title>مجتمع طلبة الهندسة — ESC</title>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ESC — مجتمع طلبة الهندسة</title>
-<link rel="icon" href="media/favicon.png" type="image/png">
-<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
-<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
@@ -180,6 +173,29 @@ body {
 .news-card .card-date { font-size: 11px; color: #888; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px; }
 .news-card .card-title { font-size: 15px; font-weight: 700; color: #0d1b2a; line-height: 1.45; margin-bottom: 8px; }
 .news-card .card-excerpt { font-size: 13px; color: #555; line-height: 1.6; }
+
+/* ===== LEADERBOARD ===== */
+.leaderboard-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
+.lb-subtitle { font-size: 12px; font-weight: 700; color: #aaa; letter-spacing: 1.5px; text-transform: uppercase; direction: ltr; }
+.lb-wrap { padding: 0 30px; }
+.lb-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--card-radius); overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.07); }
+.lb-table thead tr { background: var(--blue); color: #fff; }
+.lb-table thead th { padding: 13px 18px; font-size: 13px; font-weight: 700; text-align: right; }
+.col-rank { width: 80px; text-align: center !important; }
+.col-hours { width: 140px; text-align: left !important; direction: ltr; }
+.normal-row td { padding: 11px 18px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); color: #374151; }
+.normal-row:last-child td { border-bottom: none; }
+.normal-row:hover td { background: #f8f9ff; }
+.normal-row .col-rank { font-weight: 700; color: #9ca3af; text-align: center; }
+.top-row td { padding: 13px 18px; font-size: 15px; font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.rank-1 td { background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04)); color: #0d1b2a; }
+.rank-2 td { background: linear-gradient(90deg, rgba(192,192,192,0.15), rgba(192,192,192,0.04)); color: #0d1b2a; }
+.rank-3 td { background: linear-gradient(90deg, rgba(205,127,50,0.13), rgba(205,127,50,0.04)); color: #0d1b2a; }
+.top-row .col-rank { text-align: center; font-size: 14px; }
+.top-row .col-hours { direction: ltr; text-align: left; }
+.medal { font-size: 16px; }
+.lb-cert-notice { margin-top: 14px; background: linear-gradient(90deg, rgba(0,71,171,0.07), rgba(0,128,128,0.07)); border: 1px solid rgba(0,71,171,0.18); border-radius: 10px; padding: 14px 18px; font-size: 14px; color: #374151; line-height: 1.6; text-align: center; }
+.lb-cert-notice strong { color: var(--blue); }
 
 /* ===== [تصحيح 1] AD BANNER — فوق آخر الأخبار ===== */
 .ad-section { padding: 28px 30px 0; border-top: 1px solid rgba(0,0,0,0.07); display: flex; justify-content: center; }
@@ -387,6 +403,85 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
 </section>
 
+<!-- LEADERBOARD -->
+<section class="leaderboard-section">
+  <div class="section-header">
+    <h2>الطلبة الأكثر تميزًا</h2>
+    <span class="lb-subtitle">Achieve Elite Activity</span>
+  </div>
+  <div class="lb-wrap">
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th class="col-rank">التسلسل</th>
+          <th class="col-name">اسم الطالب</th>
+          <th class="col-hours">ساعات الدراسة</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- المراكز الثلاثة الأولى — بارزة -->
+        <tr class="top-row rank-1">
+          <td class="col-rank"><span class="medal">🥇</span> 1</td>
+          <td class="col-name">المتفوق الأول</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="top-row rank-2">
+          <td class="col-rank"><span class="medal">🥈</span> 2</td>
+          <td class="col-name">المتفوق الثاني</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="top-row rank-3">
+          <td class="col-rank"><span class="medal">🥉</span> 3</td>
+          <td class="col-name">المتفوق الثالث</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <!-- المراكز 4–10 -->
+        <tr class="normal-row">
+          <td class="col-rank">4</td>
+          <td class="col-name">المتفوق الرابع</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="normal-row">
+          <td class="col-rank">5</td>
+          <td class="col-name">المتفوق الخامس</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="normal-row">
+          <td class="col-rank">6</td>
+          <td class="col-name">المتفوق السادس</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="normal-row">
+          <td class="col-rank">7</td>
+          <td class="col-name">المتفوق السابع</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="normal-row">
+          <td class="col-rank">8</td>
+          <td class="col-name">المتفوق الثامن</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="normal-row">
+          <td class="col-rank">9</td>
+          <td class="col-name">المتفوق التاسع</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+        <tr class="normal-row">
+          <td class="col-rank">10</td>
+          <td class="col-name">المتفوق العاشر</td>
+          <td class="col-hours">0 ساعة</td>
+        </tr>
+      </tbody>
+    </table>
+              التحديث التالي لقائمة المتصدرين 2026/04/15
+
+    <!-- مستطيل الشهادة -->
+    <div class="lb-cert-notice">
+      🏅 أعلى <strong>5 طلاب</strong> في هذه القائمة سينالون <strong>شهادة تكريم وتقدير</strong> من مجتمع طلبة الهندسة — ESC
+    </div>
+  </div>
+</section>
+
 <!-- [تصحيح 1] AD BANNER — فوق آخر الأخبار -->
 <div class="ad-section">
   <a href="ads1.html" class="ad-banner">
@@ -417,8 +512,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
   <div class="upload-loading" id="uploadsLoading">يتم التحميل...</div>
   <div class="upload-fail" id="uploadsFail" style="display:none;">
-     <div class="upload-loading" id="uploadsLoading">يستغرق التحميل وقت أطول مما يبدو   <a href="uploads-civilpdf.html">الانتقال إلى صفحة المرفوعات؟</a></div>
-
+    فشل التحميل — <a href="uploads-civilpdf.html">الانتقال إلى صفحة المرفوعات</a>
   </div>
   <div class="uploads-grid" id="uploadsGrid" style="display:none;"></div>
 </section>
@@ -426,7 +520,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
 <!-- [تصحيح 3] CONTRIBUTORS BOX — مستطيل واحد، 5 صفوف × 4 أسماء -->
 <section class="contributors-section">
   <div class="contributors-box">
-    <h3>مساهموا مجتمع طلبة الهندسة</h3>
+    <h3>مساهمو مجتمع طلبة الهندسة</h3>
     <div class="contributors-rows">
       <!--
         ================================================================
@@ -435,7 +529,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
         لتعديل الرابط: غيّر href
         لإبقاء خانة فارغة: أبقِ class="contributor-name empty"
         ================================================================
-     
+      -->
+      <!-- المساهمين   
       <div class="contributors-row">
         <a href="profile/c2/name1.html" class="contributor-name">اسم المساهم الأول</a>
         <a href="profile/c2/name2.html" class="contributor-name">اسم المساهم الثاني</a>
@@ -468,7 +563,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
       </div>
     </div>
   </div>
-   -->
+-->
 </section>
 
 <!-- TEAM -->
@@ -501,8 +596,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc-irq@gmail.com">esc-irq@gmail.com</a>
-      </p>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+            </p>
     </div>
   </div>
   <div class="footer-bottom">
@@ -511,7 +606,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* Mobile Detection */
 (function() {
   var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
@@ -611,17 +706,3 @@ window.addEventListener('load', function() {
             '</div>' +
             '<div class="uc-meta">' + f.desc + '</div>' +
             '<a href="' + f.file + '" download class="uc-dl">⬇ تحميل</a>';
-          grid.appendChild(card);
-        });
-        grid.style.display = 'grid';
-      })
-      .catch(function() {
-        loading.style.display = 'none';
-        fail.style.display = 'block';
-      });
-  }, 800);
-});
-</script>
-
-</body>
-</html>
