@@ -189,11 +189,21 @@ body {
 .leaderboard-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
 .lb-subtitle { font-size: 12px; font-weight: 700; color: #aaa; letter-spacing: 1.5px; text-transform: uppercase; direction: ltr; }
 .lb-wrap { padding: 0 30px; }
+.lb-university-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(90deg, rgba(0,71,171,0.07), rgba(0,128,128,0.07));
+  border: 1px solid rgba(0,71,171,0.18);
+  border-radius: 12px; padding: 10px 20px;
+  margin-bottom: 16px; font-size: 14px; color: #374151; font-weight: 700;
+}
+.lb-university-badge .uni-icon { font-size: 20px; }
+.lb-university-badge .uni-name { color: var(--blue); }
 .lb-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--card-radius); overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.07); }
 .lb-table thead tr { background: var(--blue); color: #fff; }
 .lb-table thead th { padding: 13px 18px; font-size: 13px; font-weight: 700; text-align: right; }
 .col-rank { width: 80px; text-align: center !important; }
-.col-hours { width: 140px; text-align: left !important; direction: ltr; }
+.col-hours { width: 120px; text-align: left !important; direction: ltr; }
+.col-spec { width: 140px; }
 .normal-row td { padding: 11px 18px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); color: #374151; }
 .normal-row:last-child td { border-bottom: none; }
 .normal-row:hover td { background: #f8f9ff; }
@@ -205,17 +215,19 @@ body {
 .top-row .col-rank { text-align: center; font-size: 14px; }
 .top-row .col-hours { direction: ltr; text-align: left; }
 .medal { font-size: 16px; }
+.lb-update-note { margin-top: 10px; font-size: 12px; color: #888; font-weight: 700; text-align: right; }
+.lb-update-note strong { color: var(--blue); }
 .lb-cert-notice { margin-top: 14px; background: linear-gradient(90deg, rgba(0,71,171,0.07), rgba(0,128,128,0.07)); border: 1px solid rgba(0,71,171,0.18); border-radius: 10px; padding: 14px 18px; font-size: 14px; color: #374151; line-height: 1.6; text-align: center; }
 .lb-cert-notice strong { color: var(--blue); }
 
-/* ===== [تصحيح 1] AD BANNER — فوق آخر الأخبار ===== */
+/* ===== AD BANNER ===== */
 .ad-section { padding: 28px 30px 0; border-top: 1px solid rgba(0,0,0,0.07); display: flex; justify-content: center; }
 .ad-banner { display: block; width: 100%; max-width: 1000px; height: 100px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: opacity var(--transition); }
 .ad-banner:hover { opacity: 0.92; }
 .ad-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ad-banner .ad-placeholder { width: 100%; height: 100%; background: linear-gradient(90deg, #e0eaff, #e0f4f4); display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 14px; font-weight: 700; }
 
-/* ===== [تصحيح 2] UPLOADS SECTION ===== */
+/* ===== UPLOADS SECTION ===== */
 .uploads-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
 .uploads-grid { padding: 0 30px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
 .upload-loading { padding: 0 30px; color: #aaa; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
@@ -232,7 +244,7 @@ body {
 .upload-card .uc-dl { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--blue); background: rgba(0,71,171,0.07); border: 1px solid rgba(0,71,171,0.15); border-radius: 20px; padding: 4px 12px; text-decoration: none; width: fit-content; transition: background var(--transition); }
 .upload-card .uc-dl:hover { background: rgba(0,71,171,0.15); }
 
-/* ===== [تصحيح 3] CONTRIBUTORS BOX ===== */
+/* ===== CONTRIBUTORS BOX ===== */
 .contributors-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
 .contributors-box {
   margin: 0 30px;
@@ -409,96 +421,36 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
 </section>
 
+<!-- ===== LEADERBOARD ===== -->
 <section class="leaderboard-section">
   <div class="section-header">
     <h2>الطلبة الأكثر تميزًا</h2>
     <span class="lb-subtitle">Achieve Elite Activity</span>
   </div>
   <div class="lb-wrap">
-    طلاب جامعة كربلاء
+
+    <div class="lb-university-badge">
+      <span class="uni-icon">🎓</span>
+      <span>طلبة كلية الهندسة — <span class="uni-name">جامعة كربلاء</span></span>
+    </div>
+
     <table class="lb-table">
       <thead>
         <tr>
           <th class="col-rank">التسلسل</th>
           <th class="col-name">المتفوق</th>
           <th class="col-degree">المرحلة</th>
+          <th class="col-spec">الاختصاص</th>
           <th class="col-hours">النقاط</th>
         </tr>
       </thead>
-      <tbody>
-        <tr class="top-row rank-1">
-          <td class="col-rank"><span class="medal">🥇</span> 1</td>
-          <td class="col-name">علي سعود عبدالعزيز</td>
-          <td class="col-rank">الرابعة</td>
-          <td class="col-hours">0.0</td>
-        </tr>
-        <tr class="top-row rank-2">
-          <td class="col-rank"><span class="medal">🥈</span> 2</td>
-          <td class="col-name">علي سعد منعم</td>
-          <td class="col-degree">الرابعة</td>          
-          <td class="col-hours">0.0</td>
-        </tr>
-        <tr class="top-row rank-3">
-          <td class="col-rank"><span class="medal">🥉</span> 3</td>
-          <td class="col-name">منتظر ضياء محمد</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0.0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">4</td>
-          <td class="col-name">مصطفى محمود علاوي</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">5</td>
-          <td class="col-name">جعفر محمد محمدباقر</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">6</td>
-          <td class="col-name">علي سلام عبيد</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">7</td>
-          <td class="col-name">محمدباقر علاء عزيز</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">8</td>
-          <td class="col-name">حمزه سعد عبدالعباس</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">9</td>
-          <td class="col-name">كرار حيدر إبراهيم</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-        <tr class="normal-row">
-          <td class="col-rank">10</td>
-          <td class="col-name">-</td>
-                    <td class="col-degree">الرابعة</td>
-
-          <td class="col-hours">0</td>
-        </tr>
-      </tbody>
+      <tbody id="lbTbody"></tbody>
     </table>
-    الموعد التالي لتحديث الترتيب: 2026/04/16
+
+    <p class="lb-update-note">🔄 يتم تحديث بيانات الترتيب تلقائيًا كل <strong>24 ساعة</strong> كحد أقصى</p>
+
     <div class="lb-cert-notice">
-      🏅 أعلى <strong>5 طلاب</strong> في هذه القائمة سينالون <strong>شهادة تكريم وتقدير</strong> من مجتمع طلبة الهندسة نهاية الشهر الرابع — ESC
+      🏅 أعلى <strong>10 طلاب</strong> في هذه القائمة سينالون <strong>شهادة تكريم وتقدير</strong> من مجتمع طلبة الهندسة نهاية الشهر الرابع — ESC
     </div>
   </div>
 </section>
@@ -546,33 +498,9 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
         <a href="profile/c2/name3.html" class="contributor-name">اسم المساهم الثالث</a>
         <a href="profile/c2/name4.html" class="contributor-name">اسم المساهم الرابع</a>
       </div>
-      <div class="contributors-row">
-        <a href="profile/c2/name5.html" class="contributor-name">اسم المساهم الخامس</a>
-        <a href="profile/c2/name6.html" class="contributor-name">اسم المساهم السادس</a>
-        <a href="profile/c2/name7.html" class="contributor-name">اسم المساهم السابع</a>
-        <a href="profile/c2/name8.html" class="contributor-name">اسم المساهم الثامن</a>
-      </div>
-      <div class="contributors-row">
-        <a href="profile/c2/name9.html" class="contributor-name">اسم المساهم التاسع</a>
-        <a href="profile/c2/name10.html" class="contributor-name">اسم المساهم العاشر</a>
-        <a href="profile/c2/name11.html" class="contributor-name">اسم المساهم الحادي عشر</a>
-        <a href="profile/c2/name12.html" class="contributor-name">اسم المساهم الثاني عشر</a>
-      </div>
-      <div class="contributors-row">
-        <a href="profile/c2/name13.html" class="contributor-name">اسم المساهم الثالث عشر</a>
-        <a href="profile/c2/name14.html" class="contributor-name">اسم المساهم الرابع عشر</a>
-        <a href="profile/c2/name15.html" class="contributor-name">اسم المساهم الخامس عشر</a>
-        <a href="profile/c2/name16.html" class="contributor-name">اسم المساهم السادس عشر</a>
-      </div>
-      <div class="contributors-row">
-        <a href="profile/c2/name17.html" class="contributor-name">اسم المساهم السابع عشر</a>
-        <a href="profile/c2/name18.html" class="contributor-name">اسم المساهم الثامن عشر</a>
-        <a href="profile/c2/name19.html" class="contributor-name">اسم المساهم التاسع عشر</a>
-        <a href="profile/c2/name20.html" class="contributor-name">اسم المساهم العشرون</a>
-      </div>
     </div>
+    -->
   </div>
-  -->
 </section>
 
 <section class="team-section">
@@ -602,7 +530,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
-<a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
       </p>
     </div>
   </div>
@@ -612,14 +540,15 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* Mobile Detection */
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+/* ===== Mobile Detection ===== */
 (function() {
   var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
   if (isMobile) document.getElementById('mobileNotice').classList.add('show');
 })();
 
-/* Mobile Menu */
+/* ===== Mobile Menu ===== */
 var menuBtn = document.getElementById('menuBtn');
 var mobileMenu = document.getElementById('mobileMenu');
 var backdrop = document.getElementById('menuBackdrop');
@@ -631,7 +560,7 @@ document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMen
 mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
 window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
 
-/* Hero Slider */
+/* ===== Hero Slider ===== */
 var track = document.getElementById('heroTrack');
 var dots = document.querySelectorAll('.hero-dot');
 var progress = document.getElementById('heroProgress');
@@ -663,7 +592,67 @@ track.addEventListener('touchend', function(e) {
 });
 resetProgress();
 
-/* [تصحيح 2] Lazy-load Uploads */
+/* ===================================================================
+   LEADERBOARD — لتحديث الطلاب عدّل هذا القسم فقط
+   كل طالب: { name: "الاسم", points: الرقم }
+   الجدول يُرتّب تنازليًا تلقائيًا
+=================================================================== */
+(function () {
+  var students = [
+    { name: "علي سعود عبدالعزيز",  points: 0.0 },
+    { name: "علي سعد منعم",         points: 0.0 },
+    { name: "منتظر ضياء محمد",      points: 0.0 },
+    { name: "مصطفى محمود علاوي",    points: 0.0 },
+    { name: "جعفر محمد محمدباقر",   points: 3.1 },
+    { name: "علي سلام عبيد",        points: 0.0 },
+    { name: "محمدباقر علاء عزيز",   points: 0.0 },
+    { name: "حمزه سعد عبدالعباس",  points: 0.0 },
+    { name: "كرار حيدر إبراهيم",    points: 0.0 },
+    { name: "كرار علي حسين",        points: 0.0 }
+  ];
+  /* ================================================================
+     نهاية قسم التعديل
+  ================================================================ */
+
+  var STAGE      = "الرابعة";
+  var SPEC       = "هندسة مدنية";
+  var TARGET     = 25;
+  var medals     = ["🥇", "🥈", "🥉"];
+
+  /* ترتيب تنازلي حسب النقاط */
+  students.sort(function (a, b) { return b.points - a.points; });
+
+  /* تكملة القائمة حتى 25 بخانات فارغة */
+  while (students.length < TARGET) {
+    students.push({ name: "-", points: 0 });
+  }
+
+  var tbody = document.getElementById("lbTbody");
+
+  students.slice(0, TARGET).forEach(function (s, i) {
+    var rank  = i + 1;
+    var isTop = rank <= 3 && s.name !== "-";
+    var tr    = document.createElement("tr");
+    tr.className = isTop ? ("top-row rank-" + rank) : "normal-row";
+
+    var rankDisplay = isTop
+      ? ('<span class="medal">' + medals[i] + '</span> ' + rank)
+      : rank;
+
+    var ptsDisplay = s.name === "-" ? "-" : (s.points % 1 === 0 ? s.points.toFixed(0) : s.points.toFixed(1));
+
+    tr.innerHTML =
+      '<td class="col-rank">' + rankDisplay + '</td>' +
+      '<td class="col-name">'  + s.name    + '</td>' +
+      '<td class="col-degree">' + (s.name === "-" ? "-" : STAGE) + '</td>' +
+      '<td class="col-spec">'   + (s.name === "-" ? "-" : SPEC)  + '</td>' +
+      '<td class="col-hours">'  + ptsDisplay + '</td>';
+
+    tbody.appendChild(tr);
+  });
+})();
+
+/* ===== Lazy-load Uploads ===== */
 window.addEventListener('load', function() {
   setTimeout(function() {
     var loading = document.getElementById('uploadsLoading');
