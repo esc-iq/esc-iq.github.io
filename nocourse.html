@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الدورات غير متاحة حالياً | ESC</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="https://esc-iq.github.io/media/icon-512.png">
+<link rel="apple-touch-icon" href="https://esc-iq.github.io/media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --transition: 0.3s ease;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: #111827;
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky; top: 0; z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+#bar nav a.active { background-color: rgba(255,255,255,0.22); }
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px; background: #fff;
+  display: block; position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px; border-radius: 10px;
+  color: #111827; text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===== MAIN ===== */
+main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.unavail-wrap {
+  text-align: center;
+  max-width: 580px;
+  width: 100%;
+}
+
+/* Animated icon */
+.unavail-icon {
+  font-size: 70px;
+  display: block;
+  margin-bottom: 24px;
+  animation: float 3.2s ease-in-out infinite;
+  line-height: 1;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-12px); }
+}
+
+/* Summer badge */
+.summer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 20px;
+  border-radius: 30px;
+  margin-bottom: 22px;
+}
+
+.unavail-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0d1b2a;
+  margin-bottom: 14px;
+  line-height: 1.3;
+}
+
+.unavail-desc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.85;
+  margin-bottom: 36px;
+}
+
+/* Info cards row */
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 38px;
+}
+.info-card {
+  background: #fff;
+  border: 1.5px solid rgba(0,71,171,0.1);
+  border-radius: 14px;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: border-color var(--transition), transform var(--transition);
+}
+.info-card:hover {
+  border-color: rgba(0,71,171,0.3);
+  transform: translateY(-3px);
+}
+.info-card .ic-icon { font-size: 26px; line-height: 1; }
+.info-card .ic-label { font-size: 11px; color: #888; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.info-card .ic-value { font-size: 14px; font-weight: 700; color: #0d1b2a; line-height: 1.3; }
+
+/* Countdown-style summer note */
+.summer-note {
+  background: linear-gradient(135deg, #003080 0%, #005f5f 100%);
+  border-radius: 16px;
+  padding: 28px 24px;
+  margin-bottom: 36px;
+  position: relative;
+  overflow: hidden;
+}
+.summer-note::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.07), transparent 70%);
+  pointer-events: none;
+}
+.summer-note .sn-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 3px 12px; border-radius: 20px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.summer-note .sn-title {
+  font-size: 18px; font-weight: 700; color: #fff;
+  margin-bottom: 8px;
+}
+.summer-note .sn-sub {
+  font-size: 13px; color: rgba(255,255,255,0.7);
+  line-height: 1.75;
+}
+
+/* Action buttons */
+.unavail-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 34px;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px;
+  background: var(--blue); color: #fff;
+  text-decoration: none; font-weight: 700; font-size: 14px;
+  border-radius: 10px;
+  transition: background var(--transition), transform var(--transition);
+  box-shadow: 0 4px 16px rgba(0,71,171,0.25);
+}
+.btn-primary:hover { background: #0059d4; transform: translateY(-2px); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px;
+  background: #fff; color: var(--blue);
+  text-decoration: none; font-weight: 700; font-size: 14px;
+  border-radius: 10px; border: 1.5px solid var(--blue);
+  transition: all var(--transition);
+}
+.btn-secondary:hover { background: var(--blue); color: #fff; transform: translateY(-2px); }
+
+.divider-line {
+  width: 60px; height: 3px;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  border-radius: 3px; margin: 8px auto 28px;
+}
+
+.quick-links {
+  display: flex; gap: 10px;
+  justify-content: center; flex-wrap: wrap;
+}
+.quick-link {
+  font-size: 13px; font-weight: 700;
+  color: var(--teal); text-decoration: none;
+  padding: 6px 14px; border-radius: 20px;
+  background: rgba(0,128,128,0.08);
+  border: 1px solid rgba(0,128,128,0.15);
+  transition: all var(--transition);
+}
+.quick-link:hover { background: var(--teal); color: #fff; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .unavail-actions { flex-direction: column; align-items: center; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .info-cards { grid-template-columns: 1fr; }
+  .unavail-title { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header id="bar">
+  <a class="logo" href="https://esc-iq.github.io/" aria-label="الصفحة الرئيسية">
+    <img src="https://esc-iq.github.io/media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="https://esc-iq.github.io/faq.html">الأسئلة الشائعة</a>
+    <a href="https://esc-iq.github.io/course.html" class="active">الدورات</a>
+    <a href="https://esc-iq.github.io/Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="https://esc-iq.github.io/research.html">الأبحاث</a>
+    <a href="https://esc-iq.github.io/volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="https://esc-iq.github.io/faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="https://esc-iq.github.io/course.html">الدورات</a>
+    <a role="menuitem" href="https://esc-iq.github.io/Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="https://esc-iq.github.io/research.html">الأبحاث</a>
+    <a role="menuitem" href="https://esc-iq.github.io/volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- MAIN CONTENT -->
+<main>
+  <div class="unavail-wrap">
+
+    <span class="unavail-icon">📚</span>
+
+    <div class="summer-badge">
+      ☀️ قريباً — عطلة الصيف الكبرى
+    </div>
+
+    <div class="unavail-title">الدورات غير متاحة حالياً</div>
+
+    <div class="unavail-desc">
+      نعمل حالياً على تطوير الدورات وتحضيرها بأفضل صورة ممكنة.<br>
+      ستكون جميع الدورات متاحة <strong>بدءًا من عطلة الصيف الكبرى</strong> — ترقّبوا الإطلاق!
+    </div>
+
+    <!-- Info cards -->
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="ic-icon">🎓</span>
+        <span class="ic-label">دورات مجانية</span>
+        <span class="ic-value">متاحة للجميع</span>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">🏆</span>
+        <span class="ic-label">دورات مجانية</span>
+        <span class="ic-value">شهادة معتمدة</span>
+      </div>
+      <div class="info-card">
+        <span class="ic-icon">📅</span>
+        <span class="ic-label">موعد الإطلاق</span>
+        <span class="ic-value">عطلة الصيف 2026</span>
+      </div>
+    </div>
+
+    <!-- Summer highlight box -->
+    <div class="summer-note">
+      <div class="sn-tag">⏳ انتظرونا</div>
+      <div class="sn-title">الإطلاق الرسمي في عطلة الصيف الكبرى</div>
+      <div class="sn-sub">
+        يعمل فريق ESC على إعداد منظومة متكاملة من الدورات الهندسية المجانية والمدفوعة.
+        سيتم الإعلان عبر جميع قنواتنا فور انطلاق التسجيل.
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="unavail-actions">
+      <a href="https://esc-iq.github.io/" class="btn-primary">🏠 العودة للرئيسية</a>
+      <a href="mailto:esc.irq@gmail.com" class="btn-secondary">✉ تواصل معنا</a>
+    </div>
+
+    <div class="divider-line"></div>
+
+    <div class="unavail-desc" style="font-size:13px; margin-bottom:12px;">تصفّح أقسامنا الأخرى في انتظار الإطلاق</div>
+    <div class="quick-links">
+      <a href="https://esc-iq.github.io/research.html" class="quick-link">الأبحاث</a>
+      <a href="https://esc-iq.github.io/Scientific_contributions.html" class="quick-link">المساهمات العلمية</a>
+      <a href="https://esc-iq.github.io/volunteer.html" class="quick-link">التطوع</a>
+      <a href="https://esc-iq.github.io/faq.html" class="quick-link">الأسئلة الشائعة</a>
+    </div>
+
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="https://esc-iq.github.io/media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script>
+var menuBtn = document.getElementById('menuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+var backdrop = document.getElementById('menuBackdrop');
+function openMenu() { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeMenu() { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn.addEventListener('click', function(e) { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
+</script>
+
+</body>
+</html>
