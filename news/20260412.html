@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إطلاق الدورات المجانية الهندسية - ESC</title>
+<link rel="icon" href="../media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="32x32" href="../media/favicon.png">
+<link rel="icon" type="image/png" sizes="512x512" href="../media/icon-512.png">
+<link rel="apple-touch-icon" href="../media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===================== VARIABLES ===================== */
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+  --text-dark: #0d1b2a;
+  --text-body: #374131;
+  --text-light: #6b7280;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+}
+
+/* ===================== NAVBAR ===================== */
+#bar {
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--blue);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 7px 13px;
+  border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+
+.menu-btn {
+  display: none;
+  height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px;
+  background: #fff; display: block;
+  position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+
+#menuBackdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4); z-index: 999;
+}
+#menuBackdrop.show { display: block; }
+
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98);
+  opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a {
+  display: block; padding: 11px 12px;
+  border-radius: 10px; color: #111827;
+  text-decoration: none; font-weight: 700;
+}
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===================== BREADCRUMB ===================== */
+.breadcrumb {
+  max-width: 860px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+  font-size: 13px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.breadcrumb a {
+  color: var(--blue);
+  text-decoration: none;
+  font-weight: 700;
+}
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { opacity: 0.4; }
+
+/* ===================== ARTICLE LAYOUT ===================== */
+.article-wrap {
+  max-width: 860px;
+  margin: 20px auto 60px;
+  padding: 0 24px;
+}
+
+/* Hero Image */
+.article-hero-image {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--card-radius);
+  margin-bottom: 32px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+
+/* Article Card */
+.article-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid rgba(0,0,0,0.07);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+
+/* Article Header */
+.article-header {
+  padding: 36px 44px 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+
+.article-category {
+  display: inline-block;
+  background: rgba(0,128,128,0.1);
+  color: var(--teal);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.article-title {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700;
+  color: var(--text-dark);
+  line-height: 1.4;
+  margin-bottom: 18px;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* Article Body */
+.article-body {
+  padding: 36px 44px 40px;
+}
+
+.article-body p {
+  font-size: 16px;
+  line-height: 1.95;
+  color: var(--text-body);
+  margin-bottom: 22px;
+}
+.article-body p:last-of-type { margin-bottom: 0; }
+
+.article-body h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blue);
+  margin: 36px 0 14px;
+  padding-right: 14px;
+  border-right: 4px solid var(--teal);
+}
+
+.article-body h3 {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 28px 0 10px;
+}
+
+/* Divider */
+.article-divider {
+  height: 1px;
+  background: rgba(0,0,0,0.07);
+  margin: 32px 0;
+}
+
+/* Article Footer */
+.article-footer {
+  padding: 24px 44px;
+  border-top: 1px solid rgba(0,0,0,0.07);
+  background: rgba(0,0,0,0.013);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: var(--blue);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: background var(--transition), transform var(--transition);
+}
+.back-btn:hover {
+  background: #0059d4;
+  transform: translateX(4px);
+}
+
+.share-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+}
+
+/* ===================== VISION ===================== */
+.vision-section {
+  background: var(--blue);
+  padding: 20px 30px;
+  text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.85);
+  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+  background: #06101f;
+  color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px;
+  direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img {
+  width: 54px; height: 54px;
+  border-radius: 12px; margin-bottom: 14px; object-fit: cover;
+}
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark {
+  font-size: 24px; font-weight: 700;
+  color: rgba(255,255,255,0.1); letter-spacing: 4px;
+}
+
+/* ===================== RESPONSIVE ===================== */
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .article-wrap { padding: 0 14px; margin-top: 16px; }
+  .article-hero-image { height: 220px; }
+  .article-header { padding: 24px 20px 20px; }
+  .article-body { padding: 24px 20px 28px; }
+  .article-footer { padding: 18px 20px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header id="bar">
+  <a class="logo" href="../index.html" aria-label="الصفحة الرئيسية">
+    <img src="../media/icon-512.png" alt="ESC" style="height:38px; width:auto; display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="../faq.html">الأسئلة الشائعة</a>
+    <a href="../course.html">الدورات</a>
+    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="../research.html">الأبحاث</a>
+    <a href="../volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="../course.html">الدورات</a>
+    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="../research.html">الأبحاث</a>
+    <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<div class="breadcrumb">
+  <a href="../index.html">الرئيسية</a>
+  <span class="sep">›</span>
+  <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+  <span class="sep">›</span>
+  <span>إطلاق الكورسات الهندسية المجانية</span>
+</div>
+
+<div class="article-wrap">
+
+  <img src="../media/news/IMG_1342.PNG" alt="إطلاق الكورسات الهندسية المجانية"
+       class="article-hero-image"
+       onerror="this.style.display='none'">
+
+  <div class="article-card">
+
+    <div class="article-header">
+      <h1 class="article-title">محمد باقر الجبوري يشارك مجتمع طلبة الهندسة مع الطلبة</h1>
+      <div class="article-meta">
+        <span class="meta-item">📅 2026/4/12</span>
+        <span class="meta-item">✍️ فريق ESC</span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <p>قام المهندس محمد باقر علاء الجبوري بتقديم مجتمع طلبة الهندسة على عدد من طلبة المرحلة الرابعة من كلية الهندسة / الهندسة المدنية.</p>
+      
+      <h2>ماذا تضمن الحوار؟</h2>
+
+      <p>أطلع المهندس محمد باقر علاء الجبوري زملائه في القسم على مجتمع طلبة الهندسة وما يحويه من إمكانات قابلة للإزدهار من خلال إسهامات الطلبة نفسهم.</p>
+      
+      <p>كما أكد ان المجتمع هو ملك لجميع الاعضاء وليس ملكا خاصا له, حيث يساهم الطلاب بشكل مستمر بإعمار وتطوير المنصة وتتناقل بين الأجيال وتسخر التيكنولوجيا من أجل إفادة الطلبة بمختلف إختصاصاتهم الهندسية.</p>
+
+    </div>
+
+    <div class="article-footer">
+      <a href="../Scientific_contributions.html" class="back-btn">← العودة إلى المساهمات العلمية</a>
+      <span class="share-label">© 2026 Engineering Student Community</span>
+    </div>
+
+  </div>
+</div>
+
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="../media/icon-512.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>
+        هل لديك سؤال أو مقترح؟<br>
+        يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script>
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const backdrop   = document.getElementById('menuBackdrop');
+const openMenu   = () => { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeMenu  = () => { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('click', e => { if(!mobileMenu.contains(e.target) && e.target !== menuBtn) closeMenu(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); });
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
+</script>
+
+</body>
+</html>
