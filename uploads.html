@@ -489,7 +489,7 @@ footer {
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="volunteer.html">برامج التطوع</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
-      <a role="menuitem" id="authBtnMobile" href="login.html">🔑 تسجيل الدخول</a>
+      <a role="menuitem" id="authBtnMobile" href="login.html"> تسجيل الدخول</a>
     </div>
   </div>
 </header>
@@ -926,10 +926,10 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     btn.className = 'state-guest';
     btn.href      = 'login.html';
-    btn.innerHTML = '🔑 تسجيل الدخول';
+    btn.innerHTML = ' تسجيل الدخول';
     if (btnMobile) {
       btnMobile.href      = 'login.html';
-      btnMobile.innerHTML = '🔑 تسجيل الدخول';
+      btnMobile.innerHTML = ' تسجيل الدخول';
     }
     return;
   }
@@ -939,7 +939,7 @@ onAuthStateChanged(auth, async (user) => {
     if (snap.empty) {
       btn.className = 'state-guest';
       btn.href      = 'login.html';
-      btn.innerHTML = '🔑 تسجيل الدخول';
+      btn.innerHTML = ' تسجيل الدخول';
       return;
     }
     const username   = snap.docs[0].id;
@@ -961,7 +961,7 @@ onAuthStateChanged(auth, async (user) => {
   } catch (e) {
     btn.className = 'state-guest';
     btn.href      = 'login.html';
-    btn.innerHTML = '🔑 تسجيل الدخول';
+    btn.innerHTML = ' تسجيل الدخول';
   }
 });
 </script>
@@ -991,10 +991,10 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     btn.className = 'state-guest';
     btn.href      = 'login.html';
-    btn.innerHTML = '🔑 تسجيل الدخول';
+    btn.innerHTML = ' تسجيل الدخول';
     if (btnMobile) {
       btnMobile.href      = 'login.html';
-      btnMobile.innerHTML = '🔑 تسجيل الدخول';
+      btnMobile.innerHTML = ' تسجيل الدخول';
     }
     return;
   }
@@ -1004,7 +1004,7 @@ onAuthStateChanged(auth, async (user) => {
     if (snap.empty) {
       btn.className = 'state-guest';
       btn.href      = 'login.html';
-      btn.innerHTML = '🔑 تسجيل الدخول';
+      btn.innerHTML = ' تسجيل الدخول';
       return;
     }
     const username   = snap.docs[0].id;
@@ -1026,7 +1026,7 @@ onAuthStateChanged(auth, async (user) => {
   } catch (e) {
     btn.className = 'state-guest';
     btn.href      = 'login.html';
-    btn.innerHTML = '🔑 تسجيل الدخول';
+    btn.innerHTML = ' تسجيل الدخول';
   }
 });
 </script>
