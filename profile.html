@@ -186,12 +186,10 @@ body {
 .profile-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .profile-tag {
   display: inline-block;
-  background: #e6eeff; color: var(--blue);
+  background: #e6f7f4; color: var(--teal);
   font-size: 12px; font-weight: 700;
   padding: 4px 12px; border-radius: 20px;
 }
-.profile-tag.teal { background: #e6f7f4; color: var(--teal); }
-.profile-tag.gold { background: #fff8e6; color: #b07d00; }
 
 /* ============================================================
    PAGE BODY LAYOUT
@@ -338,7 +336,7 @@ body {
 }
 
 /* ============================================================
-   FILES LIST
+   FILES & RESEARCH LIST
    ============================================================ */
 .files-list-wrap {
   background: #fff;
@@ -362,6 +360,11 @@ body {
   font-size: 11px; font-weight: 700; color: #fff;
   flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(220,38,38,0.22);
+}
+.file-icon-box.research-icon {
+  background: linear-gradient(135deg, #047857, #064e3b);
+  box-shadow: 0 2px 8px rgba(4,120,87,0.22);
+  font-size: 10px;
 }
 .file-info { flex: 1; min-width: 0; }
 .file-title {
@@ -396,6 +399,12 @@ body {
   transition: background var(--transition);
 }
 .file-dl-btn:hover { background: rgba(0,71,171,0.15); }
+.file-dl-btn.view-btn {
+  background: rgba(4,120,87,0.07);
+  border: 1px solid rgba(4,120,87,0.16);
+  color: #047857;
+}
+.file-dl-btn.view-btn:hover { background: rgba(4,120,87,0.15); }
 
 .files-empty {
   padding: 36px 20px; text-align: center; direction: rtl;
@@ -549,6 +558,10 @@ select.form-control { cursor: pointer; }
 .toggle-switch input:checked + .toggle-slider { background: var(--teal); }
 .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
 
+/* Conditional Logic for Selects */
+.conditional-field { display: none; }
+.conditional-field.active { display: block; }
+
 /* ============================================================
    UPLOAD MODAL — dept/stage/subject selects
    ============================================================ */
@@ -556,16 +569,8 @@ select.form-control { cursor: pointer; }
 .upload-sub-select.active { display: block; }
 
 /* ============================================================
-   VISION & FOOTER
+   FOOTER
    ============================================================ */
-.vision-section {
-  background: var(--blue); padding: 20px 30px; text-align: center;
-}
-.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-.vision-section p {
-  font-size: 14px; color: rgba(255,255,255,0.82);
-  line-height: 1.85; max-width: 680px; margin: 0 auto;
-}
 footer {
   background: #06101f; color: rgba(255,255,255,0.6);
   padding: 52px 30px 26px; direction: rtl;
@@ -660,16 +665,13 @@ footer {
 </head>
 <body>
 
-<!-- =================== LOADING =================== -->
 <div id="loadingOverlay">
   <img src="media/icon-512-w.png" alt="ESC" class="loader-logo">
   <span class="loader-text">جاري تحميل البروفايل...</span>
 </div>
 
-<!-- =================== TOAST =================== -->
 <div id="toastContainer"></div>
 
-<!-- =================== NAVBAR =================== -->
 <header id="bar">
   <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
     <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
@@ -694,16 +696,14 @@ footer {
 </header>
 <div id="menuBackdrop"></div>
 
-<!-- =================== COVER =================== -->
 <div class="profile-cover">
   <div class="cover-esc-watermark">ESC</div>
 </div>
 
-<!-- =================== PROFILE HEADER =================== -->
 <div class="profile-header-wrap">
   <div class="profile-avatar-wrap">
-    <div class="avatar-container">
-      <img id="profileAvatar" src="media/icon-512-w.png" alt="صورة المستخدم" class="profile-avatar">
+    <div class="avatar-container" id="avatarClickZone">
+      <img id="profileAvatar" src="media/1nkown.png" alt="صورة المستخدم" class="profile-avatar">
       <div class="avatar-edit-overlay" id="avatarEditOverlay" title="تغيير الصورة">
         <span>📷</span>
       </div>
@@ -715,26 +715,21 @@ footer {
     <div id="profileName" class="profile-name">...</div>
     <div id="profileUsername" class="profile-username">@...</div>
     <div id="profileTags" class="profile-tags">
-      <span class="profile-tag" id="tagDept">...</span>
-      <span class="profile-tag teal" id="tagStage">...</span>
+      <span class="profile-tag" id="academicTag">طالب</span>
     </div>
   </div>
 </div>
 
-<!-- =================== PROFILE BODY =================== -->
 <div class="profile-body">
 
-  <!-- ===== SIDEBAR ===== -->
   <aside id="sidebarCol">
 
-    <!-- INFO CARD -->
     <div class="sidebar-card" id="infoCard">
       <div class="sidebar-card-title">
         <span>المعلومات</span>
-        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات">✏️ تعديل</button>
+        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات والمسار الأكاديمي">✏️ تعديل</button>
       </div>
-      <!-- Each info row has a toggle button (owner only) to hide/show it -->
-
+      
       <div class="info-row" id="rowUniversity">
         <span class="info-icon">🎓</span>
         <div style="flex:1">
@@ -771,10 +766,7 @@ footer {
         <button class="field-toggle-btn" data-field="city" title="إظهار/إخفاء">👁</button>
       </div>
 
-    </div><!-- /infoCard -->
-
-    <!-- ABOUT CARD (sidebar) -->
-    <div class="sidebar-card">
+    </div><div class="sidebar-card">
       <div class="sidebar-card-title">
         <span>حول</span>
         <button class="edit-inline-btn" id="editBioBtn">✏️ تعديل</button>
@@ -784,7 +776,6 @@ footer {
       </div>
     </div>
 
-    <!-- CONTACT LINKS CARD -->
     <div class="sidebar-card">
       <div class="sidebar-card-title">
         <span>روابط التواصل</span>
@@ -795,12 +786,8 @@ footer {
       </div>
     </div>
 
-  </aside><!-- /sidebar -->
+  </aside><main id="mainCol">
 
-  <!-- ===== MAIN COLUMN ===== -->
-  <main id="mainCol">
-
-    <!-- OWNER ACTION BAR -->
     <div class="owner-action-bar" id="ownerActionBar">
       <p>أنت تتصفح ملفك الشخصي — <span>مرئي للجميع</span></p>
       <div class="action-btns">
@@ -808,7 +795,6 @@ footer {
       </div>
     </div>
 
-    <!-- FILES CARD -->
     <div class="content-card">
       <div class="card-header">
         <h2>الملفات المرفوعة</h2>
@@ -821,16 +807,19 @@ footer {
       </div>
     </div>
 
+    <div class="content-card">
+      <div class="card-header">
+        <h2>الأبحاث العلمية</h2>
+        <button class="action-btn secondary owner-only-btn" id="requestResearchBtn" style="display:none; font-size:12px; padding:6px 12px;">📤 طلب إضافة بحث</button>
+      </div>
+      <div id="researchContainer">
+        <div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>
+      </div>
+    </div>
+
   </main>
 </div>
 
-<!-- =================== VISION =================== -->
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
-
-<!-- =================== FOOTER =================== -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
@@ -851,11 +840,6 @@ footer {
   </div>
 </footer>
 
-<!-- ============================================================
-     MODALS
-     ============================================================ -->
-
-<!-- EDIT BIO MODAL -->
 <div id="bioModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -874,21 +858,46 @@ footer {
   </div>
 </div>
 
-<!-- EDIT INFO MODAL -->
 <div id="infoModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>✏️ تعديل المعلومات</h3>
+      <h3>✏️ تعديل المعلومات والمسار الأكاديمي</h3>
       <button class="modal-close-btn" data-close="infoModal">✕</button>
     </div>
     <div class="modal-body">
+      
+      <div class="form-group">
+        <label>هل أنت طالب حالياً؟</label>
+        <select id="isStudentInput" class="form-control">
+          <option value="true">نعم، أنا طالب</option>
+          <option value="false">لا، أنا خريج</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>الدرجة العلمية</label>
+        <select id="degreeInput" class="form-control">
+          <option value="bsc">بكالوريوس</option>
+          <option value="msc">ماجستير</option>
+          <option value="phd">دكتوراه</option>
+        </select>
+      </div>
+      <div class="form-group conditional-field" id="stageGroup">
+        <label>المرحلة الدراسية</label>
+        <select id="stageInput" class="form-control">
+          <option value="1">المرحلة الأولى</option>
+          <option value="2">المرحلة الثانية</option>
+          <option value="3">المرحلة الثالثة</option>
+          <option value="4">المرحلة الرابعة</option>
+        </select>
+      </div>
+      
       <div class="form-group">
         <label>المدينة</label>
         <input type="text" id="cityInput" class="form-control" maxlength="40"
                placeholder="مثلاً: كربلاء">
       </div>
-      <!-- Visibility toggles -->
-      <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول</p>
+      
+      <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول (اختياري)</p>
       <div class="toggle-row">
         <label>الجامعة</label>
         <label class="toggle-switch">
@@ -922,7 +931,6 @@ footer {
   </div>
 </div>
 
-<!-- ADD LINK MODAL -->
 <div id="linkModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -948,7 +956,6 @@ footer {
   </div>
 </div>
 
-<!-- UPLOAD FILE MODAL -->
 <div id="uploadModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:520px;">
     <div class="modal-head">
@@ -966,7 +973,6 @@ footer {
                placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
       </div>
 
-      <!-- DEPT SELECT -->
       <div class="form-group">
         <label>القسم الهندسي</label>
         <select id="uploadDeptSelect" class="form-control">
@@ -980,14 +986,12 @@ footer {
         </select>
       </div>
 
-      <!-- OTHER DEPT INPUT (shown when "other" selected) -->
       <div class="form-group upload-sub-select" id="otherDeptGroup">
         <label>اسم القسم</label>
         <input type="text" id="otherDeptInput" class="form-control" maxlength="50"
                placeholder="أدخل اسم قسمك الهندسي">
       </div>
 
-      <!-- STAGE SELECT -->
       <div class="form-group">
         <label>المرحلة الدراسية</label>
         <select id="uploadStageSelect" class="form-control">
@@ -999,7 +1003,6 @@ footer {
         </select>
       </div>
 
-      <!-- SUBJECT SELECT (dynamic, populated from JS config) -->
       <div class="form-group upload-sub-select" id="subjectGroup">
         <label>المادة</label>
         <select id="uploadSubjectSelect" class="form-control">
@@ -1007,14 +1010,12 @@ footer {
         </select>
       </div>
 
-      <!-- CUSTOM SUBJECT (shown when subject not in list or "other") -->
       <div class="form-group upload-sub-select" id="customSubjectGroup">
         <label>اسم المادة (إذا لم تجدها في القائمة)</label>
         <input type="text" id="customSubjectInput" class="form-control" maxlength="60"
                placeholder="مثلاً: هندسة التخمين">
       </div>
 
-      <!-- UPLOAD PROGRESS -->
       <div class="upload-progress-wrap" id="uploadProgressWrap">
         <div class="upload-progress-bar">
           <div class="upload-progress-fill" id="uploadProgressFill"></div>
@@ -1027,7 +1028,6 @@ footer {
   </div>
 </div>
 
-<!-- CONFIRM MODAL -->
 <div id="confirmModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -1046,9 +1046,6 @@ footer {
   </div>
 </div>
 
-<!-- ============================================================
-     FIREBASE + APP LOGIC
-     ============================================================ -->
 <script type="module">
 import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged }
@@ -1076,12 +1073,32 @@ const db      = getFirestore(app);
 const storage = getStorage(app);
 
 /* ─────────────────────────────────────────────────
-   SUBJECTS CONFIG
-   ═══════════════════════════════════════════════
-   لتعديل المواد: أضف أو احذف من الكائن SUBJECTS_CONFIG.
-   البنية:  dept_key → { stage_number: [ "مادة 1", "مادة 2", ... ] }
-   "other" دائماً موجود كخيار افتراضي بعد القائمة.
-   ═══════════════════════════════════════════════ */
+   DICTIONARIES & CONFIGS
+   ───────────────────────────────────────────────── */
+const UNIVERSITY_DICT = {
+  "karbala": "جامعة كربلاء المقدسة",
+  "baghdad": "جامعة بغداد",
+  "basra": "جامعة البصرة",
+  "mosul": "جامعة الموصل",
+  "kufa": "جامعة الكوفة",
+  "najaf": "جامعة النجف الأشرف التقنية",
+  "mustansiriyah": "الجامعة المستنصرية",
+  "technology": "الجامعة التكنولوجية"
+};
+
+const DEPT_DICT = {
+  "civil": "هندسة مدنية",
+  "electrical": "هندسة كهرباء وإلكترونيك",
+  "mechanical": "هندسة ميكانيك",
+  "electromech": "هندسة كهروميكانيك",
+  "software": "هندسة برمجيات",
+  "architectural": "هندسة معمارية",
+  "computer": "هندسة حاسبات",
+  "environmental": "هندسة بيئية",
+  "chemical": "هندسة كيميائية",
+  "other": "أخرى"
+};
+
 const SUBJECTS_CONFIG = {
   civil: {
     1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"],
@@ -1114,7 +1131,6 @@ const SUBJECTS_CONFIG = {
     4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]
   }
 };
-/* ═══════════════════════════════════════════════ */
 
 /* ─────────────────────────────────────────────────
    GLOBALS
@@ -1141,11 +1157,9 @@ function toast(msg, type = '') {
 function openModal(id)  { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
-// Close buttons
 document.querySelectorAll('[data-close]').forEach(btn =>
   btn.addEventListener('click', () => closeModal(btn.dataset.close))
 );
-// Click outside
 document.querySelectorAll('.modal-backdrop').forEach(bd =>
   bd.addEventListener('click', e => { if (e.target === bd) closeModal(bd.id); })
 );
@@ -1164,6 +1178,14 @@ document.getElementById('confirmNoBtn').addEventListener('click', () => {
   closeModal('confirmModal');
   confirmCallback = null;
 });
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
 
 /* ─────────────────────────────────────────────────
    MOBILE MENU
@@ -1193,6 +1215,7 @@ async function loadProfile() {
     profileData = snap.data();
     renderProfile();
     await loadFiles();
+    await loadResearch(); // Loads scientific research
 
     // Check ownership
     onAuthStateChanged(auth, user => {
@@ -1214,6 +1237,7 @@ const STAGE_LABELS = {
   '1':'المرحلة الأولى','2':'المرحلة الثانية',
   '3':'المرحلة الثالثة','4':'المرحلة الرابعة'
 };
+const DEGREE_LABELS = { "bsc": "بكالوريوس", "msc": "ماجستير", "phd": "دكتوراه" };
 
 function renderProfile() {
   const d = profileData;
@@ -1222,24 +1246,33 @@ function renderProfile() {
   document.getElementById('profileName').textContent     = d.fullName  || TARGET_USERNAME;
   document.getElementById('profileUsername').textContent = '@' + TARGET_USERNAME;
 
-  // Tags
-  document.getElementById('tagDept').textContent  = d.department || 'عضو';
-  document.getElementById('tagStage').textContent = STAGE_LABELS[d.stage] || 'طالب';
+  // Dictionary translations
+  const translatedUni = UNIVERSITY_DICT[d.university] || d.university;
+  const translatedDept = DEPT_DICT[d.department] || d.department;
+
+  // Academic Logic & Tag
+  const isStudent = d.isStudent !== false; // default true
+  const degree = d.degreeLevel || "bsc";
+  const stage = d.stage || "1";
+  
+  let tagText = isStudent ? "طالب " : "خريج ";
+  tagText += DEGREE_LABELS[degree] || "";
+  if (isStudent && degree === "bsc") tagText += ` - المرحلة ${STAGE_LABELS[stage] || stage}`;
+  
+  document.getElementById('academicTag').textContent = tagText;
 
   // Avatar
   if (d.avatarURL) document.getElementById('profileAvatar').src = d.avatarURL;
 
   // Info fields (respecting visibility prefs)
   const hidden = d.hiddenFields || [];
-  setInfoRow('rowUniversity', 'infoUniversity', d.university, hidden.includes('university'));
-  setInfoRow('rowDept',       'infoDept',       d.department, hidden.includes('department'));
-  setInfoRow('rowStage',      'infoStage',      STAGE_LABELS[d.stage] || d.stage, hidden.includes('stage'));
+  setInfoRow('rowUniversity', 'infoUniversity', translatedUni, hidden.includes('university'));
+  setInfoRow('rowDept',       'infoDept',       translatedDept, hidden.includes('department'));
+  setInfoRow('rowStage',      'infoStage',      (isStudent && degree === "bsc") ? `المرحلة ${STAGE_LABELS[stage] || stage}` : "—", hidden.includes('stage'));
   setInfoRow('rowCity',       'infoCity',       d.city || null, hidden.includes('city'));
 
-  // Bio
+  // Bio & Links
   renderBio(d.bio);
-
-  // Links
   renderLinks(d.links || []);
 }
 
@@ -1262,6 +1295,9 @@ function renderBio(bio) {
   }
 }
 
+/* ─────────────────────────────────────────────────
+   CONTACT LINKS LOGIC
+   ───────────────────────────────────────────────── */
 function renderLinks(links) {
   const el      = document.getElementById('linksDisplay');
   const noMsg   = document.getElementById('noLinksMsg');
@@ -1284,7 +1320,6 @@ function renderLinks(links) {
     el.appendChild(item);
   });
 
-  // Delete buttons
   el.querySelectorAll('.contact-link-delete').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.index);
@@ -1293,12 +1328,45 @@ function renderLinks(links) {
   });
 }
 
-function escHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+document.getElementById('addLinkBtn').addEventListener('click', () => {
+  if ((profileData.links || []).length >= 5) {
+    document.getElementById('linkLimitMsg').style.display = 'block';
+  } else {
+    document.getElementById('linkLimitMsg').style.display = 'none';
+  }
+  document.getElementById('linkNameInput').value = '';
+  document.getElementById('linkUrlInput').value  = '';
+  openModal('linkModal');
+});
+
+document.getElementById('saveLinkBtn').addEventListener('click', async () => {
+  const name = document.getElementById('linkNameInput').value.trim();
+  const url  = document.getElementById('linkUrlInput').value.trim();
+  if (!name || !url) { toast('أدخل الاسم والرابط.', 'error'); return; }
+
+  const links = [...(profileData.links || [])];
+  if (links.length >= 5) { toast('الحد الأقصى 5 روابط.', 'error'); return; }
+  if (!url.startsWith('http')) { toast('الرابط يجب أن يبدأ بـ http أو https', 'error'); return; }
+
+  links.push({ name, url });
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
+    profileData.links = links;
+    renderLinks(links);
+    closeModal('linkModal');
+    toast('تم إضافة الرابط ✓', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+});
+
+async function deleteLink(idx) {
+  const links = [...(profileData.links || [])];
+  links.splice(idx, 1);
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
+    profileData.links = links;
+    renderLinks(links);
+    toast('تم حذف الرابط.', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
 }
 
 /* ─────────────────────────────────────────────────
@@ -1340,32 +1408,102 @@ async function loadFiles() {
     cont.innerHTML = '';
     cont.appendChild(wrap);
   } catch(e) {
-    document.getElementById('filesContainer').innerHTML =
-      '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
+    document.getElementById('filesContainer').innerHTML = '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
   }
 }
 
 /* ─────────────────────────────────────────────────
-   OWNER MODE
+   LOAD RESEARCH
+   ───────────────────────────────────────────────── */
+async function loadResearch() {
+  try {
+    const q    = query(collection(db,"research"), where("uploader","==",TARGET_USERNAME));
+    const snap = await getDocs(q);
+    const cont = document.getElementById('researchContainer');
+
+    if (snap.empty) {
+      cont.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
+      return;
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = 'files-list-wrap';
+
+    snap.forEach(d => {
+      const r = d.data();
+      const row = document.createElement('div');
+      row.className = 'file-item-row';
+      row.innerHTML = `
+        <div class="file-icon-box research-icon">بحث</div>
+        <div class="file-info">
+          <a href="${escHtml(r.url)}" target="_blank" class="file-title">${escHtml(r.title)}</a>
+          <div class="file-sub">
+            <span style="color:#374151; font-weight:700;">الباحثون: ${escHtml(r.authors)}</span>
+            ${r.supervisor ? `<span class="file-badge">إشراف: ${escHtml(r.supervisor)}</span>` : ''}
+            ${r.year ? `<span class="file-badge">${escHtml(r.year)}</span>` : ''}
+          </div>
+        </div>
+        <a href="${escHtml(r.url)}" target="_blank" class="file-dl-btn view-btn">🔗 عرض</a>
+      `;
+      wrap.appendChild(row);
+    });
+
+    cont.innerHTML = '';
+    cont.appendChild(wrap);
+  } catch(e) {
+    document.getElementById('researchContainer').innerHTML = '<div class="files-empty"><p>تعذّر تحميل الأبحاث.</p></div>';
+  }
+}
+
+/* ─────────────────────────────────────────────────
+   OWNER MODE & EMAIL RESEARCH
    ───────────────────────────────────────────────── */
 function activateOwnerMode() {
   isOwner = true;
   document.getElementById('ownerActionBar').classList.add('visible');
   document.getElementById('avatarEditOverlay').classList.add('visible');
   document.body.classList.add('owner-mode');
+  
+  // Show the research upload request button
+  const researchBtn = document.getElementById('requestResearchBtn');
+  if(researchBtn) researchBtn.style.display = 'inline-flex';
 }
 
+document.getElementById('requestResearchBtn').addEventListener('click', () => {
+  const now = new Date();
+  const options = { timeZone: 'Asia/Baghdad', year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
+  const timeStr = now.toLocaleString('en-GB', options).replace(',', '');
+  
+  const bodyText = `-- الرجاء من حضرتكم قراءة الكليشة التالية وتعديلها ثم إرفاق البحث خاصتكم الى الرسالة والانتظار طلبا للمراجعة -- \n` +
+                   `لقد قمنا بإعداد البحث العلمي بعنوان:\n` +
+                   `//اسم بحثكم//\n` +
+                   `بجهود الطلبة ( الزميل الأول , الزميل الثاني إن وجد , الثالث ...الخ )\n` +
+                   `وبإشراف ( جهة الإشراف إن وجدت )\n` +
+                   `من جامعة ( الجامعة التي تنتمي إليها في الوقت الحالي إن وجدت )\n` +
+                   `طالبا مراجعته وإضافته للحساب خاصتي\n` +
+                   `----\n` +
+                   `معلومات ستملئ تلقائيا\n` +
+                   `التوقيت: ${timeStr} Baghdad +3:00\n` +
+                   `اليوزر: @${TARGET_USERNAME}\n` +
+                   `اسم اليوزر: ${profileData.fullName || 'غير متوفر'}\n\n` +
+                   `----\n` +
+                   `مجتمع طلبة الهندسة`;
+
+  const subject = "طلب مراجعة بحث علمي";
+  window.location.href = `mailto:esc.irq@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+});
+
 /* ─────────────────────────────────────────────────
-   AVATAR UPLOAD
+   AVATAR UPLOAD (Limit < 1MB)
    ───────────────────────────────────────────────── */
-document.getElementById('avatarEditOverlay').addEventListener('click', () => {
+document.getElementById('avatarClickZone').addEventListener('click', () => {
   if (isOwner) document.getElementById('avatarInput').click();
 });
 document.getElementById('avatarInput').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
-  if (file.size > 2 * 1024 * 1024) { toast('الصورة أكبر من 2MB.', 'error'); return; }
+  if (file.size > 1024 * 1024) { toast('حجم الصورة يجب أن يكون أقل من 1 ميجابايت.', 'error'); return; }
 
   try {
     toast('جاري رفع الصورة...');
@@ -1411,10 +1549,32 @@ document.getElementById('saveBioBtn').addEventListener('click', async () => {
 });
 
 /* ─────────────────────────────────────────────────
-   INFO EDIT
+   INFO & ACADEMIC EDIT
    ───────────────────────────────────────────────── */
+const isStudentInp = document.getElementById('isStudentInput');
+const degreeInp = document.getElementById('degreeInput');
+const stageGrp = document.getElementById('stageGroup');
+
+function updateModalVisibility() {
+  if (isStudentInp.value === "true" && degreeInp.value === "bsc") {
+    stageGrp.classList.add('active');
+  } else {
+    stageGrp.classList.remove('active');
+  }
+}
+isStudentInp.addEventListener('change', updateModalVisibility);
+degreeInp.addEventListener('change', updateModalVisibility);
+
 document.getElementById('editInfoBtn').addEventListener('click', () => {
   document.getElementById('cityInput').value = profileData.city || '';
+  
+  // Set Academic Fields
+  isStudentInp.value = (profileData.isStudent !== false).toString();
+  degreeInp.value = profileData.degreeLevel || "bsc";
+  document.getElementById('stageInput').value = profileData.stage || "1";
+  updateModalVisibility();
+
+  // Set toggles
   const hidden = profileData.hiddenFields || [];
   document.getElementById('toggleUniversity').checked = !hidden.includes('university');
   document.getElementById('toggleDept').checked        = !hidden.includes('department');
@@ -1425,6 +1585,10 @@ document.getElementById('editInfoBtn').addEventListener('click', () => {
 
 document.getElementById('saveInfoBtn').addEventListener('click', async () => {
   const city    = document.getElementById('cityInput').value.trim();
+  const isStud  = isStudentInp.value === "true";
+  const degLvl  = degreeInp.value;
+  const stg     = document.getElementById('stageInput').value;
+
   const hidden  = [];
   if (!document.getElementById('toggleUniversity').checked) hidden.push('university');
   if (!document.getElementById('toggleDept').checked)       hidden.push('department');
@@ -1432,66 +1596,30 @@ document.getElementById('saveInfoBtn').addEventListener('click', async () => {
   if (!document.getElementById('toggleCity').checked)       hidden.push('city');
 
   try {
-    await updateDoc(doc(db,"students",TARGET_USERNAME), { city, hiddenFields: hidden });
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { 
+      city, 
+      hiddenFields: hidden,
+      isStudent: isStud,
+      degreeLevel: degLvl,
+      stage: stg
+    });
+    
     profileData.city         = city;
     profileData.hiddenFields = hidden;
+    profileData.isStudent    = isStud;
+    profileData.degreeLevel  = degLvl;
+    profileData.stage        = stg;
+    
     renderProfile();
     closeModal('infoModal');
-    toast('تم حفظ المعلومات ✓', 'success');
+    toast('تم حفظ المعلومات والمسار الأكاديمي ✓', 'success');
   } catch(e) { toast('خطأ: ' + e.message, 'error'); }
 });
-
-/* ─────────────────────────────────────────────────
-   LINKS
-   ───────────────────────────────────────────────── */
-document.getElementById('addLinkBtn').addEventListener('click', () => {
-  if ((profileData.links || []).length >= 5) {
-    document.getElementById('linkLimitMsg').style.display = 'block';
-  } else {
-    document.getElementById('linkLimitMsg').style.display = 'none';
-  }
-  document.getElementById('linkNameInput').value = '';
-  document.getElementById('linkUrlInput').value  = '';
-  openModal('linkModal');
-});
-
-document.getElementById('saveLinkBtn').addEventListener('click', async () => {
-  const name = document.getElementById('linkNameInput').value.trim();
-  const url  = document.getElementById('linkUrlInput').value.trim();
-  if (!name || !url) { toast('أدخل الاسم والرابط.', 'error'); return; }
-
-  const links = [...(profileData.links || [])];
-  if (links.length >= 5) { toast('الحد الأقصى 5 روابط.', 'error'); return; }
-
-  // Simple URL validation
-  if (!url.startsWith('http')) { toast('الرابط يجب أن يبدأ بـ http أو https', 'error'); return; }
-
-  links.push({ name, url });
-  try {
-    await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
-    profileData.links = links;
-    renderLinks(links);
-    closeModal('linkModal');
-    toast('تم إضافة الرابط ✓', 'success');
-  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
-});
-
-async function deleteLink(idx) {
-  const links = [...(profileData.links || [])];
-  links.splice(idx, 1);
-  try {
-    await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
-    profileData.links = links;
-    renderLinks(links);
-    toast('تم حذف الرابط.', 'success');
-  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
-}
 
 /* ─────────────────────────────────────────────────
    UPLOAD FILE
    ───────────────────────────────────────────────── */
 document.getElementById('openUploadBtn').addEventListener('click', () => {
-  // Reset form
   document.getElementById('uploadFileInput').value    = '';
   document.getElementById('uploadNameInput').value    = '';
   document.getElementById('uploadDeptSelect').value   = '';
@@ -1505,13 +1633,11 @@ document.getElementById('openUploadBtn').addEventListener('click', () => {
   openModal('uploadModal');
 });
 
-// Dept change → show/hide other input
 document.getElementById('uploadDeptSelect').addEventListener('change', function() {
   document.getElementById('otherDeptGroup').classList.toggle('active', this.value === 'other');
   updateSubjectSelect();
 });
 
-// Stage change → update subjects
 document.getElementById('uploadStageSelect').addEventListener('change', updateSubjectSelect);
 
 function updateSubjectSelect() {
@@ -1565,7 +1691,6 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
   const dept    = deptVal === 'other' ? (otherDept || 'أخرى') : deptVal;
   const subject = (subjectEl && subjectEl !== '__other__') ? subjectEl : (customSub || 'عام');
 
-  // Show progress
   const progWrap  = document.getElementById('uploadProgressWrap');
   const progFill  = document.getElementById('uploadProgressFill');
   const progLabel = document.getElementById('uploadProgressLabel');
@@ -1597,6 +1722,8 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
     setTimeout(() => {
       closeModal('uploadModal');
       toast('تم رفع الملف بنجاح ✓', 'success');
+      btn.disabled = false;
+      progWrap.classList.remove('active');
       loadFiles();
     }, 700);
   } catch(e) {
