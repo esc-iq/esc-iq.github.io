@@ -334,32 +334,85 @@ footer {
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
+  #authBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+#authBtn.state-loading {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.35);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  pointer-events: none;
+}
+#authBtn.state-guest {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.32);
+}
+#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
+#authBtn.state-user {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.28);
+}
+#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
+.auth-avatar {
+  width: 26px; height: 26px;
+  border-radius: 6px; object-fit: cover;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  display: block; flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  #authBtn { display: none; }
+}
 </style>
 </head>
 <body>
 
 <header id="bar">
-  <a class="logo" href="../index.html" aria-label="الصفحة الرئيسية">
-    <img src="../media/icon-512-w.png" alt="ESC" style="height:38px; width:auto; display:block;">
-  </a>
+  <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+    <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+      <img src="media/icon-512-w.png" alt="ESC"
+           style="height:38px;width:auto;display:block;">
+    </a>
+    <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+  </div>
+
   <nav aria-label="روابط الموقع">
-    <a href="../faq.html">الأسئلة الشائعة</a>
-    <a href="../course.html">الدورات</a>
-    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
-    <a href="../research.html">الأبحاث</a>
-    <a href="../volunteer.html">برامج التطوع</a>
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
   </nav>
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات"
+          aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
+
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="../course.html">الدورات</a>
-    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
-    <a role="menuitem" href="../research.html">الأبحاث</a>
-    <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+    <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
+      <a role="menuitem" id="authBtnMobile" href="login.html">🔑 تسجيل الدخول</a>
+    </div>
   </div>
 </header>
+<div id="menuBackdrop" aria-hidden="true"></div>
 <div id="menuBackdrop" aria-hidden="true"></div>
 
 <div class="breadcrumb">
@@ -446,6 +499,70 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); })
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
 </script>
+<script type="module">
+import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, onAuthStateChanged }
+                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs }
+                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
+const firebaseConfig = {
+  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:        "engineering-students-community.firebaseapp.com",
+  projectId:         "engineering-students-community",
+  storageBucket:     "engineering-students-community.firebasestorage.app",
+  messagingSenderId: "371432549665",
+  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
+};
+
+const app       = initializeApp(firebaseConfig);
+const auth      = getAuth(app);
+const db        = getFirestore(app);
+const btn       = document.getElementById('authBtn');
+const btnMobile = document.getElementById('authBtnMobile');
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    btn.className = 'state-guest';
+    btn.href      = 'login.html';
+    btn.innerHTML = '🔑 تسجيل الدخول';
+    if (btnMobile) {
+      btnMobile.href      = 'login.html';
+      btnMobile.innerHTML = '🔑 تسجيل الدخول';
+    }
+    return;
+  }
+  try {
+    const q    = query(collection(db,"students"), where("uid","==",user.uid));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      btn.className = 'state-guest';
+      btn.href      = 'login.html';
+      btn.innerHTML = '🔑 تسجيل الدخول';
+      return;
+    }
+    const username   = snap.docs[0].id;
+    const data       = snap.docs[0].data();
+    const avatarSrc  = data.avatarURL || 'media/1nkown.png';
+    const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
+
+    btn.className = 'state-user';
+    btn.href      = profileUrl;
+    btn.innerHTML =
+      `<img class="auth-avatar" src="${avatarSrc}"
+            onerror="this.src='media/1nkown.png'" alt="صورة">` +
+      `<span>@${username}</span>`;
+
+    if (btnMobile) {
+      btnMobile.href      = profileUrl;
+      btnMobile.innerHTML = '👤 @' + username;
+    }
+  } catch (e) {
+    btn.className = 'state-guest';
+    btn.href      = 'login.html';
+    btn.innerHTML = '🔑 تسجيل الدخول';
+  }
+});
+</script>
 </body>
 </html>
