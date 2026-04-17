@@ -153,21 +153,30 @@ body {
   object-fit: cover; border-radius: 18px;
   border: 4px solid #fff;
   box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-  display: block; cursor: pointer;
+  display: block;
 }
-/* Camera overlay on avatar (owner only) */
+
+/* Camera overlay — only shows on hover when owner */
 .avatar-edit-overlay {
-  display: none;
   position: absolute; inset: 0;
-  background: rgba(0,0,0,0.45);
+  background: rgba(0,0,0,0.5);
   border-radius: 16px;
   align-items: center; justify-content: center;
   cursor: pointer;
+  display: none;          /* hidden by default always */
+  flex-direction: column;
+  gap: 4px;
   transition: opacity var(--transition);
 }
-.avatar-container:hover .avatar-edit-overlay.visible { opacity: 1; }
-.avatar-edit-overlay.visible { display: flex; opacity: 0.85; }
-.avatar-edit-overlay span { font-size: 28px; }
+/* Show overlay div only when owner AND hovered */
+.owner-mode .avatar-container:hover .avatar-edit-overlay {
+  display: flex;
+}
+.avatar-edit-overlay span { font-size: 26px; }
+.avatar-edit-overlay small {
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.85); letter-spacing: 0.5px;
+}
 #avatarInput { display: none; }
 
 .profile-info {
@@ -195,12 +204,12 @@ body {
    PAGE BODY LAYOUT
    ============================================================ */
 .profile-body {
-  max-width: 1020px;
+  max-width: 1000px;
   margin: 28px auto 60px;
   padding: 0 24px;
   display: grid;
   grid-template-columns: 240px 1fr;
-  gap: 22px;
+  gap: 24px;
   align-items: flex-start;
 }
 
@@ -211,15 +220,13 @@ body {
   background: #fff;
   border-radius: var(--card-radius);
   border: 1px solid var(--border);
-  padding: 20px;
+  padding: 22px;
   box-shadow: var(--shadow);
-  margin-bottom: 16px;
-  position: relative;
 }
-.sidebar-card:last-child { margin-bottom: 0; }
+.sidebar-card + .sidebar-card { margin-top: 16px; }
 .sidebar-card-title {
-  font-size: 11px; font-weight: 700;
-  color: #9ca3af; letter-spacing: 1.8px;
+  font-size: 13px; font-weight: 700;
+  color: #888; letter-spacing: 1.5px;
   text-transform: uppercase; margin-bottom: 16px;
   padding-bottom: 10px;
   border-bottom: 1px solid rgba(0,0,0,0.06);
@@ -232,7 +239,7 @@ body {
 .info-row:last-child { margin-bottom: 0; }
 .info-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
 .info-label {
-  font-size: 11px; color: #9ca3af; font-weight: 700;
+  font-size: 11px; color: #999; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;
 }
 .info-value {
@@ -241,9 +248,6 @@ body {
 }
 .info-value a { color: var(--blue); text-decoration: none; }
 .info-value a:hover { text-decoration: underline; }
-
-/* Hidden field placeholder */
-.info-row.hidden-field { display: none; }
 
 /* ============================================================
    ABOUT (SIDEBAR)
@@ -295,17 +299,6 @@ body {
 .edit-inline-btn:hover { background: rgba(0,71,171,0.08); }
 .owner-mode .edit-inline-btn { display: inline-flex; align-items: center; gap: 4px; }
 
-/* Toggle visibility of a field */
-.field-toggle-btn {
-  display: none;
-  background: none; border: none; cursor: pointer;
-  font-size: 11px; font-weight: 700;
-  color: #9ca3af; padding: 2px 5px;
-  border-radius: 5px; transition: color var(--transition);
-}
-.field-toggle-btn:hover { color: var(--text-dark); }
-.owner-mode .field-toggle-btn { display: inline; }
-
 /* ============================================================
    CONTENT CARD (main column)
    ============================================================ */
@@ -324,7 +317,7 @@ body {
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 .card-header h2 {
-  font-size: 16px; font-weight: 700;
+  font-size: 17px; font-weight: 700;
   color: var(--text-dark);
   position: relative; padding-right: 14px;
 }
@@ -336,7 +329,7 @@ body {
 }
 
 /* ============================================================
-   FILES & RESEARCH LIST
+   FILES LIST (PDF uploads)
    ============================================================ */
 .files-list-wrap {
   background: #fff;
@@ -360,11 +353,6 @@ body {
   font-size: 11px; font-weight: 700; color: #fff;
   flex-shrink: 0;
   box-shadow: 0 2px 8px rgba(220,38,38,0.22);
-}
-.file-icon-box.research-icon {
-  background: linear-gradient(135deg, #047857, #064e3b);
-  box-shadow: 0 2px 8px rgba(4,120,87,0.22);
-  font-size: 10px;
 }
 .file-info { flex: 1; min-width: 0; }
 .file-title {
@@ -399,12 +387,6 @@ body {
   transition: background var(--transition);
 }
 .file-dl-btn:hover { background: rgba(0,71,171,0.15); }
-.file-dl-btn.view-btn {
-  background: rgba(4,120,87,0.07);
-  border: 1px solid rgba(4,120,87,0.16);
-  color: #047857;
-}
-.file-dl-btn.view-btn:hover { background: rgba(4,120,87,0.15); }
 
 .files-empty {
   padding: 36px 20px; text-align: center; direction: rtl;
@@ -422,7 +404,72 @@ body {
 .see-all-files-link:hover { background: var(--blue); color: #fff; }
 
 /* ============================================================
-   OWNER ACTION BAR (top of main column)
+   RESEARCH LIST — Academic style (matches founder page)
+   ============================================================ */
+.research-list-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  direction: ltr; text-align: left;
+}
+.research-item-row {
+  display: flex; gap: 16px;
+  align-items: flex-start;
+  padding: 16px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+  transition: background var(--transition);
+}
+.research-item-row:last-child { border-bottom: none; }
+.research-item-row:hover { background: #fafbff; }
+.research-main { flex: 1; min-width: 0; }
+.research-title-link {
+  display: inline-block; color: #1a0dab;
+  font-size: 15px; font-weight: 700;
+  text-decoration: none; line-height: 1.35;
+}
+.research-title-link:hover { text-decoration: underline; }
+.research-authors-row {
+  margin-top: 5px; font-size: 12px; font-weight: 700;
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+}
+.research-authors-row .authors-list a { color: #188038; text-decoration: none; }
+.research-authors-row .authors-list a:hover { text-decoration: underline; }
+.research-serial {
+  color: #374151; font-weight: 900; font-size: 11px;
+  direction: ltr; unicode-bidi: isolate; white-space: nowrap;
+}
+.research-supervisor-line {
+  margin-top: 6px;
+  font-size: 12px; font-weight: 700;
+  color: #374151;
+  direction: ltr; text-align: left;
+}
+.research-supervisor-line a { color: #f97316; text-decoration: none; }
+.research-supervisor-line a:hover { text-decoration: underline; }
+.research-desc-text {
+  margin-top: 5px; color: #6b7280; font-size: 13px; line-height: 1.65;
+}
+.research-actions-row { margin-top: 9px; }
+.scholar-btn {
+  display: inline-flex; align-items: center;
+  padding: 7px 13px; border-radius: 999px;
+  background: rgba(107,114,128,0.12);
+  border: 1px solid rgba(0,0,0,0.10);
+  color: #374151; text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 900; font-size: 11px;
+  transition: filter .12s ease, background .12s ease;
+  gap: 5px;
+}
+.scholar-btn:hover { filter: brightness(0.97); background: rgba(107,114,128,0.2); }
+.research-year-badge {
+  color: #6b7280; font-size: 13px; white-space: nowrap; padding-top: 2px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   OWNER ACTION BAR
    ============================================================ */
 .owner-action-bar {
   display: none;
@@ -533,7 +580,7 @@ select.form-control { cursor: pointer; }
 .modal-submit-btn.teal { background: var(--teal); }
 .modal-submit-btn.teal:hover { background: #006666; }
 
-/* Field toggle inside info rows */
+/* Toggle switch */
 .toggle-row {
   display: flex; align-items: center;
   justify-content: space-between; margin-bottom: 10px;
@@ -558,18 +605,32 @@ select.form-control { cursor: pointer; }
 .toggle-switch input:checked + .toggle-slider { background: var(--teal); }
 .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-/* Conditional Logic for Selects */
+/* Conditional fields */
 .conditional-field { display: none; }
 .conditional-field.active { display: block; }
 
 /* ============================================================
-   UPLOAD MODAL — dept/stage/subject selects
+   UPLOAD MODAL
    ============================================================ */
 .upload-sub-select { display: none; }
 .upload-sub-select.active { display: block; }
 
 /* ============================================================
-   FOOTER
+   UPLOAD PROGRESS BAR
+   ============================================================ */
+.upload-progress-wrap { display: none; margin-top: 12px; }
+.upload-progress-wrap.active { display: block; }
+.upload-progress-bar {
+  height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden;
+}
+.upload-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal));
+  border-radius: 3px; width: 0%; transition: width 0.3s ease;
+}
+.upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
+
+/* ============================================================
+   FOOTER — matches founder page exactly
    ============================================================ */
 footer {
   background: #06101f; color: rgba(255,255,255,0.6);
@@ -600,7 +661,7 @@ footer {
 .footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
 
 /* ============================================================
-   TOAST NOTIFICATION
+   TOAST
    ============================================================ */
 #toastContainer {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -630,20 +691,6 @@ footer {
 .confirm-yes:hover { background: #b91c1c; }
 .confirm-no  { flex: 1; padding: 10px; background: #f3f4f6; color: var(--text-dark); border: 1px solid var(--border); border-radius: 10px; font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer; }
 .confirm-no:hover { background: #e5e7eb; }
-
-/* ============================================================
-   UPLOAD PROGRESS BAR
-   ============================================================ */
-.upload-progress-wrap { display: none; margin-top: 12px; }
-.upload-progress-wrap.active { display: block; }
-.upload-progress-bar {
-  height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden;
-}
-.upload-progress-fill {
-  height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal));
-  border-radius: 3px; width: 0%; transition: width 0.3s ease;
-}
-.upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
 
 /* ============================================================
    RESPONSIVE
@@ -704,8 +751,10 @@ footer {
   <div class="profile-avatar-wrap">
     <div class="avatar-container" id="avatarClickZone">
       <img id="profileAvatar" src="media/1nkown.png" alt="صورة المستخدم" class="profile-avatar">
+      <!-- Overlay only visible on hover when owner (CSS handles this) -->
       <div class="avatar-edit-overlay" id="avatarEditOverlay" title="تغيير الصورة">
         <span>📷</span>
+        <small>تغيير الصورة</small>
       </div>
     </div>
     <input type="file" id="avatarInput" accept="image/*">
@@ -736,7 +785,6 @@ footer {
           <div class="info-label">الجامعة</div>
           <div class="info-value" id="infoUniversity">—</div>
         </div>
-        <button class="field-toggle-btn" data-field="university" title="إظهار/إخفاء">👁</button>
       </div>
 
       <div class="info-row" id="rowDept">
@@ -745,7 +793,6 @@ footer {
           <div class="info-label">القسم</div>
           <div class="info-value" id="infoDept">—</div>
         </div>
-        <button class="field-toggle-btn" data-field="department" title="إظهار/إخفاء">👁</button>
       </div>
 
       <div class="info-row" id="rowStage">
@@ -754,7 +801,6 @@ footer {
           <div class="info-label">المرحلة الدراسية</div>
           <div class="info-value" id="infoStage">—</div>
         </div>
-        <button class="field-toggle-btn" data-field="stage" title="إظهار/إخفاء">👁</button>
       </div>
 
       <div class="info-row" id="rowCity">
@@ -763,9 +809,7 @@ footer {
           <div class="info-label">المدينة</div>
           <div class="info-value" id="infoCity">—</div>
         </div>
-        <button class="field-toggle-btn" data-field="city" title="إظهار/إخفاء">👁</button>
       </div>
-
     </div>
 
     <div class="sidebar-card">
@@ -799,6 +843,7 @@ footer {
       </div>
     </div>
 
+    <!-- UPLOADED FILES CARD -->
     <div class="content-card">
       <div class="card-header">
         <h2>الملفات المرفوعة</h2>
@@ -811,10 +856,11 @@ footer {
       </div>
     </div>
 
+    <!-- RESEARCH CARD -->
     <div class="content-card">
       <div class="card-header">
         <h2>الأبحاث العلمية</h2>
-        <button class="action-btn secondary owner-only-btn" id="requestResearchBtn" style="display:none; font-size:12px; padding:6px 12px;">📤 طلب إضافة بحث</button>
+        <button class="action-btn secondary" id="requestResearchBtn" style="display:none; font-size:12px; padding:6px 12px;">📤 طلب إضافة بحث</button>
       </div>
       <div id="researchContainer">
         <div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>
@@ -844,6 +890,7 @@ footer {
   </div>
 </footer>
 
+<!-- BIO MODAL -->
 <div id="bioModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -862,6 +909,7 @@ footer {
   </div>
 </div>
 
+<!-- INFO MODAL -->
 <div id="infoModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -894,13 +942,33 @@ footer {
           <option value="4">الرابعة</option>
         </select>
       </div>
-      
+
+      <!-- Iraqi Governorates Dropdown -->
       <div class="form-group">
-        <label>المدينة</label>
-        <input type="text" id="cityInput" class="form-control" maxlength="40"
-               placeholder="مثلاً: كربلاء">
+        <label>المحافظة</label>
+        <select id="cityInput" class="form-control">
+          <option value="">— اختر محافظتك —</option>
+          <option value="بغداد">بغداد</option>
+          <option value="البصرة">البصرة</option>
+          <option value="نينوى">نينوى</option>
+          <option value="أربيل">أربيل</option>
+          <option value="النجف">النجف</option>
+          <option value="كربلاء">كربلاء</option>
+          <option value="السليمانية">السليمانية</option>
+          <option value="الأنبار">الأنبار</option>
+          <option value="ديالى">ديالى</option>
+          <option value="صلاح الدين">صلاح الدين</option>
+          <option value="كركوك">كركوك</option>
+          <option value="بابل">بابل</option>
+          <option value="ذي قار">ذي قار</option>
+          <option value="ميسان">ميسان</option>
+          <option value="المثنى">المثنى</option>
+          <option value="القادسية">القادسية</option>
+          <option value="واسط">واسط</option>
+          <option value="دهوك">دهوك</option>
+        </select>
       </div>
-      
+
       <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول (اختياري)</p>
       <div class="toggle-row">
         <label>الجامعة</label>
@@ -924,7 +992,7 @@ footer {
         </label>
       </div>
       <div class="toggle-row" style="margin-bottom:14px;">
-        <label>المدينة</label>
+        <label>المحافظة</label>
         <label class="toggle-switch">
           <input type="checkbox" id="toggleCity" checked>
           <span class="toggle-slider"></span>
@@ -935,6 +1003,7 @@ footer {
   </div>
 </div>
 
+<!-- LINK MODAL -->
 <div id="linkModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -960,6 +1029,7 @@ footer {
   </div>
 </div>
 
+<!-- UPLOAD MODAL -->
 <div id="uploadModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:520px;">
     <div class="modal-head">
@@ -976,7 +1046,6 @@ footer {
         <input type="text" id="uploadNameInput" class="form-control" maxlength="80"
                placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
       </div>
-
       <div class="form-group">
         <label>القسم الهندسي</label>
         <select id="uploadDeptSelect" class="form-control">
@@ -989,13 +1058,11 @@ footer {
           <option value="other">أخرى</option>
         </select>
       </div>
-
       <div class="form-group upload-sub-select" id="otherDeptGroup">
         <label>اسم القسم</label>
         <input type="text" id="otherDeptInput" class="form-control" maxlength="50"
                placeholder="أدخل اسم قسمك الهندسي">
       </div>
-
       <div class="form-group">
         <label>المرحلة الدراسية</label>
         <select id="uploadStageSelect" class="form-control">
@@ -1006,32 +1073,29 @@ footer {
           <option value="4">الرابعة</option>
         </select>
       </div>
-
       <div class="form-group upload-sub-select" id="subjectGroup">
         <label>المادة</label>
         <select id="uploadSubjectSelect" class="form-control">
           <option value="">— اختر المادة —</option>
         </select>
       </div>
-
       <div class="form-group upload-sub-select" id="customSubjectGroup">
         <label>اسم المادة (إذا لم تجدها في القائمة)</label>
         <input type="text" id="customSubjectInput" class="form-control" maxlength="60"
                placeholder="مثلاً: هندسة التخمين">
       </div>
-
       <div class="upload-progress-wrap" id="uploadProgressWrap">
         <div class="upload-progress-bar">
           <div class="upload-progress-fill" id="uploadProgressFill"></div>
         </div>
         <div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div>
       </div>
-
       <button class="modal-submit-btn teal" id="submitUploadBtn" style="margin-top:8px;">رفع الملف</button>
     </div>
   </div>
 </div>
 
+<!-- CONFIRM MODAL -->
 <div id="confirmModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
@@ -1137,7 +1201,7 @@ const SUBJECTS_CONFIG = {
 };
 
 /* ─────────────────────────────────────────────────
-   GLOBALS & SMART REDIRECT
+   GLOBALS
    ───────────────────────────────────────────────── */
 const params          = new URLSearchParams(window.location.search);
 let   TARGET_USERNAME = params.get('u');
@@ -1145,11 +1209,12 @@ let   profileData     = {};
 let   isOwner         = false;
 let   confirmCallback = null;
 
-// التحقق من الحساب والتوجيه الذكي
+/* ─────────────────────────────────────────────────
+   AUTH & SMART REDIRECT
+   ───────────────────────────────────────────────── */
 onAuthStateChanged(auth, async (user) => {
   if (!TARGET_USERNAME) {
     if (user) {
-      // بحث عن الـ username الخاص بـ uid هذا
       const q = query(collection(db, "students"), where("uid", "==", user.uid));
       const snap = await getDocs(q);
       if (!snap.empty) {
@@ -1161,10 +1226,8 @@ onAuthStateChanged(auth, async (user) => {
       window.location.href = "login.html";
     }
   } else {
-    // إذا كان الرابط يحتوي على يوزر، قم بتحميله
     loadProfile();
     if (user) {
-      // نتحقق من الملكية بعد تحميل بيانات البروفايل
       const checkInterval = setInterval(() => {
         if (profileData.uid) {
           clearInterval(checkInterval);
@@ -1249,7 +1312,7 @@ async function loadProfile() {
     profileData = snap.data();
     renderProfile();
     await loadFiles();
-    await loadResearchFromGitHub(); 
+    await loadResearchFromGitHub();
   } catch (e) {
     toast("خطأ في تحميل البيانات: " + e.message, 'error');
   } finally {
@@ -1272,45 +1335,42 @@ function renderProfile() {
   const d = profileData;
   document.title = `ESC — ${d.fullName || TARGET_USERNAME}`;
 
-  document.getElementById('profileName').textContent     = d.fullName  || TARGET_USERNAME;
+  // "المهندس" prefix before name
+  const namePrefix = "المهندس ";
+  document.getElementById('profileName').textContent = namePrefix + (d.fullName || TARGET_USERNAME);
   document.getElementById('profileUsername').textContent = '@' + TARGET_USERNAME;
 
-  // Dictionary translations
-  const translatedUni = UNIVERSITY_DICT[d.university] || d.university;
-  const translatedDept = DEPT_DICT[d.department] || d.department;
+  const translatedUni  = UNIVERSITY_DICT[d.university]  || d.university;
+  const translatedDept = DEPT_DICT[d.department]         || d.department;
 
-  // Academic Logic & Tag
-  const isStudent = d.isStudent !== false; // default true
-  const degree = d.degreeLevel || "bsc";
-  const stage = d.stage || "1";
-  
+  const isStudent = d.isStudent !== false;
+  const degree    = d.degreeLevel || "bsc";
+  const stage     = d.stage || "1";
+
   let tagText = isStudent ? "طالب " : "خريج ";
   tagText += DEGREE_LABELS[degree] || "";
   if (isStudent && degree === "bsc") tagText += ` - المرحلة ${STAGE_LABELS[stage] || stage}`;
-  
   document.getElementById('academicTag').textContent = tagText;
 
-  // Avatar
   if (d.avatarURL) document.getElementById('profileAvatar').src = d.avatarURL;
 
-  // Info fields (respecting visibility prefs)
   const hidden = d.hiddenFields || [];
   setInfoRow('rowUniversity', 'infoUniversity', translatedUni, hidden.includes('university'));
   setInfoRow('rowDept',       'infoDept',       translatedDept, hidden.includes('department'));
-  setInfoRow('rowStage',      'infoStage',      (isStudent && degree === "bsc") ? `المرحلة ${STAGE_LABELS[stage] || stage}` : "—", hidden.includes('stage'));
-  setInfoRow('rowCity',       'infoCity',       d.city || null, hidden.includes('city'));
+  setInfoRow('rowStage',      'infoStage',
+    (isStudent && degree === "bsc") ? `المرحلة ${STAGE_LABELS[stage] || stage}` : "—",
+    hidden.includes('stage'));
+  // City display: "محافظة X، العراق"
+  const cityDisplay = d.city ? `${d.city}، العراق` : null;
+  setInfoRow('rowCity', 'infoCity', cityDisplay, hidden.includes('city'));
 
-  // Bio & Links
   renderBio(d.bio);
   renderLinks(d.links || []);
 }
 
 function setInfoRow(rowId, valId, value, isHidden) {
   const row = document.getElementById(rowId);
-  if (isHidden) {
-    row.style.display = 'none';
-    return;
-  }
+  if (isHidden) { row.style.display = 'none'; return; }
   row.style.display = '';
   document.getElementById(valId).textContent = value || '—';
 }
@@ -1325,18 +1385,15 @@ function renderBio(bio) {
 }
 
 /* ─────────────────────────────────────────────────
-   CONTACT LINKS LOGIC
+   CONTACT LINKS
    ───────────────────────────────────────────────── */
 function renderLinks(links) {
-  const el      = document.getElementById('linksDisplay');
-  const noMsg   = document.getElementById('noLinksMsg');
-  el.innerHTML  = '';
-
+  const el = document.getElementById('linksDisplay');
+  el.innerHTML = '';
   if (!links || links.length === 0) {
     el.innerHTML = '<p class="bio-empty" id="noLinksMsg">لا توجد روابط بعد.</p>';
     return;
   }
-
   links.forEach((lnk, i) => {
     const item = document.createElement('div');
     item.className = 'contact-link-item';
@@ -1348,7 +1405,6 @@ function renderLinks(links) {
     `;
     el.appendChild(item);
   });
-
   el.querySelectorAll('.contact-link-delete').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.index);
@@ -1358,11 +1414,8 @@ function renderLinks(links) {
 }
 
 document.getElementById('addLinkBtn').addEventListener('click', () => {
-  if ((profileData.links || []).length >= 5) {
-    document.getElementById('linkLimitMsg').style.display = 'block';
-  } else {
-    document.getElementById('linkLimitMsg').style.display = 'none';
-  }
+  document.getElementById('linkLimitMsg').style.display =
+    (profileData.links || []).length >= 5 ? 'block' : 'none';
   document.getElementById('linkNameInput').value = '';
   document.getElementById('linkUrlInput').value  = '';
   openModal('linkModal');
@@ -1372,11 +1425,9 @@ document.getElementById('saveLinkBtn').addEventListener('click', async () => {
   const name = document.getElementById('linkNameInput').value.trim();
   const url  = document.getElementById('linkUrlInput').value.trim();
   if (!name || !url) { toast('أدخل الاسم والرابط.', 'error'); return; }
-
   const links = [...(profileData.links || [])];
   if (links.length >= 5) { toast('الحد الأقصى 5 روابط.', 'error'); return; }
   if (!url.startsWith('http')) { toast('الرابط يجب أن يبدأ بـ http أو https', 'error'); return; }
-
   links.push({ name, url });
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
@@ -1399,22 +1450,19 @@ async function deleteLink(idx) {
 }
 
 /* ─────────────────────────────────────────────────
-   LOAD FILES (FIRESTORE UPLOADS)
+   LOAD FILES
    ───────────────────────────────────────────────── */
 async function loadFiles() {
   try {
     const q    = query(collection(db,"uploads"), where("uploader","==",TARGET_USERNAME));
     const snap = await getDocs(q);
     const cont = document.getElementById('filesContainer');
-
     if (snap.empty) {
       cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>';
       return;
     }
-
     const wrap = document.createElement('div');
     wrap.className = 'files-list-wrap';
-
     snap.forEach(d => {
       const f = d.data();
       const row = document.createElement('div');
@@ -1433,113 +1481,174 @@ async function loadFiles() {
       `;
       wrap.appendChild(row);
     });
-
     cont.innerHTML = '';
     cont.appendChild(wrap);
   } catch(e) {
-    document.getElementById('filesContainer').innerHTML = '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
+    document.getElementById('filesContainer').innerHTML =
+      '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
   }
 }
 
 /* ─────────────────────────────────────────────────
-   LOAD RESEARCH FROM GITHUB JSON
+   LOAD RESEARCH — Academic style from JSON
    ───────────────────────────────────────────────── */
 async function loadResearchFromGitHub() {
   const container = document.getElementById('researchContainer');
   try {
-    // جلب ملف الـ JSON الذي سيحوي أسماء الأبحاث وبياناتها من استضافتك
     const response = await fetch('research/research_list.json');
     if (!response.ok) throw new Error("JSON Fetch Failed");
     const allResearch = await response.json();
-    
-    // البحث عن الأبحاث التي تشمل يوزر الطالب الحالي
-    const userResearch = allResearch.filter(r => r.authors_users && r.authors_users.includes(TARGET_USERNAME));
+
+    const userResearch = allResearch.filter(r =>
+      r.authors_users && r.authors_users.includes(TARGET_USERNAME)
+    );
 
     if (userResearch.length === 0) {
       container.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
       return;
     }
 
-    let html = '<div class="files-list-wrap">';
+    const listWrap = document.createElement('div');
+    listWrap.className = 'research-list-wrap';
+
     userResearch.forEach(r => {
-      html += `
-        <div class="file-item-row">
-          <div class="file-icon-box research-icon">بحث</div>
-          <div class="file-info">
-            <a href="research/${escHtml(r.filename)}" target="_blank" class="file-title">${escHtml(r.title)}</a>
-            <div class="file-sub">
-              <span style="color:#374151; font-weight:700;">الباحثون: ${escHtml(r.authors_names)}</span>
-              <span class="file-badge">${escHtml(r.year)}</span>
-              <span class="file-badge">ID: ${escHtml(r.id)}</span>
-            </div>
+      // Build authors HTML — link each user to their profile
+      let authorsHtml = '';
+      if (r.authors_users && r.authors_names) {
+        const names = r.authors_names.split(/،|,/).map(n => n.trim());
+        const users = r.authors_users;
+        authorsHtml = names.map((name, idx) => {
+          const uname = users[idx] || null;
+          if (uname) {
+            return `<a href="profile.html?u=${encodeURIComponent(uname)}">${escHtml(name)}</a>`;
+          }
+          return escHtml(name);
+        }).join('، ');
+      } else {
+        authorsHtml = escHtml(r.authors_names || '');
+      }
+
+      // Build supervisors HTML — link each supervisor to their profile
+      let supervisorHtml = '';
+      if (r.supervisors_names) {
+        const supNames = r.supervisors_names.split(/،|,/).map(n => n.trim());
+        const supUsers = r['supervisor-users'] || [];
+        const supLinked = supNames.map((name, idx) => {
+          const uname = supUsers[idx] || null;
+          if (uname) {
+            return `<a href="profile.html?u=${encodeURIComponent(uname)}">${escHtml(name)}</a>`;
+          }
+          return escHtml(name);
+        }).join('، ');
+        supervisorHtml = `
+          <div class="research-supervisor-line">
+            Supervisor: ${supLinked}
           </div>
-          <a href="research/${escHtml(r.filename)}" target="_blank" class="file-dl-btn view-btn">🔗 عرض</a>
+        `;
+      }
+
+      const item = document.createElement('article');
+      item.className = 'research-item-row';
+      item.innerHTML = `
+        <div class="research-main">
+          <a class="research-title-link" href="research/${escHtml(r.filename)}" target="_blank">
+            ${escHtml(r.title)}
+          </a>
+          <div class="research-authors-row">
+            <span class="authors-list">${authorsHtml}</span>
+            <span class="research-serial">${escHtml(r.id)}</span>
+          </div>
+          ${supervisorHtml}
+          <div class="research-actions-row">
+            <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">
+              🎓 GO TO SCHOLAR
+            </a>
+          </div>
         </div>
+        <div class="research-year-badge">${escHtml(r.year)}</div>
       `;
+      listWrap.appendChild(item);
     });
-    html += '</div>';
-    container.innerHTML = html;
+
+    container.innerHTML = '';
+    container.appendChild(listWrap);
   } catch (e) {
     container.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
   }
 }
 
 /* ─────────────────────────────────────────────────
-   OWNER MODE & EMAIL RESEARCH
+   OWNER MODE
    ───────────────────────────────────────────────── */
 function activateOwnerMode() {
   isOwner = true;
   document.getElementById('ownerActionBar').classList.add('visible');
-  document.getElementById('avatarEditOverlay').classList.add('visible');
   document.body.classList.add('owner-mode');
-  
   const researchBtn = document.getElementById('requestResearchBtn');
-  if(researchBtn) researchBtn.style.display = 'inline-flex';
+  if (researchBtn) researchBtn.style.display = 'inline-flex';
+  // Make avatar clickable
+  document.getElementById('avatarClickZone').style.cursor = 'pointer';
 }
 
 document.getElementById('requestResearchBtn').addEventListener('click', () => {
   const now = new Date();
   const options = { timeZone: 'Asia/Baghdad', year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
   const timeStr = now.toLocaleString('en-GB', options).replace(',', '');
-  
-  const bodyText = `-- الرجاء من حضرتكم قراءة الكليشة التالية وتعديلها ثم إرفاق البحث خاصتكم الى الرسالة والانتظار طلبا للمراجعة -- \n` +
-                   `لقد قمنا بإعداد البحث العلمي بعنوان:\n` +
-                   `//اسم بحثكم//\n` +
-                   `بجهود الطلبة ( الزميل الأول , الزميل الثاني إن وجد , الثالث ...الخ )\n` +
-                   `وبإشراف ( جهة الإشراف إن وجدت )\n` +
-                   `من جامعة ( الجامعة التي تنتمي إليها في الوقت الحالي إن وجدت )\n` +
-                   `طالبا مراجعته وإضافته للحساب خاصتي\n` +
-                   `----\n` +
-                   `معلومات ستملئ تلقائيا\n` +
-                   `التوقيت: ${timeStr} Baghdad +3:00\n` +
-                   `اليوزر: @${TARGET_USERNAME}\n` +
-                   `اسم اليوزر: ${profileData.fullName || 'غير متوفر'}\n\n` +
-                   `----\n` +
-                   `مجتمع طلبة الهندسة`;
-
-  const subject = "طلب مراجعة بحث علمي";
-  window.location.href = `mailto:esc.irq@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+  const bodyText =
+    `-- الرجاء من حضرتكم قراءة الكليشة التالية وتعديلها ثم إرفاق البحث خاصتكم الى الرسالة والانتظار طلبا للمراجعة -- \n` +
+    `لقد قمنا بإعداد البحث العلمي بعنوان:\n//اسم بحثكم//\n` +
+    `بجهود الطلبة ( الزميل الأول , الزميل الثاني إن وجد , الثالث ...الخ )\n` +
+    `وبإشراف ( جهة الإشراف إن وجدت )\n` +
+    `من جامعة ( الجامعة التي تنتمي إليها في الوقت الحالي إن وجدت )\n` +
+    `طالبا مراجعته وإضافته للحساب خاصتي\n----\n` +
+    `التوقيت: ${timeStr} Baghdad +3:00\n` +
+    `اليوزر: @${TARGET_USERNAME}\n` +
+    `اسم اليوزر: ${profileData.fullName || 'غير متوفر'}\n\n----\n` +
+    `مجتمع طلبة الهندسة`;
+  window.location.href = `mailto:esc.irq@gmail.com?subject=${encodeURIComponent("طلب مراجعة بحث علمي")}&body=${encodeURIComponent(bodyText)}`;
 });
 
 /* ─────────────────────────────────────────────────
-   AVATAR UPLOAD (Limit < 1MB)
+   AVATAR UPLOAD
+   Size limit: 3 MB, must be square (1:1 ratio)
    ───────────────────────────────────────────────── */
 document.getElementById('avatarClickZone').addEventListener('click', () => {
   if (isOwner) document.getElementById('avatarInput').click();
 });
+
 document.getElementById('avatarInput').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
-  // التحقق من الحجم 1 ميجابايت = 1048576 بايت
-  if (file.size > 1048576) { toast('حجم الصورة يجب أن يكون أقل من 1 ميجابايت.', 'error'); return; }
+
+  // 3 MB limit
+  if (file.size > 3 * 1024 * 1024) {
+    toast('حجم الصورة يجب أن يكون أقل من 3 ميجابايت.', 'error');
+    return;
+  }
+
+  // Check square ratio
+  const isSquare = await new Promise(resolve => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(img.naturalWidth === img.naturalHeight);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(false); };
+    img.src = url;
+  });
+
+  if (!isSquare) {
+    toast('يجب أن تكون الصورة مربعة (1:1) — مثلاً 500×500 بكسل.', 'error');
+    return;
+  }
 
   try {
     toast('جاري رفع الصورة...');
-    const r   = ref(storage, `avatars/${TARGET_USERNAME}`);
+    const r    = ref(storage, `avatars/${TARGET_USERNAME}`);
     const snap = await uploadBytes(r, file);
     const url  = await getDownloadURL(snap.ref);
-
     await updateDoc(doc(db,"students",TARGET_USERNAME), { avatarURL: url });
     document.getElementById('profileAvatar').src = url;
     profileData.avatarURL = url;
@@ -1559,13 +1668,11 @@ bioInput.addEventListener('input', () => {
   bioCounter.textContent = `${len} / 300`;
   bioCounter.classList.toggle('warn', len > 280);
 });
-
 document.getElementById('editBioBtn').addEventListener('click', () => {
   bioInput.value = profileData.bio || '';
   bioInput.dispatchEvent(new Event('input'));
   openModal('bioModal');
 });
-
 document.getElementById('saveBioBtn').addEventListener('click', async () => {
   const bio = bioInput.value.trim();
   try {
@@ -1581,8 +1688,8 @@ document.getElementById('saveBioBtn').addEventListener('click', async () => {
    INFO & ACADEMIC EDIT
    ───────────────────────────────────────────────── */
 const isStudentInp = document.getElementById('isStudentInput');
-const degreeInp = document.getElementById('degreeInput');
-const stageGrp = document.getElementById('stageGroup');
+const degreeInp    = document.getElementById('degreeInput');
+const stageGrp     = document.getElementById('stageGroup');
 
 function updateModalVisibility() {
   if (isStudentInp.value === "true" && degreeInp.value === "bsc") {
@@ -1595,15 +1702,15 @@ isStudentInp.addEventListener('change', updateModalVisibility);
 degreeInp.addEventListener('change', updateModalVisibility);
 
 document.getElementById('editInfoBtn').addEventListener('click', () => {
-  document.getElementById('cityInput').value = profileData.city || '';
-  
-  // Set Academic Fields
+  // Pre-select saved city in dropdown
+  const citySelect = document.getElementById('cityInput');
+  citySelect.value = profileData.city || '';
+
   isStudentInp.value = (profileData.isStudent !== false).toString();
-  degreeInp.value = profileData.degreeLevel || "bsc";
+  degreeInp.value    = profileData.degreeLevel || "bsc";
   document.getElementById('stageInput').value = profileData.stage || "1";
   updateModalVisibility();
 
-  // Set toggles
   const hidden = profileData.hiddenFields || [];
   document.getElementById('toggleUniversity').checked = !hidden.includes('university');
   document.getElementById('toggleDept').checked        = !hidden.includes('department');
@@ -1613,32 +1720,27 @@ document.getElementById('editInfoBtn').addEventListener('click', () => {
 });
 
 document.getElementById('saveInfoBtn').addEventListener('click', async () => {
-  const city    = document.getElementById('cityInput').value.trim();
-  const isStud  = isStudentInp.value === "true";
-  const degLvl  = degreeInp.value;
-  const stg     = document.getElementById('stageInput').value;
+  const city   = document.getElementById('cityInput').value;
+  const isStud = isStudentInp.value === "true";
+  const degLvl = degreeInp.value;
+  const stg    = document.getElementById('stageInput').value;
 
-  const hidden  = [];
+  const hidden = [];
   if (!document.getElementById('toggleUniversity').checked) hidden.push('university');
   if (!document.getElementById('toggleDept').checked)       hidden.push('department');
   if (!document.getElementById('toggleStage').checked)      hidden.push('stage');
   if (!document.getElementById('toggleCity').checked)       hidden.push('city');
 
   try {
-    await updateDoc(doc(db,"students",TARGET_USERNAME), { 
-      city, 
-      hiddenFields: hidden,
-      isStudent: isStud,
-      degreeLevel: degLvl,
-      stage: stg
+    await updateDoc(doc(db,"students",TARGET_USERNAME), {
+      city, hiddenFields: hidden,
+      isStudent: isStud, degreeLevel: degLvl, stage: stg
     });
-    
     profileData.city         = city;
     profileData.hiddenFields = hidden;
     profileData.isStudent    = isStud;
     profileData.degreeLevel  = degLvl;
     profileData.stage        = stg;
-    
     renderProfile();
     closeModal('infoModal');
     toast('تم حفظ المعلومات والمسار الأكاديمي ✓', 'success');
@@ -1649,12 +1751,12 @@ document.getElementById('saveInfoBtn').addEventListener('click', async () => {
    UPLOAD FILE
    ───────────────────────────────────────────────── */
 document.getElementById('openUploadBtn').addEventListener('click', () => {
-  document.getElementById('uploadFileInput').value    = '';
-  document.getElementById('uploadNameInput').value    = '';
-  document.getElementById('uploadDeptSelect').value   = '';
-  document.getElementById('uploadStageSelect').value  = '';
-  document.getElementById('uploadSubjectSelect').value= '';
-  document.getElementById('customSubjectInput').value = '';
+  document.getElementById('uploadFileInput').value     = '';
+  document.getElementById('uploadNameInput').value     = '';
+  document.getElementById('uploadDeptSelect').value    = '';
+  document.getElementById('uploadStageSelect').value   = '';
+  document.getElementById('uploadSubjectSelect').value = '';
+  document.getElementById('customSubjectInput').value  = '';
   document.getElementById('otherDeptGroup').classList.remove('active');
   document.getElementById('subjectGroup').classList.remove('active');
   document.getElementById('customSubjectGroup').classList.remove('active');
@@ -1666,7 +1768,6 @@ document.getElementById('uploadDeptSelect').addEventListener('change', function(
   document.getElementById('otherDeptGroup').classList.toggle('active', this.value === 'other');
   updateSubjectSelect();
 });
-
 document.getElementById('uploadStageSelect').addEventListener('change', updateSubjectSelect);
 
 function updateSubjectSelect() {
@@ -1675,24 +1776,20 @@ function updateSubjectSelect() {
   const sel   = document.getElementById('uploadSubjectSelect');
   const sg    = document.getElementById('subjectGroup');
   const csg   = document.getElementById('customSubjectGroup');
-
   if (!dept || dept === 'other' || !stage) {
     sg.classList.remove('active');
     csg.classList.add('active');
     return;
   }
-
   const subjects = (SUBJECTS_CONFIG[dept] || {})[stage] || [];
   sel.innerHTML = '<option value="">— اختر المادة —</option>';
   subjects.forEach(s => {
     const o = document.createElement('option');
-    o.value = s; o.textContent = s;
-    sel.appendChild(o);
+    o.value = s; o.textContent = s; sel.appendChild(o);
   });
   const otherOpt = document.createElement('option');
   otherOpt.value = '__other__'; otherOpt.textContent = 'مادة أخرى...';
   sel.appendChild(otherOpt);
-
   sg.classList.add('active');
   csg.classList.remove('active');
 }
@@ -1730,7 +1827,7 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
   progLabel.textContent = 'جاري الرفع...';
 
   try {
-    const storRef  = ref(storage, `community_files/${TARGET_USERNAME}/${Date.now()}_${file.name}`);
+    const storRef = ref(storage, `community_files/${TARGET_USERNAME}/${Date.now()}_${file.name}`);
     progFill.style.width = '55%';
     const snap = await uploadBytes(storRef, file);
     progFill.style.width = '80%';
@@ -1739,8 +1836,7 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
 
     await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(async ({addDoc}) => {
       await addDoc(collection(db,"uploads"), {
-        name, url,
-        uploader: TARGET_USERNAME,
+        name, url, uploader: TARGET_USERNAME,
         dept, stage: stageVal, subject,
         timestamp: new Date().toISOString()
       });
