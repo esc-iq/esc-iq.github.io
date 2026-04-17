@@ -154,24 +154,11 @@ body {
   border-radius: 50%;
   background: rgba(0,128,128,0.15);
 }
-.header-logo {
-  width: 64px; height: 64px;
-  border-radius: 16px;
-  border: 3px solid rgba(255,255,255,0.3);
-  margin: 0 auto 14px;
-  display: block;
-  position: relative; z-index: 1;
-  background: rgba(255,255,255,0.1);
-  object-fit: cover;
-}
 .header-logo-fallback {
- 
- 
   margin: 0 auto 14px;
-object-fit:300%;
+  object-fit:300%;
   display: flex; align-items: center; justify-content: center;
   position: relative; z-index: 1;
-  
   font-size: 28px; font-weight: 700; color: #ffffff00;
   letter-spacing: 1px;
 }
@@ -369,11 +356,6 @@ select.field-input {
 .strength-seg.weak   { background: var(--error); }
 .strength-seg.medium { background: #f59e0b; }
 .strength-seg.strong { background: var(--success); }
-.strength-label {
-  font-size: 11px; font-weight: 700;
-  margin-top: 5px;
-  color: #9ca3af;
-}
 
 /* ===== FOOTER ===== */
 .page-footer {
@@ -394,14 +376,12 @@ select.field-input {
 </head>
 <body>
 
-<!-- Decorative background -->
 <div class="bg-decor">
   <div class="bg-blob bg-blob-1"></div>
   <div class="bg-blob bg-blob-2"></div>
   <div class="bg-blob bg-blob-3"></div>
 </div>
 
-<!-- Navbar -->
 <nav class="nav">
   <a href="index.html" aria-label="الرئيسية">
     <img src="media/icon-512.png" alt="ESC" class="nav-logo" style="height:36px;width:auto;display:block;" onerror="this.style.display='none'">
@@ -409,41 +389,40 @@ select.field-input {
   <span class="nav-title">مجتمع طلبة الهندسة</span>
 </nav>
 
-<!-- Main content -->
 <main class="page-wrap">
   <div class="register-card">
 
-    <!-- Card header -->
     <div class="card-header">
     <img src="media/whiteone.png" alt="ESC" class="header-logo-fallback" style="height:100px;width:100px;display:block;" onerror="this.style.display='none';co">
       <h1>إنشاء حساب عضو في المجتمع</h1>
       <p>أهلاً بك في مجتمع طلبة الهندسة</p>
     </div>
 
-    <!-- Form -->
     <div class="card-body">
       <form id="registerForm" novalidate>
 
-        <!-- اسم الطالب -->
         <div class="field-group">
           <label class="field-label" for="studentName">
             <span>*</span> اسم الطالب
           </label>
           <div class="field-wrap">
-            <input
-              type="text"
-              id="studentName"
-              class="field-input"
-              placeholder="أدخل اسمك الرباعي"
-              autocomplete="name"
-              maxlength="80"
-            >
+            <input type="text" id="studentName" class="field-input" placeholder="أدخل اسمك الرباعي" autocomplete="name" maxlength="80">
             <span class="field-icon">👤</span>
           </div>
           <div class="field-error" id="err-name">الرجاء إدخال اسمك الكامل</div>
         </div>
 
-        <!-- الجامعة -->
+        <div class="field-group">
+          <label class="field-label" for="username">
+            <span>*</span> اسم المستخدم (اليوزر)
+          </label>
+          <div class="field-wrap">
+            <input type="text" id="username" class="field-input" placeholder="مثال: baqer_eng" autocomplete="off" maxlength="30" style="direction:ltr; text-align:right;">
+            <span class="field-icon">@</span>
+          </div>
+          <div class="field-error" id="err-username">أدخل يوزر إنجليزي صحيح (أحرف، أرقام، شرطة سفلية) بدون مسافات.</div>
+        </div>
+
         <div class="field-group">
           <label class="field-label" for="university">
             <span>*</span> الجامعة المنسوب إليها
@@ -467,7 +446,6 @@ select.field-input {
           <div class="field-error" id="err-university">الرجاء اختيار جامعتك</div>
         </div>
 
-        <!-- قسم الهندسة -->
         <div class="field-group">
           <label class="field-label" for="department">
             <span>*</span> قسم الهندسة
@@ -491,21 +469,12 @@ select.field-input {
           <div class="field-error" id="err-department">الرجاء اختيار قسمك</div>
         </div>
 
-        <!-- رقم الهاتف -->
         <div class="field-group">
           <label class="field-label" for="phone">
             <span>*</span> رقم الهاتف
           </label>
           <div class="field-wrap">
-            <input
-              type="tel"
-              id="phone"
-              class="field-input"
-              placeholder="07xxxxxxxxx"
-              autocomplete="tel"
-              maxlength="13"
-              style="direction:ltr; text-align:right;"
-            >
+            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="13" style="direction:ltr; text-align:right;">
             <span class="field-icon">☎</span>
           </div>
           <div class="field-error" id="err-phone">أدخل رقم هاتف صحيح (07801112222)</div>
@@ -513,20 +482,12 @@ select.field-input {
 
         <hr class="divider">
 
-        <!-- كلمة المرور -->
         <div class="field-group">
           <label class="field-label" for="password">
             <span>*</span> كلمة المرور
           </label>
           <div class="field-wrap">
-            <input
-              type="password"
-              id="password"
-              class="field-input"
-              placeholder="أدخل كلمة مرور قوية"
-              autocomplete="new-password"
-              maxlength="64"
-            >
+            <input type="password" id="password" class="field-input" placeholder="أدخل كلمة مرور قوية" autocomplete="new-password" maxlength="64">
             <span class="field-icon">⚿</span>
             <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء كلمة المرور">
               <span id="eyeIcon">👁</span>
@@ -541,20 +502,12 @@ select.field-input {
           <div class="field-error" id="err-password">كلمة المرور يجب أن تكون 6 أحرف على الأقل</div>
         </div>
 
-        <!-- إعادة إدخال كلمة المرور -->
         <div class="field-group">
           <label class="field-label" for="passwordConfirm">
             <span>*</span> إعد إدخال كلمة المرور
           </label>
           <div class="field-wrap">
-            <input
-              type="password"
-              id="passwordConfirm"
-              class="field-input"
-              placeholder="أعد إدخال كلمة المرور"
-              autocomplete="new-password"
-              maxlength="64"
-            >
+            <input type="password" id="passwordConfirm" class="field-input" placeholder="أعد إدخال كلمة المرور" autocomplete="new-password" maxlength="64">
             <span class="field-icon">⚿</span>
             <button type="button" class="pass-toggle" id="togglePassConfirm" aria-label="إظهار/إخفاء">
               <span id="eyeIcon2">👁</span>
@@ -563,20 +516,17 @@ select.field-input {
           <div class="field-error" id="err-confirm">كلمتا المرور غير متطابقتان</div>
         </div>
 
-        <!-- Submit -->
         <button type="submit" class="btn-submit">
           <span></span>
           <span>إنشاء حساب</span>
         </button>
 
-        <!-- Success message -->
         <div class="success-msg" id="successMsg">
-         تم إرسال طلب حساب في مجتمع طلبة الهندسة
+         تم إنشاء الحساب بنجاح! جاري تحويلك...
         </div>
 
       </form>
 
-      <!-- Register link -->
       <div class="register-strip">
         تملك حسابا في مجتمع طلبة الهندسة؟
         <br>
@@ -592,14 +542,12 @@ select.field-input {
 </footer>
 
 <script type="module">
-  // 1. استدعاء مكتبات فايربيس (نسخة 10.x.x الأحدث)
+  // 1. استدعاء مكتبات فايربيس (تم إضافة getDoc للفحص)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-  // 2. !!! هام جداً !!!
-  // استبدل المعلومات أدناه بكود (firebaseConfig) الذي حصلت عليه من لوحة تحكم فايربيس
-const firebaseConfig = {
+  const firebaseConfig = {
     apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
     authDomain: "engineering-students-community.firebaseapp.com",
     projectId: "engineering-students-community",
@@ -609,12 +557,10 @@ const firebaseConfig = {
     measurementId: "G-6L0FRLSVZW"
   };
 
-  // 3. تشغيل الخدمات
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // --- دوال مساعدة للواجهة ---
   function setupToggle(btnId, inputId, iconId) {
     document.getElementById(btnId).addEventListener('click', function() {
       var inp = document.getElementById(inputId);
@@ -635,40 +581,57 @@ const firebaseConfig = {
     document.getElementById(errId).classList.remove('show');
   }
 
-  // --- معالجة إرسال النموذج وحفظ البيانات ---
+  // --- معالجة الإرسال ---
   document.getElementById('registerForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
-    // جمع البيانات من الحقول
     const name = document.getElementById('studentName').value.trim();
+    const username = document.getElementById('username').value.trim().toLowerCase();
     const uni = document.getElementById('university').value;
     const dep = document.getElementById('department').value;
     const ph = document.getElementById('phone').value.replace(/\s/g,'');
     const pass = document.getElementById('password').value;
     const conf = document.getElementById('passwordConfirm').value;
 
-    // تأكد بسيط من الحقول قبل الإرسال للسيرفر
-    if (name.length < 4 || !uni || !dep || !/^07[0-9]{9}$/.test(ph) || pass.length < 6 || pass !== conf) {
-      alert("يرجى التأكد من ملء جميع الحقول بشكل صحيح.");
-      return;
-    }
+    // فحص اليوزر (حروف إنجليزية، أرقام، وشرطة سفلية فقط)
+    const usernameRegex = /^[a-z0-9_]{3,30}$/;
 
-    // بدء عملية التسجيل
+    let isValid = true;
+
+    if (name.length < 4) { showError('studentName', 'err-name'); isValid = false; } else clearError('studentName', 'err-name');
+    if (!usernameRegex.test(username)) { showError('username', 'err-username'); isValid = false; } else clearError('username', 'err-username');
+    if (!uni) { showError('university', 'err-university'); isValid = false; } else clearError('university', 'err-university');
+    if (!dep) { showError('department', 'err-department'); isValid = false; } else clearError('department', 'err-department');
+    if (!/^07[0-9]{9}$/.test(ph)) { showError('phone', 'err-phone'); isValid = false; } else clearError('phone', 'err-phone');
+    if (pass.length < 6) { showError('password', 'err-password'); isValid = false; } else clearError('password', 'err-password');
+    if (pass !== conf || !conf) { showError('passwordConfirm', 'err-confirm'); isValid = false; } else clearError('passwordConfirm', 'err-confirm');
+
+    if (!isValid) return;
+
     const btn = this.querySelector('.btn-submit');
     btn.innerHTML = '<span>⏳</span><span>جارٍ إنشاء الحساب...</span>';
     btn.disabled = true;
 
     try {
-      // أ. تحويل رقم الهاتف إلى "إيميل وهمي" لكي يقبله نظام فايربيس
-      const virtualEmail = ph + "@esc.local";
+      // 1. فحص هل اليوزر موجود مسبقاً في قاعدة البيانات؟
+      const userDocRef = doc(db, "students", username);
+      const userDocSnap = await getDoc(userDocRef);
+      
+      if (userDocSnap.exists()) {
+        showError('username', 'err-username');
+        document.getElementById('err-username').textContent = 'اسم المستخدم هذا محجوز، الرجاء اختيار اسم آخر.';
+        throw new Error("USERNAME_TAKEN");
+      }
 
-      // ب. إنشاء المستخدم في نظام التوثيق (Auth)
+      // 2. إنشاء حساب التوثيق
+      const virtualEmail = ph + "@esc.local";
       const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, pass);
       const user = userCredential.user;
 
-      // ج. حفظ البيانات الهندسية للطالب في قاعدة البيانات (Firestore)
-      // سيتم حفظ الطالب باسمه وجامعته (سواء كربلاء، بغداد، أو غيرها) وقسمه
-      await setDoc(doc(db, "students", user.uid), {
+      // 3. حفظ بيانات الطالب باسم اليوزر كمعرف للملف (Document ID)
+      await setDoc(doc(db, "students", username), {
+        uid: user.uid,
+        username: username,
         fullName: name,
         university: uni,
         department: dep,
@@ -677,11 +640,10 @@ const firebaseConfig = {
         role: "student" 
       });
 
-      // د. النجاح!
+      // 4. النجاح
       document.getElementById('successMsg').classList.add('show');
       btn.innerHTML = '<span>✔️</span><span>تم بنجاح</span>';
       
-      // التوجه لصفحة تسجيل الدخول بعد ثانيتين
       setTimeout(() => { window.location.href = "login.html"; }, 2000);
 
     } catch (error) {
@@ -689,8 +651,11 @@ const firebaseConfig = {
       btn.disabled = false;
       btn.innerHTML = '<span></span><span>إنشاء حساب</span>';
       
-      if (error.code === 'auth/email-already-in-use') {
-        alert("هذا الرقم مسجل مسبقاً في المجتمع.");
+      if (error.message === "USERNAME_TAKEN") {
+         // تم معالجة الرسالة في الأعلى
+      } else if (error.code === 'auth/email-already-in-use') {
+        showError('phone', 'err-phone');
+        document.getElementById('err-phone').textContent = 'هذا الرقم مسجل مسبقاً في المجتمع.';
       } else {
         alert("حدث خطأ: " + error.message);
       }
