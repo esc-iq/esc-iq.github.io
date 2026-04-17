@@ -255,9 +255,9 @@ body {
 </footer>
 
 <script type="module">
-  // 1. استدعاء مكتبات فايربيس الخاصة بتسجيل الدخول
+  // 1. استدعاء مكتبات فايربيس الخاصة بتسجيل الدخول وإضافة onAuthStateChanged
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
   // 2. إعدادات فايربيس الخاصة بمشروعك
   const firebaseConfig = {
@@ -272,6 +272,16 @@ body {
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+
+  let isLoggingIn = false; // متغير لمنع التحويل الفوري أثناء محاولة تسجيل الدخول
+
+  // التوجيه الذكي: فحص حالة تسجيل الدخول عند فتح الصفحة
+  onAuthStateChanged(auth, (user) => {
+    // إذا كان المستخدم مسجلاً للدخول ولم يكن يضغط على زر الدخول للتو، انقله للبروفايل
+    if (user && !isLoggingIn) {
+      window.location.href = "profile.html";
+    }
+  });
 
   // إظهار/إخفاء كلمة المرور
   document.getElementById('togglePass').addEventListener('click', function() {
@@ -337,6 +347,9 @@ body {
     btn.innerHTML = '<span>⏳</span><span>جارٍ التحقق...</span>';
     btn.disabled = true;
 
+    // إخبار الحارس أننا نسجل الدخول الآن
+    isLoggingIn = true;
+
     try {
       // تحويل رقم الهاتف إلى الإيميل الوهمي للتحقق منه في قاعدة البيانات
       const virtualEmail = ph + "@esc.local";
@@ -346,13 +359,14 @@ body {
       document.getElementById('successMsg').classList.add('show');
       btn.innerHTML = '<span>✔️</span><span>تم الدخول</span>';
       
-      // توجيه الطالب إلى الصفحة الرئيسية (أو صفحة البروفايل لاحقاً)
-      setTimeout(() => { window.location.href = "index.html"; }, 1500);
+      // توجيه الطالب إلى صفحة البروفايل بدلاً من الرئيسية
+      setTimeout(() => { window.location.href = "profile.html"; }, 1500);
 
     } catch (error) {
       console.error("Login Error:", error);
       btn.disabled = false;
       btn.innerHTML = '<span></span><span>تسجيل الدخول</span>';
+      isLoggingIn = false; // إعادة المتغير لحالته إذا فشل الدخول
       
       // معالجة الأخطاء (كلمة مرور خاطئة أو رقم غير مسجل)
       alert("معلومات الدخول غير صحيحة. الرجاء التأكد من رقم الهاتف وكلمة المرور.");
