@@ -1,264 +1,1616 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESC — ملف المستخدم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* ... (تنسيقات البروفايل الأصلية التي أرسلتها ستبقى كما هي) ... */
-        :root { --blue: #0047AB; --teal: #008080; --cream: #FAF9F6; --card-radius: 14px; --transition: 0.3s ease; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Ubuntu', sans-serif; background-color: var(--cream); color: #111; direction: rtl; text-align: right; }
-        
-        /* تنسيقات إضافية لزر الرفع والمودال */
-        .upload-btn {
-            display: none; background: var(--teal); color: #fff; padding: 10px 20px;
-            border-radius: 30px; border: none; font-weight: 700; cursor: pointer;
-            margin-top: 15px; transition: transform 0.2s;
-        }
-        .upload-btn:hover { transform: scale(1.05); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — ملف المستخدم</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
+<link rel="apple-touch-icon" href="media/icon-512-w.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
-        /* نافذة الرفع (Modal) */
-        .modal {
-            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-            z-index: 2000; align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .modal-header { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
-        
-        /* تنسيق قائمة الملفات المرفوعة */
-        .file-item {
-            display: flex; align-items: center; gap: 15px; padding: 15px;
-            background: #fff; border: 1px solid #eee; border-radius: 12px; margin-bottom: 10px;
-        }
-        .file-icon { background: var(--blue); color: #fff; padding: 10px; border-radius: 8px; font-weight: 700; }
-        .file-info { flex: 1; }
-        .uploader-tag { color: #188038; font-weight: 700; text-decoration: none; font-size: 12px; }
-        
-        /* إخفاء العناصر قبل التحميل */
-        .loading-overlay { position: fixed; inset: 0; background: #fff; z-index: 3000; display: flex; align-items: center; justify-content: center; }
-        
-        /* الأنماط المقتبسة من ملف المؤسس */
-        #bar { height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background-color: var(--blue); position: sticky; top: 0; z-index: 1000; direction: ltr; box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
-        #bar nav a { color: var(--cream); text-decoration: none; font-weight: 700; font-size: 14px; padding: 7px 13px; border-radius: 8px; }
-        .profile-cover { height: 200px; background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%); position: relative; }
-        .profile-header-wrap { background: #fff; border-bottom: 1px solid rgba(0,0,0,0.07); padding-bottom: 20px; position: relative; min-height: 120px; }
-        .profile-avatar-wrap { position: absolute; top: -60px; right: 40px; }
-        .profile-avatar { width: 120px; height: 120px; object-fit: cover; border-radius: 16px; border: 4px solid #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
-        .profile-info { padding: 16px 40px 0 180px; text-align: right; }
-        .profile-name { font-size: 24px; font-weight: 700; color: #0d1b2a; }
-        .profile-body { max-width: 1000px; margin: 28px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
-        .content-card { background: #fff; border-radius: var(--card-radius); border: 1px solid rgba(0,0,0,0.08); padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 20px; }
-        .sidebar-card { background: #fff; border-radius: var(--card-radius); border: 1px solid rgba(0,0,0,0.08); padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
-    </style>
+<style>
+/* ============================================================
+   VARIABLES & RESET
+   ============================================================ */
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --dark: #0a0a0f;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+  --text-dark: #0d1b2a;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 2px 14px rgba(0,0,0,0.07);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ============================================================
+   LOADING OVERLAY
+   ============================================================ */
+#loadingOverlay {
+  position: fixed; inset: 0;
+  background: var(--cream);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  transition: opacity 0.4s ease;
+}
+#loadingOverlay.fade-out { opacity: 0; pointer-events: none; }
+.loader-logo {
+  width: 60px; height: 60px; border-radius: 14px;
+  object-fit: cover;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.95)} }
+.loader-text { font-size: 14px; font-weight: 700; color: var(--text-light); }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+  background: var(--blue);
+  position: sticky; top: 0; z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background var(--transition);
+}
+#bar nav a:hover { background: rgba(255,255,255,0.18); }
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent; cursor: pointer;
+  border-radius: 10px; align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon { width: 24px; height: 2px; background: #fff; display: block; position: relative; margin: auto; }
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top: 7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid var(--border);
+  z-index: 1001; direction: rtl;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a { display: block; padding: 11px 12px; border-radius: 10px; color: var(--text-dark); text-decoration: none; font-weight: 700; }
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ============================================================
+   COVER
+   ============================================================ */
+.profile-cover {
+  height: 200px;
+  background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
+  position: relative; overflow: hidden;
+}
+.profile-cover::before {
+  content: '';
+  position: absolute; top: -80px; left: -80px;
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.1), transparent 70%);
+  pointer-events: none;
+}
+.cover-esc-watermark {
+  position: absolute; bottom: 16px; left: 24px;
+  font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.08);
+  letter-spacing: 6px;
+}
+
+/* ============================================================
+   PROFILE HEADER
+   ============================================================ */
+.profile-header-wrap {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+  position: relative;
+}
+.profile-avatar-wrap {
+  position: absolute;
+  top: -64px; right: 40px;
+}
+.avatar-container { position: relative; display: inline-block; }
+.profile-avatar {
+  width: 128px; height: 128px;
+  object-fit: cover; border-radius: 18px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  display: block; cursor: pointer;
+}
+/* Camera overlay on avatar (owner only) */
+.avatar-edit-overlay {
+  display: none;
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.45);
+  border-radius: 16px;
+  align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+.avatar-container:hover .avatar-edit-overlay.visible { opacity: 1; }
+.avatar-edit-overlay.visible { display: flex; opacity: 0.85; }
+.avatar-edit-overlay span { font-size: 28px; }
+#avatarInput { display: none; }
+
+.profile-info {
+  padding: 18px 40px 0 40px;
+  padding-right: 190px;
+}
+.profile-name {
+  font-size: 24px; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 4px;
+}
+.profile-username {
+  font-size: 14px; color: var(--text-light);
+  font-weight: 700; margin-bottom: 10px;
+  direction: ltr; text-align: right;
+}
+.profile-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.profile-tag {
+  display: inline-block;
+  background: #e6eeff; color: var(--blue);
+  font-size: 12px; font-weight: 700;
+  padding: 4px 12px; border-radius: 20px;
+}
+.profile-tag.teal { background: #e6f7f4; color: var(--teal); }
+.profile-tag.gold { background: #fff8e6; color: #b07d00; }
+
+/* ============================================================
+   PAGE BODY LAYOUT
+   ============================================================ */
+.profile-body {
+  max-width: 1020px;
+  margin: 28px auto 60px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+/* ============================================================
+   SIDEBAR CARDS
+   ============================================================ */
+.sidebar-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+  position: relative;
+}
+.sidebar-card:last-child { margin-bottom: 0; }
+.sidebar-card-title {
+  font-size: 11px; font-weight: 700;
+  color: #9ca3af; letter-spacing: 1.8px;
+  text-transform: uppercase; margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.info-row {
+  display: flex; align-items: flex-start;
+  gap: 10px; margin-bottom: 13px;
+}
+.info-row:last-child { margin-bottom: 0; }
+.info-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+.info-label {
+  font-size: 11px; color: #9ca3af; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;
+}
+.info-value {
+  font-size: 14px; color: var(--text-dark);
+  font-weight: 700; line-height: 1.4;
+}
+.info-value a { color: var(--blue); text-decoration: none; }
+.info-value a:hover { text-decoration: underline; }
+
+/* Hidden field placeholder */
+.info-row.hidden-field { display: none; }
+
+/* ============================================================
+   ABOUT (SIDEBAR)
+   ============================================================ */
+.bio-text {
+  font-size: 13px; color: var(--text-mid); line-height: 1.8;
+  white-space: pre-wrap; word-break: break-word;
+}
+.bio-empty { font-size: 13px; color: #c0c0c0; font-style: italic; }
+
+/* ============================================================
+   CONTACT LINKS (SIDEBAR)
+   ============================================================ */
+.contact-link-item {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 8px;
+}
+.contact-link-item:last-child { margin-bottom: 0; }
+.contact-link-item a {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700; color: var(--blue);
+  text-decoration: none; padding: 5px 10px;
+  background: rgba(0,71,171,0.06); border-radius: 8px;
+  border: 1px solid rgba(0,71,171,0.12);
+  transition: background var(--transition);
+  max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.contact-link-item a:hover { background: rgba(0,71,171,0.12); }
+.contact-link-delete {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.15);
+  color: #dc2626; font-size: 12px; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  transition: background var(--transition); flex-shrink: 0;
+}
+.contact-link-delete:hover { background: rgba(220,38,38,0.18); }
+.owner-mode .contact-link-delete { display: flex; }
+
+/* ============================================================
+   EDIT BUTTONS (small inline)
+   ============================================================ */
+.edit-inline-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  font-size: 13px; font-weight: 700;
+  color: var(--blue); padding: 2px 6px;
+  border-radius: 6px; transition: background var(--transition);
+}
+.edit-inline-btn:hover { background: rgba(0,71,171,0.08); }
+.owner-mode .edit-inline-btn { display: inline-flex; align-items: center; gap: 4px; }
+
+/* Toggle visibility of a field */
+.field-toggle-btn {
+  display: none;
+  background: none; border: none; cursor: pointer;
+  font-size: 11px; font-weight: 700;
+  color: #9ca3af; padding: 2px 5px;
+  border-radius: 5px; transition: color var(--transition);
+}
+.field-toggle-btn:hover { color: var(--text-dark); }
+.owner-mode .field-toggle-btn { display: inline; }
+
+/* ============================================================
+   CONTENT CARD (main column)
+   ============================================================ */
+.content-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.content-card:last-child { margin-bottom: 0; }
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.card-header h2 {
+  font-size: 16px; font-weight: 700;
+  color: var(--text-dark);
+  position: relative; padding-right: 14px;
+}
+.card-header h2::before {
+  content: ''; position: absolute;
+  right: 0; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 18px;
+  background: var(--teal); border-radius: 3px;
+}
+
+/* ============================================================
+   FILES LIST
+   ============================================================ */
+.files-list-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  direction: ltr; text-align: left;
+}
+.file-item-row {
+  display: flex; gap: 14px; align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background var(--transition);
+}
+.file-item-row:last-child { border-bottom: none; }
+.file-item-row:hover { background: #fafbff; }
+.file-icon-box {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(220,38,38,0.22);
+}
+.file-info { flex: 1; min-width: 0; }
+.file-title {
+  display: block; color: #1a0dab;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none; line-height: 1.3;
+}
+.file-title:hover { text-decoration: underline; }
+.file-sub {
+  margin-top: 3px; font-size: 11px;
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.file-uploader-tag {
+  color: #188038; font-weight: 700;
+  text-decoration: none; font-size: 11px;
+}
+.file-uploader-tag:hover { text-decoration: underline; }
+.file-badge {
+  background: rgba(0,0,0,0.05); color: var(--text-mid);
+  font-size: 10px; font-weight: 700;
+  padding: 2px 7px; border-radius: 5px;
+}
+.file-dl-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 18px;
+  background: rgba(0,71,171,0.07);
+  border: 1px solid rgba(0,71,171,0.16);
+  color: var(--blue); text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 11px;
+  flex-shrink: 0;
+  transition: background var(--transition);
+}
+.file-dl-btn:hover { background: rgba(0,71,171,0.15); }
+
+.files-empty {
+  padding: 36px 20px; text-align: center; direction: rtl;
+}
+.files-empty p { font-size: 13px; font-weight: 700; color: #c0c0c0; }
+
+/* See all files link */
+.see-all-files-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700; color: var(--blue);
+  text-decoration: none; padding: 7px 16px;
+  border: 1.5px solid var(--blue); border-radius: 20px;
+  transition: all var(--transition);
+}
+.see-all-files-link:hover { background: var(--blue); color: #fff; }
+
+/* ============================================================
+   OWNER ACTION BAR (top of main column)
+   ============================================================ */
+.owner-action-bar {
+  display: none;
+  background: linear-gradient(90deg, rgba(0,71,171,0.06), rgba(0,128,128,0.06));
+  border: 1px solid rgba(0,71,171,0.14);
+  border-radius: var(--card-radius);
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  flex-wrap: wrap; gap: 10px; align-items: center;
+  justify-content: space-between;
+}
+.owner-action-bar.visible { display: flex; }
+.owner-action-bar p {
+  font-size: 13px; font-weight: 700; color: var(--text-mid);
+}
+.owner-action-bar p span { color: var(--blue); }
+.action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.action-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 20px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 13px;
+  cursor: pointer; border: none;
+  transition: all var(--transition);
+}
+.action-btn.primary { background: var(--blue); color: #fff; }
+.action-btn.primary:hover { background: #0059d4; }
+.action-btn.secondary { background: #fff; color: var(--text-dark); border: 1px solid rgba(0,0,0,0.14); }
+.action-btn.secondary:hover { background: #f3f4f6; }
+.action-btn.teal-btn { background: var(--teal); color: #fff; }
+.action-btn.teal-btn:hover { background: #006666; }
+
+/* ============================================================
+   MODALS (shared base)
+   ============================================================ */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  z-index: 5000; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 18px;
+  width: 100%; max-width: 480px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+  overflow: hidden;
+  animation: slideUp 0.22s ease;
+}
+@keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px;
+  background: var(--blue); color: #fff;
+}
+.modal-head h3 { font-size: 16px; font-weight: 700; }
+.modal-close-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: #fff; font-size: 17px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition);
+  font-family: 'Ubuntu', sans-serif;
+}
+.modal-close-btn:hover { background: rgba(255,255,255,0.32); }
+.modal-body { padding: 22px; }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: var(--text-mid); margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.form-control {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 10px; outline: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; color: var(--text-dark);
+  background: #fafafa;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  direction: rtl;
+}
+.form-control:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(0,71,171,0.1);
+  background: #fff;
+}
+textarea.form-control { resize: vertical; min-height: 100px; }
+select.form-control { cursor: pointer; }
+.form-control.ltr-input { direction: ltr; text-align: left; }
+
+/* Character counter */
+.char-counter { font-size: 11px; color: #9ca3af; text-align: left; margin-top: 4px; }
+.char-counter.warn { color: #dc2626; }
+
+/* Submit button */
+.modal-submit-btn {
+  width: 100%; padding: 12px;
+  background: var(--blue); color: #fff;
+  border: none; border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: background var(--transition);
+  margin-top: 4px;
+}
+.modal-submit-btn:hover { background: #0059d4; }
+.modal-submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+.modal-submit-btn.teal { background: var(--teal); }
+.modal-submit-btn.teal:hover { background: #006666; }
+
+/* Field toggle inside info rows */
+.toggle-row {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 10px;
+}
+.toggle-row label { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.toggle-switch {
+  position: relative; width: 40px; height: 22px; flex-shrink: 0;
+}
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; inset: 0;
+  background: #d1d5db; border-radius: 11px;
+  cursor: pointer; transition: background 0.2s;
+}
+.toggle-slider::before {
+  content: ''; position: absolute;
+  height: 16px; width: 16px; border-radius: 50%;
+  background: #fff; top: 3px; left: 3px;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--teal); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+/* ============================================================
+   UPLOAD MODAL — dept/stage/subject selects
+   ============================================================ */
+.upload-sub-select { display: none; }
+.upload-sub-select.active { display: block; }
+
+/* ============================================================
+   VISION & FOOTER
+   ============================================================ */
+.vision-section {
+  background: var(--blue); padding: 20px 30px; text-align: center;
+}
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.82);
+  line-height: 1.85; max-width: 680px; margin: 0 auto;
+}
+footer {
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+
+/* ============================================================
+   TOAST NOTIFICATION
+   ============================================================ */
+#toastContainer {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  z-index: 9990; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none; align-items: center;
+}
+.toast {
+  background: #1f2937; color: #fff;
+  padding: 10px 20px; border-radius: 24px;
+  font-size: 14px; font-weight: 700;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  animation: toastIn 0.25s ease, toastOut 0.25s ease 2.5s forwards;
+  pointer-events: auto;
+}
+.toast.success { background: #065f46; }
+.toast.error   { background: #991b1b; }
+@keyframes toastIn  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes toastOut { to{opacity:0;transform:translateY(12px)} }
+
+/* ============================================================
+   CONFIRM DIALOG
+   ============================================================ */
+#confirmModal .modal-box { max-width: 380px; }
+#confirmModal .modal-head { background: #7f1d1d; }
+.confirm-btns { display: flex; gap: 10px; margin-top: 14px; }
+.confirm-yes { flex: 1; padding: 10px; background: #dc2626; color: #fff; border: none; border-radius: 10px; font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer; }
+.confirm-yes:hover { background: #b91c1c; }
+.confirm-no  { flex: 1; padding: 10px; background: #f3f4f6; color: var(--text-dark); border: 1px solid var(--border); border-radius: 10px; font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer; }
+.confirm-no:hover { background: #e5e7eb; }
+
+/* ============================================================
+   UPLOAD PROGRESS BAR
+   ============================================================ */
+.upload-progress-wrap { display: none; margin-top: 12px; }
+.upload-progress-wrap.active { display: block; }
+.upload-progress-bar {
+  height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden;
+}
+.upload-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal));
+  border-radius: 3px; width: 0%; transition: width 0.3s ease;
+}
+.upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 860px) {
+  .profile-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .profile-avatar-wrap { right: 20px; top: -52px; }
+  .profile-avatar { width: 104px; height: 104px; }
+  .profile-info { padding: 10px 20px 0; padding-right: 150px; }
+  .profile-name { font-size: 18px; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
 </head>
 <body>
 
-<div id="loading" class="loading-overlay">⏳ جاري تحميل البروفايل الهندسي...</div>
+<!-- =================== LOADING =================== -->
+<div id="loadingOverlay">
+  <img src="media/icon-512-w.png" alt="ESC" class="loader-logo">
+  <span class="loader-text">جاري تحميل البروفايل...</span>
+</div>
 
+<!-- =================== TOAST =================== -->
+<div id="toastContainer"></div>
+
+<!-- =================== NAVBAR =================== -->
 <header id="bar">
-    <a class="logo" href="index.html"><img src="media/icon-512.png" style="height:38px;"></a>
-    <nav><a href="faq.html">الأسئلة الشائعة</a><a href="research.html">الأبحاث</a></nav>
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </div>
 </header>
+<div id="menuBackdrop"></div>
 
-<div class="profile-cover"></div>
+<!-- =================== COVER =================== -->
+<div class="profile-cover">
+  <div class="cover-esc-watermark">ESC</div>
+</div>
 
+<!-- =================== PROFILE HEADER =================== -->
 <div class="profile-header-wrap">
-    <div class="profile-avatar-wrap">
-        <img id="userAvatar" src="media/icon-512.png" class="profile-avatar">
+  <div class="profile-avatar-wrap">
+    <div class="avatar-container">
+      <img id="profileAvatar" src="media/icon-512-w.png" alt="صورة المستخدم" class="profile-avatar">
+      <div class="avatar-edit-overlay" id="avatarEditOverlay" title="تغيير الصورة">
+        <span>📷</span>
+      </div>
     </div>
-    <div class="profile-info">
-        <div id="fullName" class="profile-name">تحميل الاسم...</div>
-        <div id="userBio" class="profile-title">عضو في مجتمع طلبة الهندسة</div>
-        <button id="openUploadModal" class="upload-btn">📤 رفع ملف للمجتمع</button>
+    <input type="file" id="avatarInput" accept="image/*">
+  </div>
+
+  <div class="profile-info">
+    <div id="profileName" class="profile-name">...</div>
+    <div id="profileUsername" class="profile-username">@...</div>
+    <div id="profileTags" class="profile-tags">
+      <span class="profile-tag" id="tagDept">...</span>
+      <span class="profile-tag teal" id="tagStage">...</span>
     </div>
+  </div>
 </div>
 
+<!-- =================== PROFILE BODY =================== -->
 <div class="profile-body">
-    <aside>
-        <div class="sidebar-card">
-            <h3>المعلومات الأكاديمية</h3>
-            <p><strong>الجامعة:</strong> <span id="uniName">-</span></p>
-            <p><strong>القسم:</strong> <span id="deptName">-</span></p>
-            <p><strong>اليوزر:</strong> @<span id="profileUsername">-</span></p>
-        </div>
-    </aside>
 
-    <main>
-        <div class="content-card">
-            <h2>الملفات التي رفعها المستخدم</h2>
-            <div id="userFilesList">
-                <p style="color:#888; font-size:13px;">لا توجد ملفات مرفوعة حالياً.</p>
-            </div>
-        </div>
-    </main>
-</div>
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebarCol">
 
-<div id="uploadModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header"><h3>رفع ملف جديد</h3></div>
-        <form id="uploadForm">
-            <div class="form-group">
-                <label>اختر الملف (PDF, Excel, Zip)</label>
-                <input type="file" id="fileInput" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>اسم الملف (سيظهر للطلاب)</label>
-                <input type="text" id="fileNameInput" class="form-control" placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول" required>
-            </div>
-            <div class="form-group">
-                <label>المرحلة</label>
-                <select id="stageTag" class="form-control">
-                    <option value="1">المرحلة الأولى</option>
-                    <option value="2">المرحلة الثانية</option>
-                    <option value="3">المرحلة الثالثة</option>
-                    <option value="4">المرحلة الرابعة</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>المادة (Tag)</label>
-                <input type="text" id="subjectTag" class="form-control" placeholder="مثلاً: soil_mechanics" required>
-            </div>
-            <div style="display:flex; gap:10px;">
-                <button type="submit" id="submitUpload" class="upload-btn" style="display:block; flex:1;">بدء الرفع</button>
-                <button type="button" id="closeModal" class="upload-btn" style="display:block; background:#666;">إلغاء</button>
-            </div>
-        </form>
+    <!-- INFO CARD -->
+    <div class="sidebar-card" id="infoCard">
+      <div class="sidebar-card-title">
+        <span>المعلومات</span>
+        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات">✏️ تعديل</button>
+      </div>
+      <!-- Each info row has a toggle button (owner only) to hide/show it -->
+
+      <div class="info-row" id="rowUniversity">
+        <span class="info-icon">🎓</span>
+        <div style="flex:1">
+          <div class="info-label">الجامعة</div>
+          <div class="info-value" id="infoUniversity">—</div>
+        </div>
+        <button class="field-toggle-btn" data-field="university" title="إظهار/إخفاء">👁</button>
+      </div>
+
+      <div class="info-row" id="rowDept">
+        <span class="info-icon">🏛️</span>
+        <div style="flex:1">
+          <div class="info-label">القسم</div>
+          <div class="info-value" id="infoDept">—</div>
+        </div>
+        <button class="field-toggle-btn" data-field="department" title="إظهار/إخفاء">👁</button>
+      </div>
+
+      <div class="info-row" id="rowStage">
+        <span class="info-icon">📚</span>
+        <div style="flex:1">
+          <div class="info-label">المرحلة الدراسية</div>
+          <div class="info-value" id="infoStage">—</div>
+        </div>
+        <button class="field-toggle-btn" data-field="stage" title="إظهار/إخفاء">👁</button>
+      </div>
+
+      <div class="info-row" id="rowCity">
+        <span class="info-icon">📍</span>
+        <div style="flex:1">
+          <div class="info-label">المدينة</div>
+          <div class="info-value" id="infoCity">—</div>
+        </div>
+        <button class="field-toggle-btn" data-field="city" title="إظهار/إخفاء">👁</button>
+      </div>
+
+    </div><!-- /infoCard -->
+
+    <!-- ABOUT CARD (sidebar) -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">
+        <span>حول</span>
+        <button class="edit-inline-btn" id="editBioBtn">✏️ تعديل</button>
+      </div>
+      <div id="bioDisplay">
+        <p class="bio-empty">لم يُضَف وصف بعد.</p>
+      </div>
     </div>
+
+    <!-- CONTACT LINKS CARD -->
+    <div class="sidebar-card">
+      <div class="sidebar-card-title">
+        <span>روابط التواصل</span>
+        <button class="edit-inline-btn" id="addLinkBtn">＋ إضافة</button>
+      </div>
+      <div id="linksDisplay">
+        <p class="bio-empty" id="noLinksMsg">لا توجد روابط بعد.</p>
+      </div>
+    </div>
+
+  </aside><!-- /sidebar -->
+
+  <!-- ===== MAIN COLUMN ===== -->
+  <main id="mainCol">
+
+    <!-- OWNER ACTION BAR -->
+    <div class="owner-action-bar" id="ownerActionBar">
+      <p>أنت تتصفح ملفك الشخصي — <span>مرئي للجميع</span></p>
+      <div class="action-btns">
+        <button class="action-btn teal-btn" id="openUploadBtn">📤 رفع ملف</button>
+      </div>
+    </div>
+
+    <!-- FILES CARD -->
+    <div class="content-card">
+      <div class="card-header">
+        <h2>الملفات المرفوعة</h2>
+        <a href="uploads-civilpdf.html" class="see-all-files-link">
+          📂 كل المرفوعات ←
+        </a>
+      </div>
+      <div id="filesContainer">
+        <div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>
+      </div>
+    </div>
+
+  </main>
 </div>
 
+<!-- =================== VISION =================== -->
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512-w.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<!-- ============================================================
+     MODALS
+     ============================================================ -->
+
+<!-- EDIT BIO MODAL -->
+<div id="bioModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>✏️ تعديل "حول"</h3>
+      <button class="modal-close-btn" data-close="bioModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>اكتب نبذة عن نفسك</label>
+        <textarea id="bioInput" class="form-control" maxlength="300"
+          placeholder="مثلاً: طالب هندسة مدنية مهتم بالتخصص الجيوتقني..."></textarea>
+        <div class="char-counter" id="bioCounter">0 / 300</div>
+      </div>
+      <button class="modal-submit-btn" id="saveBioBtn">حفظ التغييرات</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT INFO MODAL -->
+<div id="infoModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>✏️ تعديل المعلومات</h3>
+      <button class="modal-close-btn" data-close="infoModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>المدينة</label>
+        <input type="text" id="cityInput" class="form-control" maxlength="40"
+               placeholder="مثلاً: كربلاء">
+      </div>
+      <!-- Visibility toggles -->
+      <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول</p>
+      <div class="toggle-row">
+        <label>الجامعة</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleUniversity" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <label>القسم</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleDept" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row">
+        <label>المرحلة الدراسية</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleStage" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <div class="toggle-row" style="margin-bottom:14px;">
+        <label>المدينة</label>
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleCity" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      <button class="modal-submit-btn" id="saveInfoBtn">حفظ التغييرات</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD LINK MODAL -->
+<div id="linkModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>＋ إضافة رابط تواصل</h3>
+      <button class="modal-close-btn" data-close="linkModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>اسم الرابط (يظهر للزوار)</label>
+        <input type="text" id="linkNameInput" class="form-control" maxlength="30"
+               placeholder="مثلاً: تيليغرام | لينكد إن | أبحاثي">
+      </div>
+      <div class="form-group">
+        <label>الرابط URL</label>
+        <input type="url" id="linkUrlInput" class="form-control ltr-input"
+               placeholder="https://...">
+      </div>
+      <p id="linkLimitMsg" style="display:none;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:10px;">
+        وصلت للحد الأقصى (5 روابط).
+      </p>
+      <button class="modal-submit-btn" id="saveLinkBtn">إضافة الرابط</button>
+    </div>
+  </div>
+</div>
+
+<!-- UPLOAD FILE MODAL -->
+<div id="uploadModal" class="modal-backdrop">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-head">
+      <h3>📤 رفع ملف للمجتمع</h3>
+      <button class="modal-close-btn" data-close="uploadModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>الملف (PDF فقط)</label>
+        <input type="file" id="uploadFileInput" class="form-control" accept=".pdf">
+      </div>
+      <div class="form-group">
+        <label>اسم الملف (يظهر للطلاب)</label>
+        <input type="text" id="uploadNameInput" class="form-control" maxlength="80"
+               placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
+      </div>
+
+      <!-- DEPT SELECT -->
+      <div class="form-group">
+        <label>القسم الهندسي</label>
+        <select id="uploadDeptSelect" class="form-control">
+          <option value="">— اختر القسم —</option>
+          <option value="civil">هندسة مدنية</option>
+          <option value="electrical">هندسة كهرباء وإلكترونيك</option>
+          <option value="mechanical">هندسة ميكانيك</option>
+          <option value="electromech">هندسة كهروميكانيك</option>
+          <option value="software">هندسة برمجيات</option>
+          <option value="other">أخرى</option>
+        </select>
+      </div>
+
+      <!-- OTHER DEPT INPUT (shown when "other" selected) -->
+      <div class="form-group upload-sub-select" id="otherDeptGroup">
+        <label>اسم القسم</label>
+        <input type="text" id="otherDeptInput" class="form-control" maxlength="50"
+               placeholder="أدخل اسم قسمك الهندسي">
+      </div>
+
+      <!-- STAGE SELECT -->
+      <div class="form-group">
+        <label>المرحلة الدراسية</label>
+        <select id="uploadStageSelect" class="form-control">
+          <option value="">— اختر المرحلة —</option>
+          <option value="1">المرحلة الأولى</option>
+          <option value="2">المرحلة الثانية</option>
+          <option value="3">المرحلة الثالثة</option>
+          <option value="4">المرحلة الرابعة</option>
+        </select>
+      </div>
+
+      <!-- SUBJECT SELECT (dynamic, populated from JS config) -->
+      <div class="form-group upload-sub-select" id="subjectGroup">
+        <label>المادة</label>
+        <select id="uploadSubjectSelect" class="form-control">
+          <option value="">— اختر المادة —</option>
+        </select>
+      </div>
+
+      <!-- CUSTOM SUBJECT (shown when subject not in list or "other") -->
+      <div class="form-group upload-sub-select" id="customSubjectGroup">
+        <label>اسم المادة (إذا لم تجدها في القائمة)</label>
+        <input type="text" id="customSubjectInput" class="form-control" maxlength="60"
+               placeholder="مثلاً: هندسة التخمين">
+      </div>
+
+      <!-- UPLOAD PROGRESS -->
+      <div class="upload-progress-wrap" id="uploadProgressWrap">
+        <div class="upload-progress-bar">
+          <div class="upload-progress-fill" id="uploadProgressFill"></div>
+        </div>
+        <div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div>
+      </div>
+
+      <button class="modal-submit-btn teal" id="submitUploadBtn" style="margin-top:8px;">رفع الملف</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>⚠️ تأكيد الحذف</h3>
+      <button class="modal-close-btn" data-close="confirmModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirmMsg" style="font-size:14px;font-weight:700;color:var(--text-mid);line-height:1.7;">
+        هل تريد حذف هذا الرابط؟ لا يمكن التراجع.
+      </p>
+      <div class="confirm-btns">
+        <button class="confirm-yes" id="confirmYesBtn">نعم، احذف</button>
+        <button class="confirm-no"  id="confirmNoBtn">إلغاء</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     FIREBASE + APP LOGIC
+     ============================================================ -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, onAuthStateChanged }
+                               from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs }
+                               from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL }
+                               from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
-        authDomain: "engineering-students-community.firebaseapp.com",
-        projectId: "engineering-students-community",
-        storageBucket: "engineering-students-community.firebasestorage.app",
-        messagingSenderId: "371432549665",
-        appId: "1:371432549665:web:4d3b9617243731fb06e260"
-    };
+/* ─────────────────────────────────────────────────
+   FIREBASE CONFIG
+   ───────────────────────────────────────────────── */
+const firebaseConfig = {
+  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:        "engineering-students-community.firebaseapp.com",
+  projectId:         "engineering-students-community",
+  storageBucket:     "engineering-students-community.firebasestorage.app",
+  messagingSenderId: "371432549665",
+  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+const app     = initializeApp(firebaseConfig);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
 
-    // 1. قراءة اليوزر من الرابط ?u=username
-    const params = new URLSearchParams(window.location.search);
-    const targetUsername = params.get('u');
+/* ─────────────────────────────────────────────────
+   SUBJECTS CONFIG
+   ═══════════════════════════════════════════════
+   لتعديل المواد: أضف أو احذف من الكائن SUBJECTS_CONFIG.
+   البنية:  dept_key → { stage_number: [ "مادة 1", "مادة 2", ... ] }
+   "other" دائماً موجود كخيار افتراضي بعد القائمة.
+   ═══════════════════════════════════════════════ */
+const SUBJECTS_CONFIG = {
+  civil: {
+    1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"],
+    2: ["هيدروليك","ميكانيكا مواد","مساحة هندسية","مقاومة مواد","رياضيات هندسية"],
+    3: ["ميكانيكا التربة","الخرسانة المسلحة 1","هندسة المرور","الري والبزل","هندسة الإنشاءات","إدارة المشاريع","التحليل الهندسي"],
+    4: ["هندسة التخمين","المنشآت الحديدية","تصميم الأسس","الخرسانة المسلحة","هندسة صحية","علم المياه","المنشآت الهيدروليكية"]
+  },
+  electrical: {
+    1: ["رياضيات","فيزياء","مبادئ الكهرباء"],
+    2: ["دوائر كهربائية","إلكترونيات","رياضيات هندسية"],
+    3: ["آلات كهربائية","إشارات وأنظمة","اتصالات"],
+    4: ["محطات طاقة","نظم تحكم","حماية منظومات"]
+  },
+  mechanical: {
+    1: ["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"],
+    2: ["ترموديناميك","ميكانيكا الموائع","مقاومة مواد"],
+    3: ["آلات حرارية","تصميم آلي","تصنيع"],
+    4: ["محركات احتراق","تبريد وتكييف","تصميم منظومات"]
+  },
+  electromech: {
+    1: ["رياضيات","فيزياء","مبادئ كهروميكانيك"],
+    2: ["دوائر كهربائية","ميكانيكا"],
+    3: ["محركات كهربائية","تحكم صناعي"],
+    4: ["تصميم منظومات","صيانة صناعية"]
+  },
+  software: {
+    1: ["رياضيات","مقدمة في البرمجة","منطق رقمي"],
+    2: ["هياكل بيانات","خوارزميات","قواعد بيانات"],
+    3: ["هندسة برمجيات","شبكات حاسوب","أنظمة تشغيل"],
+    4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]
+  }
+};
+/* ═══════════════════════════════════════════════ */
 
-    if (!targetUsername) {
-        window.location.href = "index.html";
+/* ─────────────────────────────────────────────────
+   GLOBALS
+   ───────────────────────────────────────────────── */
+const params          = new URLSearchParams(window.location.search);
+const TARGET_USERNAME = params.get('u');
+let   profileData     = {};
+let   isOwner         = false;
+let   confirmCallback = null;
+
+if (!TARGET_USERNAME) { window.location.href = "index.html"; }
+
+/* ─────────────────────────────────────────────────
+   UTILITIES
+   ───────────────────────────────────────────────── */
+function toast(msg, type = '') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(() => t.remove(), 2800);
+}
+
+function openModal(id)  { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+// Close buttons
+document.querySelectorAll('[data-close]').forEach(btn =>
+  btn.addEventListener('click', () => closeModal(btn.dataset.close))
+);
+// Click outside
+document.querySelectorAll('.modal-backdrop').forEach(bd =>
+  bd.addEventListener('click', e => { if (e.target === bd) closeModal(bd.id); })
+);
+
+function showConfirm(msg, cb) {
+  document.getElementById('confirmMsg').textContent = msg;
+  confirmCallback = cb;
+  openModal('confirmModal');
+}
+document.getElementById('confirmYesBtn').addEventListener('click', () => {
+  closeModal('confirmModal');
+  if (confirmCallback) confirmCallback();
+  confirmCallback = null;
+});
+document.getElementById('confirmNoBtn').addEventListener('click', () => {
+  closeModal('confirmModal');
+  confirmCallback = null;
+});
+
+/* ─────────────────────────────────────────────────
+   MOBILE MENU
+   ───────────────────────────────────────────────── */
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const navBd      = document.getElementById('menuBackdrop');
+const openNav    = () => { mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeNav   = () => { mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeNav() : openNav(); });
+navBd.addEventListener('click', closeNav);
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeNav(); });
+window.addEventListener('resize', () => { if(window.innerWidth > 768) closeNav(); });
+
+/* ─────────────────────────────────────────────────
+   LOAD PROFILE
+   ───────────────────────────────────────────────── */
+async function loadProfile() {
+  try {
+    const snap = await getDoc(doc(db, "students", TARGET_USERNAME));
+    if (!snap.exists()) {
+      alert("هذا المستخدم غير موجود!");
+      window.location.href = "index.html";
+      return;
+    }
+    profileData = snap.data();
+    renderProfile();
+    await loadFiles();
+
+    // Check ownership
+    onAuthStateChanged(auth, user => {
+      if (user && user.uid === profileData.uid) activateOwnerMode();
+    });
+  } catch (e) {
+    toast("خطأ في تحميل البيانات: " + e.message, 'error');
+  } finally {
+    const ov = document.getElementById('loadingOverlay');
+    ov.classList.add('fade-out');
+    setTimeout(() => ov.remove(), 400);
+  }
+}
+
+/* ─────────────────────────────────────────────────
+   RENDER PROFILE
+   ───────────────────────────────────────────────── */
+const STAGE_LABELS = {
+  '1':'المرحلة الأولى','2':'المرحلة الثانية',
+  '3':'المرحلة الثالثة','4':'المرحلة الرابعة'
+};
+
+function renderProfile() {
+  const d = profileData;
+  document.title = `ESC — ${d.fullName || TARGET_USERNAME}`;
+
+  document.getElementById('profileName').textContent     = d.fullName  || TARGET_USERNAME;
+  document.getElementById('profileUsername').textContent = '@' + TARGET_USERNAME;
+
+  // Tags
+  document.getElementById('tagDept').textContent  = d.department || 'عضو';
+  document.getElementById('tagStage').textContent = STAGE_LABELS[d.stage] || 'طالب';
+
+  // Avatar
+  if (d.avatarURL) document.getElementById('profileAvatar').src = d.avatarURL;
+
+  // Info fields (respecting visibility prefs)
+  const hidden = d.hiddenFields || [];
+  setInfoRow('rowUniversity', 'infoUniversity', d.university, hidden.includes('university'));
+  setInfoRow('rowDept',       'infoDept',       d.department, hidden.includes('department'));
+  setInfoRow('rowStage',      'infoStage',      STAGE_LABELS[d.stage] || d.stage, hidden.includes('stage'));
+  setInfoRow('rowCity',       'infoCity',       d.city || null, hidden.includes('city'));
+
+  // Bio
+  renderBio(d.bio);
+
+  // Links
+  renderLinks(d.links || []);
+}
+
+function setInfoRow(rowId, valId, value, isHidden) {
+  const row = document.getElementById(rowId);
+  if (isHidden) {
+    row.style.display = 'none';
+    return;
+  }
+  row.style.display = '';
+  document.getElementById(valId).textContent = value || '—';
+}
+
+function renderBio(bio) {
+  const el = document.getElementById('bioDisplay');
+  if (bio && bio.trim()) {
+    el.innerHTML = `<p class="bio-text">${escHtml(bio)}</p>`;
+  } else {
+    el.innerHTML = '<p class="bio-empty">لم يُضَف وصف بعد.</p>';
+  }
+}
+
+function renderLinks(links) {
+  const el      = document.getElementById('linksDisplay');
+  const noMsg   = document.getElementById('noLinksMsg');
+  el.innerHTML  = '';
+
+  if (!links || links.length === 0) {
+    el.innerHTML = '<p class="bio-empty" id="noLinksMsg">لا توجد روابط بعد.</p>';
+    return;
+  }
+
+  links.forEach((lnk, i) => {
+    const item = document.createElement('div');
+    item.className = 'contact-link-item';
+    item.innerHTML = `
+      <a href="${escHtml(lnk.url)}" target="_blank" rel="noopener" title="${escHtml(lnk.url)}">
+        🔗 ${escHtml(lnk.name)}
+      </a>
+      <button class="contact-link-delete" data-index="${i}" title="حذف الرابط">✕</button>
+    `;
+    el.appendChild(item);
+  });
+
+  // Delete buttons
+  el.querySelectorAll('.contact-link-delete').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.index);
+      showConfirm('هل تريد حذف هذا الرابط؟ لا يمكن التراجع.', () => deleteLink(idx));
+    });
+  });
+}
+
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+
+/* ─────────────────────────────────────────────────
+   LOAD FILES
+   ───────────────────────────────────────────────── */
+async function loadFiles() {
+  try {
+    const q    = query(collection(db,"uploads"), where("uploader","==",TARGET_USERNAME));
+    const snap = await getDocs(q);
+    const cont = document.getElementById('filesContainer');
+
+    if (snap.empty) {
+      cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>';
+      return;
     }
 
-    // 2. جلب بيانات البروفايل
-    async function loadProfile() {
-        const userDoc = await getDoc(doc(db, "students", targetUsername));
-        if (userDoc.exists()) {
-            const data = userDoc.data();
-            document.getElementById('fullName').textContent = data.fullName;
-            document.getElementById('uniName').textContent = data.university;
-            document.getElementById('deptName').textContent = data.department;
-            document.getElementById('profileUsername').textContent = targetUsername;
-            document.title = `ESC — ${data.fullName}`;
-            
-            loadUserFiles();
-            checkOwnership(data.uid);
-        } else {
-            alert("هذا المستخدم غير موجود!");
-            window.location.href = "index.html";
-        }
-        document.getElementById('loading').style.display = 'none';
-    }
+    const wrap = document.createElement('div');
+    wrap.className = 'files-list-wrap';
 
-    // 3. التحقق من صاحب الحساب لإظهار زر الرفع
-    function checkOwnership(profileUid) {
-        onAuthStateChanged(auth, (user) => {
-            if (user && user.uid === profileUid) {
-                document.getElementById('openUploadModal').style.display = 'block';
-            }
-        });
-    }
+    snap.forEach(d => {
+      const f = d.data();
+      const row = document.createElement('div');
+      row.className = 'file-item-row';
+      row.innerHTML = `
+        <div class="file-icon-box">PDF</div>
+        <div class="file-info">
+          <a href="${escHtml(f.url)}" target="_blank" class="file-title">${escHtml(f.name)}</a>
+          <div class="file-sub">
+            <a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader-tag">@${escHtml(f.uploader)}</a>
+            ${f.subject ? `<span class="file-badge">${escHtml(f.subject)}</span>` : ''}
+            ${f.stage   ? `<span class="file-badge">المرحلة ${escHtml(f.stage)}</span>` : ''}
+          </div>
+        </div>
+        <a href="${escHtml(f.url)}" download class="file-dl-btn">⬇ تحميل</a>
+      `;
+      wrap.appendChild(row);
+    });
 
-    // 4. جلب ملفات المستخدم من قاعدة البيانات
-    async function loadUserFiles() {
-        const q = query(collection(db, "uploads"), where("uploader", "==", targetUsername));
-        const querySnapshot = await getDocs(q);
-        const listDiv = document.getElementById('userFilesList');
-        
-        if (!querySnapshot.empty) {
-            listDiv.innerHTML = '';
-            querySnapshot.forEach((file) => {
-                const f = file.data();
-                listDiv.innerHTML += `
-                    <div class="file-item">
-                        <div class="file-icon">PDF</div>
-                        <div class="file-info">
-                            <a href="${f.url}" target="_blank" style="text-decoration:none; font-weight:700; color:#1a0dab;">${f.name}</a>
-                            <br>
-                            <a href="profile.html?u=${f.uploader}" class="uploader-tag">@${f.uploader}</a>
-                            <span style="font-size:11px; color:#999; margin-right:10px;">Tag: ${f.subject}</span>
-                        </div>
-                        <a href="${f.url}" download class="uploader-tag" style="background:#f0f0f0; padding:5px 10px; border-radius:5px;">تحميل</a>
-                    </div>
-                `;
-            });
-        }
-    }
+    cont.innerHTML = '';
+    cont.appendChild(wrap);
+  } catch(e) {
+    document.getElementById('filesContainer').innerHTML =
+      '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
+  }
+}
 
-    // 5. منطق الرفع (Upload Logic)
-    const modal = document.getElementById('uploadModal');
-    document.getElementById('openUploadModal').onclick = () => modal.style.display = 'flex';
-    document.getElementById('closeModal').onclick = () => modal.style.display = 'none';
+/* ─────────────────────────────────────────────────
+   OWNER MODE
+   ───────────────────────────────────────────────── */
+function activateOwnerMode() {
+  isOwner = true;
+  document.getElementById('ownerActionBar').classList.add('visible');
+  document.getElementById('avatarEditOverlay').classList.add('visible');
+  document.body.classList.add('owner-mode');
+}
 
-    document.getElementById('uploadForm').onsubmit = async (e) => {
-        e.preventDefault();
-        const file = document.getElementById('fileInput').files[0];
-        const name = document.getElementById('fileNameInput').value;
-        const stage = document.getElementById('stageTag').value;
-        const subject = document.getElementById('subjectTag').value;
-        const btn = document.getElementById('submitUpload');
+/* ─────────────────────────────────────────────────
+   AVATAR UPLOAD
+   ───────────────────────────────────────────────── */
+document.getElementById('avatarEditOverlay').addEventListener('click', () => {
+  if (isOwner) document.getElementById('avatarInput').click();
+});
+document.getElementById('avatarInput').addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
+  if (file.size > 2 * 1024 * 1024) { toast('الصورة أكبر من 2MB.', 'error'); return; }
 
-        btn.disabled = true;
-        btn.textContent = "⏳ جاري الرفع...";
+  try {
+    toast('جاري رفع الصورة...');
+    const r   = ref(storage, `avatars/${TARGET_USERNAME}`);
+    const snap = await uploadBytes(r, file);
+    const url  = await getDownloadURL(snap.ref);
 
-        try {
-            // أ. الرفع إلى Storage
-            const storageRef = ref(storage, `community_files/${targetUsername}/${file.name}`);
-            const snapshot = await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(snapshot.ref);
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { avatarURL: url });
+    document.getElementById('profileAvatar').src = url;
+    profileData.avatarURL = url;
+    toast('تم تحديث الصورة ✓', 'success');
+  } catch(err) {
+    toast('فشل رفع الصورة: ' + err.message, 'error');
+  }
+});
 
-            // ب. تسجيل البيانات في Firestore
-            await addDoc(collection(db, "uploads"), {
-                name: name,
-                url: downloadURL,
-                uploader: targetUsername,
-                stage: stage,
-                subject: subject,
-                timestamp: new Date().toISOString()
-            });
+/* ─────────────────────────────────────────────────
+   BIO EDIT
+   ───────────────────────────────────────────────── */
+const bioInput   = document.getElementById('bioInput');
+const bioCounter = document.getElementById('bioCounter');
+bioInput.addEventListener('input', () => {
+  const len = bioInput.value.length;
+  bioCounter.textContent = `${len} / 300`;
+  bioCounter.classList.toggle('warn', len > 280);
+});
 
-            alert("تم الرفع بنجاح! سيظهر ملفك الآن في البروفايل وفي مكتبة القسم.");
-            location.reload();
-        } catch (error) {
-            alert("خطأ في الرفع: " + error.message);
-            btn.disabled = false;
-        }
-    };
+document.getElementById('editBioBtn').addEventListener('click', () => {
+  bioInput.value = profileData.bio || '';
+  bioInput.dispatchEvent(new Event('input'));
+  openModal('bioModal');
+});
 
-    loadProfile();
+document.getElementById('saveBioBtn').addEventListener('click', async () => {
+  const bio = bioInput.value.trim();
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { bio });
+    profileData.bio = bio;
+    renderBio(bio);
+    closeModal('bioModal');
+    toast('تم حفظ "حول" ✓', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+});
+
+/* ─────────────────────────────────────────────────
+   INFO EDIT
+   ───────────────────────────────────────────────── */
+document.getElementById('editInfoBtn').addEventListener('click', () => {
+  document.getElementById('cityInput').value = profileData.city || '';
+  const hidden = profileData.hiddenFields || [];
+  document.getElementById('toggleUniversity').checked = !hidden.includes('university');
+  document.getElementById('toggleDept').checked        = !hidden.includes('department');
+  document.getElementById('toggleStage').checked       = !hidden.includes('stage');
+  document.getElementById('toggleCity').checked        = !hidden.includes('city');
+  openModal('infoModal');
+});
+
+document.getElementById('saveInfoBtn').addEventListener('click', async () => {
+  const city    = document.getElementById('cityInput').value.trim();
+  const hidden  = [];
+  if (!document.getElementById('toggleUniversity').checked) hidden.push('university');
+  if (!document.getElementById('toggleDept').checked)       hidden.push('department');
+  if (!document.getElementById('toggleStage').checked)      hidden.push('stage');
+  if (!document.getElementById('toggleCity').checked)       hidden.push('city');
+
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { city, hiddenFields: hidden });
+    profileData.city         = city;
+    profileData.hiddenFields = hidden;
+    renderProfile();
+    closeModal('infoModal');
+    toast('تم حفظ المعلومات ✓', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+});
+
+/* ─────────────────────────────────────────────────
+   LINKS
+   ───────────────────────────────────────────────── */
+document.getElementById('addLinkBtn').addEventListener('click', () => {
+  if ((profileData.links || []).length >= 5) {
+    document.getElementById('linkLimitMsg').style.display = 'block';
+  } else {
+    document.getElementById('linkLimitMsg').style.display = 'none';
+  }
+  document.getElementById('linkNameInput').value = '';
+  document.getElementById('linkUrlInput').value  = '';
+  openModal('linkModal');
+});
+
+document.getElementById('saveLinkBtn').addEventListener('click', async () => {
+  const name = document.getElementById('linkNameInput').value.trim();
+  const url  = document.getElementById('linkUrlInput').value.trim();
+  if (!name || !url) { toast('أدخل الاسم والرابط.', 'error'); return; }
+
+  const links = [...(profileData.links || [])];
+  if (links.length >= 5) { toast('الحد الأقصى 5 روابط.', 'error'); return; }
+
+  // Simple URL validation
+  if (!url.startsWith('http')) { toast('الرابط يجب أن يبدأ بـ http أو https', 'error'); return; }
+
+  links.push({ name, url });
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
+    profileData.links = links;
+    renderLinks(links);
+    closeModal('linkModal');
+    toast('تم إضافة الرابط ✓', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+});
+
+async function deleteLink(idx) {
+  const links = [...(profileData.links || [])];
+  links.splice(idx, 1);
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
+    profileData.links = links;
+    renderLinks(links);
+    toast('تم حذف الرابط.', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+}
+
+/* ─────────────────────────────────────────────────
+   UPLOAD FILE
+   ───────────────────────────────────────────────── */
+document.getElementById('openUploadBtn').addEventListener('click', () => {
+  // Reset form
+  document.getElementById('uploadFileInput').value    = '';
+  document.getElementById('uploadNameInput').value    = '';
+  document.getElementById('uploadDeptSelect').value   = '';
+  document.getElementById('uploadStageSelect').value  = '';
+  document.getElementById('uploadSubjectSelect').value= '';
+  document.getElementById('customSubjectInput').value = '';
+  document.getElementById('otherDeptGroup').classList.remove('active');
+  document.getElementById('subjectGroup').classList.remove('active');
+  document.getElementById('customSubjectGroup').classList.remove('active');
+  document.getElementById('uploadProgressWrap').classList.remove('active');
+  openModal('uploadModal');
+});
+
+// Dept change → show/hide other input
+document.getElementById('uploadDeptSelect').addEventListener('change', function() {
+  document.getElementById('otherDeptGroup').classList.toggle('active', this.value === 'other');
+  updateSubjectSelect();
+});
+
+// Stage change → update subjects
+document.getElementById('uploadStageSelect').addEventListener('change', updateSubjectSelect);
+
+function updateSubjectSelect() {
+  const dept  = document.getElementById('uploadDeptSelect').value;
+  const stage = document.getElementById('uploadStageSelect').value;
+  const sel   = document.getElementById('uploadSubjectSelect');
+  const sg    = document.getElementById('subjectGroup');
+  const csg   = document.getElementById('customSubjectGroup');
+
+  if (!dept || dept === 'other' || !stage) {
+    sg.classList.remove('active');
+    csg.classList.add('active');
+    return;
+  }
+
+  const subjects = (SUBJECTS_CONFIG[dept] || {})[stage] || [];
+  sel.innerHTML = '<option value="">— اختر المادة —</option>';
+  subjects.forEach(s => {
+    const o = document.createElement('option');
+    o.value = s; o.textContent = s;
+    sel.appendChild(o);
+  });
+  const otherOpt = document.createElement('option');
+  otherOpt.value = '__other__'; otherOpt.textContent = 'مادة أخرى...';
+  sel.appendChild(otherOpt);
+
+  sg.classList.add('active');
+  csg.classList.remove('active');
+}
+
+document.getElementById('uploadSubjectSelect').addEventListener('change', function() {
+  document.getElementById('customSubjectGroup')
+    .classList.toggle('active', this.value === '__other__');
+});
+
+document.getElementById('submitUploadBtn').addEventListener('click', async () => {
+  const file      = document.getElementById('uploadFileInput').files[0];
+  const name      = document.getElementById('uploadNameInput').value.trim();
+  const deptVal   = document.getElementById('uploadDeptSelect').value;
+  const stageVal  = document.getElementById('uploadStageSelect').value;
+  const subjectEl = document.getElementById('uploadSubjectSelect').value;
+  const customSub = document.getElementById('customSubjectInput').value.trim();
+  const otherDept = document.getElementById('otherDeptInput').value.trim();
+
+  if (!file)     { toast('اختر ملف PDF.', 'error'); return; }
+  if (!name)     { toast('أدخل اسم الملف.', 'error'); return; }
+  if (!deptVal)  { toast('اختر القسم الهندسي.', 'error'); return; }
+  if (!stageVal) { toast('اختر المرحلة الدراسية.', 'error'); return; }
+  if (file.type !== 'application/pdf') { toast('يُقبل ملفات PDF فقط.', 'error'); return; }
+
+  const dept    = deptVal === 'other' ? (otherDept || 'أخرى') : deptVal;
+  const subject = (subjectEl && subjectEl !== '__other__') ? subjectEl : (customSub || 'عام');
+
+  // Show progress
+  const progWrap  = document.getElementById('uploadProgressWrap');
+  const progFill  = document.getElementById('uploadProgressFill');
+  const progLabel = document.getElementById('uploadProgressLabel');
+  const btn       = document.getElementById('submitUploadBtn');
+  progWrap.classList.add('active');
+  btn.disabled = true;
+  progFill.style.width = '20%';
+  progLabel.textContent = 'جاري الرفع...';
+
+  try {
+    const storRef  = ref(storage, `community_files/${TARGET_USERNAME}/${Date.now()}_${file.name}`);
+    progFill.style.width = '55%';
+    const snap = await uploadBytes(storRef, file);
+    progFill.style.width = '80%';
+    const url  = await getDownloadURL(snap.ref);
+    progFill.style.width = '95%';
+
+    await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(async ({addDoc}) => {
+      await addDoc(collection(db,"uploads"), {
+        name, url,
+        uploader: TARGET_USERNAME,
+        dept, stage: stageVal, subject,
+        timestamp: new Date().toISOString()
+      });
+    });
+
+    progFill.style.width = '100%';
+    progLabel.textContent = 'تم الرفع بنجاح!';
+    setTimeout(() => {
+      closeModal('uploadModal');
+      toast('تم رفع الملف بنجاح ✓', 'success');
+      loadFiles();
+    }, 700);
+  } catch(e) {
+    progLabel.textContent = 'فشل الرفع: ' + e.message;
+    progFill.style.background = '#dc2626';
+    btn.disabled = false;
+    toast('فشل الرفع: ' + e.message, 'error');
+  }
+});
+
+/* ─────────────────────────────────────────────────
+   INIT
+   ───────────────────────────────────────────────── */
+loadProfile();
 </script>
-
 </body>
 </html>
