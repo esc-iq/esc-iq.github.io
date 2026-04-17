@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — المكتبة العلمية</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512.png">
+<link rel="apple-touch-icon" href="media/icon-512.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --card-radius: 12px;
+  --transition: 0.22s ease;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ===== NAVBAR ===== */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: var(--blue);
+  position: sticky; top: 0; z-index: 1000;
+  direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background var(--transition);
+  white-space: nowrap;
+}
+#bar nav a:hover { background: rgba(255,255,255,0.18); }
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent;
+  cursor: pointer; border-radius: 10px;
+  align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon {
+  width: 24px; height: 2px; background: #fff;
+  display: block; position: relative; margin: auto;
+}
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top: 7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid var(--border);
+  z-index: 1001; direction: rtl;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a { display: block; padding: 11px 12px; border-radius: 10px; color: var(--text-dark); text-decoration: none; font-weight: 700; }
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===== HERO ===== */
+.page-hero {
+  background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; top: -80px; left: -80px;
+  width: 400px; height: 400px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.09), transparent 70%);
+  pointer-events: none;
+}
+.page-hero-inner { max-width: 860px; position: relative; z-index: 1; }
+.page-hero-tag {
+  display: inline-block;
+  background: rgba(255,255,255,0.14); backdrop-filter: blur(6px);
+  color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 14px; border-radius: 20px; margin-bottom: 14px;
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.page-hero h1 {
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 700; color: #fff; margin-bottom: 10px; line-height: 1.3;
+}
+.page-hero p {
+  font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.75;
+  max-width: 600px;
+}
+
+/* ===== DEPT TABS ===== */
+.dept-bar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch;
+  gap: 0; direction: ltr;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dept-bar::-webkit-scrollbar { display: none; }
+.dept-tab {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 0 20px; height: 50px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px; font-weight: 700;
+  color: var(--text-light);
+  border: none; background: none;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap; cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+  flex-shrink: 0;
+}
+.dept-tab:hover { color: var(--blue); }
+.dept-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.dept-tab .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor; opacity: 0.5; flex-shrink: 0;
+}
+.dept-tab.active .dot { opacity: 1; }
+
+/* ===== MAIN LAYOUT ===== */
+main { flex: 1; }
+.page {
+  max-width: 1100px;
+  margin: 28px auto 60px;
+  padding: 0 20px;
+}
+.layout { display: flex; gap: 20px; align-items: flex-start; direction: ltr; }
+
+/* ===== SIDEBAR ===== */
+.filters {
+  width: 210px; flex-shrink: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--card-radius);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+.filters-title {
+  font-size: 11px; font-weight: 700;
+  color: rgba(0,0,0,0.38); letter-spacing: 1.8px;
+  text-transform: uppercase; margin-bottom: 14px;
+  text-align: left;
+}
+.stage-group { margin-bottom: 4px; }
+.stage-btn {
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: #fff; border-radius: 8px;
+  padding: 9px 11px; cursor: pointer; text-align: left;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 13px; color: var(--text-dark);
+  display: flex; align-items: center; justify-content: space-between;
+  transition: background var(--transition);
+}
+.stage-btn:hover { background: #f3f4f6; }
+.stage-btn.active {
+  border-color: rgba(0,71,171,0.28);
+  background: rgba(0,71,171,0.06);
+  color: var(--blue);
+}
+.stage-btn .chev {
+  font-size: 10px; opacity: 0.45;
+  transition: transform var(--transition);
+  font-style: normal;
+}
+.stage-btn.open .chev { transform: rotate(180deg); }
+.sub-list { display: none; flex-direction: column; gap: 2px; padding: 4px 0; }
+.sub-list.open { display: flex; }
+.sub-btn {
+  border: none; background: transparent;
+  border-radius: 7px; padding: 7px 10px 7px 22px;
+  cursor: pointer; text-align: left;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  width: 100%;
+}
+.sub-btn:hover { background: #f3f4f6; color: var(--text-dark); }
+.sub-btn.active { background: rgba(0,71,171,0.07); color: var(--blue); }
+
+/* Mobile filter toggle */
+.filter-toggle {
+  display: none; width: 100%; height: 44px;
+  border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
+  background: #fff; color: var(--text-dark);
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; cursor: pointer;
+  direction: rtl; padding: 0 14px; margin-bottom: 14px;
+  align-items: center; justify-content: space-between;
+}
+.filters-drawer-bd { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 1200; }
+.filters-drawer-bd.show { display: block; }
+
+/* ===== FILES AREA ===== */
+.files-area { flex: 1; min-width: 0; }
+
+/* Loading */
+.loading-row {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--card-radius); padding: 44px;
+  text-align: center; color: var(--text-light);
+  font-size: 14px; font-weight: 700;
+  box-shadow: var(--shadow);
+}
+.loading-row .spin {
+  width: 32px; height: 32px; border-radius: 50%;
+  border: 3px solid rgba(0,71,171,0.15);
+  border-top-color: var(--blue);
+  animation: spin 0.8s linear infinite;
+  display: block; margin: 0 auto 14px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* No results */
+.no-results {
+  display: none; background: #fff;
+  border: 1px solid var(--border); border-radius: var(--card-radius);
+  padding: 48px 20px; text-align: center; direction: rtl;
+  box-shadow: var(--shadow);
+}
+.no-results.show { display: block; }
+.no-results p { font-size: 14px; font-weight: 700; color: #c0c0c0; }
+
+/* Files list */
+.files-list {
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--card-radius); overflow: hidden;
+  direction: ltr; text-align: left;
+  box-shadow: var(--shadow);
+}
+.file-item {
+  display: flex; gap: 16px; align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.055);
+  transition: background var(--transition);
+}
+.file-item:last-child { border-bottom: none; }
+.file-item:hover { background: #fafbff; }
+.file-icon {
+  width: 44px; height: 44px; flex-shrink: 0;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px rgba(220,38,38,0.22);
+}
+.file-main { flex: 1; min-width: 0; }
+.file-name {
+  display: block; color: #1a0dab;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none; line-height: 1.35;
+}
+.file-name:hover { text-decoration: underline; }
+.file-meta {
+  margin-top: 4px; font-size: 12px;
+  display: flex; gap: 9px; align-items: center; flex-wrap: wrap;
+}
+.file-uploader {
+  color: #188038; font-weight: 700;
+  text-decoration: none;
+}
+.file-uploader:hover { text-decoration: underline; }
+.file-tag {
+  background: rgba(0,0,0,0.05);
+  color: #374151; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 5px;
+}
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 15px; border-radius: 20px;
+  background: rgba(0,71,171,0.08);
+  border: 1px solid rgba(0,71,171,0.17);
+  color: var(--blue); text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 11px; white-space: nowrap;
+  transition: background var(--transition); flex-shrink: 0;
+}
+.dl-btn:hover { background: rgba(0,71,171,0.16); }
+
+/* ===== VISION ===== */
+.vision-section {
+  background: var(--blue); padding: 24px 30px; text-align: center;
+}
+.vision-section h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.vision-section p {
+  font-size: 14px; color: rgba(255,255,255,0.8);
+  line-height: 1.8; max-width: 660px; margin: 0 auto;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: #06101f; color: rgba(255,255,255,0.6);
+  padding: 52px 30px 26px; direction: rtl;
+}
+.footer-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.4fr 1fr;
+  gap: 48px; padding-bottom: 38px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 {
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45);
+  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
+}
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.45); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom {
+  max-width: 1100px; margin: 26px auto 0;
+  display: flex; align-items: center;
+  justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.28); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.08); letter-spacing: 4px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .layout { flex-direction: column; }
+  .filters { width: 100%; }
+}
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .page-hero { padding: 36px 20px; }
+  .page { padding: 0 14px; margin-top: 20px; }
+  .filter-toggle { display: flex; }
+  .filters { display: none; }
+  .filters.open {
+    display: block; position: fixed;
+    top: calc(var(--nav-height) + 10px);
+    left: 12px; right: 12px; width: auto;
+    z-index: 1201; box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header id="bar">
+  <a href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" style="height:38px;width:auto;display:block;">
+  </a>
+  <nav>
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="القائمة" aria-expanded="false">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop"></div>
+<div id="filtersBd" class="filters-drawer-bd"></div>
+
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="page-hero-tag">المكتبة العلمية</span>
+    <h1>مرفوعات الطلاب</h1>
+    <p>مستودع من ملخصات وكتب الأجيال الهندسية السابقة بين يديك.</p>
+  </div>
+</div>
+
+<!-- Department Tabs -->
+<div class="dept-bar" id="deptBar">
+  <button class="dept-tab active" data-dept="civil">
+    <span class="dot"></span> هندسة مدنية
+  </button>
+  <button class="dept-tab" data-dept="electrical">
+    <span class="dot"></span> هندسة كهرباء والكترونيك
+  </button>
+  <button class="dept-tab" data-dept="mechanical">
+    <span class="dot"></span> هندسة ميكانيك
+  </button>
+  <button class="dept-tab" data-dept="electromech">
+    <span class="dot"></span> هندسة كهروميكانيك
+  </button>
+  <button class="dept-tab" data-dept="biomedical">
+    <span class="dot"></span> هندسة طب حياتي
+  </button>
+  <button class="dept-tab" data-dept="prosthetics">
+    <span class="dot"></span> هندسة أطراف ومساند
+  </button>
+  <button class="dept-tab" data-dept="software">
+    <span class="dot"></span> هندسة برمجيات
+  </button>
+</div>
+
+<main>
+  <div class="page">
+    <button id="filterToggle" class="filter-toggle" type="button" aria-expanded="false">
+      <span>تصفية حسب المرحلة</span>
+      <span style="font-size:18px;opacity:0.5;">&#9776;</span>
+    </button>
+
+    <div class="layout">
+      <aside id="filtersPanel" class="filters">
+        <div class="filters-title">المرحلة الدراسية</div>
+        <div id="stageTree"></div>
+      </aside>
+
+      <section class="files-area">
+        <div id="filesContainer">
+          <div class="loading-row">
+            <span class="spin"></span>
+            جاري تحميل الملفات...
+          </div>
+        </div>
+        <div id="noResults" class="no-results">
+          <p>لا توجد مرفوعات لهذا التصنيف حتى الآن.</p>
+        </div>
+        <div class="files-list" id="filesList" style="display:none;"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512.png" alt="ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs, orderBy }
+                            from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:        "engineering-students-community.firebaseapp.com",
+  projectId:         "engineering-students-community",
+  storageBucket:     "engineering-students-community.firebasestorage.app",
+  messagingSenderId: "371432549665",
+  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+
+/* ─────────────────────────────────────────────
+   DEPARTMENT → STAGE → SUBJECTS CONFIG
+   ───────────────────────────────────────────── */
+const DEPT_CONFIG = {
+  civil: {
+    label: "هندسة مدنية",
+    stages: {
+      4: ["هندسة التخمين","المنشآت الحديدية","تصميم الأسس","الخرسانة المسلحة","الصحية","علم المياه","المنشآت الهيدروليكية"],
+      3: ["هندسة المرور","ميكانيكا التربة","الري والبزل","الخرسانة المسلحة 1","هندسة الإنشاءات","إدارة المشاريع","التحليل الهندسي"],
+      2: ["هيدروليك","ميكانيكا مواد","مساحة هندسية","مقاومة مواد","رياضيات هندسية"],
+      1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"]
+    }
+  },
+  electrical: {
+    label: "هندسة كهرباء والكترونيك",
+    stages: {
+      4: ["محطات طاقة","نظم تحكم","حماية منظومات","مشروع تخرج"],
+      3: ["آلات كهربائية","إشارات وأنظمة","اتصالات","إلكترونيات قدرة"],
+      2: ["دوائر كهربائية","إلكترونيات","رياضيات هندسية","قياسات كهربائية"],
+      1: ["رياضيات","فيزياء","مبادئ الكهرباء","رسم هندسي"]
+    }
+  },
+  mechanical: {
+    label: "هندسة ميكانيك",
+    stages: {
+      4: ["محركات احتراق","تبريد وتكييف","تصميم منظومات","مشروع تخرج"],
+      3: ["آلات حرارية","تصميم آلي","تصنيع","ديناميكا"],
+      2: ["ترموديناميك","ميكانيكا الموائع","مقاومة مواد","رياضيات هندسية"],
+      1: ["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"]
+    }
+  },
+  electromech: {
+    label: "هندسة كهروميكانيك",
+    stages: {
+      4: ["تصميم منظومات","صيانة صناعية","مشروع تخرج"],
+      3: ["محركات كهربائية","تحكم صناعي","آلات صناعية"],
+      2: ["دوائر كهربائية","ميكانيكا","رياضيات هندسية"],
+      1: ["رياضيات","فيزياء","مبادئ كهروميكانيك","رسم هندسي"]
+    }
+  },
+  biomedical: {
+    label: "هندسة طب حياتي",
+    stages: {
+      4: ["أجهزة طبية متقدمة","هندسة أنسجة","مشروع تخرج"],
+      3: ["أجهزة طبية","إشارات حيوية","تصوير طبي"],
+      2: ["فيزياء طبية","إلكترونيات طبية","رياضيات هندسية"],
+      1: ["رياضيات","فيزياء","أحياء","كيمياء عضوية"]
+    }
+  },
+  prosthetics: {
+    label: "هندسة أطراف ومساند",
+    stages: {
+      4: ["تصميم أطراف متقدمة","مواد طبية","مشروع تخرج"],
+      3: ["ميكانيكا أطراف","مواد صناعية","تأهيل حركي"],
+      2: ["تشريح","مقاومة مواد","رياضيات هندسية"],
+      1: ["رياضيات","فيزياء","أحياء","كيمياء"]
+    }
+  },
+  software: {
+    label: "هندسة برمجيات",
+    stages: {
+      4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج","هندسة سحابية"],
+      3: ["هندسة برمجيات","شبكات حاسوب","أنظمة تشغيل","قواعد بيانات متقدمة"],
+      2: ["هياكل بيانات","خوارزميات","قواعد بيانات","رياضيات هندسية"],
+      1: ["رياضيات","مقدمة في البرمجة","منطق رقمي","إحصاء"]
+    }
+  }
+};
+
+const STAGE_LABELS = { 1: "المرحلة الأولى", 2: "المرحلة الثانية", 3: "المرحلة الثالثة", 4: "المرحلة الرابعة" };
+
+/* ─────────────────────────────────────────────
+   STATE
+   ───────────────────────────────────────────── */
+let currentDept    = "civil";
+let currentStage   = 4;
+let currentSubject = null;
+let allDeptFiles   = [];
+
+/* ─────────────────────────────────────────────
+   HELPERS
+   ───────────────────────────────────────────── */
+function escHtml(str) {
+  return String(str || '')
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─────────────────────────────────────────────
+   BUILD SIDEBAR TREE
+   ───────────────────────────────────────────── */
+function buildStageTree(dept) {
+  const tree    = document.getElementById('stageTree');
+  const stages  = DEPT_CONFIG[dept].stages;
+  const stageNums = [4, 3, 2, 1];
+  tree.innerHTML = '';
+
+  stageNums.forEach((stageNum, idx) => {
+    const subjects = stages[stageNum] || [];
+    const grp = document.createElement('div');
+    grp.className = 'stage-group';
+
+    const btn = document.createElement('button');
+    btn.className = 'stage-btn' + (idx === 0 ? ' open active' : '');
+    btn.type = 'button';
+    btn.dataset.stage = stageNum;
+    btn.innerHTML = `<span>${STAGE_LABELS[stageNum]}</span><em class="chev">▼</em>`;
+
+    const subList = document.createElement('div');
+    subList.className = 'sub-list' + (idx === 0 ? ' open' : '');
+    subList.id = 'sub-' + stageNum;
+
+    subjects.forEach(subj => {
+      const sb = document.createElement('button');
+      sb.className = 'sub-btn';
+      sb.type = 'button';
+      sb.textContent = subj;
+      sb.dataset.subject = subj;
+      sb.dataset.stage   = stageNum;
+      subList.appendChild(sb);
+    });
+
+    grp.appendChild(btn);
+    grp.appendChild(subList);
+    tree.appendChild(grp);
+
+    btn.addEventListener('click', () => {
+      const isOpen = btn.classList.contains('open');
+      tree.querySelectorAll('.stage-btn').forEach(b => {
+        b.classList.remove('open');
+        b.querySelector('.chev').textContent = '▼';
+      });
+      tree.querySelectorAll('.sub-list').forEach(sl => sl.classList.remove('open'));
+      if (!isOpen) {
+        btn.classList.add('open');
+        btn.querySelector('.chev').textContent = '▲';
+        subList.classList.add('open');
+      }
+      currentStage   = stageNum;
+      currentSubject = null;
+      tree.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+      tree.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderFiltered();
+    });
+  });
+
+  /* Sub-subject click */
+  tree.querySelectorAll('.sub-btn').forEach(sb => {
+    sb.addEventListener('click', () => {
+      tree.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+      tree.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
+      sb.classList.add('active');
+      const parentList = sb.closest('.sub-list');
+      if (parentList) {
+        const parentBtn = parentList.previousElementSibling;
+        if (parentBtn) parentBtn.classList.add('active');
+      }
+      currentStage   = parseInt(sb.dataset.stage);
+      currentSubject = sb.dataset.subject;
+      renderFiltered();
+      if (window.innerWidth <= 768) closeFilters();
+    });
+  });
+
+  /* Activate first subject of stage 4 by default */
+  const firstSub = tree.querySelector('.sub-list.open .sub-btn');
+  if (firstSub) {
+    firstSub.classList.add('active');
+    currentStage   = 4;
+    currentSubject = firstSub.dataset.subject;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   FETCH ALL FILES FOR DEPT
+   ───────────────────────────────────────────── */
+async function fetchDeptFiles(dept) {
+  document.getElementById('filesContainer').style.display = 'block';
+  document.getElementById('filesContainer').innerHTML =
+    '<div class="loading-row"><span class="spin"></span>جاري تحميل الملفات...</div>';
+  document.getElementById('filesList').style.display = 'none';
+  document.getElementById('noResults').classList.remove('show');
+
+  try {
+    const q    = query(collection(db, "uploads"), where("dept", "==", dept));
+    const snap = await getDocs(q);
+    allDeptFiles = [];
+    snap.forEach(d => allDeptFiles.push({ id: d.id, ...d.data() }));
+  } catch(e) {
+    allDeptFiles = [];
+  }
+
+  document.getElementById('filesContainer').style.display = 'none';
+  renderFiltered();
+}
+
+/* ─────────────────────────────────────────────
+   RENDER FILTERED FILES
+   ───────────────────────────────────────────── */
+function renderFiltered() {
+  const noResults = document.getElementById('noResults');
+  const filesList = document.getElementById('filesList');
+
+  let filtered = allDeptFiles.filter(f => String(f.stage) === String(currentStage));
+  if (currentSubject) {
+    filtered = filtered.filter(f =>
+      (f.subject || '').trim() === currentSubject.trim()
+    );
+  }
+
+  if (filtered.length === 0) {
+    noResults.classList.add('show');
+    filesList.style.display = 'none';
+    return;
+  }
+
+  noResults.classList.remove('show');
+  filesList.style.display = 'block';
+  filesList.innerHTML = '';
+
+  filtered.forEach(f => {
+    const item = document.createElement('div');
+    item.className = 'file-item';
+
+    const uploaderHref = f.uploader
+      ? `<a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader">@${escHtml(f.uploader)}</a>`
+      : `<span class="file-uploader">مجهول</span>`;
+
+    const subjectTag = f.subject
+      ? `<span class="file-tag">${escHtml(f.subject)}</span>` : '';
+    const stageTag   = f.stage
+      ? `<span class="file-tag">${STAGE_LABELS[f.stage] || ('المرحلة ' + f.stage)}</span>` : '';
+
+    item.innerHTML = `
+      <div class="file-icon">PDF</div>
+      <div class="file-main">
+        <a href="${escHtml(f.url)}" target="_blank" class="file-name">${escHtml(f.name)}</a>
+        <div class="file-meta">
+          ${uploaderHref}
+          ${subjectTag}
+          ${stageTag}
+        </div>
+      </div>
+      <a href="${escHtml(f.url)}" download class="dl-btn">&#11015; تحميل</a>
+    `;
+    filesList.appendChild(item);
+  });
+}
+
+/* ─────────────────────────────────────────────
+   DEPT TABS
+   ───────────────────────────────────────────── */
+document.querySelectorAll('.dept-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.dept-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentDept = tab.dataset.dept;
+    buildStageTree(currentDept);
+    fetchDeptFiles(currentDept);
+  });
+});
+
+/* ─────────────────────────────────────────────
+   MOBILE MENU
+   ───────────────────────────────────────────── */
+const menuBtn    = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const navBd      = document.getElementById('menuBackdrop');
+function openNav()  { mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeNav() { mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded') === 'true' ? closeNav() : openNav(); });
+navBd.addEventListener('click', closeNav);
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeNav(); closeFilters(); } });
+window.addEventListener('resize', () => { if (window.innerWidth > 768) closeNav(); });
+
+/* ─────────────────────────────────────────────
+   MOBILE FILTERS DRAWER
+   ───────────────────────────────────────────── */
+const filterToggle = document.getElementById('filterToggle');
+const filtersPanel = document.getElementById('filtersPanel');
+const filtersBd    = document.getElementById('filtersBd');
+function openFilters()  { filtersPanel.classList.add('open'); filtersBd.classList.add('show'); filterToggle.setAttribute('aria-expanded','true'); }
+function closeFilters() { filtersPanel.classList.remove('open'); filtersBd.classList.remove('show'); filterToggle.setAttribute('aria-expanded','false'); }
+filterToggle.addEventListener('click', e => {
+  e.stopPropagation();
+  filterToggle.getAttribute('aria-expanded') === 'true' ? closeFilters() : openFilters();
+});
+filtersBd.addEventListener('click', closeFilters);
+window.addEventListener('resize', () => { if (window.innerWidth > 900) closeFilters(); });
+
+/* ─────────────────────────────────────────────
+   INIT
+   ───────────────────────────────────────────── */
+buildStageTree(currentDept);
+fetchDeptFiles(currentDept);
+</script>
+</body>
+</html>
