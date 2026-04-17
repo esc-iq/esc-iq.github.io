@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول — ESC مجتمع طلبة الهندسة</title>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --dark: #0a0a0f;
+  --blue-light: #e6eeff;
+  --teal-light: #e0f4f4;
+  --error: #dc2626;
+  --success: #188038;
+  --card-radius: 18px;
+  --transition: 0.3s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: #111;
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.13;
+  animation: blobFloat 12s ease-in-out infinite alternate;
+}
+.bg-blob-1 {
+  width: 500px; height: 500px;
+  background: var(--blue);
+  top: -120px; right: -100px;
+  animation-delay: 0s;
+}
+.bg-blob-2 {
+  width: 380px; height: 380px;
+  background: var(--teal);
+  bottom: -80px; left: -60px;
+  animation-delay: -5s;
+}
+.bg-blob-3 {
+  width: 260px; height: 260px;
+  background: #3a0060;
+  top: 40%; left: 10%;
+  animation-delay: -3s;
+}
+@keyframes blobFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.05); }
+}
+
+/* ===== NAVBAR ===== */
+.nav {
+  position: relative; z-index: 10;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: var(--blue);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  direction: ltr;
+}
+.nav-logo img {
+  height: 36px; width: auto; display: block;
+}
+.nav-title {
+  font-size: 15px; font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  direction: rtl;
+}
+
+/* ===== MAIN LAYOUT ===== */
+.page-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative; z-index: 1;
+}
+
+/* ===== CARD ===== */
+.register-card {
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 8px 40px rgba(0,71,171,0.13), 0 2px 10px rgba(0,0,0,0.06);
+  overflow: hidden;
+  animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== CARD HEADER ===== */
+.card-header {
+  background: linear-gradient(135deg, var(--blue) 0%, #005fa3 60%, var(--teal) 100%);
+  padding: 32px 32px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-header::before {
+  content: '';
+  position: absolute;
+  top: -60px; left: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+}
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; right: -30px;
+  width: 150px; height: 150px;
+  border-radius: 50%;
+  background: rgba(0,128,128,0.15);
+}
+.header-logo {
+  width: 64px; height: 64px;
+  border-radius: 16px;
+  border: 3px solid rgba(255,255,255,0.3);
+  margin: 0 auto 14px;
+  display: block;
+  position: relative; z-index: 1;
+  background: rgba(255,255,255,0.1);
+  object-fit: cover;
+}
+.header-logo-fallback {
+ 
+ 
+  margin: 0 auto 14px;
+object-fit:300%;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 1;
+  
+  font-size: 28px; font-weight: 700; color: #ffffff00;
+  letter-spacing: 1px;
+}
+.card-header h1 {
+  font-size: 20px; font-weight: 700;
+  color: #fff;
+  position: relative; z-index: 1;
+  margin-bottom: 6px;
+}
+.card-header p {
+  font-size: 13px; color: rgba(255,255,255,0.78);
+  position: relative; z-index: 1;
+}
+
+/* ===== FORM BODY ===== */
+.card-body { padding: 28px 32px 32px; }
+
+.field-group { margin-bottom: 18px; }
+
+.field-label {
+  display: block;
+  font-size: 13px; font-weight: 700;
+  color: #374151;
+  margin-bottom: 7px;
+}
+.field-label span {
+  color: var(--error);
+  margin-right: 2px;
+}
+
+.field-wrap {
+  position: relative;
+}
+.field-icon {
+  position: absolute;
+  top: 50%; right: 14px;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  color: #9ca3af;
+  transition: color var(--transition);
+}
+
+.field-input {
+  width: 100%;
+  padding: 12px 44px 12px 16px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #111;
+  background: #f9fafb;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  direction: rtl;
+  text-align: right;
+}
+.field-input::placeholder { color: #b0b7c3; }
+.field-input:focus {
+  border-color: var(--blue);
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0,71,171,0.10);
+}
+.field-input:focus + .field-icon { color: var(--blue); }
+
+/* Select styling */
+select.field-input {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  padding-left: 40px;
+}
+.select-arrow {
+  position: absolute;
+  top: 50%; left: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* Password toggle */
+.pass-toggle {
+  position: absolute;
+  top: 50%; left: 14px;
+  transform: translateY(-50%);
+  background: none; border: none;
+  cursor: pointer; padding: 4px;
+  color: #9ca3af; font-size: 16px;
+  transition: color var(--transition);
+  display: flex; align-items: center;
+}
+.pass-toggle:hover { color: var(--blue); }
+
+/* Error state */
+.field-input.error { border-color: var(--error); }
+.field-error {
+  display: none;
+  font-size: 11px; font-weight: 700;
+  color: var(--error);
+  margin-top: 5px;
+  padding-right: 4px;
+}
+.field-error.show { display: block; }
+
+/* Success state */
+.field-input.valid { border-color: var(--success); }
+
+/* ===== DIVIDER ===== */
+.divider {
+  border: none;
+  border-top: 1px solid #f0f0f0;
+  margin: 8px 0 20px;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(90deg, var(--blue), #005fa3);
+  color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 15px; font-weight: 700;
+  border: none; border-radius: 10px;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+}
+.btn-submit::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+.btn-submit:hover::after { transform: translateX(100%); }
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,71,171,0.35);
+}
+.btn-submit:active { transform: translateY(0); }
+
+/* ===== REGISTER LINK ===== */
+.register-strip {
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: linear-gradient(90deg, rgba(0,71,171,0.05), rgba(0,128,128,0.05));
+  border: 1px solid rgba(0,71,171,0.12);
+  border-radius: 10px;
+  text-align: center;
+  font-size: 13px;
+  color: #555;
+  line-height: 1.7;
+}
+.register-strip a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(0,71,171,0.3);
+  padding-bottom: 1px;
+  transition: color var(--transition), border-color var(--transition);
+}
+.register-strip a:hover {
+  color: #003a8c;
+  border-color: #003a8c;
+}
+
+/* ===== SUCCESS MESSAGE ===== */
+.success-msg {
+  display: none;
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #e6f7ee;
+  border: 1px solid rgba(24,128,56,0.25);
+  border-radius: 10px;
+  font-size: 13px; font-weight: 700;
+  color: var(--success);
+  text-align: center;
+}
+.success-msg.show { display: block; }
+
+/* ===== PASSWORD STRENGTH ===== */
+.strength-bar-wrap {
+  margin-top: 8px;
+  display: flex; gap: 4px;
+}
+.strength-seg {
+  flex: 1; height: 3px;
+  border-radius: 3px;
+  background: #e5e7eb;
+  transition: background 0.3s ease;
+}
+.strength-seg.weak   { background: var(--error); }
+.strength-seg.medium { background: #f59e0b; }
+.strength-seg.strong { background: var(--success); }
+.strength-label {
+  font-size: 11px; font-weight: 700;
+  margin-top: 5px;
+  color: #9ca3af;
+}
+
+/* ===== FOOTER ===== */
+.page-footer {
+  text-align: center;
+  font-size: 12px; color: #aaa;
+  padding: 18px;
+  position: relative; z-index: 1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 520px) {
+  .card-body { padding: 22px 20px 26px; }
+  .card-header { padding: 26px 20px 22px; }
+  .nav { padding: 0 16px; }
+  .nav-title { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Decorative background -->
+<div class="bg-decor">
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+</div>
+
+<!-- Navbar -->
+<nav class="nav">
+  <a href="index.html" aria-label="الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" class="nav-logo" style="height:36px;width:auto;display:block;" onerror="this.style.display='none'">
+  </a>
+  <span class="nav-title">مجتمع طلبة الهندسة</span>
+</nav>
+
+<!-- Main content -->
+<main class="page-wrap">
+  <div class="register-card">
+
+    <!-- Card header -->
+    <div class="card-header">
+    <img src="media/whiteone.png" alt="ESC" class="header-logo-fallback" style="height:100px;width:100px;display:block;" onerror="this.style.display='none';co">
+      <h1>إنشاء حساب عضو في المجتمع</h1>
+      <p>أهلاً بك في مجتمع طلبة الهندسة</p>
+    </div>
+
+    <!-- Form -->
+    <div class="card-body">
+      <form id="registerForm" novalidate>
+
+        <!-- اسم الطالب -->
+        <div class="field-group">
+          <label class="field-label" for="studentName">
+            <span>*</span> اسم الطالب
+          </label>
+          <div class="field-wrap">
+            <input
+              type="text"
+              id="studentName"
+              class="field-input"
+              placeholder="أدخل اسمك الرباعي"
+              autocomplete="name"
+              maxlength="80"
+            >
+            <span class="field-icon">👤</span>
+          </div>
+          <div class="field-error" id="err-name">الرجاء إدخال اسمك الكامل</div>
+        </div>
+
+        <!-- الجامعة -->
+        <div class="field-group">
+          <label class="field-label" for="university">
+            <span>*</span> الجامعة المنسوب إليها
+          </label>
+          <div class="field-wrap">
+            <select id="university" class="field-input">
+              <option value="" disabled selected>— اختر جامعتك —</option>
+              <option value="karbala">جامعة كربلاء</option>
+              <option value="baghdad">جامعة بغداد</option>
+              <option value="basra">جامعة البصرة</option>
+              <option value="mosul">جامعة الموصل</option>
+              <option value="kufa">جامعة الكوفة</option>
+              <option value="najaf">جامعة النجف الأشرف التقنية</option>
+              <option value="mustansiriyah">الجامعة المستنصرية</option>
+              <option value="technology">الجامعة التكنولوجية</option>
+              <option value="other">جامعة أخرى</option>
+            </select>
+            <span class="field-icon">🎓</span>
+            <span class="select-arrow">▾</span>
+          </div>
+          <div class="field-error" id="err-university">الرجاء اختيار جامعتك</div>
+        </div>
+
+        <!-- قسم الهندسة -->
+        <div class="field-group">
+          <label class="field-label" for="department">
+            <span>*</span> قسم الهندسة
+          </label>
+          <div class="field-wrap">
+            <select id="department" class="field-input">
+              <option value="" disabled selected>— اختر قسمك —</option>
+              <option value="civil">هندسة مدنية</option>
+              <option value="electrical">هندسة كهرباء وإلكترونيك</option>
+              <option value="electromech">هندسة كهروميكانيك</option>
+              <option value="mechanical">هندسة ميكانيك</option>
+              <option value="chemical">هندسة كيميائية</option>
+              <option value="computer">هندسة حاسبات</option>
+              <option value="environmental">هندسة بيئية</option>
+              <option value="architectural">هندسة معمارية</option>
+              <option value="other">قسم آخر</option>
+            </select>
+            <span class="field-icon">🏗️</span>
+            <span class="select-arrow">▾</span>
+          </div>
+          <div class="field-error" id="err-department">الرجاء اختيار قسمك</div>
+        </div>
+
+        <!-- رقم الهاتف -->
+        <div class="field-group">
+          <label class="field-label" for="phone">
+            <span>*</span> رقم الهاتف
+          </label>
+          <div class="field-wrap">
+            <input
+              type="tel"
+              id="phone"
+              class="field-input"
+              placeholder="07xxxxxxxxx"
+              autocomplete="tel"
+              maxlength="13"
+              style="direction:ltr; text-align:right;"
+            >
+            <span class="field-icon">☎</span>
+          </div>
+          <div class="field-error" id="err-phone">أدخل رقم هاتف صحيح (07801112222)</div>
+        </div>
+
+        <hr class="divider">
+
+        <!-- كلمة المرور -->
+        <div class="field-group">
+          <label class="field-label" for="password">
+            <span>*</span> كلمة المرور
+          </label>
+          <div class="field-wrap">
+            <input
+              type="password"
+              id="password"
+              class="field-input"
+              placeholder="أدخل كلمة مرور قوية"
+              autocomplete="new-password"
+              maxlength="64"
+            >
+            <span class="field-icon">⚿</span>
+            <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء كلمة المرور">
+              <span id="eyeIcon">👁</span>
+            </button>
+          </div>
+          <div class="strength-bar-wrap" id="strengthBar">
+            <div class="strength-seg" id="seg1"></div>
+            <div class="strength-seg" id="seg2"></div>
+            <div class="strength-seg" id="seg3"></div>
+            <div class="strength-seg" id="seg4"></div>
+          </div>
+          <div class="field-error" id="err-password">كلمة المرور يجب أن تكون 6 أحرف على الأقل</div>
+        </div>
+
+        <!-- إعادة إدخال كلمة المرور -->
+        <div class="field-group">
+          <label class="field-label" for="passwordConfirm">
+            <span>*</span> إعد إدخال كلمة المرور
+          </label>
+          <div class="field-wrap">
+            <input
+              type="password"
+              id="passwordConfirm"
+              class="field-input"
+              placeholder="أعد إدخال كلمة المرور"
+              autocomplete="new-password"
+              maxlength="64"
+            >
+            <span class="field-icon">⚿</span>
+            <button type="button" class="pass-toggle" id="togglePassConfirm" aria-label="إظهار/إخفاء">
+              <span id="eyeIcon2">👁</span>
+            </button>
+          </div>
+          <div class="field-error" id="err-confirm">كلمتا المرور غير متطابقتان</div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit">
+          <span></span>
+          <span>إنشاء حساب</span>
+        </button>
+
+        <!-- Success message -->
+        <div class="success-msg" id="successMsg">
+         تم إرسال طلب حساب في مجتمع طلبة الهندسة
+        </div>
+
+      </form>
+
+      <!-- Register link -->
+      <div class="register-strip">
+        تملك حسابا في مجتمع طلبة الهندسة؟
+        <br>
+        <a href="login.html">قم بتسجيل الدخول ←</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="page-footer">
+  © 2026 Engineering Student Community — ESC — جميع الحقوق محفوظة
+</footer>
+
+<script type="module">
+  // 1. استدعاء مكتبات فايربيس (نسخة 10.x.x الأحدث)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+  // 2. !!! هام جداً !!!
+  // استبدل المعلومات أدناه بكود (firebaseConfig) الذي حصلت عليه من لوحة تحكم فايربيس
+  const firebaseConfig = {
+    apiKey: "ضع_هنا_الـ_apiKey_الخاص_بك",
+    authDomain: "مشروعك.firebaseapp.com",
+    projectId: "معرف_مشروعك",
+    storageBucket: "مشروعك.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdefgh12345"
+  };
+
+  // 3. تشغيل الخدمات
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // --- دوال مساعدة للواجهة ---
+  function setupToggle(btnId, inputId, iconId) {
+    document.getElementById(btnId).addEventListener('click', function() {
+      var inp = document.getElementById(inputId);
+      var ico = document.getElementById(iconId);
+      if (inp.type === 'password') { inp.type = 'text'; ico.textContent = '🙈'; } 
+      else { inp.type = 'password'; ico.textContent = '👁'; }
+    });
+  }
+  setupToggle('togglePass', 'password', 'eyeIcon');
+  setupToggle('togglePassConfirm', 'passwordConfirm', 'eyeIcon2');
+
+  function showError(id, errId) {
+    document.getElementById(id).classList.add('error');
+    document.getElementById(errId).classList.add('show');
+  }
+  function clearError(id, errId) {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById(errId).classList.remove('show');
+  }
+
+  // --- معالجة إرسال النموذج وحفظ البيانات ---
+  document.getElementById('registerForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // جمع البيانات من الحقول
+    const name = document.getElementById('studentName').value.trim();
+    const uni = document.getElementById('university').value;
+    const dep = document.getElementById('department').value;
+    const ph = document.getElementById('phone').value.replace(/\s/g,'');
+    const pass = document.getElementById('password').value;
+    const conf = document.getElementById('passwordConfirm').value;
+
+    // تأكد بسيط من الحقول قبل الإرسال للسيرفر
+    if (name.length < 4 || !uni || !dep || !/^07[0-9]{9}$/.test(ph) || pass.length < 6 || pass !== conf) {
+      alert("يرجى التأكد من ملء جميع الحقول بشكل صحيح.");
+      return;
+    }
+
+    // بدء عملية التسجيل
+    const btn = this.querySelector('.btn-submit');
+    btn.innerHTML = '<span>⏳</span><span>جارٍ إنشاء الحساب...</span>';
+    btn.disabled = true;
+
+    try {
+      // أ. تحويل رقم الهاتف إلى "إيميل وهمي" لكي يقبله نظام فايربيس
+      const virtualEmail = ph + "@esc.local";
+
+      // ب. إنشاء المستخدم في نظام التوثيق (Auth)
+      const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, pass);
+      const user = userCredential.user;
+
+      // ج. حفظ البيانات الهندسية للطالب في قاعدة البيانات (Firestore)
+      // سيتم حفظ الطالب باسمه وجامعته (سواء كربلاء، بغداد، أو غيرها) وقسمه
+      await setDoc(doc(db, "students", user.uid), {
+        fullName: name,
+        university: uni,
+        department: dep,
+        phoneNumber: ph,
+        createdAt: new Date().toISOString(),
+        role: "student" 
+      });
+
+      // د. النجاح!
+      document.getElementById('successMsg').classList.add('show');
+      btn.innerHTML = '<span>✔️</span><span>تم بنجاح</span>';
+      
+      // التوجه لصفحة تسجيل الدخول بعد ثانيتين
+      setTimeout(() => { window.location.href = "login.html"; }, 2000);
+
+    } catch (error) {
+      console.error("Firebase Error:", error);
+      btn.disabled = false;
+      btn.innerHTML = '<span></span><span>إنشاء حساب</span>';
+      
+      if (error.code === 'auth/email-already-in-use') {
+        alert("هذا الرقم مسجل مسبقاً في المجتمع.");
+      } else {
+        alert("حدث خطأ: " + error.message);
+      }
+    }
+  });
+</script>
+</body>
+</html>
