@@ -463,7 +463,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div style="border-top:1px solid rgba(0,0,0,0.08);
                 margin-top:6px; padding-top:6px;">
       <a role="menuitem" id="authBtnMobile" href="login.html">
-        🔑 تسجيل الدخول
+         تسجيل الدخول
       </a>
     </div>
   </div>
@@ -903,10 +903,10 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     btn.className = 'state-guest';
     btn.href      = 'login.html';
-    btn.innerHTML = '🔑 تسجيل الدخول';
+    btn.innerHTML = ' تسجيل الدخول';
     if (btnMobile) {
       btnMobile.href      = 'login.html';
-      btnMobile.innerHTML = '🔑 تسجيل الدخول';
+      btnMobile.innerHTML = ' تسجيل الدخول';
     }
     return;
   }
