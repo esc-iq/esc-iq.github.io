@@ -611,11 +611,11 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
 <section class="uploads-section">
   <div class="section-header">
     <h2>مرفوعات المهندسين</h2>
-    <a href="uploads-civilpdf.html">عرض الكل</a>
+    <a href="uploads.html">عرض الكل</a>
   </div>
   <div class="upload-loading" id="uploadsLoading">يتم التحميل...</div>
   <div class="upload-fail" id="uploadsFail" style="display:none;">
-    فشل التحميل — <a href="uploads-civilpdf.html">الانتقال إلى صفحة المرفوعات</a>
+    فشل التحميل — <a href="uploads.html">الانتقال إلى صفحة المرفوعات</a>
   </div>
   <div class="uploads-grid" id="uploadsGrid" style="display:none;"></div>
 </section>
@@ -821,7 +821,7 @@ window.addEventListener('load', function() {
     var fail    = document.getElementById('uploadsFail');
     var grid    = document.getElementById('uploadsGrid');
 
-    fetch('uploads-civilpdf.html')
+    fetch('uploads.html')
       .then(function(r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
         return r.text();
@@ -931,9 +931,10 @@ onAuthStateChanged(auth, async (user) => {
     btn.className = 'state-user';
     btn.href      = profileUrl;
     btn.innerHTML =
-      `<img class="auth-avatar" src="${avatarSrc}"
-            onerror="this.src='media/1nkown.png'" >` +
-      `<span>الحساب</span>`;
+btn.innerHTML =
+  `<img class="auth-avatar" src="${avatarSrc}"
+        onerror="this.src='media/1nkown.png'" alt="X">` +
+  `<span>@${username}</span>`;
 
     if (btnMobile) {
       btnMobile.href      = profileUrl;
