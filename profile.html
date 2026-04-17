@@ -782,7 +782,7 @@ footer {
       <div class="info-row" id="rowUniversity">
         <span class="info-icon">🎓</span>
         <div style="flex:1">
-          <div class="info-label">الجامعة</div>
+          <div class="info-label">التعليم</div>
           <div class="info-value" id="infoUniversity">—</div>
         </div>
       </div>
@@ -971,7 +971,7 @@ footer {
 
       <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول (اختياري)</p>
       <div class="toggle-row">
-        <label>الجامعة</label>
+        <label>التعليم</label>
         <label class="toggle-switch">
           <input type="checkbox" id="toggleUniversity" checked>
           <span class="toggle-slider"></span>
@@ -1329,7 +1329,7 @@ const STAGE_LABELS = {
   '1':' الأولى','2':' الثانية',
   '3':' الثالثة','4':' الرابعة'
 };
-const DEGREE_LABELS = { "bsc": "بكالوريوس", "msc": "ماجستير", "phd": "دكتوراه" };
+const DEGREE_LABELS = { "bsc": "بكالوريوس", "msc": "ماجستير", "phd": "دكتوراه فلسفة" };
 
 function renderProfile() {
   const d = profileData;
@@ -1347,7 +1347,7 @@ function renderProfile() {
   const degree    = d.degreeLevel || "bsc";
   const stage     = d.stage || "1";
 
-  let tagText = isStudent ? "طالب " : "خريج ";
+  let tagText = isStudent ? "طالب " : "حاصل على ";
   tagText += DEGREE_LABELS[degree] || "";
   if (isStudent && degree === "bsc") tagText += ` - المرحلة ${STAGE_LABELS[stage] || stage}`;
   document.getElementById('academicTag').textContent = tagText;
@@ -1561,7 +1561,7 @@ async function loadResearchFromGitHub() {
           ${supervisorHtml}
           <div class="research-actions-row">
             <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">
-              🎓 GO TO SCHOLAR
+              GO TO SCHOLAR
             </a>
           </div>
         </div>
