@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — تسجيل الدخول</title>
+<meta name="description" content="مجتمع طلبة الهندسة بُني لغرض واحد, ألا يضيع شغف المهندسين المتحمسين وجهودهم من خلال تقدير وتثمين أبحاثهم وتوفير بيئة تعليمية مستمرة خارج الصرح الأكاديمي.">
+<link rel="canonical" href="https://esc-iq.github.io/login.html">
+<link rel="icon" href="media/favicon.png" type="image/png" sizes="32x32">
+<link rel="icon" href="media/icon-512.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="media/icon-512.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --dark: #0a0a0f;
+  --error: #dc2626;
+  --success: #188038;
+  --card-radius: 18px;
+  --transition: 0.3s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: #111;
+  direction: rtl;
+  text-align: right;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-decor {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.13;
+  animation: blobFloat 12s ease-in-out infinite alternate;
+}
+.bg-blob-1 { width: 500px; height: 500px; background: var(--blue); top: -120px; right: -100px; animation-delay: 0s; }
+.bg-blob-2 { width: 380px; height: 380px; background: var(--teal); bottom: -80px; left: -60px; animation-delay: -5s; }
+.bg-blob-3 { width: 260px; height: 260px; background: #3a0060; top: 40%; left: 10%; animation-delay: -3s; }
+@keyframes blobFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, 20px) scale(1.05); }
+}
+
+/* ===== NAVBAR ===== */
+.nav {
+  position: relative; z-index: 10;
+  height: 58px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+  background: var(--blue);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  direction: ltr;
+}
+.nav-logo img { height: 36px; width: auto; display: block; }
+.nav-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.85); direction: rtl; }
+
+/* ===== MAIN LAYOUT ===== */
+.page-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative; z-index: 1;
+}
+
+/* ===== CARD ===== */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: var(--card-radius);
+  box-shadow: 0 8px 40px rgba(0,71,171,0.13), 0 2px 10px rgba(0,0,0,0.06);
+  overflow: hidden;
+  animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ===== CARD HEADER ===== */
+.card-header {
+  background: linear-gradient(135deg, var(--blue) 0%, #005fa3 60%, var(--teal) 100%);
+  padding: 32px 32px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.card-header::before {
+  content: ''; position: absolute; top: -60px; left: -60px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.06);
+}
+.card-header::after {
+  content: ''; position: absolute; bottom: -40px; right: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(0,128,128,0.15);
+}
+.header-logo-fallback {
+  margin: 0 auto 14px; object-fit: 300%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;
+}
+.card-header h1 { font-size: 20px; font-weight: 700; color: #fff; position: relative; z-index: 1; margin-bottom: 6px; }
+.card-header p { font-size: 13px; color: rgba(255,255,255,0.78); position: relative; z-index: 1; }
+
+/* ===== FORM BODY ===== */
+.card-body { padding: 28px 32px 32px; }
+.field-group { margin-bottom: 18px; }
+.field-label { display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 7px; }
+.field-wrap { position: relative; }
+.field-icon { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); font-size: 16px; pointer-events: none; color: #9ca3af; transition: color var(--transition); }
+.field-input {
+  width: 100%; padding: 12px 44px 12px 16px; font-family: 'Ubuntu', sans-serif; font-size: 14px; color: #111;
+  background: #f9fafb; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; transition: all var(--transition);
+  direction: rtl; text-align: right;
+}
+.field-input::placeholder { color: #b0b7c3; }
+.field-input:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(0,71,171,0.10); }
+.field-input:focus + .field-icon { color: var(--blue); }
+
+.pass-toggle {
+  position: absolute; top: 50%; left: 14px; transform: translateY(-50%); background: none; border: none;
+  cursor: pointer; padding: 4px; color: #9ca3af; font-size: 16px; transition: color var(--transition);
+}
+.pass-toggle:hover { color: var(--blue); }
+
+.field-input.error { border-color: var(--error); }
+.field-error { display: none; font-size: 11px; font-weight: 700; color: var(--error); margin-top: 5px; padding-right: 4px; }
+.field-error.show { display: block; }
+
+/* ===== SUBMIT BUTTON ===== */
+.btn-submit {
+  width: 100%; padding: 14px; background: linear-gradient(90deg, var(--blue), #005fa3); color: #fff;
+  font-family: 'Ubuntu', sans-serif; font-size: 15px; font-weight: 700; border: none; border-radius: 10px;
+  cursor: pointer; transition: all var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden; margin-top: 10px;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,71,171,0.35); }
+.btn-submit:active { transform: translateY(0); }
+
+/* ===== SUPPORT LINK ===== */
+.support-link {
+  display: block; text-align: center; margin-top: 18px; font-size: 13px; font-weight: 700; color: #555; text-decoration: none; transition: color var(--transition);
+}
+.support-link:hover { color: var(--blue); text-decoration: underline; }
+
+/* ===== REGISTER STRIP ===== */
+.register-strip {
+  margin-top: 24px; padding: 14px 16px; background: linear-gradient(90deg, rgba(0,71,171,0.05), rgba(0,128,128,0.05));
+  border: 1px solid rgba(0,71,171,0.12); border-radius: 10px; text-align: center; font-size: 13px; color: #555; line-height: 1.7;
+}
+.register-strip a { color: var(--blue); font-weight: 700; text-decoration: none; border-bottom: 1.5px solid rgba(0,71,171,0.3); padding-bottom: 1px; }
+.register-strip a:hover { color: #003a8c; border-color: #003a8c; }
+
+.success-msg { display: none; margin-top: 16px; padding: 12px 16px; background: #e6f7ee; border: 1px solid rgba(24,128,56,0.25); border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--success); text-align: center; }
+.success-msg.show { display: block; }
+
+.page-footer { text-align: center; font-size: 12px; color: #aaa; padding: 18px; position: relative; z-index: 1; }
+
+@media (max-width: 520px) {
+  .card-body { padding: 22px 20px 26px; }
+  .card-header { padding: 26px 20px 22px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-decor">
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+  <div class="bg-blob bg-blob-3"></div>
+</div>
+
+<nav class="nav">
+  <a href="index.html" aria-label="الرئيسية">
+    <img src="media/icon-512.png" alt="ESC" class="nav-logo" style="height:36px;width:auto;display:block;" onerror="this.style.display='none'">
+  </a>
+  <span class="nav-title">مجتمع طلبة الهندسة</span>
+</nav>
+
+<main class="page-wrap">
+  <div class="login-card">
+
+    <div class="card-header">
+      <img src="media/whiteone.png" alt="ESC" class="header-logo-fallback" style="height:90px;width:90px;display:block;" onerror="this.style.display='none';">
+      <h1>تسجيل الدخول</h1>
+      <p>مرحباً بعودتك إلى مجتمع طلبة الهندسة</p>
+    </div>
+
+    <div class="card-body">
+      <form id="loginForm" novalidate>
+
+        <div class="field-group">
+          <label class="field-label" for="phone">رقم الهاتف</label>
+          <div class="field-wrap">
+            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="13" style="direction:ltr; text-align:right;">
+            <span class="field-icon">☎</span>
+          </div>
+          <div class="field-error" id="err-phone">الرجاء إدخال رقم هاتف صحيح</div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="password">كلمة المرور</label>
+          <div class="field-wrap">
+            <input type="password" id="password" class="field-input" placeholder="أدخل كلمة المرور الخاصة بك" autocomplete="current-password">
+            <span class="field-icon">⚿</span>
+            <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء كلمة المرور">
+              <span id="eyeIcon">👁</span>
+            </button>
+          </div>
+          <div class="field-error" id="err-password">الرجاء إدخال كلمة المرور</div>
+        </div>
+
+        <button type="submit" class="btn-submit">
+          <span></span>
+          <span>تسجيل الدخول</span>
+        </button>
+
+        <a href="#" id="supportBtn" class="support-link">نسيت كلمة المرور؟ إتصل بالدعم</a>
+
+        <div class="success-msg" id="successMsg">
+          تم تسجيل الدخول بنجاح! جاري تحويلك...
+        </div>
+
+      </form>
+
+      <div class="register-strip">
+        لا تملك حساباً في المجتمع؟
+        <br>
+        <a href="register.html">قم بإنشاء حساب جديد ←</a>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="page-footer">
+  © 2026 Engineering Student Community — ESC — جميع الحقوق محفوظة
+</footer>
+
+<script type="module">
+  // 1. استدعاء مكتبات فايربيس الخاصة بتسجيل الدخول
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+  // 2. إعدادات فايربيس الخاصة بمشروعك
+  const firebaseConfig = {
+    apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+    authDomain: "engineering-students-community.firebaseapp.com",
+    projectId: "engineering-students-community",
+    storageBucket: "engineering-students-community.firebasestorage.app",
+    messagingSenderId: "371432549665",
+    appId: "1:371432549665:web:4d3b9617243731fb06e260",
+    measurementId: "G-6L0FRLSVZW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // إظهار/إخفاء كلمة المرور
+  document.getElementById('togglePass').addEventListener('click', function() {
+    var inp = document.getElementById('password');
+    var ico = document.getElementById('eyeIcon');
+    if (inp.type === 'password') { inp.type = 'text'; ico.textContent = '👁'; } 
+    else { inp.type = 'password'; ico.textContent = '👁'; }
+  });
+
+  function showError(id, errId) {
+    document.getElementById(id).classList.add('error');
+    document.getElementById(errId).classList.add('show');
+  }
+  function clearError(id, errId) {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById(errId).classList.remove('show');
+  }
+
+  // --- برمجة زر إرسال الإيميل (الدعم الفني) ---
+  document.getElementById('supportBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    // جلب التاريخ والوقت الحاليين من جهاز المستخدم
+    const now = new Date();
+    
+    // تنسيق التاريخ والوقت
+    const dateStr = now.toLocaleDateString('ar-EG'); 
+    const timeStr = now.toLocaleTimeString('ar-EG');
+    
+    // محتوى الرسالة
+    const bodyText = `------ الرجاء من المستخدم ملئ الــnnn بإجاباته الخاصة ------
+إنني الطالب nnn صاحب إسم المستخدم (اليوزر) : @nnn
+قد فقدت كلمة مروري 
+الرجاء الإتصال بي على رقم هاتفي الخاص بالحساب الذي استخدمته عندما سجلت بالموقع لأول مرة
+----
+التاريخ: ${dateStr}
+الوقت: ${timeStr}
+نطاق الزمن: +3:00 بتوقيت بغداد`;
+
+    const subject = 'نسيت كلمة المرور';
+    const email = 'esc.irq@gmail.com';
+    
+    // إنشاء رابط الإرسال وفتحه
+    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+    window.location.href = mailtoLink;
+  });
+
+  // --- برمجة تسجيل الدخول (Firebase) ---
+  document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const ph = document.getElementById('phone').value.replace(/\s/g,'');
+    const pass = document.getElementById('password').value;
+
+    let isValid = true;
+
+    if (!/^07[0-9]{9}$/.test(ph)) { showError('phone', 'err-phone'); isValid = false; } else clearError('phone', 'err-phone');
+    if (pass.length < 1) { showError('password', 'err-password'); isValid = false; } else clearError('password', 'err-password');
+
+    if (!isValid) return;
+
+    const btn = this.querySelector('.btn-submit');
+    btn.innerHTML = '<span>⏳</span><span>جارٍ التحقق...</span>';
+    btn.disabled = true;
+
+    try {
+      // تحويل رقم الهاتف إلى الإيميل الوهمي للتحقق منه في قاعدة البيانات
+      const virtualEmail = ph + "@esc.local";
+      
+      await signInWithEmailAndPassword(auth, virtualEmail, pass);
+      
+      document.getElementById('successMsg').classList.add('show');
+      btn.innerHTML = '<span>✔️</span><span>تم الدخول</span>';
+      
+      // توجيه الطالب إلى الصفحة الرئيسية (أو صفحة البروفايل لاحقاً)
+      setTimeout(() => { window.location.href = "index.html"; }, 1500);
+
+    } catch (error) {
+      console.error("Login Error:", error);
+      btn.disabled = false;
+      btn.innerHTML = '<span></span><span>تسجيل الدخول</span>';
+      
+      // معالجة الأخطاء (كلمة مرور خاطئة أو رقم غير مسجل)
+      alert("معلومات الدخول غير صحيحة. الرجاء التأكد من رقم الهاتف وكلمة المرور.");
+      showError('phone', 'err-phone');
+      showError('password', 'err-password');
+    }
+  });
+</script>
+</body>
+</html>
