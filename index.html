@@ -10,6 +10,819 @@
 <meta name="author" content="Mohammed Baqer A. Azeez">
 
 <link rel="icon" href="media/favicon.png" type="image/png" sizes="32x32">
+<link rel="icon" href="media/icon-512-w.png" type="image/png" sizes="512x512">
+<link rel="apple-touch-icon" href="media/icon-512-w.png">
+
+<meta property="og:title" content="ESC — مجتمع طلبة الهندسة">
+<meta property="og:description" content="منصة تعليمية مخصصة لطلاب الهندسة في العراق.">
+<meta property="og:image" content="https://esc-iq.github.io/media/icon-512-w.png">
+<meta property="og:type" content="website">
+
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --dark: #0a0a0f;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: #111;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+}
+
+/* ===== MOBILE NOTICE ===== */
+#mobileNotice {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72); backdrop-filter: blur(8px);
+  z-index: 9999; align-items: center; justify-content: center; padding: 24px;
+}
+#mobileNotice.show { display: flex; }
+.notice-box {
+  background: #fff; border-radius: 20px;
+  padding: 32px 28px; max-width: 360px;
+  text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.notice-box .notice-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+.notice-box h2 { font-size: 18px; font-weight: 700; color: #0d1b2a; margin-bottom: 12px; }
+.notice-box p { font-size: 13px; color: #555; line-height: 1.75; margin-bottom: 22px; }
+.notice-continue {
+  display: inline-block; padding: 10px 24px;
+  background: var(--blue); color: #fff; border-radius: 10px;
+  font-weight: 700; font-size: 13px; cursor: pointer;
+  border: none; font-family: 'Ubuntu', sans-serif;
+  transition: background var(--transition);
+}
+.notice-continue:hover { background: #0059d4; }
+
+/* ===== NAVBAR ===== */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; background-color: var(--blue);
+  position: sticky; top: 0; z-index: 1000; direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none;
+  font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px;
+  transition: background-color var(--transition);
+}
+#bar nav a:hover { background-color: rgba(255,255,255,0.18); }
+.menu-btn {
+  display: none; height: 42px; width: 42px;
+  border: 0; background: transparent; cursor: pointer;
+  border-radius: 10px; align-items: center; justify-content: center;
+}
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon { width: 24px; height: 2px; background: #fff; display: block; position: relative; margin: auto; }
+.menu-icon::before, .menu-icon::after {
+  content: ""; position: absolute; left: 0;
+  width: 24px; height: 2px; background: #fff;
+  transition: transform .18s ease, top .18s ease;
+}
+.menu-icon::before { top: -7px; }
+.menu-icon::after  { top:  7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid rgba(0,0,0,0.06);
+  z-index: 1001; direction: rtl; text-align: right;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a { display: block; padding: 11px 12px; border-radius: 10px; color: #111827; text-decoration: none; font-weight: 700; }
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ===== HERO ===== */
+.hero-section { position: relative; width: 100%; height: 520px; overflow: hidden; background: var(--dark); direction: rtl; }
+.hero-track { display: flex; height: 100%; transition: transform 0.7s cubic-bezier(0.77,0,0.175,1); }
+.hero-slide { min-width: 100%; height: 100%; position: relative; display: flex; align-items: flex-end; padding: 50px 60px; flex-shrink: 0; }
+.slide-1 { background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%); }
+.slide-2 { background: linear-gradient(135deg, #004d00 0%, #0047AB 60%, #001a00 100%); }
+.slide-3 { background: linear-gradient(135deg, #3a0060 0%, #0047AB 60%, #001a30 100%); }
+.hero-slide::before { content: ''; position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 65%); }
+.hero-slide .deco { position: absolute; top: -80px; left: -80px; width: 420px; height: 420px; border-radius: 50%; opacity: 0.08; pointer-events: none; }
+.slide-1 .deco { background: radial-gradient(circle, #00cfff, transparent 70%); }
+.slide-2 .deco { background: radial-gradient(circle, #00ff99, transparent 70%); }
+.slide-3 .deco { background: radial-gradient(circle, #cc88ff, transparent 70%); }
+.slide-content { position: relative; z-index: 2; max-width: 600px; padding: 0 30px; }
+.slide-tag { display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(6px); color: #fff; font-size: 12px; font-weight: 700; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 14px; border: 1px solid rgba(255,255,255,0.2); }
+.slide-content h1 { font-size: clamp(24px, 3.5vw, 42px); font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 14px; text-shadow: 0 2px 20px rgba(0,0,0,0.5); }
+.slide-content p { font-size: 15px; color: rgba(255,255,255,0.82); line-height: 1.75; margin-bottom: 26px; max-width: 480px; }
+.slide-btn { display: inline-block; background: var(--blue); color: #fff; text-decoration: none; font-weight: 700; font-size: 15px; padding: 12px 28px; border-radius: 10px; transition: background var(--transition), transform var(--transition); border: 2px solid rgba(255,255,255,0.2); }
+.slide-btn:hover { background: #0059d4; transform: translateY(-2px); }
+.hero-dots { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
+.hero-dot { width: 10px; height: 10px; border-radius: 5px; background: rgba(255,255,255,0.35); border: none; cursor: pointer; transition: all 0.35s; padding: 0; }
+.hero-dot.active { background: #fff; width: 28px; }
+.hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(255,255,255,0.15); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.25); color: #fff; width: 46px; height: 46px; border-radius: 50%; cursor: pointer; font-size: 22px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease, background 0.3s ease; }
+.hero-arrow:hover { background: rgba(255,255,255,0.32); }
+.hero-section:hover .hero-arrow { opacity: 1; }
+.hero-arrow.prev { right: 22px; }
+.hero-arrow.next { left: 22px; }
+.hero-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--teal); width: 0%; z-index: 10; transition: width 7s linear; }
+
+/* ===== ALERT STRIP ===== */
+.alert-strip { background: linear-gradient(90deg, var(--blue) 0%, var(--teal) 100%); color: #fff; text-align: center; padding: 10px 20px; font-size: 15px; font-weight: 700; }
+
+/* ===== SECTION HEADER ===== */
+.section-header { display: flex; align-items: center; justify-content: space-between; padding: 0 30px; margin-bottom: 18px; }
+.section-header h2 { font-size: 22px; font-weight: 700; color: #0d1b2a; position: relative; padding-right: 14px; }
+.section-header h2::before { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 4px; height: 22px; background: var(--teal); border-radius: 3px; }
+.section-header a { font-size: 13px; font-weight: 700; color: var(--blue); text-decoration: none; padding: 6px 14px; border: 1.5px solid var(--blue); border-radius: 20px; transition: all var(--transition); }
+.section-header a:hover { background: var(--blue); color: #fff; }
+.section-header .lb-subtitle { font-size: 12px; font-weight: 700; color: #aaa; letter-spacing: 1.5px; text-transform: uppercase; direction: ltr; }
+
+/* ===== SCROLL SECTIONS ===== */
+.scroll-section { padding: 36px 0 40px; }
+.scroll-section + .scroll-section { border-top: 1px solid rgba(0,0,0,0.07); }
+.scroll-track-wrapper { padding: 0 30px; }
+.scroll-track { display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; padding-bottom: 12px; scrollbar-width: thin; scrollbar-color: #ccc transparent; }
+.scroll-track::-webkit-scrollbar { height: 5px; }
+.scroll-track::-webkit-scrollbar-track { background: transparent; }
+.scroll-track::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+/* ===== COURSE CARD ===== */
+.course-card { min-width: 240px; max-width: 240px; background: #fff; border-radius: var(--card-radius); overflow: hidden; scroll-snap-align: start; box-shadow: 0 2px 14px rgba(0,0,0,0.08); transition: transform var(--transition), box-shadow var(--transition); text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-shrink: 0; }
+.course-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,71,171,0.18); }
+.course-card .thumb { width: 100%; height: 148px; object-fit: cover; display: block; }
+.course-card .thumb-placeholder { width: 100%; height: 148px; display: none; align-items: center; justify-content: center; font-size: 40px; background: linear-gradient(135deg, #003f8a, #006060); }
+.course-card .card-body { padding: 14px; flex: 1; }
+.course-card .card-tag { font-size: 11px; font-weight: 700; color: var(--teal); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+.course-card .card-title { font-size: 14px; font-weight: 700; color: #0d1b2a; line-height: 1.4; margin-bottom: 10px; }
+.course-card .card-meta { font-size: 12px; color: #666; display: flex; align-items: center; gap: 6px; }
+.badge-free { display: inline-block; background: #e6f7f1; color: #007a50; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+.badge-new { display: inline-block; background: #e6eeff; color: var(--blue); font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+
+/* ===== NEWS CARD ===== */
+.news-card { min-width: 300px; max-width: 300px; background: #fff; border-radius: var(--card-radius); overflow: hidden; scroll-snap-align: start; box-shadow: 0 2px 14px rgba(0,0,0,0.08); transition: transform var(--transition), box-shadow var(--transition); text-decoration: none; color: inherit; display: flex; flex-direction: column; flex-shrink: 0; }
+.news-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,128,128,0.18); }
+.news-card .thumb { width: 100%; height: 168px; object-fit: cover; display: block; }
+.news-card .thumb-placeholder { width: 100%; height: 168px; display: none; align-items: center; justify-content: center; font-size: 48px; background: linear-gradient(135deg, var(--teal), var(--blue)); }
+.news-card .card-body { padding: 16px; flex: 1; }
+.news-card .card-date { font-size: 11px; color: #888; font-weight: 700; margin-bottom: 6px; letter-spacing: 0.5px; }
+.news-card .card-title { font-size: 15px; font-weight: 700; color: #0d1b2a; line-height: 1.45; margin-bottom: 8px; }
+.news-card .card-excerpt { font-size: 13px; color: #555; line-height: 1.6; }
+
+/* ===== LEADERBOARD ===== */
+.leaderboard-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
+.lb-wrap { padding: 0 30px; }
+.lb-university-badge {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: linear-gradient(90deg, rgba(0,71,171,0.07), rgba(0,128,128,0.07));
+  border: 1px solid rgba(0,71,171,0.18);
+  border-radius: 12px; padding: 10px 20px;
+  margin-bottom: 16px; font-size: 14px; color: #374151; font-weight: 700;
+}
+.lb-university-badge .uni-icon { font-size: 20px; }
+.lb-university-badge .uni-name { color: var(--blue); }
+.lb-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--card-radius); overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: 1px solid rgba(0,0,0,0.07); }
+.lb-table thead tr { background: var(--blue); color: #fff; }
+.lb-table thead th { padding: 13px 18px; font-size: 13px; font-weight: 700; text-align: right; }
+.col-rank { width: 80px; text-align: center !important; }
+.col-hours { width: 120px; text-align: left !important; direction: ltr; }
+.col-spec { width: 140px; }
+.col-stage { width: 110px; }
+.normal-row td { padding: 11px 18px; font-size: 14px; border-bottom: 1px solid rgba(0,0,0,0.05); color: #374151; }
+.normal-row:last-child td { border-bottom: none; }
+.normal-row:hover td { background: #f8f9ff; }
+.normal-row .col-rank { font-weight: 700; color: #9ca3af; text-align: center; }
+.top-row td { padding: 13px 18px; font-size: 15px; font-weight: 700; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.rank-1 td { background: linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.04)); color: #0d1b2a; }
+.rank-2 td { background: linear-gradient(90deg, rgba(192,192,192,0.15), rgba(192,192,192,0.04)); color: #0d1b2a; }
+.rank-3 td { background: linear-gradient(90deg, rgba(205,127,50,0.13), rgba(205,127,50,0.04)); color: #0d1b2a; }
+.top-row .col-rank { text-align: center; font-size: 14px; }
+.top-row .col-hours { direction: ltr; text-align: left; }
+.medal { font-size: 16px; }
+.lb-update-note { margin-top: 10px; font-size: 12px; color: #888; font-weight: 700; text-align: right; }
+.lb-update-note strong { color: var(--blue); }
+.lb-cert-notice { margin-top: 14px; background: linear-gradient(90deg, rgba(0,71,171,0.07), rgba(0,128,128,0.07)); border: 1px solid rgba(0,71,171,0.18); border-radius: 10px; padding: 14px 18px; font-size: 14px; color: #374151; line-height: 1.6; text-align: center; }
+.lb-cert-notice strong { color: var(--blue); }
+
+/* ===== SEE ALL LINK ===== */
+.lb-see-all {
+  display: block; text-align: center; margin-top: 16px;
+  font-size: 14px; font-weight: 700; color: var(--blue);
+  cursor: pointer; text-decoration: underline; text-underline-offset: 4px;
+  transition: color var(--transition);
+  background: none; border: none; font-family: 'Ubuntu', sans-serif;
+  width: 100%;
+}
+.lb-see-all:hover { color: #003a8c; }
+
+/* ===== FULL LEADERBOARD MODAL ===== */
+#lbModal {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+  z-index: 9998; align-items: center; justify-content: center; padding: 20px;
+}
+#lbModal.show { display: flex; }
+.lb-modal-box {
+  background: #fff; border-radius: 18px;
+  width: 100%; max-width: 820px; max-height: 88vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+.lb-modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 24px; border-bottom: 1px solid rgba(0,0,0,0.08);
+  background: var(--blue); flex-shrink: 0;
+}
+.lb-modal-head h3 { font-size: 17px; font-weight: 700; color: #fff; }
+.lb-modal-close {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; font-size: 18px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; line-height: 1;
+  transition: background var(--transition); font-family: 'Ubuntu', sans-serif;
+}
+.lb-modal-close:hover { background: rgba(255,255,255,0.32); }
+.lb-modal-body { overflow-y: auto; flex: 1; padding: 20px 24px; }
+.lb-modal-body .lb-table { border-radius: 10px; }
+
+/* ===== AD BANNER ===== */
+.ad-section { padding: 28px 30px 0; border-top: 1px solid rgba(0,0,0,0.07); display: flex; justify-content: center; }
+.ad-banner { display: block; width: 100%; max-width: 1000px; height: 100px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.1); transition: opacity var(--transition); }
+.ad-banner:hover { opacity: 0.92; }
+.ad-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ad-banner .ad-placeholder { width: 100%; height: 100%; background: linear-gradient(90deg, #e0eaff, #e0f4f4); display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 14px; font-weight: 700; }
+
+/* ===== UPLOADS SECTION ===== */
+.uploads-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
+.uploads-grid { padding: 0 30px; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+.upload-loading { padding: 0 30px; color: #aaa; font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.upload-loading::before { content: ''; width: 16px; height: 16px; border-radius: 50%; border: 2px solid #ddd; border-top-color: var(--teal); animation: spin 0.8s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.upload-fail { padding: 0 30px; font-size: 14px; font-weight: 700; }
+.upload-fail a { color: var(--blue); text-decoration: underline; }
+.upload-card { background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: var(--card-radius); padding: 14px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; flex-direction: column; gap: 8px; transition: transform var(--transition), box-shadow var(--transition); }
+.upload-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,71,171,0.12); }
+.upload-card .uc-icon { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, #dc2626, #b91c1c); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+.upload-card .uc-name { font-size: 13px; font-weight: 700; color: #1a0dab; text-decoration: none; line-height: 1.35; display: block; }
+.upload-card .uc-name:hover { text-decoration: underline; }
+.upload-card .uc-meta { font-size: 11px; color: #aaa; }
+.upload-card .uc-dl { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700; color: var(--blue); background: rgba(0,71,171,0.07); border: 1px solid rgba(0,71,171,0.15); border-radius: 20px; padding: 4px 12px; text-decoration: none; width: fit-content; transition: background var(--transition); }
+.upload-card .uc-dl:hover { background: rgba(0,71,171,0.15); }
+
+/* ===== CONTRIBUTORS BOX ===== */
+.contributors-section { padding: 36px 0 40px; border-top: 1px solid rgba(0,0,0,0.07); }
+.contributors-box {
+  margin: 0 30px;
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--card-radius);
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.contributors-box h3 {
+  font-size: 15px; font-weight: 700; color: #0d1b2a;
+  margin-bottom: 20px; padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  position: relative; padding-right: 14px;
+}
+.contributors-box h3::before {
+  content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  width: 4px; height: 18px; background: var(--teal); border-radius: 3px;
+}
+.contributors-rows { display: flex; flex-direction: column; gap: 10px; }
+.contributors-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.contributor-name {
+  font-size: 13px; font-weight: 700; color: #188038;
+  text-decoration: none; padding: 8px 12px;
+  background: #f8fdf9; border: 1px solid rgba(24,128,56,0.15);
+  border-radius: 8px; text-align: center;
+  transition: background var(--transition), color var(--transition);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
+}
+.contributor-name:hover { background: #e6f7ee; color: #0d6b2e; }
+.contributor-name.empty { background: transparent; border-color: transparent; pointer-events: none; }
+
+/* ===== TEAM ===== */
+.team-section { background: var(--teal); padding: 60px 30px; text-align: center; }
+.team-section h2 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 36px; display: inline-block; padding-bottom: 12px; position: relative; }
+.team-section h2::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 3px; background: rgba(255,255,255,0.45); border-radius: 3px; }
+.team-grid { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+.member-card { text-align: center; transition: transform var(--transition); }
+.member-card:hover { transform: translateY(-6px); }
+.member-card img { width: 160px; height: 160px; object-fit: cover; border-radius: 16%; border: 4px solid rgba(255,255,255,0.3); display: block; margin: 0 auto 14px; }
+.member-card .name { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.member-card .role { font-size: 13px; color: rgba(255,255,255,0.75); }
+.team-see-all { display: inline-block; margin-top: 32px; color: rgba(255,255,255,0.85); font-size: 14px; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; transition: color var(--transition); }
+.team-see-all:hover { color: #fff; }
+
+/* ===== VISION ===== */
+.vision-section { background: var(--blue); padding: 20px 30px; text-align: center; }
+.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.vision-section p { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.85; max-width: 680px; margin: 0 auto 10px; }
+
+/* ===== FOOTER ===== */
+footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 26px; direction: rtl; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; padding-bottom: 38px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom { max-width: 1100px; margin: 26px auto 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .hero-section { height: 420px; }
+  .hero-slide { padding: 30px 24px; }
+  .hero-arrow { display: none; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .section-header { padding: 0 16px; }
+  .scroll-track-wrapper { padding: 0 16px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .uploads-grid { padding: 0 16px; grid-template-columns: repeat(2,1fr); }
+  .ad-section { padding: 20px 16px 0; }
+  .contributors-box { margin: 0 16px; padding: 18px; }
+  .contributors-row { grid-template-columns: repeat(2,1fr); }
+  .lb-wrap { padding: 0 16px; }
+  .lb-modal-box { max-height: 92vh; }
+  .lb-modal-body { padding: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div id="mobileNotice" role="dialog" aria-modal="true">
+  <div class="notice-box">
+    <span class="notice-icon">💻</span>
+    <h2>يُفضَّل استخدام نسخة الحاسوب</h2>
+    <p>تم تصميم هذا الموقع بشكل أمثل لشاشات الحاسوب. قد لا تظهر بعض العناصر بشكل صحيح على الهاتف المحمول.<br><br>للحصول على أفضل تجربة، يُرجى فتح الموقع عبر حاسوب مكتبي أو محمول.</p>
+    <button class="notice-continue" onclick="document.getElementById('mobileNotice').classList.remove('show')">متابعة على الهاتف</button>
+  </div>
+</div>
+
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+    <img src="media/icon-512-w.png" alt="ESC" style="height:38px; width:auto; display:block;">
+  </a>
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<section class="hero-section" aria-label="العرض الرئيسي">
+  <div class="hero-track" id="heroTrack">
+    <div class="hero-slide slide-1">
+      <div class="deco"></div>
+      <div class="slide-content">
+        <span class="slide-tag">🌍 مجتمع</span>
+        <h1>إنطلاق مجتمع طلبة الهندسة<br>منصتك الهندسية</h1>
+        <p>نؤمن بأن التعليم هو الطريق الوحيد للنهوض. انضم إلى مجتمع مهندسي المستقبل في العراق.</p>
+     
+        <a href="Scientific_contributions.html" class="slide-btn">أخر الأخبار ←</a>
+      </div>
+    </div>
+    <div class="hero-slide slide-2">
+      <div class="deco"></div>
+      <div class="slide-content">
+        <span class="slide-tag">🎓 أكاديمي</span>
+        <h1>مشاريع تخرج الطلاب<br>المثمرة</h1>
+        <p>جميع الطلاب في العراق يشاركون بحوثهم على المنصة للفائدة العامة.</p>
+        <a href="research.html" class="slide-btn">إطّلع على البحوث ←</a>
+      </div>
+    </div>
+    <div class="hero-slide slide-3">
+      <div class="deco"></div>
+      <div class="slide-content">
+        <span class="slide-tag">📊 دورة مجانية</span>
+        <h1>إيسك ستطلق الدورات المجانية<br>للجميع</h1>
+        <p>سيطلق فريقنا أولى دوراته المجانية للهندسة بشكل عام والمدنية بشكل خاص قريبا.</p>
+        <a href="course.html" class="slide-btn">عرض الدورات المتاحة ←</a>
+      </div>
+    </div>
+  </div>
+  <button class="hero-arrow prev" id="heroPrev">&#8249;</button>
+  <button class="hero-arrow next" id="heroNext">&#8250;</button>
+  <div class="hero-dots">
+    <button class="hero-dot active" data-index="0"></button>
+    <button class="hero-dot" data-index="1"></button>
+    <button class="hero-dot" data-index="2"></button>
+  </div>
+  <div class="hero-progress" id="heroProgress"></div>
+</section>
+
+<div class="alert-strip">🎉 نتمنى لك يومًا سعيدًا ومليئاً بالإنجازات!</div>
+
+<section class="scroll-section">
+  <div class="section-header">
+    <h2>الدروس المجانية الشائعة</h2>
+    <a href="course.html">عرض الكل</a>
+  </div>
+  <div class="scroll-track-wrapper">
+    <div class="scroll-track">
+      <a href="course.html" class="course-card"><img src="media/autocadcourse.png" alt="أوتوكاد" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">📐</div><div class="card-body"><div class="card-tag">هندسة مدنية</div><div class="card-title">دورة أوتوكاد المهندس المدني</div><div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div></div></a>
+      <a href="course.html" class="course-card"><img src="media/excelcourse.png" alt="إكسل" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">📊</div><div class="card-body"><div class="card-tag">تقنية</div><div class="card-title">دورة Excel للمبتدئين</div><div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div></div></a>
+      <a href="course.html" class="course-card"><img src="media/wordcourse.png" alt="وورد" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">📚</div><div class="card-body"><div class="card-tag">تقنية</div><div class="card-title">أساسيات برنامج الوورد</div><div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div></div></a>
+      <a href="course.html" class="course-card"><img src="media/powerpointcourse.png" alt="باوربوينت" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">🔧</div><div class="card-body"><div class="card-tag">تقنية</div><div class="card-title">إعداد العرض التقديمي عبر PowerPoint</div><div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div></div></a>
+      <a href="course.html" class="course-card"><img src="media/pythoncourse.png" alt="بايثون" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">⚙️</div><div class="card-body"><div class="card-tag">برمجة</div><div class="card-title">أساسيات البرمجة عبر بايثون</div><div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div></div></a>
+      <a href="course.html" class="course-card"><img src="media/plaxis2dcourse.png" alt="PLAXIS" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">🏗️</div><div class="card-body"><div class="card-tag">هندسة مدنية</div><div class="card-title">تحليل وتصميم الأسس عبر PLAXIS 2D</div><div class="card-meta"><span class="badge-free">مجاني</span><span class="badge-new">مبتدئين</span></div></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== LEADERBOARD ===== -->
+<section class="leaderboard-section">
+  <div class="section-header">
+    <h2>الطلبة الأكثر تميزًا</h2>
+    <span class="lb-subtitle">Achieve Elite Activity</span>
+  </div>
+  <div class="lb-wrap">
+    <div class="lb-university-badge">
+      <span class="uni-icon">🎓</span>
+      <span>طلبة كلية الهندسة — <span class="uni-name">جامعة كربلاء</span></span>
+    </div>
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th class="col-rank">التسلسل</th>
+          <th class="col-name">المتفوق</th>
+          <th class="col-stage">المرحلة</th>
+          <th class="col-spec">الاختصاص</th>
+          <th class="col-hours">النقاط</th>
+        </tr>
+      </thead>
+      <tbody id="lbTbody"></tbody>
+    </table>
+    <button class="lb-see-all" id="lbSeeAll">↓ عرض الجميع</button>
+    <p class="lb-update-note">🔄 يتم تحديث بيانات الترتيب تلقائيًا كل <strong>24 ساعة</strong> كحد أقصى</p>
+    <div class="lb-cert-notice">
+      🏅 أعلى <strong>5 طلاب</strong> في هذه القائمة سينالون <strong>شهادة تكريم وتقدير</strong> من مجتمع طلبة الهندسة نهاية الشهر الرابع — ESC
+    </div>
+  </div>
+</section>
+
+<!-- ===== FULL LEADERBOARD MODAL ===== -->
+<div id="lbModal" role="dialog" aria-modal="true" aria-label="قائمة جميع الطلبة">
+  <div class="lb-modal-box">
+    <div class="lb-modal-head">
+      <h3>🏆 قائمة جميع الطلبة المتنافسين</h3>
+      <button class="lb-modal-close" id="lbModalClose" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="lb-modal-body">
+      <table class="lb-table">
+        <thead>
+          <tr>
+            <th class="col-rank">التسلسل</th>
+            <th class="col-name">المتفوق</th>
+            <th class="col-stage">المرحلة</th>
+            <th class="col-spec">الاختصاص</th>
+            <th class="col-hours">النقاط</th>
+          </tr>
+        </thead>
+        <tbody id="lbModalTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="ad-section">
+  <a href="team.html" class="ad-banner">
+    <img src="media/ad/1.png" alt="إعلان" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+    <div class="ad-placeholder">📢 مساحة إعلانية</div>
+  </a>
+</div>
+
+<section class="scroll-section">
+  <div class="section-header">
+       <!-- الأخبار / الاخبار اللي بالاسفل -->
+    <h2>آخر الأخبار</h2>
+    <a href="Scientific_contributions.html">عرض الكل</a>
+  </div>
+  <div class="scroll-track-wrapper">
+    <div class="scroll-track">
+      <a href="news/20260328.html" class="news-card"><img src="media/news/1.png" alt="خبر 1" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">📰</div><div class="card-body"><div class="card-date">آذار 2026</div><div class="card-title">إطلاق النسخة التجريبية لموقع مجتمع طلبة الهندسة</div><div class="card-excerpt">يسعدنا أن نعلن لجميع زملائنا المهندسين والطلاب عن إطلاق النسخة التجريبية لموقع مجتمع طلبة الهندسة (ESC) على شبكة الإنترنت..</div></div></a>
+      <a href="news/20260412.html" class="news-card"><img src="media/news/IMG_1342.PNG" alt="خبر 2" class="thumb" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="thumb-placeholder">📢</div><div class="card-body"><div class="card-date">نيسان 2026</div><div class="card-title">المؤسس محمد باقر الجبوري يشارك مجتمع طلبة الهندسة مع الطلبة</div><div class="card-excerpt">قام المهندس محمد باقر علاء الجبوري بتقديم مجتمع طلبة الهندسة على عدد من طلبة المرحلة الرابعة من كلية الهندسة / الهندسة المدنية..</div></div></a>
+    </div>
+  </div>
+</section>
+
+<section class="uploads-section">
+  <div class="section-header">
+    <h2>مرفوعات المهندسين</h2>
+    <a href="uploads.html">عرض الكل</a>
+  </div>
+  <div class="upload-loading" id="uploadsLoading">يتم التحميل...</div>
+  <div class="upload-fail" id="uploadsFail" style="display:none;">
+    فشل التحميل — <a href="uploads.html">الانتقال إلى صفحة المرفوعات</a>
+  </div>
+  <div class="uploads-grid" id="uploadsGrid" style="display:none;"></div>
+</section>
+
+<section class="contributors-section">
+  <div class="contributors-box">
+    <h3>مساهمو مجتمع طلبة الهندسة</h3>
+    <!--
+    <div class="contributors-rows">
+      <div class="contributors-row">
+        <a href="profile/c2/name1.html" class="contributor-name">اسم المساهم الأول</a>
+        <a href="profile/c2/name2.html" class="contributor-name">اسم المساهم الثاني</a>
+        <a href="profile/c2/name3.html" class="contributor-name">اسم المساهم الثالث</a>
+        <a href="profile/c2/name4.html" class="contributor-name">اسم المساهم الرابع</a>
+      </div>
+    </div>
+    -->
+  </div>
+</section>
+
+<section class="team-section">
+  <h2>المساهمون في المنصة</h2>
+  <div class="team-grid">
+    <div class="member-card"><a href="profile/mobassim.html"><img src="media/mobassim.jpg" alt="محمد باسم" onerror="this.src='media/icon-512-w.png'"></a><div class="name">محمد باسم الشيباني</div><div class="role">مهندس كهرباء والكترونيك</div></div>
+    <div class="member-card"><a href="profile/alisaad.html"><img src="media/alisaad.JPG" alt="علي سعد" onerror="this.src='media/icon-512-w.png'"></a><div class="name">علي سعد الأسدي</div><div class="role">مهندس مدني</div></div>
+    <div class="member-card"><a href="profile/founderprofile.html"><img src="media/founder.JPG" alt="المؤسس" onerror="this.src='media/icon-512-w.png'"></a><div class="name">محمد باقر الجبوري</div><div class="role">مهندس مدني</div></div>
+    <div class="member-card"><a href="profile/jaffer.html"><img src="media/jaffer.JPG" alt="جعفر" onerror="this.src='media/icon-512-w.png'"></a><div class="name">جعفر محمد الحلفي</div><div class="role">مهندس مدني</div></div>
+    <div class="member-card"><a href="profile/montazer.html"><img src="media/montazer.jpg" alt="منتظر" onerror="this.src='media/icon-512-w.png'"></a><div class="name">منتظر ضياء الربيعي</div><div class="role">مهندس مدني</div></div>
+  </div>
+  <a href="team.html" class="team-see-all">عرض الكل</a>
+</section>
+
+<section class="vision-section">
+  <h2>رؤيتنا</h2>
+  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512-w.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script>
+/* ===== Mobile Detection ===== */
+(function() {
+  var isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+  if (isMobile) document.getElementById('mobileNotice').classList.add('show');
+})();
+
+/* ===== Mobile Menu ===== */
+var menuBtn = document.getElementById('menuBtn');
+var mobileMenu = document.getElementById('mobileMenu');
+var backdrop = document.getElementById('menuBackdrop');
+function openMenu()  { mobileMenu.classList.add('open'); backdrop.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
+function closeMenu() { mobileMenu.classList.remove('open'); backdrop.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
+menuBtn.addEventListener('click', function(e) { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeMenu() : openMenu(); });
+backdrop.addEventListener('click', closeMenu);
+document.addEventListener('keydown', function(e) { if(e.key==='Escape') { closeMenu(); closeLbModal(); } });
+mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
+
+/* ===== Hero Slider ===== */
+var track = document.getElementById('heroTrack');
+var dots = document.querySelectorAll('.hero-dot');
+var progress = document.getElementById('heroProgress');
+var total = dots.length, current = 0, progTimer = null;
+function goTo(idx) {
+  current = (idx + total) % total;
+  track.style.transform = 'translateX(' + (current * 100) + '%)';
+  dots.forEach(function(d, i) { d.classList.toggle('active', i === current); });
+  resetProgress();
+}
+function resetProgress() {
+  clearTimeout(progTimer);
+  progress.style.transition = 'none'; progress.style.width = '0%';
+  void progress.offsetWidth;
+  progress.style.transition = 'width 7s linear'; progress.style.width = '100%';
+  progTimer = setTimeout(function() { goTo(current + 1); }, 7000);
+}
+document.getElementById('heroPrev').addEventListener('click', function() { clearTimeout(progTimer); goTo(current - 1); });
+document.getElementById('heroNext').addEventListener('click', function() { clearTimeout(progTimer); goTo(current + 1); });
+dots.forEach(function(d) { d.addEventListener('click', function() { clearTimeout(progTimer); goTo(+d.dataset.index); }); });
+var heroSection = document.querySelector('.hero-section');
+heroSection.addEventListener('mouseenter', function() { clearTimeout(progTimer); progress.style.transition = 'none'; });
+heroSection.addEventListener('mouseleave', resetProgress);
+var touchStartX = 0;
+track.addEventListener('touchstart', function(e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+track.addEventListener('touchend', function(e) {
+  var diff = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) { clearTimeout(progTimer); diff > 0 ? goTo(current + 1) : goTo(current - 1); }
+});
+resetProgress();
+
+/* ===================================================================
+   LEADERBOARD — لتحديث الطلاب عدّل هذا القسم فقط
+   ===================================================================
+   كل طالب يتكون من 4 حقول:
+     name   : اسم الطالب
+     points : النقاط (رقم عشري مسموح)
+     stage  : المرحلة الدراسية  (مثال: "الرابعة" أو "الثالثة")
+     spec   : الاختصاص          (مثال: "هندسة مدنية" أو "هندسة كهربائية")
+   الجدول يُرتَّب تنازليًا تلقائيًا حسب النقاط.
+=================================================================== */
+(function () {
+  var students = [
+    { name: "علي سعود عبدالعزيز",  points: 4.4,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "عبدالله جبار عبد",  points: 6.5,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "علي سعد منعم",         points: 11,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "محمد وجدي محمد",         points: 20.8,  stage: "الثالثة", spec: "هندسة مدنية" },
+    { name: "منتظر ضياء محمد",      points: 16.2,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "مصطفى محمود علاوي",    points: 13.6, stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "جعفر محمد محمدباقر",   points: 23.3,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "علي سلام عبيد",        points: 8.7,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "محمدباقر علاء عزيز",   points: 11.05,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "حمزه سعد عبدالعباس",  points: 2.1,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "ابو الحسن عباس",  points: 2.2,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "رضا علي عطية",  points: 0,  stage: "الثانية", spec: "هندسة كهروميكانيك" },
+    { name: "كرار حيدر إبراهيم",    points: 22.3,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "محمد باسم هلوجي",    points: 5.3,  stage: "الرابعة", spec: "هندسة كهرباء" },
+    { name: "امير حيدر جواد",            points: 14.65,  stage: "الرابعة", spec: "هندسة مدنية" },
+    { name: "كرار علي حسين",        points: 0.0,  stage: "الرابعة", spec: "هندسة مدنية" }
+  ];
+  /* ================================================================
+     نهاية قسم التعديل — لا تعدّل ما بعد هذا السطر
+  ================================================================ */
+
+  var PREVIEW    = 15;   /* عدد الصفوف المعروضة في الصفحة الرئيسية */
+  var FULL_COUNT = 25;   /* عدد الصفوف في النافذة المنبثقة          */
+  var medals     = ["🥇", "🥈", "🥉"];
+
+  /* ترتيب تنازلي حسب النقاط */
+  students.sort(function (a, b) { return b.points - a.points; });
+
+  /* دالة بناء صف واحد */
+  function buildRow(s, rank) {
+    var isTop = rank <= 3 && s.name !== "-";
+    var tr    = document.createElement("tr");
+    tr.className = isTop ? ("top-row rank-" + rank) : "normal-row";
+
+    var rankDisplay = isTop
+      ? ('<span class="medal">' + medals[rank - 1] + '</span> ' + rank)
+      : rank;
+
+    var ptsDisplay = s.name === "-"
+      ? "-"
+      : (s.points % 1 === 0 ? s.points.toFixed(0) : s.points.toFixed(1));
+
+    tr.innerHTML =
+      '<td class="col-rank">'  + rankDisplay + '</td>' +
+      '<td class="col-name">'  + s.name      + '</td>' +
+      '<td class="col-stage">' + (s.name === "-" ? "-" : s.stage) + '</td>' +
+      '<td class="col-spec">'  + (s.name === "-" ? "-" : s.spec)  + '</td>' +
+      '<td class="col-hours">' + ptsDisplay  + '</td>';
+    return tr;
+  }
+
+  /* ملء الجدول الرئيسي (أول 15) */
+  var tbody = document.getElementById("lbTbody");
+  var previewList = students.slice(0, PREVIEW);
+  while (previewList.length < PREVIEW) { previewList.push({ name: "-", points: 0, stage: "-", spec: "-" }); }
+  previewList.forEach(function (s, i) { tbody.appendChild(buildRow(s, i + 1)); });
+
+  /* ملء جدول النافذة المنبثقة (كامل) */
+  var modalTbody = document.getElementById("lbModalTbody");
+  var fullList = students.slice(0, FULL_COUNT);
+  while (fullList.length < FULL_COUNT) { fullList.push({ name: "-", points: 0, stage: "-", spec: "-" }); }
+  fullList.forEach(function (s, i) { modalTbody.appendChild(buildRow(s, i + 1)); });
+
+  /* ===== منطق النافذة المنبثقة ===== */
+  var modal    = document.getElementById("lbModal");
+  var openBtn  = document.getElementById("lbSeeAll");
+  var closeBtn = document.getElementById("lbModalClose");
+
+  function openLbModal()  { modal.classList.add("show"); document.body.style.overflow = "hidden"; }
+  window.closeLbModal = function () { modal.classList.remove("show"); document.body.style.overflow = ""; };
+
+  openBtn.addEventListener("click", openLbModal);
+  closeBtn.addEventListener("click", closeLbModal);
+  modal.addEventListener("click", function (e) { if (e.target === modal) closeLbModal(); });
+
+})();
+
+/* ===== Lazy-load Uploads ===== */
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var loading = document.getElementById('uploadsLoading');
+    var fail    = document.getElementById('uploadsFail');
+    var grid    = document.getElementById('uploadsGrid');
+
+    fetch('uploads.html')
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(html) {
+        var doc = new DOMParser().parseFromString(html, 'text/html');
+        var scripts = doc.querySelectorAll('script:not([src])');
+        var filesObj = null;
+
+        scripts.forEach(function(s) {
+          if (filesObj) return;
+          var match = s.textContent.match(/var\s+filesData\s*=\s*(\{[\s\S]*?\})\s*;/);
+          if (match) {
+            try { filesObj = eval('(' + match[1] + ')'); } catch(e) {}
+          }
+        });
+
+        var allFiles = [];
+        if (filesObj) {
+          Object.keys(filesObj).forEach(function(k) {
+            if (Array.isArray(filesObj[k])) filesObj[k].forEach(function(f) { allFiles.push(f); });
+          });
+        }
+
+        loading.style.display = 'none';
+
+        if (allFiles.length === 0) {
+          fail.style.display = 'block';
+          return;
+        }
+
+        allFiles.slice(0, 8).forEach(function(f) {
+          var card = document.createElement('div');
+          card.className = 'upload-card';
+          card.innerHTML =
+            '<div style="display:flex;align-items:center;gap:10px;">' +
+              '<div class="uc-icon">PDF</div>' +
+              '<a href="' + f.file + '" download class="uc-name">' + f.name + '</a>' +
+            '</div>' +
+            '<div class="uc-meta">' + f.desc + '</div>' +
+            '<a href="' + f.file + '" download class="uc-dl">⬇ تحميل</a>';
+          grid.appendChild(card);
+        });
+        grid.style.display = 'grid';
+      })
+      .catch(function() {
+        loading.style.display = 'none';
+        fail.style.display = 'block';
+      });
+  }, 800);
+});
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — مجتمع طلبة الهندسة</title>
+<meta name="description" content="مجتمع طلبة الهندسة بُني لغرض واحد, ألا يضيع شغف المهندسين المتحمسين وجهودهم من خلال تقدير وتثمين أبحاثهم وتوفير بيئة تعليمية مستمرة خارج الصرح الأكاديمي.">
+<link rel="canonical" href="https://esc-iq.github.io/">
+<meta name="keywords" content="هندسة مدنية, جامعة كربلاء, مجتمع طلبة الهندسة, ESC, دورات هندسية, جامعة كربلاء كلية الهندسة , جامعة بغداد كلية الهندسة , مجتمع طلاب الهندسة , محمد باقر الجبوري , الهندسة المدنية , أبحاث هندسية">
+<meta name="author" content="Mohammed Baqer A. Azeez">
+
+<link rel="icon" href="media/favicon.png" type="image/png" sizes="32x32">
 <link rel="icon" href="media/icon-512.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="media/icon-512.png">
 
