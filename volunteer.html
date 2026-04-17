@@ -278,30 +278,82 @@ footer {
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
+  #authBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+#authBtn.state-loading {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.35);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  pointer-events: none;
+}
+#authBtn.state-guest {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.32);
+}
+#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
+#authBtn.state-user {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.28);
+}
+#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
+.auth-avatar {
+  width: 26px; height: 26px;
+  border-radius: 6px; object-fit: cover;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  display: block; flex-shrink: 0;
+}
+@media (max-width: 768px) {
+  #authBtn { display: none; }
+}
 </style>
 </head>
 <body>
 
 <header id="bar">
-  <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
-    <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
-  </a>
+  <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+    <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+      <img src="media/icon-512-w.png" alt="ESC"
+           style="height:38px;width:auto;display:block;">
+    </a>
+    <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+  </div>
+
   <nav aria-label="روابط الموقع">
     <a href="faq.html">الأسئلة الشائعة</a>
     <a href="course.html">الدورات</a>
     <a href="Scientific_contributions.html">المساهمات العلمية</a>
     <a href="research.html">الأبحاث</a>
-    <a href="volunteer.html" class="active">برامج التطوع</a>
+    <a href="volunteer.html">برامج التطوع</a>
   </nav>
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات"
+          aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
+
   <div id="mobileMenu" class="mobile-menu" role="menu">
     <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
     <a role="menuitem" href="course.html">الدورات</a>
     <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+    <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
+      <a role="menuitem" id="authBtnMobile" href="login.html">🔑 تسجيل الدخول</a>
+    </div>
   </div>
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
@@ -415,6 +467,39 @@ searchInput.addEventListener('input', function() {
   }, 120);
 });
 </script>
+<header id="bar">
+  <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+    <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+      <img src="media/icon-512-w.png" alt="ESC"
+           style="height:38px;width:auto;display:block;">
+    </a>
+    <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+  </div>
 
+  <nav aria-label="روابط الموقع">
+    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="volunteer.html">برامج التطوع</a>
+  </nav>
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات"
+          aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+    <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
+      <a role="menuitem" id="authBtnMobile" href="login.html">🔑 تسجيل الدخول</a>
+    </div>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
 </body>
 </html>
