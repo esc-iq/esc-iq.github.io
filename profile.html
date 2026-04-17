@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESC — ملف المستخدم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ... (تنسيقات البروفايل الأصلية التي أرسلتها ستبقى كما هي) ... */
+        :root { --blue: #0047AB; --teal: #008080; --cream: #FAF9F6; --card-radius: 14px; --transition: 0.3s ease; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Ubuntu', sans-serif; background-color: var(--cream); color: #111; direction: rtl; text-align: right; }
+        
+        /* تنسيقات إضافية لزر الرفع والمودال */
+        .upload-btn {
+            display: none; background: var(--teal); color: #fff; padding: 10px 20px;
+            border-radius: 30px; border: none; font-weight: 700; cursor: pointer;
+            margin-top: 15px; transition: transform 0.2s;
+        }
+        .upload-btn:hover { transform: scale(1.05); }
+
+        /* نافذة الرفع (Modal) */
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+            z-index: 2000; align-items: center; justify-content: center;
+        }
+        .modal-content {
+            background: #fff; padding: 30px; border-radius: 15px; width: 90%; max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .modal-header { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        
+        /* تنسيق قائمة الملفات المرفوعة */
+        .file-item {
+            display: flex; align-items: center; gap: 15px; padding: 15px;
+            background: #fff; border: 1px solid #eee; border-radius: 12px; margin-bottom: 10px;
+        }
+        .file-icon { background: var(--blue); color: #fff; padding: 10px; border-radius: 8px; font-weight: 700; }
+        .file-info { flex: 1; }
+        .uploader-tag { color: #188038; font-weight: 700; text-decoration: none; font-size: 12px; }
+        
+        /* إخفاء العناصر قبل التحميل */
+        .loading-overlay { position: fixed; inset: 0; background: #fff; z-index: 3000; display: flex; align-items: center; justify-content: center; }
+        
+        /* الأنماط المقتبسة من ملف المؤسس */
+        #bar { height: 58px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background-color: var(--blue); position: sticky; top: 0; z-index: 1000; direction: ltr; box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
+        #bar nav a { color: var(--cream); text-decoration: none; font-weight: 700; font-size: 14px; padding: 7px 13px; border-radius: 8px; }
+        .profile-cover { height: 200px; background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%); position: relative; }
+        .profile-header-wrap { background: #fff; border-bottom: 1px solid rgba(0,0,0,0.07); padding-bottom: 20px; position: relative; min-height: 120px; }
+        .profile-avatar-wrap { position: absolute; top: -60px; right: 40px; }
+        .profile-avatar { width: 120px; height: 120px; object-fit: cover; border-radius: 16px; border: 4px solid #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .profile-info { padding: 16px 40px 0 180px; text-align: right; }
+        .profile-name { font-size: 24px; font-weight: 700; color: #0d1b2a; }
+        .profile-body { max-width: 1000px; margin: 28px auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 2fr; gap: 24px; }
+        .content-card { background: #fff; border-radius: var(--card-radius); border: 1px solid rgba(0,0,0,0.08); padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        .sidebar-card { background: #fff; border-radius: var(--card-radius); border: 1px solid rgba(0,0,0,0.08); padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+
+<div id="loading" class="loading-overlay">⏳ جاري تحميل البروفايل الهندسي...</div>
+
+<header id="bar">
+    <a class="logo" href="index.html"><img src="media/icon-512.png" style="height:38px;"></a>
+    <nav><a href="faq.html">الأسئلة الشائعة</a><a href="research.html">الأبحاث</a></nav>
+</header>
+
+<div class="profile-cover"></div>
+
+<div class="profile-header-wrap">
+    <div class="profile-avatar-wrap">
+        <img id="userAvatar" src="media/icon-512.png" class="profile-avatar">
+    </div>
+    <div class="profile-info">
+        <div id="fullName" class="profile-name">تحميل الاسم...</div>
+        <div id="userBio" class="profile-title">عضو في مجتمع طلبة الهندسة</div>
+        <button id="openUploadModal" class="upload-btn">📤 رفع ملف للمجتمع</button>
+    </div>
+</div>
+
+<div class="profile-body">
+    <aside>
+        <div class="sidebar-card">
+            <h3>المعلومات الأكاديمية</h3>
+            <p><strong>الجامعة:</strong> <span id="uniName">-</span></p>
+            <p><strong>القسم:</strong> <span id="deptName">-</span></p>
+            <p><strong>اليوزر:</strong> @<span id="profileUsername">-</span></p>
+        </div>
+    </aside>
+
+    <main>
+        <div class="content-card">
+            <h2>الملفات التي رفعها المستخدم</h2>
+            <div id="userFilesList">
+                <p style="color:#888; font-size:13px;">لا توجد ملفات مرفوعة حالياً.</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="uploadModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header"><h3>رفع ملف جديد</h3></div>
+        <form id="uploadForm">
+            <div class="form-group">
+                <label>اختر الملف (PDF, Excel, Zip)</label>
+                <input type="file" id="fileInput" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>اسم الملف (سيظهر للطلاب)</label>
+                <input type="text" id="fileNameInput" class="form-control" placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول" required>
+            </div>
+            <div class="form-group">
+                <label>المرحلة</label>
+                <select id="stageTag" class="form-control">
+                    <option value="1">المرحلة الأولى</option>
+                    <option value="2">المرحلة الثانية</option>
+                    <option value="3">المرحلة الثالثة</option>
+                    <option value="4">المرحلة الرابعة</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>المادة (Tag)</label>
+                <input type="text" id="subjectTag" class="form-control" placeholder="مثلاً: soil_mechanics" required>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button type="submit" id="submitUpload" class="upload-btn" style="display:block; flex:1;">بدء الرفع</button>
+                <button type="button" id="closeModal" class="upload-btn" style="display:block; background:#666;">إلغاء</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc, collection, query, where, getDocs, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+        authDomain: "engineering-students-community.firebaseapp.com",
+        projectId: "engineering-students-community",
+        storageBucket: "engineering-students-community.firebasestorage.app",
+        messagingSenderId: "371432549665",
+        appId: "1:371432549665:web:4d3b9617243731fb06e260"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // 1. قراءة اليوزر من الرابط ?u=username
+    const params = new URLSearchParams(window.location.search);
+    const targetUsername = params.get('u');
+
+    if (!targetUsername) {
+        window.location.href = "index.html";
+    }
+
+    // 2. جلب بيانات البروفايل
+    async function loadProfile() {
+        const userDoc = await getDoc(doc(db, "students", targetUsername));
+        if (userDoc.exists()) {
+            const data = userDoc.data();
+            document.getElementById('fullName').textContent = data.fullName;
+            document.getElementById('uniName').textContent = data.university;
+            document.getElementById('deptName').textContent = data.department;
+            document.getElementById('profileUsername').textContent = targetUsername;
+            document.title = `ESC — ${data.fullName}`;
+            
+            loadUserFiles();
+            checkOwnership(data.uid);
+        } else {
+            alert("هذا المستخدم غير موجود!");
+            window.location.href = "index.html";
+        }
+        document.getElementById('loading').style.display = 'none';
+    }
+
+    // 3. التحقق من صاحب الحساب لإظهار زر الرفع
+    function checkOwnership(profileUid) {
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.uid === profileUid) {
+                document.getElementById('openUploadModal').style.display = 'block';
+            }
+        });
+    }
+
+    // 4. جلب ملفات المستخدم من قاعدة البيانات
+    async function loadUserFiles() {
+        const q = query(collection(db, "uploads"), where("uploader", "==", targetUsername));
+        const querySnapshot = await getDocs(q);
+        const listDiv = document.getElementById('userFilesList');
+        
+        if (!querySnapshot.empty) {
+            listDiv.innerHTML = '';
+            querySnapshot.forEach((file) => {
+                const f = file.data();
+                listDiv.innerHTML += `
+                    <div class="file-item">
+                        <div class="file-icon">PDF</div>
+                        <div class="file-info">
+                            <a href="${f.url}" target="_blank" style="text-decoration:none; font-weight:700; color:#1a0dab;">${f.name}</a>
+                            <br>
+                            <a href="profile.html?u=${f.uploader}" class="uploader-tag">@${f.uploader}</a>
+                            <span style="font-size:11px; color:#999; margin-right:10px;">Tag: ${f.subject}</span>
+                        </div>
+                        <a href="${f.url}" download class="uploader-tag" style="background:#f0f0f0; padding:5px 10px; border-radius:5px;">تحميل</a>
+                    </div>
+                `;
+            });
+        }
+    }
+
+    // 5. منطق الرفع (Upload Logic)
+    const modal = document.getElementById('uploadModal');
+    document.getElementById('openUploadModal').onclick = () => modal.style.display = 'flex';
+    document.getElementById('closeModal').onclick = () => modal.style.display = 'none';
+
+    document.getElementById('uploadForm').onsubmit = async (e) => {
+        e.preventDefault();
+        const file = document.getElementById('fileInput').files[0];
+        const name = document.getElementById('fileNameInput').value;
+        const stage = document.getElementById('stageTag').value;
+        const subject = document.getElementById('subjectTag').value;
+        const btn = document.getElementById('submitUpload');
+
+        btn.disabled = true;
+        btn.textContent = "⏳ جاري الرفع...";
+
+        try {
+            // أ. الرفع إلى Storage
+            const storageRef = ref(storage, `community_files/${targetUsername}/${file.name}`);
+            const snapshot = await uploadBytes(storageRef, file);
+            const downloadURL = await getDownloadURL(snapshot.ref);
+
+            // ب. تسجيل البيانات في Firestore
+            await addDoc(collection(db, "uploads"), {
+                name: name,
+                url: downloadURL,
+                uploader: targetUsername,
+                stage: stage,
+                subject: subject,
+                timestamp: new Date().toISOString()
+            });
+
+            alert("تم الرفع بنجاح! سيظهر ملفك الآن في البروفايل وفي مكتبة القسم.");
+            location.reload();
+        } catch (error) {
+            alert("خطأ في الرفع: " + error.message);
+            btn.disabled = false;
+        }
+    };
+
+    loadProfile();
+</script>
+
+</body>
+</html>
