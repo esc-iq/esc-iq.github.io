@@ -766,7 +766,9 @@ footer {
         <button class="field-toggle-btn" data-field="city" title="إظهار/إخفاء">👁</button>
       </div>
 
-    </div><div class="sidebar-card">
+    </div>
+
+    <div class="sidebar-card">
       <div class="sidebar-card-title">
         <span>حول</span>
         <button class="edit-inline-btn" id="editBioBtn">✏️ تعديل</button>
@@ -786,7 +788,9 @@ footer {
       </div>
     </div>
 
-  </aside><main id="mainCol">
+  </aside>
+
+  <main id="mainCol">
 
     <div class="owner-action-bar" id="ownerActionBar">
       <p>أنت تتصفح ملفك الشخصي — <span>مرئي للجميع</span></p>
@@ -996,10 +1000,10 @@ footer {
         <label>المرحلة الدراسية</label>
         <select id="uploadStageSelect" class="form-control">
           <option value="">— اختر المرحلة —</option>
-          <option value="1"> الأولى</option>
-          <option value="2"> الثانية</option>
-          <option value="3"> الثالثة</option>
-          <option value="4">المرحلة </option>
+          <option value="1">الأولى</option>
+          <option value="2">الثانية</option>
+          <option value="3">الثالثة</option>
+          <option value="4">الرابعة</option>
         </select>
       </div>
 
@@ -1133,15 +1137,45 @@ const SUBJECTS_CONFIG = {
 };
 
 /* ─────────────────────────────────────────────────
-   GLOBALS
+   GLOBALS & SMART REDIRECT
    ───────────────────────────────────────────────── */
 const params          = new URLSearchParams(window.location.search);
-const TARGET_USERNAME = params.get('u');
+let   TARGET_USERNAME = params.get('u');
 let   profileData     = {};
 let   isOwner         = false;
 let   confirmCallback = null;
 
-if (!TARGET_USERNAME) { window.location.href = "index.html"; }
+// التحقق من الحساب والتوجيه الذكي
+onAuthStateChanged(auth, async (user) => {
+  if (!TARGET_USERNAME) {
+    if (user) {
+      // بحث عن الـ username الخاص بـ uid هذا
+      const q = query(collection(db, "students"), where("uid", "==", user.uid));
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        window.location.href = "profile.html?u=" + snap.docs[0].id;
+      } else {
+        window.location.href = "login.html";
+      }
+    } else {
+      window.location.href = "login.html";
+    }
+  } else {
+    // إذا كان الرابط يحتوي على يوزر، قم بتحميله
+    loadProfile();
+    if (user) {
+      // نتحقق من الملكية بعد تحميل بيانات البروفايل
+      const checkInterval = setInterval(() => {
+        if (profileData.uid) {
+          clearInterval(checkInterval);
+          if (user.uid === profileData.uid) {
+            activateOwnerMode();
+          }
+        }
+      }, 100);
+    }
+  }
+});
 
 /* ─────────────────────────────────────────────────
    UTILITIES
@@ -1215,12 +1249,7 @@ async function loadProfile() {
     profileData = snap.data();
     renderProfile();
     await loadFiles();
-    await loadResearch(); // Loads scientific research
-
-    // Check ownership
-    onAuthStateChanged(auth, user => {
-      if (user && user.uid === profileData.uid) activateOwnerMode();
-    });
+    await loadResearchFromGitHub(); 
   } catch (e) {
     toast("خطأ في تحميل البيانات: " + e.message, 'error');
   } finally {
@@ -1370,7 +1399,7 @@ async function deleteLink(idx) {
 }
 
 /* ─────────────────────────────────────────────────
-   LOAD FILES
+   LOAD FILES (FIRESTORE UPLOADS)
    ───────────────────────────────────────────────── */
 async function loadFiles() {
   try {
@@ -1413,45 +1442,45 @@ async function loadFiles() {
 }
 
 /* ─────────────────────────────────────────────────
-   LOAD RESEARCH
+   LOAD RESEARCH FROM GITHUB JSON
    ───────────────────────────────────────────────── */
-async function loadResearch() {
+async function loadResearchFromGitHub() {
+  const container = document.getElementById('researchContainer');
   try {
-    const q    = query(collection(db,"research"), where("uploader","==",TARGET_USERNAME));
-    const snap = await getDocs(q);
-    const cont = document.getElementById('researchContainer');
+    // جلب ملف الـ JSON الذي سيحوي أسماء الأبحاث وبياناتها من استضافتك
+    const response = await fetch('research/research_list.json');
+    if (!response.ok) throw new Error("JSON Fetch Failed");
+    const allResearch = await response.json();
+    
+    // البحث عن الأبحاث التي تشمل يوزر الطالب الحالي
+    const userResearch = allResearch.filter(r => r.authors_users && r.authors_users.includes(TARGET_USERNAME));
 
-    if (snap.empty) {
-      cont.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
+    if (userResearch.length === 0) {
+      container.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
       return;
     }
 
-    const wrap = document.createElement('div');
-    wrap.className = 'files-list-wrap';
-
-    snap.forEach(d => {
-      const r = d.data();
-      const row = document.createElement('div');
-      row.className = 'file-item-row';
-      row.innerHTML = `
-        <div class="file-icon-box research-icon">بحث</div>
-        <div class="file-info">
-          <a href="${escHtml(r.url)}" target="_blank" class="file-title">${escHtml(r.title)}</a>
-          <div class="file-sub">
-            <span style="color:#374151; font-weight:700;">الباحثون: ${escHtml(r.authors)}</span>
-            ${r.supervisor ? `<span class="file-badge">إشراف: ${escHtml(r.supervisor)}</span>` : ''}
-            ${r.year ? `<span class="file-badge">${escHtml(r.year)}</span>` : ''}
+    let html = '<div class="files-list-wrap">';
+    userResearch.forEach(r => {
+      html += `
+        <div class="file-item-row">
+          <div class="file-icon-box research-icon">بحث</div>
+          <div class="file-info">
+            <a href="research/${escHtml(r.filename)}" target="_blank" class="file-title">${escHtml(r.title)}</a>
+            <div class="file-sub">
+              <span style="color:#374151; font-weight:700;">الباحثون: ${escHtml(r.authors_names)}</span>
+              <span class="file-badge">${escHtml(r.year)}</span>
+              <span class="file-badge">ID: ${escHtml(r.id)}</span>
+            </div>
           </div>
+          <a href="research/${escHtml(r.filename)}" target="_blank" class="file-dl-btn view-btn">🔗 عرض</a>
         </div>
-        <a href="${escHtml(r.url)}" target="_blank" class="file-dl-btn view-btn">🔗 عرض</a>
       `;
-      wrap.appendChild(row);
     });
-
-    cont.innerHTML = '';
-    cont.appendChild(wrap);
-  } catch(e) {
-    document.getElementById('researchContainer').innerHTML = '<div class="files-empty"><p>تعذّر تحميل الأبحاث.</p></div>';
+    html += '</div>';
+    container.innerHTML = html;
+  } catch (e) {
+    container.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
   }
 }
 
@@ -1464,7 +1493,6 @@ function activateOwnerMode() {
   document.getElementById('avatarEditOverlay').classList.add('visible');
   document.body.classList.add('owner-mode');
   
-  // Show the research upload request button
   const researchBtn = document.getElementById('requestResearchBtn');
   if(researchBtn) researchBtn.style.display = 'inline-flex';
 }
@@ -1482,7 +1510,7 @@ document.getElementById('requestResearchBtn').addEventListener('click', () => {
                    `من جامعة ( الجامعة التي تنتمي إليها في الوقت الحالي إن وجدت )\n` +
                    `طالبا مراجعته وإضافته للحساب خاصتي\n` +
                    `----\n` +
-                   `معلومات إضافية:\n` +
+                   `معلومات ستملئ تلقائيا\n` +
                    `التوقيت: ${timeStr} Baghdad +3:00\n` +
                    `اليوزر: @${TARGET_USERNAME}\n` +
                    `اسم اليوزر: ${profileData.fullName || 'غير متوفر'}\n\n` +
@@ -1503,7 +1531,8 @@ document.getElementById('avatarInput').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
-  if (file.size > 1024 * 1024) { toast('حجم الصورة يجب أن يكون أقل من 1 ميجابايت.', 'error'); return; }
+  // التحقق من الحجم 1 ميجابايت = 1048576 بايت
+  if (file.size > 1048576) { toast('حجم الصورة يجب أن يكون أقل من 1 ميجابايت.', 'error'); return; }
 
   try {
     toast('جاري رفع الصورة...');
@@ -1733,11 +1762,6 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
     toast('فشل الرفع: ' + e.message, 'error');
   }
 });
-
-/* ─────────────────────────────────────────────────
-   INIT
-   ───────────────────────────────────────────────── */
-loadProfile();
 </script>
 </body>
 </html>
