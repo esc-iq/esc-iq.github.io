@@ -156,19 +156,17 @@ body {
   display: block;
 }
 
-/* Camera overlay — only shows on hover when owner */
 .avatar-edit-overlay {
   position: absolute; inset: 0;
   background: rgba(0,0,0,0.5);
   border-radius: 16px;
   align-items: center; justify-content: center;
   cursor: pointer;
-  display: none;          /* hidden by default always */
+  display: none;
   flex-direction: column;
   gap: 4px;
   transition: opacity var(--transition);
 }
-/* Show overlay div only when owner AND hovered */
 .owner-mode .avatar-container:hover .avatar-edit-overlay {
   display: flex;
 }
@@ -249,6 +247,27 @@ body {
 .info-value a { color: var(--blue); text-decoration: none; }
 .info-value a:hover { text-decoration: underline; }
 
+/* ── Education sub-levels (BSc + MSc/PhD) ── */
+.edu-level-item {
+  display: flex; align-items: flex-start; gap: 7px;
+  margin-bottom: 6px;
+}
+.edu-level-item:last-child { margin-bottom: 0; }
+.edu-degree-label {
+  font-size: 11px; color: #9ca3af; font-weight: 700;
+  letter-spacing: 0.5px; margin-bottom: 2px;
+}
+.edu-uni-name {
+  font-size: 13px; color: var(--text-dark); font-weight: 700; line-height: 1.35;
+}
+.edu-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 5px;
+}
+.edu-dot.blue  { background: var(--blue); }
+.edu-dot.teal  { background: var(--teal); }
+.edu-dot.gold  { background: #b45309; }
+
 /* ============================================================
    ABOUT (SIDEBAR)
    ============================================================ */
@@ -328,6 +347,16 @@ body {
   background: var(--teal); border-radius: 3px;
 }
 
+/* Files count badge */
+.files-count-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--teal); color: #fff;
+  font-size: 11px; font-weight: 700;
+  min-width: 20px; height: 20px; padding: 0 6px;
+  border-radius: 10px; margin-right: 8px;
+  vertical-align: middle;
+}
+
 /* ============================================================
    FILES LIST (PDF uploads)
    ============================================================ */
@@ -404,7 +433,7 @@ body {
 .see-all-files-link:hover { background: var(--blue); color: #fff; }
 
 /* ============================================================
-   RESEARCH LIST — Academic style (matches founder page)
+   RESEARCH LIST — Academic style
    ============================================================ */
 .research-list-wrap {
   background: #fff;
@@ -447,9 +476,16 @@ body {
 }
 .research-supervisor-line a { color: #f97316; text-decoration: none; }
 .research-supervisor-line a:hover { text-decoration: underline; }
+
+/* Research description */
 .research-desc-text {
-  margin-top: 5px; color: #6b7280; font-size: 13px; line-height: 1.65;
+  margin-top: 7px;
+  font-size: 12px; color: #6b7280; line-height: 1.7;
+  direction: ltr; text-align: left;
+  border-right: 3px solid rgba(0,128,128,0.25);
+  padding-right: 10px;
 }
+
 .research-actions-row { margin-top: 9px; }
 .scholar-btn {
   display: inline-flex; align-items: center;
@@ -466,6 +502,45 @@ body {
 .research-year-badge {
   color: #6b7280; font-size: 13px; white-space: nowrap; padding-top: 2px;
   font-weight: 700;
+}
+
+/* ============================================================
+   CERTIFICATES CARD
+   ============================================================ */
+.cert-list-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  direction: rtl; text-align: right;
+}
+.cert-item-row {
+  display: flex; gap: 14px; align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background var(--transition);
+}
+.cert-item-row:last-child { border-bottom: none; }
+.cert-item-row:hover { background: #fffbf0; }
+.cert-icon-box {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: linear-gradient(135deg, #b45309, #92400e);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(180,83,9,0.22);
+}
+.cert-info { flex: 1; min-width: 0; }
+.cert-title {
+  display: block; color: var(--text-dark);
+  font-size: 14px; font-weight: 700; line-height: 1.3;
+  margin-bottom: 3px;
+}
+.cert-issuer {
+  font-size: 12px; color: #188038; font-weight: 700;
+}
+.cert-year {
+  font-size: 11px; color: #9ca3af; font-weight: 700;
+  white-space: nowrap; flex-shrink: 0;
 }
 
 /* ============================================================
@@ -561,11 +636,9 @@ textarea.form-control { resize: vertical; min-height: 100px; }
 select.form-control { cursor: pointer; }
 .form-control.ltr-input { direction: ltr; text-align: left; }
 
-/* Character counter */
 .char-counter { font-size: 11px; color: #9ca3af; text-align: left; margin-top: 4px; }
 .char-counter.warn { color: #dc2626; }
 
-/* Submit button */
 .modal-submit-btn {
   width: 100%; padding: 12px;
   background: var(--blue); color: #fff;
@@ -580,7 +653,6 @@ select.form-control { cursor: pointer; }
 .modal-submit-btn.teal { background: var(--teal); }
 .modal-submit-btn.teal:hover { background: #006666; }
 
-/* Toggle switch */
 .toggle-row {
   display: flex; align-items: center;
   justify-content: space-between; margin-bottom: 10px;
@@ -605,7 +677,6 @@ select.form-control { cursor: pointer; }
 .toggle-switch input:checked + .toggle-slider { background: var(--teal); }
 .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-/* Conditional fields */
 .conditional-field { display: none; }
 .conditional-field.active { display: block; }
 
@@ -615,9 +686,6 @@ select.form-control { cursor: pointer; }
 .upload-sub-select { display: none; }
 .upload-sub-select.active { display: block; }
 
-/* ============================================================
-   UPLOAD PROGRESS BAR
-   ============================================================ */
 .upload-progress-wrap { display: none; margin-top: 12px; }
 .upload-progress-wrap.active { display: block; }
 .upload-progress-bar {
@@ -630,7 +698,7 @@ select.form-control { cursor: pointer; }
 .upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
 
 /* ============================================================
-   FOOTER — matches founder page exactly
+   FOOTER
    ============================================================ */
 footer {
   background: #06101f; color: rgba(255,255,255,0.6);
@@ -804,7 +872,6 @@ footer {
   <div class="profile-avatar-wrap">
     <div class="avatar-container" id="avatarClickZone">
       <img id="profileAvatar" src="media/1nkown.png" alt="صورة المستخدم" class="profile-avatar">
-      <!-- Overlay only visible on hover when owner (CSS handles this) -->
       <div class="avatar-edit-overlay" id="avatarEditOverlay" title="تغيير الصورة">
         <span>📷</span>
         <small>تغيير الصورة</small>
@@ -832,6 +899,7 @@ footer {
         <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات والمسار الأكاديمي">✏️ تعديل</button>
       </div>
       
+      <!-- التعليم — يُعرض دائماً بمستوياته -->
       <div class="info-row" id="rowUniversity">
         <span class="info-icon">🎓</span>
         <div style="flex:1">
@@ -899,13 +967,23 @@ footer {
     <!-- UPLOADED FILES CARD -->
     <div class="content-card">
       <div class="card-header">
-        <h2>الملفات المرفوعة</h2>
+        <h2>الملفات المرفوعة <span class="files-count-badge" id="filesCountBadge" style="display:none"></span></h2>
         <a href="uploads.html" class="see-all-files-link">
           📂 كل المرفوعات ←
         </a>
       </div>
       <div id="filesContainer">
         <div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>
+      </div>
+    </div>
+
+    <!-- CERTIFICATES CARD -->
+    <div class="content-card">
+      <div class="card-header">
+        <h2>الشهادات المكتملة</h2>
+      </div>
+      <div id="certsContainer">
+        <div class="files-empty"><p>لا توجد شهادات مكتملة حتى الآن.</p></div>
       </div>
     </div>
 
@@ -964,7 +1042,7 @@ footer {
 
 <!-- INFO MODAL -->
 <div id="infoModal" class="modal-backdrop">
-  <div class="modal-box">
+  <div class="modal-box" style="max-width:520px;">
     <div class="modal-head">
       <h3>✏️ تعديل المعلومات والمسار الأكاديمي</h3>
       <button class="modal-close-btn" data-close="infoModal">✕</button>
@@ -994,6 +1072,13 @@ footer {
           <option value="3">الثالثة</option>
           <option value="4">الرابعة</option>
         </select>
+      </div>
+
+      <!-- MSc / PhD extra university field -->
+      <div class="form-group conditional-field" id="gradUniGroup">
+        <label id="gradUniLabel">جامعة الماجستير</label>
+        <input type="text" id="gradUniInput" class="form-control"
+               placeholder="مثلاً: جامعة بغداد / University of Leeds">
       </div>
 
       <!-- Iraqi Governorates Dropdown -->
@@ -1122,7 +1207,7 @@ footer {
           <option value="">— اختر المرحلة —</option>
           <option value="1">الأولى</option>
           <option value="2">الثانية</option>
-          <option value="3">الثالثة</option>
+          <option value="3">الرابعة</option>
           <option value="4">الرابعة</option>
         </select>
       </div>
@@ -1365,6 +1450,7 @@ async function loadProfile() {
     profileData = snap.data();
     renderProfile();
     await loadFiles();
+    await loadCertificates();
     await loadResearchFromGitHub();
   } catch (e) {
     toast("خطأ في تحميل البيانات: " + e.message, 'error');
@@ -1388,7 +1474,6 @@ function renderProfile() {
   const d = profileData;
   document.title = `ESC — ${d.fullName || TARGET_USERNAME}`;
 
-  // "المهندس" prefix before name
   const namePrefix = "المهندس ";
   document.getElementById('profileName').textContent = namePrefix + (d.fullName || TARGET_USERNAME);
   document.getElementById('profileUsername').textContent = '@' + TARGET_USERNAME;
@@ -1408,12 +1493,49 @@ function renderProfile() {
   if (d.avatarURL) document.getElementById('profileAvatar').src = d.avatarURL;
 
   const hidden = d.hiddenFields || [];
-  setInfoRow('rowUniversity', 'infoUniversity', translatedUni, hidden.includes('university'));
+
+  /* ── Education field with multi-level display ── */
+  if (!hidden.includes('university')) {
+    const uniRow   = document.getElementById('rowUniversity');
+    const uniValue = document.getElementById('infoUniversity');
+    uniRow.style.display = '';
+
+    if (degree === 'bsc') {
+      // BSc only — plain display (same as before)
+      uniValue.textContent = translatedUni || '—';
+    } else {
+      // Higher degree: show BSc uni + grad uni stacked
+      const gradUni = d.gradUniversity || '';
+      const degLabel = degree === 'msc' ? 'بكالوريوس' : 'بكالوريوس';
+      const gradDegLabel = degree === 'msc' ? 'ماجستير' : 'دكتوراه';
+      const dotColorGrad = degree === 'msc' ? 'teal' : 'gold';
+
+      uniValue.innerHTML = `
+        <div class="edu-level-item">
+          <span class="edu-dot blue"></span>
+          <div>
+            <div class="edu-degree-label">${degLabel}</div>
+            <div class="edu-uni-name">${escHtml(translatedUni || '—')}</div>
+          </div>
+        </div>
+        ${gradUni ? `
+        <div class="edu-level-item" style="margin-top:8px;">
+          <span class="edu-dot ${dotColorGrad}"></span>
+          <div>
+            <div class="edu-degree-label">${gradDegLabel}</div>
+            <div class="edu-uni-name">${escHtml(gradUni)}</div>
+          </div>
+        </div>` : ''}
+      `;
+    }
+  } else {
+    document.getElementById('rowUniversity').style.display = 'none';
+  }
+
   setInfoRow('rowDept',       'infoDept',       translatedDept, hidden.includes('department'));
   setInfoRow('rowStage',      'infoStage',
     (isStudent && degree === "bsc") ? `المرحلة ${STAGE_LABELS[stage] || stage}` : "—",
     hidden.includes('stage'));
-  // City display: "محافظة X، العراق"
   const cityDisplay = d.city ? `${d.city}، العراق` : null;
   setInfoRow('rowCity', 'infoCity', cityDisplay, hidden.includes('city'));
 
@@ -1503,13 +1625,23 @@ async function deleteLink(idx) {
 }
 
 /* ─────────────────────────────────────────────────
-   LOAD FILES
+   LOAD FILES — with count badge
    ───────────────────────────────────────────────── */
 async function loadFiles() {
   try {
     const q    = query(collection(db,"uploads"), where("uploader","==",TARGET_USERNAME));
     const snap = await getDocs(q);
     const cont = document.getElementById('filesContainer');
+
+    // Show count badge
+    const badge = document.getElementById('filesCountBadge');
+    if (!snap.empty) {
+      badge.textContent = snap.size;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+
     if (snap.empty) {
       cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>';
       return;
@@ -1543,7 +1675,50 @@ async function loadFiles() {
 }
 
 /* ─────────────────────────────────────────────────
-   LOAD RESEARCH — Academic style from JSON
+   LOAD CERTIFICATES from cert/cert_list.json
+   ───────────────────────────────────────────────── */
+async function loadCertificates() {
+  const container = document.getElementById('certsContainer');
+  try {
+    const response = await fetch('cert/cert_list.json');
+    if (!response.ok) throw new Error("JSON Fetch Failed");
+    const allCerts = await response.json();
+
+    const userCerts = allCerts.filter(c =>
+      c.authors_users && c.authors_users.includes(TARGET_USERNAME)
+    );
+
+    if (userCerts.length === 0) {
+      container.innerHTML = '<div class="files-empty"><p>لا توجد شهادات مكتملة حتى الآن.</p></div>';
+      return;
+    }
+
+    const listWrap = document.createElement('div');
+    listWrap.className = 'cert-list-wrap';
+
+    userCerts.forEach(c => {
+      const row = document.createElement('div');
+      row.className = 'cert-item-row';
+      row.innerHTML = `
+        <div class="cert-icon-box">🏅</div>
+        <div class="cert-info">
+          <span class="cert-title">${escHtml(c.title)}</span>
+          <span class="cert-issuer">${escHtml(c.authors_names || '')}</span>
+        </div>
+        <span class="cert-year">${escHtml(c.year || '')}</span>
+      `;
+      listWrap.appendChild(row);
+    });
+
+    container.innerHTML = '';
+    container.appendChild(listWrap);
+  } catch (e) {
+    container.innerHTML = '<div class="files-empty"><p>لا توجد شهادات مكتملة حتى الآن.</p></div>';
+  }
+}
+
+/* ─────────────────────────────────────────────────
+   LOAD RESEARCH — with description support
    ───────────────────────────────────────────────── */
 async function loadResearchFromGitHub() {
   const container = document.getElementById('researchContainer');
@@ -1565,7 +1740,6 @@ async function loadResearchFromGitHub() {
     listWrap.className = 'research-list-wrap';
 
     userResearch.forEach(r => {
-      // Build authors HTML — link each user to their profile
       let authorsHtml = '';
       if (r.authors_users && r.authors_names) {
         const names = r.authors_names.split(/،|,/).map(n => n.trim());
@@ -1581,7 +1755,6 @@ async function loadResearchFromGitHub() {
         authorsHtml = escHtml(r.authors_names || '');
       }
 
-      // Build supervisors HTML — link each supervisor to their profile
       let supervisorHtml = '';
       if (r.supervisors_names) {
         const supNames = r.supervisors_names.split(/،|,/).map(n => n.trim());
@@ -1600,6 +1773,11 @@ async function loadResearchFromGitHub() {
         `;
       }
 
+      // Description — rendered if present in JSON
+      const descHtml = r.description
+        ? `<div class="research-desc-text">${escHtml(r.description)}</div>`
+        : '';
+
       const item = document.createElement('article');
       item.className = 'research-item-row';
       item.innerHTML = `
@@ -1612,6 +1790,7 @@ async function loadResearchFromGitHub() {
             <span class="research-serial">${escHtml(r.id)}</span>
           </div>
           ${supervisorHtml}
+          ${descHtml}
           <div class="research-actions-row">
             <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">
               GO TO SCHOLAR
@@ -1639,7 +1818,6 @@ function activateOwnerMode() {
   document.body.classList.add('owner-mode');
   const researchBtn = document.getElementById('requestResearchBtn');
   if (researchBtn) researchBtn.style.display = 'inline-flex';
-  // Make avatar clickable
   document.getElementById('avatarClickZone').style.cursor = 'pointer';
 }
 
@@ -1663,7 +1841,6 @@ document.getElementById('requestResearchBtn').addEventListener('click', () => {
 
 /* ─────────────────────────────────────────────────
    AVATAR UPLOAD
-   Size limit: 3 MB, must be square (1:1 ratio)
    ───────────────────────────────────────────────── */
 document.getElementById('avatarClickZone').addEventListener('click', () => {
   if (isOwner) document.getElementById('avatarInput').click();
@@ -1674,13 +1851,11 @@ document.getElementById('avatarInput').addEventListener('change', async (e) => {
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
 
-  // 3 MB limit
   if (file.size > 3 * 1024 * 1024) {
     toast('حجم الصورة يجب أن يكون أقل من 3 ميجابايت.', 'error');
     return;
   }
 
-  // Check square ratio
   const isSquare = await new Promise(resolve => {
     const img = new Image();
     const url = URL.createObjectURL(file);
@@ -1743,25 +1918,40 @@ document.getElementById('saveBioBtn').addEventListener('click', async () => {
 const isStudentInp = document.getElementById('isStudentInput');
 const degreeInp    = document.getElementById('degreeInput');
 const stageGrp     = document.getElementById('stageGroup');
+const gradUniGrp   = document.getElementById('gradUniGroup');
+const gradUniLabel = document.getElementById('gradUniLabel');
 
 function updateModalVisibility() {
-  if (isStudentInp.value === "true" && degreeInp.value === "bsc") {
+  const deg = degreeInp.value;
+  const isBsc = deg === 'bsc';
+  const isStud = isStudentInp.value === 'true';
+
+  // Stage: only for current BSc students
+  if (isStud && isBsc) {
     stageGrp.classList.add('active');
   } else {
     stageGrp.classList.remove('active');
+  }
+
+  // Grad university field: for MSc or PhD
+  if (!isBsc) {
+    gradUniGrp.classList.add('active');
+    gradUniLabel.textContent = deg === 'msc' ? 'جامعة الماجستير' : 'جامعة الدكتوراه';
+  } else {
+    gradUniGrp.classList.remove('active');
   }
 }
 isStudentInp.addEventListener('change', updateModalVisibility);
 degreeInp.addEventListener('change', updateModalVisibility);
 
 document.getElementById('editInfoBtn').addEventListener('click', () => {
-  // Pre-select saved city in dropdown
   const citySelect = document.getElementById('cityInput');
   citySelect.value = profileData.city || '';
 
   isStudentInp.value = (profileData.isStudent !== false).toString();
   degreeInp.value    = profileData.degreeLevel || "bsc";
-  document.getElementById('stageInput').value = profileData.stage || "1";
+  document.getElementById('stageInput').value   = profileData.stage || "1";
+  document.getElementById('gradUniInput').value  = profileData.gradUniversity || '';
   updateModalVisibility();
 
   const hidden = profileData.hiddenFields || [];
@@ -1773,10 +1963,11 @@ document.getElementById('editInfoBtn').addEventListener('click', () => {
 });
 
 document.getElementById('saveInfoBtn').addEventListener('click', async () => {
-  const city   = document.getElementById('cityInput').value;
-  const isStud = isStudentInp.value === "true";
-  const degLvl = degreeInp.value;
-  const stg    = document.getElementById('stageInput').value;
+  const city      = document.getElementById('cityInput').value;
+  const isStud    = isStudentInp.value === "true";
+  const degLvl    = degreeInp.value;
+  const stg       = document.getElementById('stageInput').value;
+  const gradUni   = document.getElementById('gradUniInput').value.trim();
 
   const hidden = [];
   if (!document.getElementById('toggleUniversity').checked) hidden.push('university');
@@ -1787,13 +1978,15 @@ document.getElementById('saveInfoBtn').addEventListener('click', async () => {
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME), {
       city, hiddenFields: hidden,
-      isStudent: isStud, degreeLevel: degLvl, stage: stg
+      isStudent: isStud, degreeLevel: degLvl, stage: stg,
+      gradUniversity: gradUni
     });
-    profileData.city         = city;
-    profileData.hiddenFields = hidden;
-    profileData.isStudent    = isStud;
-    profileData.degreeLevel  = degLvl;
-    profileData.stage        = stg;
+    profileData.city           = city;
+    profileData.hiddenFields   = hidden;
+    profileData.isStudent      = isStud;
+    profileData.degreeLevel    = degLvl;
+    profileData.stage          = stg;
+    profileData.gradUniversity = gradUni;
     renderProfile();
     closeModal('infoModal');
     toast('تم حفظ المعلومات والمسار الأكاديمي ✓', 'success');
