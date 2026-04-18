@@ -544,7 +544,7 @@ onAuthStateChanged(auth, async (user) => {
     const username   = snap.docs[0].id;
     const data       = snap.docs[0].data();
     const avatarSrc  = data.avatarURL || 'media/1nkown.png';
-    const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
+    const profileUrl = `../profile.html?u=${encodeURIComponent(username)}`;
 
     btn.className = 'state-user';
     btn.href      = profileUrl;
