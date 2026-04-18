@@ -35,6 +35,58 @@ body {
   overflow-x: hidden;
 }
 
+/* ===== AUTH GATE OVERLAY ===== */
+#authGate {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  z-index: 8000;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+#authGate.show { display: flex; }
+.auth-gate-box {
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px;
+  max-width: 400px; width: 100%;
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  animation: authSlideUp 0.25s ease;
+}
+@keyframes authSlideUp {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.auth-gate-icon { font-size: 52px; margin-bottom: 14px; display: block; }
+.auth-gate-title {
+  font-size: 20px; font-weight: 700;
+  color: var(--text-dark); margin-bottom: 10px;
+}
+.auth-gate-msg {
+  font-size: 14px; color: var(--text-light);
+  line-height: 1.75; margin-bottom: 24px;
+}
+.auth-gate-btns { display: flex; gap: 10px; flex-direction: column; }
+.auth-gate-btn {
+  display: block; width: 100%;
+  padding: 12px; border-radius: 12px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; font-weight: 700;
+  text-decoration: none;
+  transition: background var(--transition);
+}
+.auth-gate-btn.primary {
+  background: var(--blue); color: #fff;
+}
+.auth-gate-btn.primary:hover { background: #0059d4; }
+.auth-gate-btn.secondary {
+  background: #f3f4f6; color: var(--text-dark);
+  border: 1px solid rgba(0,0,0,0.10);
+}
+.auth-gate-btn.secondary:hover { background: #e5e7eb; }
+
 /* ===== NAVBAR ===== */
 #bar {
   height: var(--nav-height);
@@ -374,48 +426,7 @@ footer {
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
-  #authBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px;
-  border-radius: 9px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.25s ease;
-}
-#authBtn.state-loading {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.35);
-  border: 1.5px solid rgba(255,255,255,0.1);
-  pointer-events: none;
-}
-#authBtn.state-guest {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.32);
-}
-#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
-#authBtn.state-user {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.28);
-}
-#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
-.auth-avatar {
-  width: 26px; height: 26px;
-  border-radius: 6px; object-fit: cover;
-  border: 1.5px solid rgba(255,255,255,0.35);
-  display: block; flex-shrink: 0;
-}
-@media (max-width: 768px) {
-  #authBtn { display: none; }
-}
-  #authBtn {
+#authBtn {
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -459,6 +470,21 @@ footer {
 </style>
 </head>
 <body>
+
+<!-- AUTH GATE OVERLAY -->
+<div id="authGate">
+  <div class="auth-gate-box">
+    <span class="auth-gate-icon">🔒</span>
+    <div class="auth-gate-title">تسجيل الدخول مطلوب</div>
+    <p class="auth-gate-msg">
+      يجب أن تكون عضواً مسجلاً للوصول إلى المكتبة العلمية والاطلاع على مرفوعات الطلاب.
+    </p>
+    <div class="auth-gate-btns">
+      <a href="https://esc-iq.github.io/login.html" class="auth-gate-btn primary">تسجيل الدخول</a>
+      <a href="https://esc-iq.github.io/register.html" class="auth-gate-btn secondary">إنشاء حساب جديد</a>
+    </div>
+  </div>
+</div>
 
 <header id="bar">
   <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
@@ -587,6 +613,7 @@ footer {
 
 <script type="module">
 import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs, orderBy }
                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
@@ -600,7 +627,15 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db  = getFirestore(app);
+
+/* ── AUTH GATE ── */
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    document.getElementById('authGate').classList.add('show');
+  }
+});
 
 /* ─────────────────────────────────────────────
    DEPARTMENT → STAGE → SUBJECTS CONFIG
@@ -900,7 +935,8 @@ window.addEventListener('resize', () => { if (window.innerWidth > 900) closeFilt
 buildStageTree(currentDept);
 fetchDeptFiles(currentDept);
 </script>
-  <script type="module">
+
+<script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged }
                              from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
@@ -965,70 +1001,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 </script>
-  <script type="module">
-import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, onAuthStateChanged }
-                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs }
-                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
-  authDomain:        "engineering-students-community.firebaseapp.com",
-  projectId:         "engineering-students-community",
-  storageBucket:     "engineering-students-community.firebasestorage.app",
-  messagingSenderId: "371432549665",
-  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
-};
-
-const app       = initializeApp(firebaseConfig);
-const auth      = getAuth(app);
-const db        = getFirestore(app);
-const btn       = document.getElementById('authBtn');
-const btnMobile = document.getElementById('authBtnMobile');
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    btn.className = 'state-guest';
-    btn.href      = 'login.html';
-    btn.innerHTML = ' تسجيل الدخول';
-    if (btnMobile) {
-      btnMobile.href      = 'login.html';
-      btnMobile.innerHTML = ' تسجيل الدخول';
-    }
-    return;
-  }
-  try {
-    const q    = query(collection(db,"students"), where("uid","==",user.uid));
-    const snap = await getDocs(q);
-    if (snap.empty) {
-      btn.className = 'state-guest';
-      btn.href      = 'login.html';
-      btn.innerHTML = ' تسجيل الدخول';
-      return;
-    }
-    const username   = snap.docs[0].id;
-    const data       = snap.docs[0].data();
-    const avatarSrc  = data.avatarURL || 'media/1nkown.png';
-    const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
-
-    btn.className = 'state-user';
-    btn.href      = profileUrl;
-    btn.innerHTML =
-      `<img class="auth-avatar" src="${avatarSrc}"
-            onerror="this.src='media/1nkown.png'" alt="صورة">` +
-      `<span>@${username}</span>`;
-
-    if (btnMobile) {
-      btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
-    }
-  } catch (e) {
-    btn.className = 'state-guest';
-    btn.href      = 'login.html';
-    btn.innerHTML = ' تسجيل الدخول';
-  }
-});
-</script>
 </body>
 </html>
