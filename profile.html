@@ -26,6 +26,13 @@
   --text-light: #6b7280;
   --border: rgba(0,0,0,0.08);
   --shadow: 0 2px 14px rgba(0,0,0,0.07);
+
+  /* TAG COLOR LIBRARY */
+  --tag-blue-bg: #e6eeff;   --tag-blue-fg: #0047AB;
+  --tag-teal-bg: #e6f7f4;   --tag-teal-fg: #008080;
+  --tag-gold-bg: #fef3c7;   --tag-gold-fg: #92400e;
+  --tag-rose-bg: #ffe4e6;   --tag-rose-fg: #9f1239;
+  --tag-violet-bg: #ede9fe; --tag-violet-fg: #5b21b6;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -78,6 +85,94 @@ body {
   transition: background var(--transition);
 }
 #bar nav a:hover { background: rgba(255,255,255,0.18); }
+
+.bar-left {
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+
+/* ── SEARCH BAR ── */
+.nav-search-wrap {
+  position: relative;
+  display: flex; align-items: center;
+}
+.nav-search-input {
+  width: 280px; height: 36px;
+  padding: 0 36px 0 12px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.12);
+  outline: none; color: #fff;
+  font-weight: 700; font-family: 'Ubuntu', sans-serif;
+  font-size: 13px;
+  direction: rtl; text-align: right;
+  transition: background 0.2s, border-color 0.2s, width 0.3s;
+  backdrop-filter: blur(4px);
+}
+.nav-search-input::placeholder { color: rgba(255,255,255,0.55); font-weight: 400; }
+.nav-search-input:focus {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.6);
+  width: 300px;
+}
+.nav-search-icon {
+  position: absolute; left: 11px;
+  pointer-events: none;
+  display: flex; align-items: center;
+  opacity: 0.7;
+}
+.nav-search-icon svg { width: 16px; height: 16px; }
+
+.nav-search-results {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px); right: 0;
+  min-width: 300px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(0,0,0,0.08);
+  overflow: hidden;
+  z-index: 2000;
+  direction: rtl;
+  text-align: right;
+}
+.nav-search-results.show { display: block; }
+.search-result-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background 0.15s;
+  cursor: pointer;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: #f3f7ff; }
+.search-result-avatar {
+  width: 40px; height: 40px; border-radius: 10px;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: #e5e7eb;
+}
+.search-result-info { flex: 1; min-width: 0; }
+.search-result-name {
+  font-size: 14px; font-weight: 700; color: #0d1b2a;
+  display: flex; align-items: center; gap: 5px;
+}
+.search-result-username {
+  font-size: 12px; color: var(--blue); font-weight: 700; margin-top: 1px;
+}
+.search-result-uni {
+  font-size: 11px; color: var(--text-light); font-weight: 700; margin-top: 1px;
+}
+.search-no-result {
+  padding: 20px 16px; text-align: center;
+  font-size: 13px; font-weight: 700; color: #9ca3af;
+}
+.search-loading {
+  padding: 16px; text-align: center;
+  font-size: 13px; font-weight: 700; color: #9ca3af;
+}
+
 .menu-btn {
   display: none; height: 42px; width: 42px;
   border: 0; background: transparent; cursor: pointer;
@@ -133,6 +228,19 @@ body {
   font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.08);
   letter-spacing: 6px;
 }
+.cover-uni-logo-wrap {
+  display: none;
+  position: absolute; bottom: 14px; left: 20px;
+  align-items: center; justify-content: center;
+}
+.cover-uni-logo-wrap.show { display: flex; }
+.cover-uni-logo {
+  max-height: 52px; max-width: 160px;
+  object-fit: contain;
+  opacity: 0.82;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
+  border-radius: 6px;
+}
 
 /* ============================================================
    PROFILE HEADER
@@ -155,7 +263,6 @@ body {
   box-shadow: 0 4px 24px rgba(0,0,0,0.15);
   display: block;
 }
-
 .avatar-edit-overlay {
   position: absolute; inset: 0;
   background: rgba(0,0,0,0.5);
@@ -165,17 +272,39 @@ body {
   display: none;
   flex-direction: column;
   gap: 4px;
-  transition: opacity var(--transition);
 }
-.owner-mode .avatar-container:hover .avatar-edit-overlay {
-  display: flex;
-}
-.avatar-edit-overlay span { font-size: 26px; }
-.avatar-edit-overlay small {
-  font-size: 10px; font-weight: 700;
-  color: rgba(255,255,255,0.85); letter-spacing: 0.5px;
-}
+.owner-mode .avatar-container:hover .avatar-edit-overlay { display: flex; }
+.avatar-edit-overlay span { font-size: 22px; }
+.avatar-edit-overlay small { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.85); letter-spacing: 0.5px; }
 #avatarInput { display: none; }
+
+.avatar-context-menu {
+  display: none;
+  position: absolute;
+  top: 100%; right: 0;
+  margin-top: 8px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,0,0,0.08);
+  z-index: 300;
+  overflow: hidden;
+  min-width: 170px;
+  direction: rtl;
+}
+.avatar-context-menu.show { display: block; }
+.avatar-ctx-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 14px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  color: var(--text-dark);
+}
+.avatar-ctx-item:last-child { border-bottom: none; }
+.avatar-ctx-item:hover { background: #f3f4f6; }
+.avatar-ctx-item.danger { color: #dc2626; }
+.avatar-ctx-item.danger:hover { background: #fef2f2; }
 
 .profile-info {
   padding: 18px 40px 0 40px;
@@ -184,19 +313,43 @@ body {
 .profile-name {
   font-size: 24px; font-weight: 700;
   color: var(--text-dark); margin-bottom: 4px;
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
+.verify-badge {
+  display: inline-flex; align-items: center;
+  width: 22px; height: 22px; flex-shrink: 0;
+}
+.verify-badge img { width: 22px; height: 22px; object-fit: contain; }
+
+.profile-member-title {
+  font-size: 14px; color: #555;
+  margin-bottom: 10px; line-height: 1.5;
+  display: none;
+}
+.profile-member-title.show { display: block; }
+
 .profile-username {
   font-size: 14px; color: var(--text-light);
   font-weight: 700; margin-bottom: 10px;
   direction: ltr; text-align: right;
 }
+
+/* ── TAG COLOR LIBRARY ── */
 .profile-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
 .profile-tag {
   display: inline-block;
-  background: #e6f7f4; color: var(--teal);
   font-size: 12px; font-weight: 700;
   padding: 4px 12px; border-radius: 20px;
 }
+/* color variants */
+.profile-tag.color-0 { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
+.profile-tag.color-1 { background: var(--tag-teal-bg);   color: var(--tag-teal-fg); }
+.profile-tag.color-2 { background: var(--tag-gold-bg);   color: var(--tag-gold-fg); }
+.profile-tag.color-3 { background: var(--tag-rose-bg);   color: var(--tag-rose-fg); }
+.profile-tag.color-4 { background: var(--tag-violet-bg); color: var(--tag-violet-fg); }
+/* legacy classes kept for compatibility */
+.profile-tag.blue   { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
+.profile-tag.teal   { background: var(--tag-teal-bg);   color: var(--tag-teal-fg); }
 
 /* ============================================================
    PAGE BODY LAYOUT
@@ -206,48 +359,48 @@ body {
   margin: 28px auto 60px;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 290px 1fr;
   gap: 24px;
   align-items: flex-start;
 }
 
 /* ============================================================
-   SIDEBAR CARDS
+   SIDEBAR CARDS  — larger, matching founder page
    ============================================================ */
 .sidebar-card {
   background: #fff;
   border-radius: var(--card-radius);
   border: 1px solid var(--border);
-  padding: 22px;
+  padding: 26px 24px;       /* increased */
   box-shadow: var(--shadow);
 }
 .sidebar-card + .sidebar-card { margin-top: 16px; }
 .sidebar-card-title {
   font-size: 13px; font-weight: 700;
   color: #888; letter-spacing: 1.5px;
-  text-transform: uppercase; margin-bottom: 16px;
-  padding-bottom: 10px;
+  text-transform: uppercase; margin-bottom: 18px;
+  padding-bottom: 12px;
   border-bottom: 1px solid rgba(0,0,0,0.06);
   display: flex; align-items: center; justify-content: space-between;
 }
 .info-row {
   display: flex; align-items: flex-start;
-  gap: 10px; margin-bottom: 13px;
+  gap: 12px; margin-bottom: 16px;   /* increased spacing */
 }
 .info-row:last-child { margin-bottom: 0; }
-.info-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+.info-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; } /* bigger icon */
 .info-label {
   font-size: 11px; color: #999; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;
+  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px;
 }
 .info-value {
   font-size: 14px; color: var(--text-dark);
-  font-weight: 700; line-height: 1.4;
+  font-weight: 700; line-height: 1.5;
 }
 .info-value a { color: var(--blue); text-decoration: none; }
 .info-value a:hover { text-decoration: underline; }
 
-/* ── Education sub-levels (BSc + MSc/PhD) ── */
+/* Education sub-levels */
 .edu-level-item {
   display: flex; align-items: flex-start; gap: 7px;
   margin-bottom: 6px;
@@ -268,14 +421,9 @@ body {
 .edu-dot.teal  { background: var(--teal); }
 .edu-dot.gold  { background: #b45309; }
 
-/* ============================================================
-   ABOUT (SIDEBAR)
-   ============================================================ */
-.bio-text {
-  font-size: 13px; color: var(--text-mid); line-height: 1.8;
-  white-space: pre-wrap; word-break: break-word;
-}
-.bio-empty { font-size: 13px; color: #c0c0c0; font-style: italic; }
+/* ── Organisation card (member only) ── */
+#orgCard { display: none; }
+#orgCard.show { display: block; }
 
 /* ============================================================
    CONTACT LINKS (SIDEBAR)
@@ -292,7 +440,7 @@ body {
   background: rgba(0,71,171,0.06); border-radius: 8px;
   border: 1px solid rgba(0,71,171,0.12);
   transition: background var(--transition);
-  max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  max-width: 190px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .contact-link-item a:hover { background: rgba(0,71,171,0.12); }
 .contact-link-delete {
@@ -356,6 +504,74 @@ body {
   border-radius: 10px; margin-right: 8px;
   vertical-align: middle;
 }
+
+/* ============================================================
+   ABOUT CARD (main column)
+   ============================================================ */
+.about-text-main {
+  font-size: 14px; color: #444; line-height: 1.85;
+  white-space: pre-wrap; word-break: break-word;
+}
+
+/* CV Download link */
+.cv-download-link {
+  display: none;
+  margin-top: 14px;
+  font-size: 13px; font-weight: 700;
+  color: var(--blue);
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.cv-download-link.show { display: inline-block; }
+
+/* ============================================================
+   SKILLS CARD
+   ============================================================ */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+.skill-item {
+  background: #f9fafb;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: box-shadow var(--transition);
+}
+.skill-item:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+.skill-title {
+  font-size: 14px; font-weight: 700; color: var(--text-dark);
+  margin-bottom: 5px;
+}
+.skill-desc {
+  font-size: 13px; color: var(--text-mid); line-height: 1.7;
+}
+.skills-empty { font-size: 13px; color: #c0c0c0; font-style: italic; }
+
+.add-skill-btn {
+  display: none;
+  margin-top: 14px;
+  width: 100%;
+  padding: 9px;
+  background: rgba(0,128,128,0.07);
+  border: 1.5px dashed rgba(0,128,128,0.35);
+  border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--teal);
+  cursor: pointer; transition: background var(--transition);
+}
+.add-skill-btn:hover { background: rgba(0,128,128,0.13); }
+.owner-mode .add-skill-btn { display: block; }
+
+.skill-delete-btn {
+  display: none;
+  float: left;
+  background: none; border: none;
+  color: #dc2626; cursor: pointer;
+  font-size: 13px; padding: 0;
+  margin-top: 2px;
+}
+.owner-mode .skill-delete-btn { display: block; }
 
 /* ============================================================
    FILES LIST (PDF uploads)
@@ -422,7 +638,6 @@ body {
 }
 .files-empty p { font-size: 13px; font-weight: 700; color: #c0c0c0; }
 
-/* See all files link */
 .see-all-files-link {
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 13px; font-weight: 700; color: var(--blue);
@@ -433,8 +648,36 @@ body {
 .see-all-files-link:hover { background: var(--blue); color: #fff; }
 
 /* ============================================================
-   RESEARCH LIST — Academic style
+   RESEARCH LIST
    ============================================================ */
+.research-search-wrap {
+  position: relative; display: flex;
+  align-items: center; margin-bottom: 14px;
+}
+.research-search-input {
+  width: 100%; height: 40px;
+  padding: 0 44px 0 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  background: rgba(107,114,128,0.08);
+  outline: none; color: #111827;
+  font-weight: 700; font-family: 'Ubuntu', sans-serif;
+  direction: ltr; text-align: left;
+}
+.research-search-input::placeholder { color: rgba(17,24,39,0.4); font-weight: 400; }
+.research-search-icon {
+  position: absolute; right: 12px;
+  pointer-events: none; opacity: 0.5;
+  display: flex; align-items: center;
+}
+.research-search-icon svg { width: 17px; height: 17px; }
+.research-no-results {
+  display: none; padding: 24px 16px;
+  text-align: center; color: #6b7280;
+  font-weight: 700; font-size: 14px; direction: rtl;
+}
+.research-no-results.show { display: block; }
+
 .research-list-wrap {
   background: #fff;
   border: 1px solid var(--border);
@@ -477,13 +720,10 @@ body {
 .research-supervisor-line a { color: #f97316; text-decoration: none; }
 .research-supervisor-line a:hover { text-decoration: underline; }
 
-/* Research description */
 .research-desc-text {
   margin-top: 7px;
   font-size: 12px; color: #6b7280; line-height: 1.7;
   direction: ltr; text-align: left;
-  border-right: 3px solid rgba(0,128,128,0.25);
-  padding-right: 10px;
 }
 
 .research-actions-row { margin-top: 9px; }
@@ -505,7 +745,7 @@ body {
 }
 
 /* ============================================================
-   CERTIFICATES CARD
+   ACHIEVEMENTS (was CERTIFICATES)
    ============================================================ */
 .cert-list-wrap {
   background: #fff;
@@ -535,8 +775,11 @@ body {
   font-size: 14px; font-weight: 700; line-height: 1.3;
   margin-bottom: 3px;
 }
-.cert-issuer {
-  font-size: 12px; color: #188038; font-weight: 700;
+.cert-issuer-line {
+  font-size: 12px; color: var(--text-light); font-weight: 700;
+}
+.cert-issuer-name {
+  color: #188038; font-weight: 700;
 }
 .cert-year {
   font-size: 11px; color: #9ca3af; font-weight: 700;
@@ -557,9 +800,7 @@ body {
   justify-content: space-between;
 }
 .owner-action-bar.visible { display: flex; }
-.owner-action-bar p {
-  font-size: 13px; font-weight: 700; color: var(--text-mid);
-}
+.owner-action-bar p { font-size: 13px; font-weight: 700; color: var(--text-mid); }
 .owner-action-bar p span { color: var(--blue); }
 .action-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 .action-btn {
@@ -592,12 +833,14 @@ body {
   box-shadow: 0 24px 60px rgba(0,0,0,0.28);
   overflow: hidden;
   animation: slideUp 0.22s ease;
+  max-height: 90vh; overflow-y: auto;
 }
 @keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
 .modal-head {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 22px;
   background: var(--blue); color: #fff;
+  position: sticky; top: 0; z-index: 1;
 }
 .modal-head h3 { font-size: 16px; font-weight: 700; }
 .modal-close-btn {
@@ -685,7 +928,6 @@ select.form-control { cursor: pointer; }
    ============================================================ */
 .upload-sub-select { display: none; }
 .upload-sub-select.active { display: block; }
-
 .upload-progress-wrap { display: none; margin-top: 12px; }
 .upload-progress-wrap.active { display: block; }
 .upload-progress-bar {
@@ -696,6 +938,32 @@ select.form-control { cursor: pointer; }
   border-radius: 3px; width: 0%; transition: width 0.3s ease;
 }
 .upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
+
+.copyright-check-wrap {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 10px; background: #f9fafb;
+  margin-bottom: 14px; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.copyright-check-wrap.shake { animation: shakeAnim 0.4s ease; border-color: #dc2626; background: #fef2f2; }
+.copyright-check-wrap.shake label { color: #dc2626; }
+@keyframes shakeAnim {
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-6px)}
+  40%{transform:translateX(6px)}
+  60%{transform:translateX(-4px)}
+  80%{transform:translateX(4px)}
+}
+.copyright-check-wrap input[type="checkbox"] {
+  width: 16px; height: 16px; margin-top: 2px; cursor: pointer; flex-shrink: 0;
+  accent-color: var(--teal);
+}
+.copyright-check-wrap label {
+  font-size: 12px; font-weight: 700; color: var(--text-mid);
+  cursor: pointer; line-height: 1.5;
+}
 
 /* ============================================================
    FOOTER
@@ -760,6 +1028,21 @@ footer {
 .confirm-no  { flex: 1; padding: 10px; background: #f3f4f6; color: var(--text-dark); border: 1px solid var(--border); border-radius: 10px; font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer; }
 .confirm-no:hover { background: #e5e7eb; }
 
+/* Auth button */
+#authBtn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 13px; border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+#authBtn.state-loading { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); border: 1.5px solid rgba(255,255,255,0.1); pointer-events: none; }
+#authBtn.state-guest   { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.32); }
+#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
+#authBtn.state-user    { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
+#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
+.auth-avatar { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.35); display: block; flex-shrink: 0; }
+
 /* ============================================================
    RESPONSIVE
    ============================================================ */
@@ -769,53 +1052,13 @@ footer {
 @media (max-width: 768px) {
   #bar nav { display: none; }
   .menu-btn { display: inline-flex; }
+  .nav-search-wrap { display: none; }
   .profile-avatar-wrap { right: 20px; top: -52px; }
   .profile-avatar { width: 104px; height: 104px; }
   .profile-info { padding: 10px 20px 0; padding-right: 150px; }
   .profile-name { font-size: 18px; }
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
-}
-   #authBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px;
-  border-radius: 9px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.25s ease;
-}
-#authBtn.state-loading {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.35);
-  border: 1.5px solid rgba(255,255,255,0.1);
-  pointer-events: none;
-}
-#authBtn.state-guest {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.32);
-}
-#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
-#authBtn.state-user {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.28);
-}
-#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
-.auth-avatar {
-  width: 26px; height: 26px;
-  border-radius: 6px; object-fit: cover;
-  border: 1.5px solid rgba(255,255,255,0.35);
-  display: block; flex-shrink: 0;
-}
-@media (max-width: 768px) {
-  #authBtn { display: none; }
 }
 </style>
 </head>
@@ -829,12 +1072,22 @@ footer {
 <div id="toastContainer"></div>
 
 <header id="bar">
-  <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+  <div class="bar-left">
     <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
-      <img src="media/icon-512-w.png" alt="ESC"
-           style="height:38px;width:auto;display:block;">
+      <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
     </a>
     <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <input type="search" class="nav-search-input" id="navSearchInput"
+             placeholder="البحث عن مستخدم..." autocomplete="off">
+      <span class="nav-search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+        </svg>
+      </span>
+      <div class="nav-search-results" id="navSearchResults"></div>
+    </div>
   </div>
 
   <nav aria-label="روابط الموقع">
@@ -845,8 +1098,7 @@ footer {
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
 
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات"
-          aria-expanded="false" aria-controls="mobileMenu">
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
 
@@ -857,17 +1109,21 @@ footer {
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
-      <a role="menuitem" id="authBtnMobile" href="login.html"> تسجيل الدخول</a>
+      <a role="menuitem" id="authBtnMobile" href="login.html">تسجيل الدخول</a>
     </div>
   </div>
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
-<div id="menuBackdrop"></div>
 
+<!-- COVER -->
 <div class="profile-cover">
-  <div class="cover-esc-watermark">ESC</div>
+  <div class="cover-esc-watermark" id="coverEscText">ESC</div>
+  <div class="cover-uni-logo-wrap" id="coverUniLogoWrap">
+    <img id="coverUniLogo" src="" alt="شعار الجامعة" class="cover-uni-logo">
+  </div>
 </div>
 
+<!-- PROFILE HEADER -->
 <div class="profile-header-wrap">
   <div class="profile-avatar-wrap">
     <div class="avatar-container" id="avatarClickZone">
@@ -876,30 +1132,45 @@ footer {
         <span>📷</span>
         <small>تغيير الصورة</small>
       </div>
+      <div class="avatar-context-menu" id="avatarContextMenu">
+        <div class="avatar-ctx-item" id="ctxChangeAvatar">
+          <span>📷</span> تغيير الصورة
+        </div>
+        <div class="avatar-ctx-item danger" id="ctxDeleteAvatar">
+          <span>🗑</span> حذف الصورة
+        </div>
+      </div>
     </div>
     <input type="file" id="avatarInput" accept="image/*">
   </div>
 
   <div class="profile-info">
-    <div id="profileName" class="profile-name">...</div>
+    <div id="profileName" class="profile-name">
+      <span id="profileNameText">...</span>
+      <span id="verifyBadgeWrap" class="verify-badge" style="display:none">
+        <img id="verifyBadgeImg" src="" alt="✅">
+      </span>
+    </div>
+    <div id="profileMemberTitle" class="profile-member-title"></div>
     <div id="profileUsername" class="profile-username">@...</div>
     <div id="profileTags" class="profile-tags">
-      <span class="profile-tag" id="academicTag">طالب</span>
+      <span class="profile-tag color-0" id="academicTag">طالب</span>
     </div>
   </div>
 </div>
 
+<!-- PROFILE BODY -->
 <div class="profile-body">
 
   <aside id="sidebarCol">
 
+    <!-- INFO CARD -->
     <div class="sidebar-card" id="infoCard">
       <div class="sidebar-card-title">
         <span>المعلومات</span>
-        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات والمسار الأكاديمي">✏️ تعديل</button>
+        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات">✏️ تعديل</button>
       </div>
-      
-      <!-- التعليم — يُعرض دائماً بمستوياته -->
+
       <div class="info-row" id="rowUniversity">
         <span class="info-icon">🎓</span>
         <div style="flex:1">
@@ -931,18 +1202,52 @@ footer {
           <div class="info-value" id="infoCity">—</div>
         </div>
       </div>
+
+      <div class="info-row" id="rowJobStatus" style="display:none">
+        <span class="info-icon">💼</span>
+        <div style="flex:1">
+          <div class="info-label">الحالة الوظيفية</div>
+          <div class="info-value" id="infoJobStatus">—</div>
+        </div>
+      </div>
+
+      <!-- Member email: shows label "البريد الإلكتروني" as link text -->
+      <div class="info-row" id="rowMemberEmail" style="display:none">
+        <span class="info-icon">✉️</span>
+        <div style="flex:1">
+          <div class="info-label">التواصل</div>
+          <div class="info-value" id="infoMemberEmail">—</div>
+        </div>
+      </div>
     </div>
 
-    <div class="sidebar-card">
-      <div class="sidebar-card-title">
-        <span>حول</span>
-        <button class="edit-inline-btn" id="editBioBtn">✏️ تعديل</button>
+    <!-- ORGANISATION CARD (members only) -->
+    <div class="sidebar-card" id="orgCard">
+      <div class="sidebar-card-title">المنظمة</div>
+      <div class="info-row">
+        <span class="info-icon">🏢</span>
+        <div>
+          <div class="info-label">الاسم</div>
+          <div class="info-value">مجتمع طلبة الهندسة — ESC</div>
+        </div>
       </div>
-      <div id="bioDisplay">
-        <p class="bio-empty">لم يُضَف وصف بعد.</p>
+      <div class="info-row">
+        <span class="info-icon">📌</span>
+        <div>
+          <div class="info-label">الدور</div>
+          <div class="info-value" id="orgRoleValue">—</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">🌐</span>
+        <div>
+          <div class="info-label">الموقع</div>
+          <div class="info-value"><a href="index.html">esc-iq.github.io/esc</a></div>
+        </div>
       </div>
     </div>
 
+    <!-- CONTACT LINKS CARD -->
     <div class="sidebar-card">
       <div class="sidebar-card-title">
         <span>روابط التواصل</span>
@@ -958,32 +1263,55 @@ footer {
   <main id="mainCol">
 
     <div class="owner-action-bar" id="ownerActionBar">
-      <p>أنت تتصفح ملفك الشخصي — <span>مرئي للجميع</span></p>
+      <p>أنت تتصفح ملفك الشخصي — <span>قم برفع الملفات وساهم في المجتمع</span></p>
       <div class="action-btns">
         <button class="action-btn teal-btn" id="openUploadBtn">📤 رفع ملف</button>
       </div>
+    </div>
+
+    <!-- ABOUT CARD (main column — single unified card) -->
+    <div class="content-card" id="mainAboutCard">
+      <div class="card-header">
+        <h2>حول</h2>
+        <button class="edit-inline-btn" id="editBioBtn" style="display:none;">✏️ تعديل</button>
+      </div>
+      <div id="mainAboutContent">
+        <p class="about-text-main" style="color:#c0c0c0;font-style:italic;">لم يُضَف وصف بعد.</p>
+      </div>
+      <a id="cvDownloadLink" class="cv-download-link" href="#" download>
+        تحميل السيرة الذاتية "CV"
+      </a>
+    </div>
+
+    <!-- SKILLS CARD -->
+    <div class="content-card" id="skillsCard">
+      <div class="card-header">
+        <h2>المهارات</h2>
+      </div>
+      <div id="skillsContainer">
+        <p class="skills-empty">لم تُضَف مهارات بعد.</p>
+      </div>
+      <button class="add-skill-btn" id="openAddSkillBtn">＋ إضافة مهارة</button>
     </div>
 
     <!-- UPLOADED FILES CARD -->
     <div class="content-card">
       <div class="card-header">
         <h2>الملفات المرفوعة <span class="files-count-badge" id="filesCountBadge" style="display:none"></span></h2>
-        <a href="uploads.html" class="see-all-files-link">
-          📂 كل المرفوعات ←
-        </a>
+        <a href="uploads.html" class="see-all-files-link">📂 كل المرفوعات ←</a>
       </div>
       <div id="filesContainer">
         <div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>
       </div>
     </div>
 
-    <!-- CERTIFICATES CARD -->
+    <!-- ACHIEVEMENTS CARD (was "الشهادات المكتملة") -->
     <div class="content-card">
       <div class="card-header">
-        <h2>الشهادات المكتملة</h2>
+        <h2>الإنجازات المكتملة</h2>
       </div>
       <div id="certsContainer">
-        <div class="files-empty"><p>لا توجد شهادات مكتملة حتى الآن.</p></div>
+        <div class="files-empty"><p>لا توجد إنجازات مكتملة حتى الآن.</p></div>
       </div>
     </div>
 
@@ -993,6 +1321,17 @@ footer {
         <h2>الأبحاث العلمية</h2>
         <button class="action-btn secondary" id="requestResearchBtn" style="display:none; font-size:12px; padding:6px 12px;">📤 طلب إضافة بحث</button>
       </div>
+      <div class="research-search-wrap" id="researchSearchWrap" style="display:none">
+        <input id="researchSearchInput" class="research-search-input" type="search"
+               placeholder="Search by title or ID..." autocomplete="off">
+        <span class="research-search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
+            <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </div>
+      <div class="research-no-results" id="researchNoResults">لا توجد نتائج مطابقة.</div>
       <div id="researchContainer">
         <div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>
       </div>
@@ -1048,12 +1387,12 @@ footer {
       <button class="modal-close-btn" data-close="infoModal">✕</button>
     </div>
     <div class="modal-body">
-      
+
       <div class="form-group">
         <label>هل أنت طالب حالياً؟</label>
         <select id="isStudentInput" class="form-control">
           <option value="true">نعم، أنا طالب</option>
-          <option value="false">لا، أنا خريج</option>
+          <option value="false">لا، أنا خريج / أكملت دراستي</option>
         </select>
       </div>
       <div class="form-group">
@@ -1064,6 +1403,7 @@ footer {
           <option value="phd">دكتوراه</option>
         </select>
       </div>
+      <!-- Stage: BSc students only -->
       <div class="form-group conditional-field" id="stageGroup">
         <label>المرحلة الدراسية</label>
         <select id="stageInput" class="form-control">
@@ -1073,15 +1413,20 @@ footer {
           <option value="4">الرابعة</option>
         </select>
       </div>
-
-      <!-- MSc / PhD extra university field -->
-      <div class="form-group conditional-field" id="gradUniGroup">
-        <label id="gradUniLabel">جامعة الماجستير</label>
-        <input type="text" id="gradUniInput" class="form-control"
-               placeholder="مثلاً: جامعة بغداد / University of Leeds">
+      <!-- MSc university (msc or phd) -->
+      <div class="form-group conditional-field" id="mscUniGroup">
+        <label id="mscUniLabel">جامعة الماجستير</label>
+        <input type="text" id="mscUniInput" class="form-control"
+               placeholder="مثلاً: جامعة بغداد">
+      </div>
+      <!-- PhD university (phd only) -->
+      <div class="form-group conditional-field" id="phdUniGroup">
+        <label>جامعة الدكتوراه</label>
+        <input type="text" id="phdUniInput" class="form-control"
+               placeholder="مثلاً: University of Leeds">
       </div>
 
-      <!-- Iraqi Governorates Dropdown -->
+      <!-- Iraqi Governorates -->
       <div class="form-group">
         <label>المحافظة</label>
         <select id="cityInput" class="form-control">
@@ -1107,14 +1452,17 @@ footer {
         </select>
       </div>
 
-      <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول (اختياري)</p>
-      <div class="toggle-row">
-        <label>التعليم</label>
-        <label class="toggle-switch">
-          <input type="checkbox" id="toggleUniversity" checked>
-          <span class="toggle-slider"></span>
-        </label>
+      <!-- Job Status -->
+      <div class="form-group">
+        <label>الحالة الوظيفية</label>
+        <select id="jobStatusInput" class="form-control">
+          <option value="">— لا تُظهر الحالة —</option>
+          <option value="employed">يملك وظيفة</option>
+          <option value="seeking">يبحث عن وظيفة</option>
+        </select>
       </div>
+
+      <p style="font-size:12px;font-weight:700;color:#9ca3af;margin-bottom:10px;letter-spacing:1px;">إخفاء / إظهار الحقول (اختياري)</p>
       <div class="toggle-row">
         <label>القسم</label>
         <label class="toggle-switch">
@@ -1156,13 +1504,39 @@ footer {
       </div>
       <div class="form-group">
         <label>الرابط URL</label>
-        <input type="url" id="linkUrlInput" class="form-control ltr-input"
-               placeholder="https://...">
+        <input type="url" id="linkUrlInput" class="form-control ltr-input" placeholder="https://...">
       </div>
       <p id="linkLimitMsg" style="display:none;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:10px;">
         وصلت للحد الأقصى (5 روابط).
       </p>
       <button class="modal-submit-btn" id="saveLinkBtn">إضافة الرابط</button>
+    </div>
+  </div>
+</div>
+
+<!-- SKILL MODAL -->
+<div id="skillModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>＋ إضافة مهارة</h3>
+      <button class="modal-close-btn" data-close="skillModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>عنوان المهارة</label>
+        <input type="text" id="skillTitleInput" class="form-control" maxlength="50"
+               placeholder="مثلاً: ميكانيكا التربة | البرمجة بـ Python">
+      </div>
+      <div class="form-group">
+        <label>وصف المهارة (سطرين)</label>
+        <textarea id="skillDescInput" class="form-control" maxlength="150" rows="3"
+                  placeholder="اكتب وصفاً موجزاً للمهارة..."></textarea>
+        <div class="char-counter" id="skillDescCounter">0 / 150</div>
+      </div>
+      <p id="skillLimitMsg" style="display:none;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:10px;">
+        وصلت للحد الأقصى (5 مهارات).
+      </p>
+      <button class="modal-submit-btn teal" id="saveSkillBtn">إضافة المهارة</button>
     </div>
   </div>
 </div>
@@ -1176,13 +1550,34 @@ footer {
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label>الملف (PDF فقط)</label>
+        <label>الملف (PDF فقط، الحد الأقصى 12 ميجابايت)</label>
         <input type="file" id="uploadFileInput" class="form-control" accept=".pdf">
       </div>
       <div class="form-group">
         <label>اسم الملف (يظهر للطلاب)</label>
         <input type="text" id="uploadNameInput" class="form-control" maxlength="80"
                placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
+      </div>
+      <!-- NEW: University selector -->
+      <div class="form-group">
+        <label>الجامعة</label>
+        <select id="uploadUniSelect" class="form-control">
+          <option value="">— اختر الجامعة —</option>
+          <option value="karbala">جامعة كربلاء المقدسة</option>
+          <option value="baghdad">جامعة بغداد</option>
+          <option value="basra">جامعة البصرة</option>
+          <option value="mosul">جامعة الموصل</option>
+          <option value="kufa">جامعة الكوفة</option>
+          <option value="najaf">جامعة النجف الأشرف التقنية</option>
+          <option value="mustansiriyah">الجامعة المستنصرية</option>
+          <option value="technology">الجامعة التكنولوجية</option>
+          <option value="other">جامعة أخرى</option>
+        </select>
+      </div>
+      <div class="form-group upload-sub-select" id="otherUniGroup">
+        <label>اسم الجامعة</label>
+        <input type="text" id="otherUniInput" class="form-control" maxlength="60"
+               placeholder="أدخل اسم الجامعة">
       </div>
       <div class="form-group">
         <label>القسم الهندسي</label>
@@ -1193,9 +1588,9 @@ footer {
           <option value="mechanical">هندسة ميكانيك</option>
           <option value="electromech">هندسة كهروميكانيك</option>
           <option value="Prosthetics">هندسة أطراف ومساند</option>
-                     <option value="biomedical">هندسة الطب الحياتي</option>
-                     <option value="architecture">هندسة معمارية</option>
-                     <option value="software">هندسة برمجيات</option>
+          <option value="biomedical">هندسة الطب الحياتي</option>
+          <option value="architecture">هندسة معمارية</option>
+          <option value="software">هندسة برمجيات</option>
           <option value="other">أخرى</option>
         </select>
       </div>
@@ -1225,6 +1620,14 @@ footer {
         <input type="text" id="customSubjectInput" class="form-control" maxlength="60"
                placeholder="مثلاً: هندسة التخمين">
       </div>
+
+      <div class="copyright-check-wrap" id="copyrightWrap">
+        <input type="checkbox" id="copyrightCheck">
+        <label for="copyrightCheck">
+          أؤكد أن هذا الملف لا يحتوي على حقوق ملكية فكرية محمية، وأنني متأكد من ذلك تماماً قبل الرفع.
+        </label>
+      </div>
+
       <div class="upload-progress-wrap" id="uploadProgressWrap">
         <div class="upload-progress-bar">
           <div class="upload-progress-fill" id="uploadProgressFill"></div>
@@ -1240,15 +1643,15 @@ footer {
 <div id="confirmModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>⚠️ تأكيد الحذف</h3>
+      <h3>⚠️ تأكيد</h3>
       <button class="modal-close-btn" data-close="confirmModal">✕</button>
     </div>
     <div class="modal-body">
       <p id="confirmMsg" style="font-size:14px;font-weight:700;color:var(--text-mid);line-height:1.7;">
-        هل تريد حذف هذا الرابط؟ لا يمكن التراجع.
+        هل أنت متأكد؟
       </p>
       <div class="confirm-btns">
-        <button class="confirm-yes" id="confirmYesBtn">نعم، احذف</button>
+        <button class="confirm-yes" id="confirmYesBtn">نعم، تأكيد</button>
         <button class="confirm-no"  id="confirmNoBtn">إلغاء</button>
       </div>
     </div>
@@ -1259,14 +1662,12 @@ footer {
 import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs }
+import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, addDoc }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-import { getStorage, ref, uploadBytes, getDownloadURL }
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
-/* ─────────────────────────────────────────────────
-   FIREBASE CONFIG
-   ───────────────────────────────────────────────── */
+/* ─── FIREBASE CONFIG ─── */
 const firebaseConfig = {
   apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
   authDomain:        "engineering-students-community.firebaseapp.com",
@@ -1275,15 +1676,12 @@ const firebaseConfig = {
   messagingSenderId: "371432549665",
   appId:             "1:371432549665:web:4d3b9617243731fb06e260"
 };
-
 const app     = initializeApp(firebaseConfig);
 const auth    = getAuth(app);
 const db      = getFirestore(app);
 const storage = getStorage(app);
 
-/* ─────────────────────────────────────────────────
-   DICTIONARIES & CONFIGS
-   ───────────────────────────────────────────────── */
+/* ─── DICTIONARIES ─── */
 const UNIVERSITY_DICT = {
   "karbala": "جامعة كربلاء المقدسة",
   "baghdad": "جامعة بغداد",
@@ -1294,7 +1692,6 @@ const UNIVERSITY_DICT = {
   "mustansiriyah": "الجامعة المستنصرية",
   "technology": "الجامعة التكنولوجية"
 };
-
 const DEPT_DICT = {
   "civil": "هندسة مدنية",
   "electrical": "هندسة كهرباء وإلكترونيك",
@@ -1303,11 +1700,10 @@ const DEPT_DICT = {
   "Prosthetics": "هندسة أطراف ومساند",
   "architecture": "هندسة معمارية",
   "chemical": "هندسة كيميائية",
-   "biomedical": "هندسة الطب الحياتي",
-   "software": "هندسة برمجيات",
+  "biomedical": "هندسة الطب الحياتي",
+  "software": "هندسة برمجيات",
   "other": "أخرى"
 };
-
 const SUBJECTS_CONFIG = {
   civil: {
     1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"],
@@ -1315,95 +1711,89 @@ const SUBJECTS_CONFIG = {
     3: ["ميكانيكا التربة","الخرسانة المسلحة 1","هندسة المرور","الري والبزل","هندسة الإنشاءات","إدارة المشاريع","التحليل الهندسي"],
     4: ["هندسة التخمين","المنشآت الحديدية","تصميم الأسس","الخرسانة المسلحة","هندسة صحية","علم المياه","المنشآت الهيدروليكية"]
   },
-  electrical: {
-    1: ["رياضيات","فيزياء","مبادئ الكهرباء"],
-    2: ["دوائر كهربائية","إلكترونيات","رياضيات هندسية"],
-    3: ["آلات كهربائية","إشارات وأنظمة","اتصالات"],
-    4: ["محطات طاقة","نظم تحكم","حماية منظومات"]
-  },
-  mechanical: {
-    1: ["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"],
-    2: ["ترموديناميك","ميكانيكا الموائع","مقاومة مواد"],
-    3: ["آلات حرارية","تصميم آلي","تصنيع"],
-    4: ["محركات احتراق","تبريد وتكييف","تصميم منظومات"]
-  },
-  electromech: {
-    1: ["رياضيات","فيزياء","مبادئ كهروميكانيك"],
-    2: ["دوائر كهربائية","ميكانيكا"],
-    3: ["محركات كهربائية","تحكم صناعي"],
-    4: ["تصميم منظومات","صيانة صناعية"]
-  },
-  software: {
-    1: ["رياضيات","مقدمة في البرمجة","منطق رقمي"],
-    2: ["هياكل بيانات","خوارزميات","قواعد بيانات"],
-    3: ["هندسة أطراف ومساند","شبكات حاسوب","أنظمة تشغيل"],
-    4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]
-  }
+  electrical: {1:["رياضيات","فيزياء","مبادئ الكهرباء"],2:["دوائر كهربائية","إلكترونيات","رياضيات هندسية"],3:["آلات كهربائية","إشارات وأنظمة","اتصالات"],4:["محطات طاقة","نظم تحكم","حماية منظومات"]},
+  mechanical: {1:["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"],2:["ترموديناميك","ميكانيكا الموائع","مقاومة مواد"],3:["آلات حرارية","تصميم آلي","تصنيع"],4:["محركات احتراق","تبريد وتكييف","تصميم منظومات"]},
+  electromech: {1:["رياضيات","فيزياء","مبادئ كهروميكانيك"],2:["دوائر كهربائية","ميكانيكا"],3:["محركات كهربائية","تحكم صناعي"],4:["تصميم منظومات","صيانة صناعية"]},
+  software: {1:["رياضيات","مقدمة في البرمجة","منطق رقمي"],2:["هياكل بيانات","خوارزميات","قواعد بيانات"],3:["شبكات حاسوب","أنظمة تشغيل"],4:["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]}
 };
 
-/* ─────────────────────────────────────────────────
-   GLOBALS
-   ───────────────────────────────────────────────── */
+/* ─── TAG COLORS (5 rotating colors) ─── */
+const TAG_COLORS = ['color-0','color-1','color-2','color-3','color-4'];
+
+/* ─── GLOBALS ─── */
 const params          = new URLSearchParams(window.location.search);
 let   TARGET_USERNAME = params.get('u');
 let   profileData     = {};
+let   memberData      = null;
 let   isOwner         = false;
 let   confirmCallback = null;
+let   allStudentsCache= null;
 
-/* ─────────────────────────────────────────────────
-   AUTH & SMART REDIRECT
-   ───────────────────────────────────────────────── */
+/* ─── AUTH & REDIRECT ─── */
 onAuthStateChanged(auth, async (user) => {
+  updateAuthButton(user);
   if (!TARGET_USERNAME) {
     if (user) {
-      const q = query(collection(db, "students"), where("uid", "==", user.uid));
+      const q    = query(collection(db,"students"), where("uid","==",user.uid));
       const snap = await getDocs(q);
-      if (!snap.empty) {
-        window.location.href = "profile.html?u=" + snap.docs[0].id;
-      } else {
-        window.location.href = "login.html";
-      }
-    } else {
-      window.location.href = "login.html";
-    }
+      if (!snap.empty) window.location.href = "profile.html?u=" + snap.docs[0].id;
+      else window.location.href = "login.html";
+    } else { window.location.href = "login.html"; }
   } else {
     loadProfile();
     if (user) {
       const checkInterval = setInterval(() => {
         if (profileData.uid) {
           clearInterval(checkInterval);
-          if (user.uid === profileData.uid) {
-            activateOwnerMode();
-          }
+          if (user.uid === profileData.uid) activateOwnerMode();
         }
       }, 100);
     }
   }
 });
 
-/* ─────────────────────────────────────────────────
-   UTILITIES
-   ───────────────────────────────────────────────── */
+async function updateAuthButton(user) {
+  const btn       = document.getElementById('authBtn');
+  const btnMobile = document.getElementById('authBtnMobile');
+  if (!user) {
+    btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول';
+    if (btnMobile) { btnMobile.href = 'login.html'; btnMobile.innerHTML = 'تسجيل الدخول'; }
+    return;
+  }
+  try {
+    const q    = query(collection(db,"students"), where("uid","==",user.uid));
+    const snap = await getDocs(q);
+    if (snap.empty) { btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول'; return; }
+    const username  = snap.docs[0].id;
+    const data      = snap.docs[0].data();
+    const avatarSrc = data.avatarURL || 'media/1nkown.png';
+    const pUrl      = `profile.html?u=${encodeURIComponent(username)}`;
+    btn.className   = 'state-user'; btn.href = pUrl;
+    btn.innerHTML   = `<img class="auth-avatar" src="${avatarSrc}" onerror="this.src='media/1nkown.png'" alt="صورة"><span>@${username}</span>`;
+    if (btnMobile) { btnMobile.href = pUrl; btnMobile.innerHTML = '👤 @' + username; }
+  } catch(e) {
+    btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول';
+  }
+}
+
+/* ─── UTILITIES ─── */
 function toast(msg, type = '') {
   const t = document.createElement('div');
-  t.className = 'toast ' + type;
-  t.textContent = msg;
+  t.className = 'toast ' + type; t.textContent = msg;
   document.getElementById('toastContainer').appendChild(t);
   setTimeout(() => t.remove(), 2800);
 }
-
 function openModal(id)  { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-
 document.querySelectorAll('[data-close]').forEach(btn =>
   btn.addEventListener('click', () => closeModal(btn.dataset.close))
 );
 document.querySelectorAll('.modal-backdrop').forEach(bd =>
   bd.addEventListener('click', e => { if (e.target === bd) closeModal(bd.id); })
 );
-
-function showConfirm(msg, cb) {
+function showConfirm(msg, cb, yesTxt = 'نعم، تأكيد') {
   document.getElementById('confirmMsg').textContent = msg;
+  document.getElementById('confirmYesBtn').textContent = yesTxt;
   confirmCallback = cb;
   openModal('confirmModal');
 }
@@ -1413,21 +1803,13 @@ document.getElementById('confirmYesBtn').addEventListener('click', () => {
   confirmCallback = null;
 });
 document.getElementById('confirmNoBtn').addEventListener('click', () => {
-  closeModal('confirmModal');
-  confirmCallback = null;
+  closeModal('confirmModal'); confirmCallback = null;
 });
-
 function escHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;');
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ─────────────────────────────────────────────────
-   MOBILE MENU
-   ───────────────────────────────────────────────── */
+/* ─── MOBILE MENU ─── */
 const menuBtn    = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const navBd      = document.getElementById('menuBackdrop');
@@ -1436,26 +1818,35 @@ const closeNav   = () => { mobileMenu.classList.remove('open'); navBd.classList.
 menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeNav() : openNav(); });
 navBd.addEventListener('click', closeNav);
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeNav(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') { closeNav(); closeAllContextMenus(); } });
 window.addEventListener('resize', () => { if(window.innerWidth > 768) closeNav(); });
 
-/* ─────────────────────────────────────────────────
-   LOAD PROFILE
-   ───────────────────────────────────────────────── */
+/* ─── LOAD MEMBER JSON ─── */
+async function loadMemberData(username) {
+  try {
+    const res = await fetch('jsonfiles/member.json');
+    if (!res.ok) return null;
+    const all = await res.json();
+    return all.find(m => m.member_username && m.member_username.includes(username)) || null;
+  } catch(e) { return null; }
+}
+
+/* ─── LOAD PROFILE ─── */
 async function loadProfile() {
   try {
-    const snap = await getDoc(doc(db, "students", TARGET_USERNAME));
+    const snap = await getDoc(doc(db,"students",TARGET_USERNAME));
     if (!snap.exists()) {
       alert("هذا المستخدم غير موجود!");
-      window.location.href = "index.html";
-      return;
+      window.location.href = "index.html"; return;
     }
     profileData = snap.data();
+    memberData  = await loadMemberData(TARGET_USERNAME);
     renderProfile();
     await loadFiles();
     await loadCertificates();
     await loadResearchFromGitHub();
-  } catch (e) {
+    renderSkills(profileData.skills || []);
+  } catch(e) {
     toast("خطأ في تحميل البيانات: " + e.message, 'error');
   } finally {
     const ov = document.getElementById('loadingOverlay');
@@ -1464,113 +1855,168 @@ async function loadProfile() {
   }
 }
 
-/* ─────────────────────────────────────────────────
-   RENDER PROFILE
-   ───────────────────────────────────────────────── */
-const STAGE_LABELS = {
-  '1':' الأولى','2':' الثانية',
-  '3':' الثالثة','4':' الرابعة'
-};
-const DEGREE_LABELS = { "bsc": "بكالوريوس", "msc": "ماجستير", "phd": "دكتوراه فلسفة" };
+/* ─── RENDER PROFILE ─── */
+const STAGE_LABELS  = {'1':'الأولى','2':'الثانية','3':'الثالثة','4':'الرابعة'};
+const DEGREE_LABELS = { bsc:"بكالوريوس", msc:"ماجستير", phd:"دكتوراه فلسفة" };
+const JOB_STATUS_LABELS = { employed: "يملك وظيفة", seeking: "يبحث عن وظيفة" };
 
 function renderProfile() {
-  const d = profileData;
+  const d  = profileData;
+  const md = memberData;
   document.title = `ESC — ${d.fullName || TARGET_USERNAME}`;
 
-  const namePrefix = "المهندس ";
-  document.getElementById('profileName').textContent = namePrefix + (d.fullName || TARGET_USERNAME);
+  /* Name */
+  document.getElementById('profileNameText').textContent = "المهندس " + (d.fullName || TARGET_USERNAME);
   document.getElementById('profileUsername').textContent = '@' + TARGET_USERNAME;
 
-  const translatedUni  = UNIVERSITY_DICT[d.university]  || d.university;
-  const translatedDept = DEPT_DICT[d.department]         || d.department;
+  /* Verification badge */
+  if (md && md.verf) {
+    const vw = document.getElementById('verifyBadgeWrap');
+    document.getElementById('verifyBadgeImg').src = md.verf;
+    vw.style.display = 'inline-flex';
+  }
 
+  /* Member title lines */
+  if (md) {
+    const titleEl = document.getElementById('profileMemberTitle');
+    let titleHTML = '';
+    if (md.description1) titleHTML += escHtml(md.description1);
+    if (md.description1 && md.description2) titleHTML += '<br>';
+    if (md.description2) titleHTML += escHtml(md.description2);
+    if (titleHTML) { titleEl.innerHTML = titleHTML; titleEl.classList.add('show'); }
+  }
+
+  /* Tags — rotating color palette */
+  const tagsEl = document.getElementById('profileTags');
+  tagsEl.innerHTML = '';
   const isStudent = d.isStudent !== false;
   const degree    = d.degreeLevel || "bsc";
   const stage     = d.stage || "1";
-
   let tagText = isStudent ? "طالب " : "حاصل على ";
   tagText += DEGREE_LABELS[degree] || "";
   if (isStudent && degree === "bsc") tagText += ` - المرحلة ${STAGE_LABELS[stage] || stage}`;
-  document.getElementById('academicTag').textContent = tagText;
 
+  let colorIdx = 0;
+  const makeTag = (text) => {
+    const sp = document.createElement('span');
+    sp.className = `profile-tag ${TAG_COLORS[colorIdx % TAG_COLORS.length]}`;
+    sp.textContent = text;
+    colorIdx++;
+    return sp;
+  };
+
+  tagsEl.appendChild(makeTag(tagText));
+  if (md && md.tags) {
+    md.tags.forEach(t => tagsEl.appendChild(makeTag(t)));
+  }
+
+  /* Avatar */
   if (d.avatarURL) document.getElementById('profileAvatar').src = d.avatarURL;
 
-  const hidden = d.hiddenFields || [];
+  /* University logo in cover */
+  if (md && md.unitag) {
+    document.getElementById('coverEscText').style.display = 'none';
+    const wrap = document.getElementById('coverUniLogoWrap');
+    const img  = document.getElementById('coverUniLogo');
+    img.src = md.unitag;
+    img.onload = () => {
+      const ratio = img.naturalWidth / img.naturalHeight;
+      if (ratio > 1.5) { img.style.maxHeight = '44px'; img.style.maxWidth = '200px'; }
+      else { img.style.maxHeight = '52px'; img.style.maxWidth = '52px'; img.style.borderRadius = '10px'; }
+    };
+    wrap.classList.add('show');
+  }
 
-  /* ── Education field with multi-level display ── */
-  if (!hidden.includes('university')) {
+  /* Education — always shown, cannot be hidden */
+  const hidden = d.hiddenFields || [];
+  {
     const uniRow   = document.getElementById('rowUniversity');
     const uniValue = document.getElementById('infoUniversity');
     uniRow.style.display = '';
-
+    const bscUni = UNIVERSITY_DICT[d.university] || d.university || '';
     if (degree === 'bsc') {
-      // BSc only — plain display (same as before)
-      uniValue.textContent = translatedUni || '—';
-    } else {
-      // Higher degree: show BSc uni + grad uni stacked
-      const gradUni = d.gradUniversity || '';
-      const degLabel = degree === 'msc' ? 'بكالوريوس' : 'بكالوريوس';
-      const gradDegLabel = degree === 'msc' ? 'ماجستير' : 'دكتوراه';
-      const dotColorGrad = degree === 'msc' ? 'teal' : 'gold';
-
+      uniValue.textContent = bscUni || '—';
+    } else if (degree === 'msc') {
+      const mscUni = d.mscUniversity || '';
       uniValue.innerHTML = `
         <div class="edu-level-item">
           <span class="edu-dot blue"></span>
-          <div>
-            <div class="edu-degree-label">${degLabel}</div>
-            <div class="edu-uni-name">${escHtml(translatedUni || '—')}</div>
-          </div>
+          <div><div class="edu-degree-label">بكالوريوس</div><div class="edu-uni-name">${escHtml(bscUni||'—')}</div></div>
         </div>
-        ${gradUni ? `
-        <div class="edu-level-item" style="margin-top:8px;">
-          <span class="edu-dot ${dotColorGrad}"></span>
-          <div>
-            <div class="edu-degree-label">${gradDegLabel}</div>
-            <div class="edu-uni-name">${escHtml(gradUni)}</div>
-          </div>
-        </div>` : ''}
+        ${mscUni?`<div class="edu-level-item" style="margin-top:8px;"><span class="edu-dot teal"></span><div><div class="edu-degree-label">ماجستير</div><div class="edu-uni-name">${escHtml(mscUni)}</div></div></div>`:''}
+      `;
+    } else if (degree === 'phd') {
+      const mscUni = d.mscUniversity || '';
+      const phdUni = d.phdUniversity || '';
+      uniValue.innerHTML = `
+        <div class="edu-level-item">
+          <span class="edu-dot blue"></span>
+          <div><div class="edu-degree-label">بكالوريوس</div><div class="edu-uni-name">${escHtml(bscUni||'—')}</div></div>
+        </div>
+        ${mscUni?`<div class="edu-level-item" style="margin-top:6px;"><span class="edu-dot teal"></span><div><div class="edu-degree-label">ماجستير</div><div class="edu-uni-name">${escHtml(mscUni)}</div></div></div>`:''}
+        ${phdUni?`<div class="edu-level-item" style="margin-top:6px;"><span class="edu-dot gold"></span><div><div class="edu-degree-label">دكتوراه</div><div class="edu-uni-name">${escHtml(phdUni)}</div></div></div>`:''}
       `;
     }
-  } else {
-    document.getElementById('rowUniversity').style.display = 'none';
   }
 
-  setInfoRow('rowDept',       'infoDept',       translatedDept, hidden.includes('department'));
-  setInfoRow('rowStage',      'infoStage',
-    (isStudent && degree === "bsc") ? `المرحلة ${STAGE_LABELS[stage] || stage}` : "—",
+  const translatedDept = DEPT_DICT[d.department] || d.department;
+  setInfoRow('rowDept','infoDept', translatedDept, hidden.includes('department'));
+  setInfoRow('rowStage','infoStage',
+    (isStudent && degree === "bsc") ? `المرحلة ${STAGE_LABELS[stage]||stage}` : null,
     hidden.includes('stage'));
-  const cityDisplay = d.city ? `${d.city}، العراق` : null;
-  setInfoRow('rowCity', 'infoCity', cityDisplay, hidden.includes('city'));
+  setInfoRow('rowCity','infoCity', d.city ? `${d.city}، العراق` : null, hidden.includes('city'));
 
-  renderBio(d.bio);
-  renderLinks(d.links || []);
+  /* Job status */
+  if (d.jobStatus) {
+    document.getElementById('rowJobStatus').style.display = '';
+    document.getElementById('infoJobStatus').textContent = JOB_STATUS_LABELS[d.jobStatus] || '—';
+  }
+
+  /* Member email — show label "البريد الإلكتروني" as link text, no emoji */
+  if (md && md.member_email) {
+    document.getElementById('rowMemberEmail').style.display = '';
+    document.getElementById('infoMemberEmail').innerHTML =
+      `<a href="mailto:${escHtml(md.member_email)}">البريد الإلكتروني</a>`;
+  }
+
+  /* Org card */
+  if (md && md.amemeber === 'yes') {
+    document.getElementById('orgCard').classList.add('show');
+    document.getElementById('orgRoleValue').textContent = md.memeberrank || '—';
+  }
+
+  /* Bio (single location in main col) */
+  renderBio(d.bio, md);
+
+  /* Show edit bio button if rendered */
+  // shown via owner-mode class in CSS
 }
 
 function setInfoRow(rowId, valId, value, isHidden) {
   const row = document.getElementById(rowId);
-  if (isHidden) { row.style.display = 'none'; return; }
+  if (isHidden || !value) { row.style.display = 'none'; return; }
   row.style.display = '';
-  document.getElementById(valId).textContent = value || '—';
+  document.getElementById(valId).textContent = value;
 }
 
-function renderBio(bio) {
-  const el = document.getElementById('bioDisplay');
+function renderBio(bio, md) {
+  const main = document.getElementById('mainAboutContent');
   if (bio && bio.trim()) {
-    el.innerHTML = `<p class="bio-text">${escHtml(bio)}</p>`;
+    main.innerHTML = `<p class="about-text-main">${escHtml(bio)}</p>`;
   } else {
-    el.innerHTML = '<p class="bio-empty">لم يُضَف وصف بعد.</p>';
+    main.innerHTML = '<p class="about-text-main" style="color:#c0c0c0;font-style:italic;">لم يُضَف وصف بعد.</p>';
   }
+  /* CV link below about */
+  const cvLink = document.getElementById('cvDownloadLink');
+  if (md && md.cvfile) { cvLink.href = md.cvfile; cvLink.classList.add('show'); }
 }
 
-/* ─────────────────────────────────────────────────
-   CONTACT LINKS
-   ───────────────────────────────────────────────── */
+/* ─── CONTACT LINKS ─── */
 function renderLinks(links) {
   const el = document.getElementById('linksDisplay');
   el.innerHTML = '';
   if (!links || links.length === 0) {
-    el.innerHTML = '<p class="bio-empty" id="noLinksMsg">لا توجد روابط بعد.</p>';
-    return;
+    el.innerHTML = '<p class="bio-empty" id="noLinksMsg">لا توجد روابط بعد.</p>'; return;
   }
   links.forEach((lnk, i) => {
     const item = document.createElement('div');
@@ -1586,7 +2032,7 @@ function renderLinks(links) {
   el.querySelectorAll('.contact-link-delete').forEach(btn => {
     btn.addEventListener('click', () => {
       const idx = parseInt(btn.dataset.index);
-      showConfirm('هل تريد حذف هذا الرابط؟ لا يمكن التراجع.', () => deleteLink(idx));
+      showConfirm('هل تريد حذف هذا الرابط؟ لا يمكن التراجع.', () => deleteLink(idx), 'نعم، احذف');
     });
   });
 }
@@ -1598,7 +2044,6 @@ document.getElementById('addLinkBtn').addEventListener('click', () => {
   document.getElementById('linkUrlInput').value  = '';
   openModal('linkModal');
 });
-
 document.getElementById('saveLinkBtn').addEventListener('click', async () => {
   const name = document.getElementById('linkNameInput').value.trim();
   const url  = document.getElementById('linkUrlInput').value.trim();
@@ -1609,50 +2054,107 @@ document.getElementById('saveLinkBtn').addEventListener('click', async () => {
   links.push({ name, url });
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
-    profileData.links = links;
-    renderLinks(links);
-    closeModal('linkModal');
-    toast('تم إضافة الرابط ✓', 'success');
+    profileData.links = links; renderLinks(links);
+    closeModal('linkModal'); toast('تم إضافة الرابط ✓', 'success');
   } catch(e) { toast('خطأ: ' + e.message, 'error'); }
 });
-
 async function deleteLink(idx) {
   const links = [...(profileData.links || [])];
   links.splice(idx, 1);
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME), { links });
-    profileData.links = links;
-    renderLinks(links);
+    profileData.links = links; renderLinks(links);
     toast('تم حذف الرابط.', 'success');
   } catch(e) { toast('خطأ: ' + e.message, 'error'); }
 }
 
-/* ─────────────────────────────────────────────────
-   LOAD FILES — with count badge
-   ───────────────────────────────────────────────── */
+/* ─── SKILLS ─── */
+function renderSkills(skills) {
+  const container = document.getElementById('skillsContainer');
+  if (!skills || skills.length === 0) {
+    container.innerHTML = '<p class="skills-empty">لم تُضَف مهارات بعد.</p>';
+    return;
+  }
+  container.innerHTML = '';
+  const grid = document.createElement('div');
+  grid.className = 'skills-grid';
+  skills.forEach((sk, i) => {
+    const item = document.createElement('div');
+    item.className = 'skill-item';
+    item.innerHTML = `
+      <button class="skill-delete-btn" data-index="${i}" title="حذف المهارة">✕ حذف</button>
+      <div class="skill-title">${escHtml(sk.title)}</div>
+      <div class="skill-desc">${escHtml(sk.desc)}</div>
+    `;
+    grid.appendChild(item);
+  });
+  container.appendChild(grid);
+  container.querySelectorAll('.skill-delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const idx = parseInt(btn.dataset.index);
+      showConfirm('هل تريد حذف هذه المهارة؟', () => deleteSkill(idx), 'نعم، احذف');
+    });
+  });
+}
+
+const skillDescInput   = document.getElementById('skillDescInput');
+const skillDescCounter = document.getElementById('skillDescCounter');
+skillDescInput.addEventListener('input', () => {
+  const len = skillDescInput.value.length;
+  skillDescCounter.textContent = `${len} / 150`;
+  skillDescCounter.classList.toggle('warn', len > 130);
+});
+
+document.getElementById('openAddSkillBtn').addEventListener('click', () => {
+  const skills = profileData.skills || [];
+  document.getElementById('skillLimitMsg').style.display = skills.length >= 5 ? 'block' : 'none';
+  document.getElementById('skillTitleInput').value = '';
+  document.getElementById('skillDescInput').value  = '';
+  skillDescInput.dispatchEvent(new Event('input'));
+  openModal('skillModal');
+});
+
+document.getElementById('saveSkillBtn').addEventListener('click', async () => {
+  const title = document.getElementById('skillTitleInput').value.trim();
+  const desc  = document.getElementById('skillDescInput').value.trim();
+  if (!title) { toast('أدخل عنوان المهارة.', 'error'); return; }
+  const skills = [...(profileData.skills || [])];
+  if (skills.length >= 5) { toast('الحد الأقصى 5 مهارات.', 'error'); return; }
+  skills.push({ title, desc });
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { skills });
+    profileData.skills = skills;
+    renderSkills(skills);
+    closeModal('skillModal'); toast('تم إضافة المهارة ✓', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+});
+
+async function deleteSkill(idx) {
+  const skills = [...(profileData.skills || [])];
+  skills.splice(idx, 1);
+  try {
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { skills });
+    profileData.skills = skills;
+    renderSkills(skills);
+    toast('تم حذف المهارة.', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+}
+
+/* ─── LOAD FILES ─── */
 async function loadFiles() {
   try {
     const q    = query(collection(db,"uploads"), where("uploader","==",TARGET_USERNAME));
     const snap = await getDocs(q);
     const cont = document.getElementById('filesContainer');
-
-    // Show count badge
-    const badge = document.getElementById('filesCountBadge');
-    if (!snap.empty) {
-      badge.textContent = snap.size;
-      badge.style.display = 'inline-flex';
-    } else {
-      badge.style.display = 'none';
-    }
-
-    if (snap.empty) {
-      cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>';
-      return;
-    }
+    const badge= document.getElementById('filesCountBadge');
+    if (!snap.empty) { badge.textContent = snap.size; badge.style.display = 'inline-flex'; }
+    else { badge.style.display = 'none'; }
+    if (snap.empty) { cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>'; return; }
     const wrap = document.createElement('div');
     wrap.className = 'files-list-wrap';
     snap.forEach(d => {
       const f = d.data();
+      const uniLabel = UNIVERSITY_DICT[f.uni] || f.uni || '';
       const row = document.createElement('div');
       row.className = 'file-item-row';
       row.innerHTML = `
@@ -1661,6 +2163,7 @@ async function loadFiles() {
           <a href="${escHtml(f.url)}" target="_blank" class="file-title">${escHtml(f.name)}</a>
           <div class="file-sub">
             <a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader-tag">@${escHtml(f.uploader)}</a>
+            ${uniLabel ? `<span class="file-badge">${escHtml(uniLabel)}</span>` : ''}
             ${f.subject ? `<span class="file-badge">${escHtml(f.subject)}</span>` : ''}
             ${f.stage   ? `<span class="file-badge">المرحلة ${escHtml(f.stage)}</span>` : ''}
           </div>
@@ -1669,36 +2172,26 @@ async function loadFiles() {
       `;
       wrap.appendChild(row);
     });
-    cont.innerHTML = '';
-    cont.appendChild(wrap);
+    cont.innerHTML = ''; cont.appendChild(wrap);
   } catch(e) {
-    document.getElementById('filesContainer').innerHTML =
-      '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
+    document.getElementById('filesContainer').innerHTML = '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
   }
 }
 
-/* ─────────────────────────────────────────────────
-   LOAD CERTIFICATES from cert/cert_list.json
-   ───────────────────────────────────────────────── */
+/* ─── LOAD ACHIEVEMENTS (previously certificates) ─── */
 async function loadCertificates() {
   const container = document.getElementById('certsContainer');
   try {
     const response = await fetch('cert/cert_list.json');
     if (!response.ok) throw new Error("JSON Fetch Failed");
     const allCerts = await response.json();
-
-    const userCerts = allCerts.filter(c =>
-      c.authors_users && c.authors_users.includes(TARGET_USERNAME)
-    );
-
+    const userCerts = allCerts.filter(c => c.authors_users && c.authors_users.includes(TARGET_USERNAME));
     if (userCerts.length === 0) {
-      container.innerHTML = '<div class="files-empty"><p>لا توجد شهادات مكتملة حتى الآن.</p></div>';
+      container.innerHTML = '<div class="files-empty"><p>لا توجد إنجازات مكتملة حتى الآن.</p></div>';
       return;
     }
-
     const listWrap = document.createElement('div');
     listWrap.className = 'cert-list-wrap';
-
     userCerts.forEach(c => {
       const row = document.createElement('div');
       row.className = 'cert-item-row';
@@ -1706,175 +2199,191 @@ async function loadCertificates() {
         <div class="cert-icon-box">🏅</div>
         <div class="cert-info">
           <span class="cert-title">${escHtml(c.title)}</span>
-          <span class="cert-issuer">${escHtml(c.authors_names || '')}</span>
+          <span class="cert-issuer-line">مُنِحَت بواسطة: <span class="cert-issuer-name">${escHtml(c.authors_names || '')}</span></span>
         </div>
         <span class="cert-year">${escHtml(c.year || '')}</span>
       `;
       listWrap.appendChild(row);
     });
-
-    container.innerHTML = '';
-    container.appendChild(listWrap);
-  } catch (e) {
-    container.innerHTML = '<div class="files-empty"><p>لا توجد شهادات مكتملة حتى الآن.</p></div>';
+    container.innerHTML = ''; container.appendChild(listWrap);
+  } catch(e) {
+    container.innerHTML = '<div class="files-empty"><p>لا توجد إنجازات مكتملة حتى الآن.</p></div>';
   }
 }
 
-/* ─────────────────────────────────────────────────
-   LOAD RESEARCH — with description support
-   ───────────────────────────────────────────────── */
+/* ─── LOAD RESEARCH ─── */
+let allResearchData = [];
 async function loadResearchFromGitHub() {
   const container = document.getElementById('researchContainer');
   try {
     const response = await fetch('research/research_list.json');
     if (!response.ok) throw new Error("JSON Fetch Failed");
     const allResearch = await response.json();
-
-    const userResearch = allResearch.filter(r =>
-      r.authors_users && r.authors_users.includes(TARGET_USERNAME)
-    );
-
+    const userResearch = allResearch.filter(r => r.authors_users && r.authors_users.includes(TARGET_USERNAME));
+    allResearchData = userResearch;
     if (userResearch.length === 0) {
       container.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
       return;
     }
-
-    const listWrap = document.createElement('div');
-    listWrap.className = 'research-list-wrap';
-
-    userResearch.forEach(r => {
-      let authorsHtml = '';
-      if (r.authors_users && r.authors_names) {
-        const names = r.authors_names.split(/،|,/).map(n => n.trim());
-        const users = r.authors_users;
-        authorsHtml = names.map((name, idx) => {
-          const uname = users[idx] || null;
-          if (uname) {
-            return `<a href="profile.html?u=${encodeURIComponent(uname)}">${escHtml(name)}</a>`;
-          }
-          return escHtml(name);
-        }).join('، ');
-      } else {
-        authorsHtml = escHtml(r.authors_names || '');
-      }
-
-      let supervisorHtml = '';
-      if (r.supervisors_names) {
-        const supNames = r.supervisors_names.split(/،|,/).map(n => n.trim());
-        const supUsers = r['supervisor-users'] || [];
-        const supLinked = supNames.map((name, idx) => {
-          const uname = supUsers[idx] || null;
-          if (uname) {
-            return `<a href="profile.html?u=${encodeURIComponent(uname)}">${escHtml(name)}</a>`;
-          }
-          return escHtml(name);
-        }).join('، ');
-        supervisorHtml = `
-          <div class="research-supervisor-line">
-            Supervisor: ${supLinked}
-          </div>
-        `;
-      }
-
-      // Description — rendered if present in JSON
-      const descHtml = r.description
-        ? `<div class="research-desc-text">${escHtml(r.description)}</div>`
-        : '';
-
-      const item = document.createElement('article');
-      item.className = 'research-item-row';
-      item.innerHTML = `
-        <div class="research-main">
-          <a class="research-title-link" href="research/${escHtml(r.filename)}" target="_blank">
-            ${escHtml(r.title)}
-          </a>
-          <div class="research-authors-row">
-            <span class="authors-list">${authorsHtml}</span>
-            <span class="research-serial">${escHtml(r.id)}</span>
-          </div>
-          ${supervisorHtml}
-          ${descHtml}
-          <div class="research-actions-row">
-            <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">
-              GO TO SCHOLAR
-            </a>
-          </div>
-        </div>
-        <div class="research-year-badge">${escHtml(r.year)}</div>
-      `;
-      listWrap.appendChild(item);
-    });
-
-    container.innerHTML = '';
-    container.appendChild(listWrap);
-  } catch (e) {
+    document.getElementById('researchSearchWrap').style.display = 'flex';
+    renderResearchList(userResearch);
+  } catch(e) {
     container.innerHTML = '<div class="files-empty"><p>لا توجد أبحاث علمية مضافة حتى الآن.</p></div>';
   }
 }
 
-/* ─────────────────────────────────────────────────
-   OWNER MODE
-   ───────────────────────────────────────────────── */
+function renderResearchList(items) {
+  const container = document.getElementById('researchContainer');
+  const noRes     = document.getElementById('researchNoResults');
+  if (items.length === 0) {
+    container.innerHTML = '';
+    noRes.classList.add('show'); return;
+  }
+  noRes.classList.remove('show');
+  const listWrap = document.createElement('div');
+  listWrap.className = 'research-list-wrap';
+  items.forEach(r => {
+    let authorsHtml = '';
+    if (r.authors_users && r.authors_names) {
+      const names = r.authors_names.split(/،|,/).map(n => n.trim());
+      const users = r.authors_users;
+      authorsHtml = names.map((name,idx) => {
+        const uname = users[idx] || null;
+        return uname
+          ? `<a href="profile.html?u=${encodeURIComponent(uname)}">${escHtml(name)}</a>`
+          : escHtml(name);
+      }).join('، ');
+    } else { authorsHtml = escHtml(r.authors_names || ''); }
+    let supervisorHtml = '';
+    if (r.supervisors_names) {
+      const supNames = r.supervisors_names.split(/،|,/).map(n => n.trim());
+      const supUsers = r['supervisor-users'] || [];
+      const supLinked = supNames.map((name,idx) => {
+        const uname = supUsers[idx] || null;
+        return uname
+          ? `<a href="profile.html?u=${encodeURIComponent(uname)}">${escHtml(name)}</a>`
+          : escHtml(name);
+      }).join('، ');
+      supervisorHtml = `<div class="research-supervisor-line">Supervisor: ${supLinked}</div>`;
+    }
+    const descHtml = r.description ? `<div class="research-desc-text">${escHtml(r.description)}</div>` : '';
+    const item = document.createElement('article');
+    item.className = 'research-item-row';
+    item.dataset.title = (r.title || '').toLowerCase();
+    item.dataset.id    = (r.id    || '').toLowerCase();
+    item.innerHTML = `
+      <div class="research-main">
+        <a class="research-title-link" href="research/${escHtml(r.filename)}" target="_blank">${escHtml(r.title)}</a>
+        <div class="research-authors-row">
+          <span class="authors-list">${authorsHtml}</span>
+          <span class="research-serial">${escHtml(r.id)}</span>
+        </div>
+        ${supervisorHtml}
+        ${descHtml}
+        <div class="research-actions-row">
+          <a class="scholar-btn" href="https://scholar.google.com" target="_blank" rel="noopener">GO TO SCHOLAR</a>
+        </div>
+      </div>
+      <div class="research-year-badge">${escHtml(r.year)}</div>
+    `;
+    listWrap.appendChild(item);
+  });
+  container.innerHTML = ''; container.appendChild(listWrap);
+}
+
+/* Research search */
+let researchSearchTimer = null;
+document.getElementById('researchSearchInput').addEventListener('input', function() {
+  clearTimeout(researchSearchTimer);
+  researchSearchTimer = setTimeout(() => {
+    const q = this.value.trim().toLowerCase();
+    const noRes = document.getElementById('researchNoResults');
+    if (!q) { renderResearchList(allResearchData); return; }
+    const filtered = allResearchData.filter(r =>
+      (r.title || '').toLowerCase().includes(q) || (r.id || '').toLowerCase().includes(q)
+    );
+    if (filtered.length === 0) {
+      document.getElementById('researchContainer').innerHTML = '';
+      noRes.classList.add('show');
+    } else {
+      noRes.classList.remove('show');
+      renderResearchList(filtered);
+    }
+  }, 150);
+});
+
+/* ─── OWNER MODE ─── */
 function activateOwnerMode() {
   isOwner = true;
   document.getElementById('ownerActionBar').classList.add('visible');
   document.body.classList.add('owner-mode');
-  const researchBtn = document.getElementById('requestResearchBtn');
-  if (researchBtn) researchBtn.style.display = 'inline-flex';
-  document.getElementById('avatarClickZone').style.cursor = 'pointer';
+  // Show bio edit button inside main about card
+  document.getElementById('editBioBtn').style.display = 'inline-flex';
+  const rb = document.getElementById('requestResearchBtn');
+  if (rb) rb.style.display = 'inline-flex';
 }
 
 document.getElementById('requestResearchBtn').addEventListener('click', () => {
   const now = new Date();
-  const options = { timeZone: 'Asia/Baghdad', year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false };
-  const timeStr = now.toLocaleString('en-GB', options).replace(',', '');
+  const timeStr = now.toLocaleString('en-GB', { timeZone:'Asia/Baghdad', year:'numeric', month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false }).replace(',','');
   const bodyText =
-    `-- الرجاء من حضرتكم قراءة الكليشة التالية وتعديلها ثم إرفاق البحث خاصتكم الى الرسالة والانتظار طلبا للمراجعة -- \n` +
+    `-- الرجاء قراءة الكليشة التالية وتعديلها ثم إرفاق البحث --\n` +
     `لقد قمنا بإعداد البحث العلمي بعنوان:\n//اسم بحثكم//\n` +
-    `بجهود الطلبة ( الزميل الأول , الزميل الثاني إن وجد , الثالث ...الخ )\n` +
-    `وبإشراف ( جهة الإشراف إن وجدت )\n` +
-    `من جامعة ( الجامعة التي تنتمي إليها في الوقت الحالي إن وجدت )\n` +
+    `بجهود الطلبة ( ... )\nوبإشراف ( ... )\nمن جامعة ( ... )\n` +
     `طالبا مراجعته وإضافته للحساب خاصتي\n----\n` +
     `التوقيت: ${timeStr} Baghdad +3:00\n` +
     `اليوزر: @${TARGET_USERNAME}\n` +
-    `اسم اليوزر: ${profileData.fullName || 'غير متوفر'}\n\n----\n` +
-    `مجتمع طلبة الهندسة`;
+    `الاسم: ${profileData.fullName || 'غير متوفر'}\n\n----\nمجتمع طلبة الهندسة`;
   window.location.href = `mailto:esc.irq@gmail.com?subject=${encodeURIComponent("طلب مراجعة بحث علمي")}&body=${encodeURIComponent(bodyText)}`;
 });
 
-/* ─────────────────────────────────────────────────
-   AVATAR UPLOAD
-   ───────────────────────────────────────────────── */
-document.getElementById('avatarClickZone').addEventListener('click', () => {
-  if (isOwner) document.getElementById('avatarInput').click();
+/* ─── AVATAR CONTEXT MENU ─── */
+function closeAllContextMenus() {
+  document.getElementById('avatarContextMenu').classList.remove('show');
+}
+document.getElementById('avatarClickZone').addEventListener('click', (e) => {
+  if (!isOwner) return;
+  e.stopPropagation();
+  document.getElementById('avatarContextMenu').classList.toggle('show');
 });
+document.addEventListener('click', () => closeAllContextMenus());
+document.getElementById('avatarContextMenu').addEventListener('click', e => e.stopPropagation());
+
+document.getElementById('ctxChangeAvatar').addEventListener('click', () => {
+  closeAllContextMenus();
+  document.getElementById('avatarInput').click();
+});
+document.getElementById('ctxDeleteAvatar').addEventListener('click', () => {
+  closeAllContextMenus();
+  showConfirm('هل تريد حذف صورتك والعودة إلى الصورة الافتراضية؟', deleteAvatar, 'نعم، احذف الصورة');
+});
+
+async function deleteAvatar() {
+  try {
+    if (profileData.avatarURL) {
+      try {
+        await deleteObject(ref(storage, `avatars/${TARGET_USERNAME}`));
+      } catch(e) { /* ignore */ }
+    }
+    await updateDoc(doc(db,"students",TARGET_USERNAME), { avatarURL: null });
+    profileData.avatarURL = null;
+    document.getElementById('profileAvatar').src = 'media/1nkown.png';
+    toast('تم حذف الصورة.', 'success');
+  } catch(e) { toast('فشل حذف الصورة: ' + e.message, 'error'); }
+}
 
 document.getElementById('avatarInput').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
-
-  if (file.size > 3 * 1024 * 1024) {
-    toast('حجم الصورة يجب أن يكون أقل من 3 ميجابايت.', 'error');
-    return;
-  }
-
+  if (file.size > 3 * 1024 * 1024) { toast('حجم الصورة يجب أن يكون أقل من 3 ميجابايت.', 'error'); return; }
   const isSquare = await new Promise(resolve => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      URL.revokeObjectURL(url);
-      resolve(img.naturalWidth === img.naturalHeight);
-    };
+    const img = new Image(); const url = URL.createObjectURL(file);
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img.naturalWidth === img.naturalHeight); };
     img.onerror = () => { URL.revokeObjectURL(url); resolve(false); };
     img.src = url;
   });
-
-  if (!isSquare) {
-    toast('يجب أن تكون الصورة مربعة (1:1) — مثلاً 500×500 بكسل.', 'error');
-    return;
-  }
-
+  if (!isSquare) { toast('يجب أن تكون الصورة مربعة (1:1).', 'error'); return; }
   try {
     toast('جاري رفع الصورة...');
     const r    = ref(storage, `avatars/${TARGET_USERNAME}`);
@@ -1884,14 +2393,10 @@ document.getElementById('avatarInput').addEventListener('change', async (e) => {
     document.getElementById('profileAvatar').src = url;
     profileData.avatarURL = url;
     toast('تم تحديث الصورة ✓', 'success');
-  } catch(err) {
-    toast('فشل رفع الصورة: ' + err.message, 'error');
-  }
+  } catch(err) { toast('فشل رفع الصورة: ' + err.message, 'error'); }
 });
 
-/* ─────────────────────────────────────────────────
-   BIO EDIT
-   ───────────────────────────────────────────────── */
+/* ─── BIO EDIT ─── */
 const bioInput   = document.getElementById('bioInput');
 const bioCounter = document.getElementById('bioCounter');
 bioInput.addEventListener('input', () => {
@@ -1909,59 +2414,45 @@ document.getElementById('saveBioBtn').addEventListener('click', async () => {
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME), { bio });
     profileData.bio = bio;
-    renderBio(bio);
-    closeModal('bioModal');
-    toast('تم حفظ "حول" ✓', 'success');
+    renderBio(bio, memberData);
+    closeModal('bioModal'); toast('تم حفظ "حول" ✓', 'success');
   } catch(e) { toast('خطأ: ' + e.message, 'error'); }
 });
 
-/* ─────────────────────────────────────────────────
-   INFO & ACADEMIC EDIT
-   ───────────────────────────────────────────────── */
+/* ─── INFO EDIT ─── */
 const isStudentInp = document.getElementById('isStudentInput');
 const degreeInp    = document.getElementById('degreeInput');
 const stageGrp     = document.getElementById('stageGroup');
-const gradUniGrp   = document.getElementById('gradUniGroup');
-const gradUniLabel = document.getElementById('gradUniLabel');
+const mscUniGrp    = document.getElementById('mscUniGroup');
+const phdUniGrp    = document.getElementById('phdUniGroup');
+const mscUniLabel  = document.getElementById('mscUniLabel');
 
 function updateModalVisibility() {
-  const deg = degreeInp.value;
-  const isBsc = deg === 'bsc';
+  const deg    = degreeInp.value;
   const isStud = isStudentInp.value === 'true';
-
-  // Stage: only for current BSc students
-  if (isStud && isBsc) {
-    stageGrp.classList.add('active');
-  } else {
-    stageGrp.classList.remove('active');
-  }
-
-  // Grad university field: for MSc or PhD
-  if (!isBsc) {
-    gradUniGrp.classList.add('active');
-    gradUniLabel.textContent = deg === 'msc' ? 'جامعة الماجستير' : 'جامعة الدكتوراه';
-  } else {
-    gradUniGrp.classList.remove('active');
-  }
+  stageGrp.classList.toggle('active', isStud && deg === 'bsc');
+  if (deg === 'msc' || deg === 'phd') {
+    mscUniGrp.classList.add('active');
+    mscUniLabel.textContent = 'جامعة الماجستير';
+  } else { mscUniGrp.classList.remove('active'); }
+  phdUniGrp.classList.toggle('active', deg === 'phd');
 }
 isStudentInp.addEventListener('change', updateModalVisibility);
 degreeInp.addEventListener('change', updateModalVisibility);
 
 document.getElementById('editInfoBtn').addEventListener('click', () => {
-  const citySelect = document.getElementById('cityInput');
-  citySelect.value = profileData.city || '';
-
+  document.getElementById('cityInput').value      = profileData.city || '';
+  document.getElementById('jobStatusInput').value = profileData.jobStatus || '';
   isStudentInp.value = (profileData.isStudent !== false).toString();
   degreeInp.value    = profileData.degreeLevel || "bsc";
-  document.getElementById('stageInput').value   = profileData.stage || "1";
-  document.getElementById('gradUniInput').value  = profileData.gradUniversity || '';
+  document.getElementById('stageInput').value  = profileData.stage || "1";
+  document.getElementById('mscUniInput').value = profileData.mscUniversity || '';
+  document.getElementById('phdUniInput').value = profileData.phdUniversity || '';
   updateModalVisibility();
-
   const hidden = profileData.hiddenFields || [];
-  document.getElementById('toggleUniversity').checked = !hidden.includes('university');
-  document.getElementById('toggleDept').checked        = !hidden.includes('department');
-  document.getElementById('toggleStage').checked       = !hidden.includes('stage');
-  document.getElementById('toggleCity').checked        = !hidden.includes('city');
+  document.getElementById('toggleDept').checked  = !hidden.includes('department');
+  document.getElementById('toggleStage').checked = !hidden.includes('stage');
+  document.getElementById('toggleCity').checked  = !hidden.includes('city');
   openModal('infoModal');
 });
 
@@ -1970,49 +2461,49 @@ document.getElementById('saveInfoBtn').addEventListener('click', async () => {
   const isStud    = isStudentInp.value === "true";
   const degLvl    = degreeInp.value;
   const stg       = document.getElementById('stageInput').value;
-  const gradUni   = document.getElementById('gradUniInput').value.trim();
-
-  const hidden = [];
-  if (!document.getElementById('toggleUniversity').checked) hidden.push('university');
-  if (!document.getElementById('toggleDept').checked)       hidden.push('department');
-  if (!document.getElementById('toggleStage').checked)      hidden.push('stage');
-  if (!document.getElementById('toggleCity').checked)       hidden.push('city');
-
+  const mscUni    = document.getElementById('mscUniInput').value.trim();
+  const phdUni    = document.getElementById('phdUniInput').value.trim();
+  const jobStatus = document.getElementById('jobStatusInput').value;
+  const hidden    = [];
+  // Education (university) is ALWAYS shown — not added to hidden
+  if (!document.getElementById('toggleDept').checked)  hidden.push('department');
+  if (!document.getElementById('toggleStage').checked) hidden.push('stage');
+  if (!document.getElementById('toggleCity').checked)  hidden.push('city');
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME), {
-      city, hiddenFields: hidden,
-      isStudent: isStud, degreeLevel: degLvl, stage: stg,
-      gradUniversity: gradUni
+      city, hiddenFields: hidden, isStudent: isStud, degreeLevel: degLvl, stage: stg,
+      mscUniversity: mscUni, phdUniversity: phdUni, jobStatus
+      // Note: 'university' (BSc) is NOT updated here — set only during registration
     });
-    profileData.city           = city;
-    profileData.hiddenFields   = hidden;
-    profileData.isStudent      = isStud;
-    profileData.degreeLevel    = degLvl;
-    profileData.stage          = stg;
-    profileData.gradUniversity = gradUni;
+    Object.assign(profileData, { city, hiddenFields: hidden, isStudent: isStud, degreeLevel: degLvl, stage: stg, mscUniversity: mscUni, phdUniversity: phdUni, jobStatus });
     renderProfile();
-    closeModal('infoModal');
-    toast('تم حفظ المعلومات والمسار الأكاديمي ✓', 'success');
+    closeModal('infoModal'); toast('تم حفظ المعلومات ✓', 'success');
   } catch(e) { toast('خطأ: ' + e.message, 'error'); }
 });
 
-/* ─────────────────────────────────────────────────
-   UPLOAD FILE
-   ───────────────────────────────────────────────── */
+/* ─── UPLOAD FILE ─── */
 document.getElementById('openUploadBtn').addEventListener('click', () => {
   document.getElementById('uploadFileInput').value     = '';
   document.getElementById('uploadNameInput').value     = '';
+  document.getElementById('uploadUniSelect').value     = '';
   document.getElementById('uploadDeptSelect').value    = '';
   document.getElementById('uploadStageSelect').value   = '';
   document.getElementById('uploadSubjectSelect').value = '';
   document.getElementById('customSubjectInput').value  = '';
+  document.getElementById('otherUniGroup').classList.remove('active');
   document.getElementById('otherDeptGroup').classList.remove('active');
   document.getElementById('subjectGroup').classList.remove('active');
   document.getElementById('customSubjectGroup').classList.remove('active');
   document.getElementById('uploadProgressWrap').classList.remove('active');
+  document.getElementById('copyrightCheck').checked    = false;
+  const cw = document.getElementById('copyrightWrap');
+  cw.classList.remove('shake'); cw.style.borderColor = '';
   openModal('uploadModal');
 });
 
+document.getElementById('uploadUniSelect').addEventListener('change', function() {
+  document.getElementById('otherUniGroup').classList.toggle('active', this.value === 'other');
+});
 document.getElementById('uploadDeptSelect').addEventListener('change', function() {
   document.getElementById('otherDeptGroup').classList.toggle('active', this.value === 'other');
   updateSubjectSelect();
@@ -2025,44 +2516,45 @@ function updateSubjectSelect() {
   const sel   = document.getElementById('uploadSubjectSelect');
   const sg    = document.getElementById('subjectGroup');
   const csg   = document.getElementById('customSubjectGroup');
-  if (!dept || dept === 'other' || !stage) {
-    sg.classList.remove('active');
-    csg.classList.add('active');
-    return;
-  }
+  if (!dept || dept === 'other' || !stage) { sg.classList.remove('active'); csg.classList.add('active'); return; }
   const subjects = (SUBJECTS_CONFIG[dept] || {})[stage] || [];
   sel.innerHTML = '<option value="">— اختر المادة —</option>';
-  subjects.forEach(s => {
-    const o = document.createElement('option');
-    o.value = s; o.textContent = s; sel.appendChild(o);
-  });
-  const otherOpt = document.createElement('option');
-  otherOpt.value = '__other__'; otherOpt.textContent = 'مادة أخرى...';
-  sel.appendChild(otherOpt);
-  sg.classList.add('active');
-  csg.classList.remove('active');
+  subjects.forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); });
+  const otherOpt = document.createElement('option'); otherOpt.value = '__other__'; otherOpt.textContent = 'مادة أخرى...'; sel.appendChild(otherOpt);
+  sg.classList.add('active'); csg.classList.remove('active');
 }
-
 document.getElementById('uploadSubjectSelect').addEventListener('change', function() {
-  document.getElementById('customSubjectGroup')
-    .classList.toggle('active', this.value === '__other__');
+  document.getElementById('customSubjectGroup').classList.toggle('active', this.value === '__other__');
 });
 
 document.getElementById('submitUploadBtn').addEventListener('click', async () => {
   const file      = document.getElementById('uploadFileInput').files[0];
   const name      = document.getElementById('uploadNameInput').value.trim();
+  const uniVal    = document.getElementById('uploadUniSelect').value;
   const deptVal   = document.getElementById('uploadDeptSelect').value;
   const stageVal  = document.getElementById('uploadStageSelect').value;
   const subjectEl = document.getElementById('uploadSubjectSelect').value;
   const customSub = document.getElementById('customSubjectInput').value.trim();
   const otherDept = document.getElementById('otherDeptInput').value.trim();
+  const otherUni  = document.getElementById('otherUniInput').value.trim();
+  const copyrightOk = document.getElementById('copyrightCheck').checked;
 
   if (!file)     { toast('اختر ملف PDF.', 'error'); return; }
   if (!name)     { toast('أدخل اسم الملف.', 'error'); return; }
+  if (!uniVal)   { toast('اختر الجامعة.', 'error'); return; }
   if (!deptVal)  { toast('اختر القسم الهندسي.', 'error'); return; }
   if (!stageVal) { toast('اختر المرحلة الدراسية.', 'error'); return; }
   if (file.type !== 'application/pdf') { toast('يُقبل ملفات PDF فقط.', 'error'); return; }
+  if (file.size > 12 * 1024 * 1024)   { toast('حجم الملف يتجاوز الحد الأقصى (12 ميجابايت).', 'error'); return; }
 
+  if (!copyrightOk) {
+    const cw = document.getElementById('copyrightWrap');
+    cw.classList.remove('shake'); void cw.offsetWidth; cw.classList.add('shake');
+    setTimeout(() => cw.classList.remove('shake'), 600);
+    return;
+  }
+
+  const uni     = uniVal === 'other' ? (otherUni || 'أخرى') : uniVal;
   const dept    = deptVal === 'other' ? (otherDept || 'أخرى') : deptVal;
   const subject = (subjectEl && subjectEl !== '__other__') ? subjectEl : (customSub || 'عام');
 
@@ -2070,11 +2562,8 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
   const progFill  = document.getElementById('uploadProgressFill');
   const progLabel = document.getElementById('uploadProgressLabel');
   const btn       = document.getElementById('submitUploadBtn');
-  progWrap.classList.add('active');
-  btn.disabled = true;
-  progFill.style.width = '20%';
-  progLabel.textContent = 'جاري الرفع...';
-
+  progWrap.classList.add('active'); btn.disabled = true;
+  progFill.style.width = '20%'; progLabel.textContent = 'جاري الرفع...';
   try {
     const storRef = ref(storage, `community_files/${TARGET_USERNAME}/${Date.now()}_${file.name}`);
     progFill.style.width = '55%';
@@ -2082,96 +2571,83 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
     progFill.style.width = '80%';
     const url  = await getDownloadURL(snap.ref);
     progFill.style.width = '95%';
-
-    await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(async ({addDoc}) => {
-      await addDoc(collection(db,"uploads"), {
-        name, url, uploader: TARGET_USERNAME,
-        dept, stage: stageVal, subject,
-        timestamp: new Date().toISOString()
-      });
+    await addDoc(collection(db,"uploads"), {
+      name, url, uploader: TARGET_USERNAME,
+      uni, dept, stage: stageVal, subject,
+      timestamp: new Date().toISOString()
     });
-
     progFill.style.width = '100%';
     progLabel.textContent = 'تم الرفع بنجاح!';
     setTimeout(() => {
-      closeModal('uploadModal');
-      toast('تم رفع الملف بنجاح ✓', 'success');
-      btn.disabled = false;
-      progWrap.classList.remove('active');
+      closeModal('uploadModal'); toast('تم رفع الملف بنجاح ✓', 'success');
+      btn.disabled = false; progWrap.classList.remove('active');
       loadFiles();
     }, 700);
   } catch(e) {
     progLabel.textContent = 'فشل الرفع: ' + e.message;
     progFill.style.background = '#dc2626';
-    btn.disabled = false;
-    toast('فشل الرفع: ' + e.message, 'error');
+    btn.disabled = false; toast('فشل الرفع: ' + e.message, 'error');
   }
 });
-</script>
-   <script type="module">
-import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, onAuthStateChanged }
-                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs }
-                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
-  authDomain:        "engineering-students-community.firebaseapp.com",
-  projectId:         "engineering-students-community",
-  storageBucket:     "engineering-students-community.firebasestorage.app",
-  messagingSenderId: "371432549665",
-  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
-};
+/* ─── NAV SEARCH ─── */
+let navSearchTimer = null;
+const navSearchInput   = document.getElementById('navSearchInput');
+const navSearchResults = document.getElementById('navSearchResults');
 
-const app       = initializeApp(firebaseConfig);
-const auth      = getAuth(app);
-const db        = getFirestore(app);
-const btn       = document.getElementById('authBtn');
-const btnMobile = document.getElementById('authBtnMobile');
+navSearchInput.addEventListener('input', () => {
+  clearTimeout(navSearchTimer);
+  const q = navSearchInput.value.trim();
+  if (!q) { navSearchResults.classList.remove('show'); navSearchResults.innerHTML = ''; return; }
+  navSearchResults.innerHTML = '<div class="search-loading">جاري البحث...</div>';
+  navSearchResults.classList.add('show');
+  navSearchTimer = setTimeout(() => performNavSearch(q), 300);
+});
 
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    btn.className = 'state-guest';
-    btn.href      = 'login.html';
-    btn.innerHTML = ' تسجيل الدخول';
-    if (btnMobile) {
-      btnMobile.href      = 'login.html';
-      btnMobile.innerHTML = ' تسجيل الدخول';
-    }
-    return;
-  }
+navSearchInput.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { navSearchResults.classList.remove('show'); navSearchInput.blur(); }
+});
+document.addEventListener('click', e => {
+  if (!document.getElementById('navSearchWrap').contains(e.target))
+    navSearchResults.classList.remove('show');
+});
+
+async function getAllStudents() {
+  if (allStudentsCache) return allStudentsCache;
+  const snap = await getDocs(collection(db,"students"));
+  allStudentsCache = [];
+  snap.forEach(d => { allStudentsCache.push({ id: d.id, ...d.data() }); });
+  return allStudentsCache;
+}
+
+async function performNavSearch(q) {
   try {
-    const q    = query(collection(db,"students"), where("uid","==",user.uid));
-    const snap = await getDocs(q);
-    if (snap.empty) {
-      btn.className = 'state-guest';
-      btn.href      = 'login.html';
-      btn.innerHTML = ' تسجيل الدخول';
+    const students = await getAllStudents();
+    const lq       = q.toLowerCase();
+    const results  = students.filter(s =>
+      (s.id || '').toLowerCase().includes(lq) ||
+      (s.fullName || '').toLowerCase().includes(lq)
+    ).slice(0, 6);
+    if (results.length === 0) {
+      navSearchResults.innerHTML = '<div class="search-no-result">لا توجد نتائج.</div>';
       return;
     }
-    const username   = snap.docs[0].id;
-    const data       = snap.docs[0].data();
-    const avatarSrc  = data.avatarURL || 'media/1nkown.png';
-    const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
-
-    btn.className = 'state-user';
-    btn.href      = profileUrl;
-    btn.innerHTML =
-      `<img class="auth-avatar" src="${avatarSrc}"
-            onerror="this.src='media/1nkown.png'" alt="صورة">` +
-      `<span>@${username}</span>`;
-
-    if (btnMobile) {
-      btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
-    }
-  } catch (e) {
-    btn.className = 'state-guest';
-    btn.href      = 'login.html';
-    btn.innerHTML = ' تسجيل الدخول';
+    navSearchResults.innerHTML = results.map(s => {
+      const uniName = UNIVERSITY_DICT[s.university] || s.university || '';
+      const avatar  = s.avatarURL ? escHtml(s.avatarURL) : 'media/1nkown.png';
+      return `<a class="search-result-item" href="profile.html?u=${encodeURIComponent(s.id)}">
+        <img class="search-result-avatar" src="${avatar}" onerror="this.src='media/1nkown.png'" alt="${escHtml(s.fullName||s.id)}">
+        <div class="search-result-info">
+          <div class="search-result-name">${escHtml("المهندس " + (s.fullName || s.id))}</div>
+          <div class="search-result-username">@${escHtml(s.id)}</div>
+          ${uniName ? `<div class="search-result-uni">${escHtml(uniName)}</div>` : ''}
+        </div>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    navSearchResults.innerHTML = '<div class="search-no-result">خطأ في البحث.</div>';
   }
-});
+}
 </script>
 </body>
 </html>
