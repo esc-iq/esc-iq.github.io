@@ -364,8 +364,8 @@ body {
 .contrib-slide .slide-title { font-size: 13px; font-weight: 700; color: #0d1b2a; line-height: 1.4; }
 .contrib-slide.off { display: none; }
 
-/* VOLUNTEER SLIDE */
-.volunteer-slide {
+/* uploads SLIDE */
+.uploads-slide {
   background: #fff;
   border: 1px solid rgba(0,0,0,0.08);
   border-radius: 12px; overflow: hidden;
@@ -373,21 +373,21 @@ body {
   display: flex; flex-direction: column;
   transition: transform var(--transition), box-shadow var(--transition);
 }
-.volunteer-slide:hover {
+.uploads-slide:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0,71,171,0.15);
 }
-.volunteer-slide .slide-thumb { width: 100%; height: 120px; object-fit: cover; display: block; }
-.volunteer-slide .slide-thumb-placeholder {
+.uploads-slide .slide-thumb { width: 100%; height: 120px; object-fit: cover; display: block; }
+.uploads-slide .slide-thumb-placeholder {
   width: 100%; height: 120px; display: none;
   align-items: center; justify-content: center;
   font-size: 36px;
   background: linear-gradient(135deg, var(--blue), #003080);
 }
-.volunteer-slide .slide-body { padding: 12px; flex: 1; }
-.volunteer-slide .slide-date { font-size: 11px; color: #999; font-weight: 700; margin-bottom: 4px; }
-.volunteer-slide .slide-title { font-size: 13px; font-weight: 700; color: #0d1b2a; line-height: 1.4; }
-.volunteer-slide.off { display: none; }
+.uploads-slide .slide-body { padding: 12px; flex: 1; }
+.uploads-slide .slide-date { font-size: 11px; color: #999; font-weight: 700; margin-bottom: 4px; }
+.uploads-slide .slide-title { font-size: 13px; font-weight: 700; color: #0d1b2a; line-height: 1.4; }
+.uploads-slide.off { display: none; }
 
 /* VISION */
 .vision-section {
@@ -442,7 +442,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <a href="../course.html">الدورات</a>
     <a href="../Scientific_contributions.html">المساهمات العلمية</a>
     <a href="../research.html">الأبحاث</a>
-    <a href="../volunteer.html">برامج التطوع</a>
+    <a href="../uploads.html">الملفات المرفوعة</a>
   </nav>
   <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
@@ -452,7 +452,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <a role="menuitem" href="../course.html">الدورات</a>
     <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
     <a role="menuitem" href="../research.html">الأبحاث</a>
-    <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+    <a role="menuitem" href="../uploads.html">الملفات المرفوعة</a>
   </div>
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
@@ -710,13 +710,13 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
       </div>
     </div>
 
-    <!-- VOLUNTEER PROGRAMS — لإخفاء القسم كله أضف style="display:none" على الـ div -->
+    <!-- uploads PROGRAMS — لإخفاء القسم كله أضف style="display:none" على الـ div -->
     <div class="content-card" style="display:none">
-      <h2>برامج التطوع</h2>
+      <h2>الملفات المرفوعة</h2>
       <div class="slides-grid">
 
-        <a href="../volunteer.html" class="volunteer-slide">
-          <img src="../media/volunteer1.png" alt="تطوع 1" class="slide-thumb"
+        <a href="../uploads.html" class="uploads-slide">
+          <img src="../media/uploads1.png" alt="تطوع 1" class="slide-thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="slide-thumb-placeholder">🌱</div>
           <div class="slide-body">
@@ -725,8 +725,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           </div>
         </a>
 
-        <a href="../volunteer.html" class="volunteer-slide">
-          <img src="../media/volunteer2.png" alt="تطوع 2" class="slide-thumb"
+        <a href="../uploads.html" class="uploads-slide">
+          <img src="../media/uploads2.png" alt="تطوع 2" class="slide-thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="slide-thumb-placeholder">🤝</div>
           <div class="slide-body">
@@ -735,8 +735,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           </div>
         </a>
 
-        <a href="../volunteer.html" class="volunteer-slide">
-          <img src="../media/volunteer3.png" alt="تطوع 3" class="slide-thumb"
+        <a href="../uploads.html" class="uploads-slide">
+          <img src="../media/uploads3.png" alt="تطوع 3" class="slide-thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="slide-thumb-placeholder">🌍</div>
           <div class="slide-body">
@@ -745,8 +745,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           </div>
         </a>
 
-        <a href="../volunteer.html" class="volunteer-slide">
-          <img src="../media/volunteer4.png" alt="تطوع 4" class="slide-thumb"
+        <a href="../uploads.html" class="uploads-slide">
+          <img src="../media/uploads4.png" alt="تطوع 4" class="slide-thumb"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
           <div class="slide-thumb-placeholder">♻️</div>
           <div class="slide-body">
