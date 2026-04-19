@@ -21,25 +21,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-  --nav-height: 58px;
-  --blue: #0047AB;
-  --teal: #008080;
-  --cream: #FAF9F6;
-  --dark: #0a0a0f;
-  --card-radius: 14px;
-  --transition: 0.3s ease;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: 'Ubuntu', sans-serif;
-  background-color: var(--cream);
-  color: #111;
-  direction: rtl;
-  text-align: right;
-  overflow-x: hidden;
-}
-/* ── SEARCH BAR ── */
+  /* ── SEARCH BAR ── */
 .nav-search-wrap {
   position: relative;
   display: flex; align-items: center;
@@ -110,6 +92,25 @@ body {
 @media (max-width: 768px) {
   .nav-search-wrap { display: none; }
 }
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --dark: #0a0a0f;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-color: var(--cream);
+  color: #111;
+  direction: rtl;
+  text-align: right;
+  overflow-x: hidden;
+}
+
 /* ===== MOBILE NOTICE ===== */
 #mobileNotice {
   display: none; position: fixed; inset: 0;
@@ -505,7 +506,9 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
            style="height:38px;width:auto;display:block;">
     </a>
     <a id="authBtn" class="state-loading" href="login.html">⏳</a>
-    <div class="nav-search-wrap" id="navSearchWrap">
+
+
+<div class="nav-search-wrap" id="navSearchWrap">
   <input type="search" class="nav-search-input" id="navSearchInput"
          placeholder="البحث عن مستخدم..." autocomplete="off">
   <span class="nav-search-icon" aria-hidden="true">
@@ -518,6 +521,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   <div class="nav-search-results" id="navSearchResults"></div>
 </div>
 
+    
   </div>
 
   <!-- روابط التنقل -->
