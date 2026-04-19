@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>برامج التطوع - ESC</title>
+<title>الملفات المرفوعة - ESC</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
@@ -187,7 +187,7 @@ main { flex-grow: 1; }
   border-radius: var(--card-radius);
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-.volunteer-card {
+.uploads-card {
   background: #fff;
   border-radius: var(--card-radius);
   text-decoration: none;
@@ -201,7 +201,7 @@ main { flex-grow: 1; }
   border-right: 5px solid var(--teal);
   transition: transform var(--transition), box-shadow var(--transition);
 }
-.volunteer-card:hover {
+.uploads-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 10px 28px rgba(0,128,128,0.13);
 }
@@ -211,7 +211,7 @@ main { flex-grow: 1; }
   background: linear-gradient(135deg, var(--blue), var(--teal));
 }
 .vol-image { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-.volunteer-card:hover .vol-image { transform: scale(1.06); }
+.uploads-card:hover .vol-image { transform: scale(1.06); }
 .vol-content {
   padding: 22px 28px;
   display: flex; flex-direction: column;
@@ -272,7 +272,7 @@ footer {
   .menu-btn { display: inline-flex; }
   .hero-section { padding: 50px 20px; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; }
   .content-container { padding: 0 16px; margin-top: 32px; }
-  .volunteer-card { flex-direction: column; border-right: none; border-top: 5px solid var(--teal); }
+  .uploads-card { flex-direction: column; border-right: none; border-top: 5px solid var(--teal); }
   .vol-image-wrapper { width: 100%; height: 200px; }
   .vol-content { padding: 18px; }
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
@@ -337,7 +337,7 @@ footer {
     <a href="course.html">الدورات</a>
     <a href="Scientific_contributions.html">المساهمات العلمية</a>
     <a href="research.html">الأبحاث</a>
-    <a href="volunteer.html">برامج التطوع</a>
+    <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
 
   <button id="menuBtn" class="menu-btn" aria-label="خيارات"
@@ -350,7 +350,7 @@ footer {
     <a role="menuitem" href="course.html">الدورات</a>
     <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
-    <a role="menuitem" href="volunteer.html">برامج التطوع</a>
+    <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
       <a role="menuitem" id="authBtnMobile" href="login.html"> تسجيل الدخول</a>
     </div>
@@ -361,7 +361,7 @@ footer {
 
 <main>
   <div class="hero-section">
-    <h1>برامج التطوع</h1>
+    <h1>الملفات المرفوعة</h1>
     <div class="search-wrapper">
       <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن برنامج تطوعي...">
       <span class="search-icon" aria-hidden="true">
@@ -378,7 +378,7 @@ footer {
       <div class="empty-icon">🌱</div>
       <div class="empty-text">لا توجد أعمال تطوعية متاحة الآن</div>
     </div>
-    <div id="volunteerGrid"></div>
+    <div id="uploadsGrid"></div>
     <div id="noResults" class="no-results">لم نتمكن من العثور على نتائج. يرجى المحاولة بكلمات أخرى.</div>
   </div>
 </main>
@@ -423,16 +423,16 @@ document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMen
 mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
 window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
 
-var volunteerData = [];
+var uploadsData = [];
 
-var volunteerGrid = document.getElementById('volunteerGrid');
+var uploadsGrid = document.getElementById('uploadsGrid');
 var searchInput = document.getElementById('searchInput');
 var noResults = document.getElementById('noResults');
 var emptyBox = document.getElementById('emptyBox');
 
-function renderVolunteer(arr) {
-  volunteerGrid.innerHTML = '';
-  if (volunteerData.length === 0) {
+function renderuploads(arr) {
+  uploadsGrid.innerHTML = '';
+  if (uploadsData.length === 0) {
     emptyBox.style.display = 'flex';
     noResults.style.display = 'none';
     return;
@@ -448,21 +448,21 @@ function renderVolunteer(arr) {
     var m = item.id.substring(4,6);
     var d = item.id.substring(6,8);
     var card = document.createElement('a');
-    card.href = 'volunteer/' + item.id + '.html';
-    card.className = 'volunteer-card';
-    card.innerHTML = '<div class="vol-image-wrapper"><img src="volunteer/' + item.id + '.jpg" alt="' + item.title + '" class="vol-image" onerror="this.src=\'media/icon-512-w.png\';"></div><div class="vol-content"><span class="vol-date">' + y + '/' + m + '/' + d + '</span><div class="vol-title">' + item.title + '</div><div class="vol-summary">' + item.summary + '</div><span class="vol-readmore">اقرأ المزيد</span></div>';
-    volunteerGrid.appendChild(card);
+    card.href = 'uploads/' + item.id + '.html';
+    card.className = 'uploads-card';
+    card.innerHTML = '<div class="vol-image-wrapper"><img src="uploads/' + item.id + '.jpg" alt="' + item.title + '" class="vol-image" onerror="this.src=\'media/icon-512-w.png\';"></div><div class="vol-content"><span class="vol-date">' + y + '/' + m + '/' + d + '</span><div class="vol-title">' + item.title + '</div><div class="vol-summary">' + item.summary + '</div><span class="vol-readmore">اقرأ المزيد</span></div>';
+    uploadsGrid.appendChild(card);
   });
 }
 
-renderVolunteer(volunteerData);
+renderuploads(uploadsData);
 
 var searchTimer = null;
 searchInput.addEventListener('input', function() {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(function() {
     var q = searchInput.value.toLowerCase();
-    renderVolunteer(volunteerData.filter(function(n) {
+    renderuploads(uploadsData.filter(function(n) {
       return n.title.toLowerCase().indexOf(q) !== -1 || n.summary.toLowerCase().indexOf(q) !== -1;
     }));
   }, 120);
