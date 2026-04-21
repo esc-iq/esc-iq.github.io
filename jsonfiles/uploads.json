@@ -1,15 +1,14 @@
 [
   {
     "dr_username": ["alaamshaban"], 
-    "work": "",
+    "work": "karbala",
     "dept": "civil",
     "stage":"4",
-    "subject":"هندسة التخمين",
+    "subject":"تصميم الأسس",
     "unitag": "media/uok.PNG",
     "year": "2025-2026",
      "verf": "media/verification.png",
-    "description1": " جامعة كربلاء — قسم الهندسة المدنية",
-    "description2": " مؤسس مجتمع طلبة الهندسة (ESC) ",
+    "description1": "بروفيسور وأحدى علماء جامعة كربلاء - المتخصص في الهندسة الجيوتقنية", 
     "tags": ["المؤسس والرئيس", "🔬 باحث"]
   }
 ]
