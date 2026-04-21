@@ -650,7 +650,7 @@ async function performNavSearch(q) {
     resultsEl.innerHTML = results.map(s => {
       const uniName = UNIVERSITY_DICT[s.university] || s.university || '';
       const avatar  = s.avatarURL ? escHtml(s.avatarURL) : 'media/1nkown.png';
-      return `<a class="search-result-item" href="profile.html?u=${encodeURIComponent(s.id)}">
+      return `<a class="search-result-item" href="../profile.html?u=${encodeURIComponent(s.id)}">
         <img class="search-result-avatar" src="${avatar}"
              onerror="this.src='media/1nkown.png'" alt="${escHtml(s.fullName||s.id)}">
         <div class="search-result-info">
