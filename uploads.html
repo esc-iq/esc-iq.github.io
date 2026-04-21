@@ -9,77 +9,6 @@
 <link rel="apple-touch-icon" href="media/icon-512-w.png">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  /* ── SEARCH BAR ── */
-.nav-search-wrap {
-  position: relative;
-  display: flex; align-items: center;
-}
-.nav-search-input {
-  width: 280px; height: 36px;
-  padding: 0 36px 0 12px;
-  border-radius: 9px;
-  border: 1.5px solid rgba(255,255,255,0.3);
-  background: rgba(255,255,255,0.12);
-  outline: none; color: #fff;
-  font-weight: 700; font-family: 'Ubuntu', sans-serif;
-  font-size: 13px;
-  direction: rtl; text-align: right;
-  transition: background 0.2s, border-color 0.2s, width 0.3s;
-  backdrop-filter: blur(4px);
-}
-.nav-search-input::placeholder { color: rgba(255,255,255,0.55); font-weight: 400; }
-.nav-search-input:focus {
-  background: rgba(255,255,255,0.2);
-  border-color: rgba(255,255,255,0.6);
-  width: 300px;
-}
-.nav-search-icon {
-  position: absolute; left: 11px;
-  pointer-events: none;
-  display: flex; align-items: center;
-  opacity: 0.7;
-}
-.nav-search-icon svg { width: 16px; height: 16px; }
-.nav-search-results {
-  display: none;
-  position: absolute;
-  top: calc(100% + 8px); right: 0;
-  min-width: 300px;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 14px 40px rgba(0,0,0,0.2);
-  border: 1px solid rgba(0,0,0,0.08);
-  overflow: hidden;
-  z-index: 2000;
-  direction: rtl; text-align: right;
-}
-.nav-search-results.show { display: block; }
-.search-result-item {
-  display: flex; align-items: center; gap: 12px;
-  padding: 11px 14px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
-  transition: background 0.15s;
-  cursor: pointer;
-}
-.search-result-item:last-child { border-bottom: none; }
-.search-result-item:hover { background: #f3f7ff; }
-.search-result-avatar {
-  width: 40px; height: 40px; border-radius: 10px;
-  object-fit: cover; flex-shrink: 0;
-  border: 1px solid rgba(0,0,0,0.08);
-  background: #e5e7eb;
-}
-.search-result-info { flex: 1; min-width: 0; }
-.search-result-name { font-size: 14px; font-weight: 700; color: #0d1b2a; }
-.search-result-username { font-size: 12px; color: #0047AB; font-weight: 700; margin-top: 1px; }
-.search-result-uni { font-size: 11px; color: #6b7280; font-weight: 700; margin-top: 1px; }
-.search-no-result { padding: 20px 16px; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af; }
-.search-loading { padding: 16px; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af; }
-
-@media (max-width: 768px) {
-  .nav-search-wrap { display: none; }
-}
 :root {
   --nav-height: 58px;
   --blue: #0047AB;
@@ -110,7 +39,7 @@ body {
 #authGate {
   display: none;
   position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.72);
+  background: rgba(0,0,0,0.72);
   backdrop-filter: blur(8px);
   z-index: 8000;
   align-items: center; justify-content: center;
@@ -118,44 +47,24 @@ body {
 }
 #authGate.show { display: flex; }
 .auth-gate-box {
-  background: #fff;
-  border-radius: 20px;
-  padding: 36px 32px;
-  max-width: 400px; width: 100%;
-  text-align: center;
-  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  background: #fff; border-radius: 20px;
+  padding: 36px 32px; max-width: 400px; width: 100%;
+  text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.35);
   animation: authSlideUp 0.25s ease;
 }
-@keyframes authSlideUp {
-  from { transform: translateY(16px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
+@keyframes authSlideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
 .auth-gate-icon { font-size: 52px; margin-bottom: 14px; display: block; }
-.auth-gate-title {
-  font-size: 20px; font-weight: 700;
-  color: var(--text-dark); margin-bottom: 10px;
-}
-.auth-gate-msg {
-  font-size: 14px; color: var(--text-light);
-  line-height: 1.75; margin-bottom: 24px;
-}
+.auth-gate-title { font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; }
+.auth-gate-msg { font-size: 14px; color: var(--text-light); line-height: 1.75; margin-bottom: 24px; }
 .auth-gate-btns { display: flex; gap: 10px; flex-direction: column; }
 .auth-gate-btn {
-  display: block; width: 100%;
-  padding: 12px; border-radius: 12px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 14px; font-weight: 700;
-  text-decoration: none;
-  transition: background var(--transition);
+  display: block; width: 100%; padding: 12px; border-radius: 12px;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700;
+  text-decoration: none; transition: background var(--transition);
 }
-.auth-gate-btn.primary {
-  background: var(--blue); color: #fff;
-}
+.auth-gate-btn.primary { background: var(--blue); color: #fff; }
 .auth-gate-btn.primary:hover { background: #0059d4; }
-.auth-gate-btn.secondary {
-  background: #f3f4f6; color: var(--text-dark);
-  border: 1px solid rgba(0,0,0,0.10);
-}
+.auth-gate-btn.secondary { background: #f3f4f6; color: var(--text-dark); border: 1px solid rgba(0,0,0,0.10); }
 .auth-gate-btn.secondary:hover { background: #e5e7eb; }
 
 /* ===== NAVBAR ===== */
@@ -174,10 +83,64 @@ body {
   color: var(--cream); text-decoration: none;
   font-weight: 700; font-size: 14px;
   padding: 7px 13px; border-radius: 8px;
-  transition: background var(--transition);
-  white-space: nowrap;
+  transition: background var(--transition); white-space: nowrap;
 }
 #bar nav a:hover { background: rgba(255,255,255,0.18); }
+
+/* Nav search */
+.nav-search-wrap { position: relative; display: flex; align-items: center; }
+.nav-search-input {
+  width: 260px; height: 36px;
+  padding: 0 36px 0 12px;
+  border-radius: 9px;
+  border: 1.5px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.12);
+  outline: none; color: #fff;
+  font-weight: 700; font-family: 'Ubuntu', sans-serif;
+  font-size: 13px; direction: rtl; text-align: right;
+  transition: background 0.2s, border-color 0.2s, width 0.3s;
+  backdrop-filter: blur(4px);
+}
+.nav-search-input::placeholder { color: rgba(255,255,255,0.55); font-weight: 400; }
+.nav-search-input:focus {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.6); width: 290px;
+}
+.nav-search-icon {
+  position: absolute; left: 11px;
+  pointer-events: none; display: flex; align-items: center; opacity: 0.7;
+}
+.nav-search-icon svg { width: 16px; height: 16px; }
+.nav-search-results {
+  display: none; position: absolute;
+  top: calc(100% + 8px); right: 0;
+  min-width: 300px; background: #fff;
+  border-radius: 14px; box-shadow: 0 14px 40px rgba(0,0,0,0.2);
+  border: 1px solid rgba(0,0,0,0.08); overflow: hidden;
+  z-index: 2000; direction: rtl; text-align: right;
+}
+.nav-search-results.show { display: block; }
+.search-result-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; text-decoration: none;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  transition: background 0.15s; cursor: pointer;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: #f3f7ff; }
+.search-result-avatar {
+  width: 40px; height: 40px; border-radius: 10px;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.08); background: #e5e7eb;
+}
+.search-result-name { font-size: 14px; font-weight: 700; color: #0d1b2a; }
+.search-result-username { font-size: 12px; color: var(--blue); font-weight: 700; margin-top: 1px; }
+.search-result-uni { font-size: 11px; color: var(--text-light); font-weight: 700; margin-top: 1px; }
+.search-no-result { padding: 20px 16px; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af; }
+.search-loading { padding: 16px; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af; }
+
+.bar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+
 .menu-btn {
   display: none; height: 42px; width: 42px;
   border: 0; background: transparent;
@@ -185,10 +148,7 @@ body {
   align-items: center; justify-content: center;
 }
 .menu-btn:hover { background: rgba(255,255,255,0.18); }
-.menu-icon {
-  width: 24px; height: 2px; background: #fff;
-  display: block; position: relative; margin: auto;
-}
+.menu-icon { width: 24px; height: 2px; background: #fff; display: block; position: relative; margin: auto; }
 .menu-icon::before, .menu-icon::after {
   content: ""; position: absolute; left: 0;
   width: 24px; height: 2px; background: #fff;
@@ -207,8 +167,7 @@ body {
   min-width: 240px; background: #fff;
   border-radius: 14px; padding: 8px;
   box-shadow: 0 14px 35px rgba(0,0,0,0.22);
-  border: 1px solid var(--border);
-  z-index: 1001; direction: rtl;
+  border: 1px solid var(--border); z-index: 1001; direction: rtl;
   transform-origin: top right;
   transform: translateY(-6px) scale(0.98); opacity: 0;
   transition: opacity .14s ease, transform .14s ease;
@@ -220,8 +179,7 @@ body {
 /* ===== HERO ===== */
 .page-hero {
   background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
-  padding: 48px 40px;
-  position: relative; overflow: hidden;
+  padding: 48px 40px; position: relative; overflow: hidden;
 }
 .page-hero::before {
   content: ''; position: absolute; top: -80px; left: -80px;
@@ -243,108 +201,115 @@ body {
 }
 .page-hero p {
   font-size: 14px; color: rgba(255,255,255,0.72); line-height: 1.75;
-  max-width: 600px;
+  max-width: 600px; margin-bottom: 18px;
 }
+.hero-upload-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 22px;
+  background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.35);
+  color: #fff; font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 14px; cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+  backdrop-filter: blur(4px);
+}
+.hero-upload-btn:hover { background: rgba(255,255,255,0.25); border-color: rgba(255,255,255,0.55); }
 
 /* ===== DEPT TABS ===== */
 .dept-bar {
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: stretch;
-  gap: 0; direction: ltr;
-  overflow-x: auto;
-  scrollbar-width: none;
+  background: #fff; border-bottom: 1px solid var(--border);
+  display: flex; align-items: stretch; gap: 0;
+  direction: ltr; overflow-x: auto; scrollbar-width: none;
 }
 .dept-bar::-webkit-scrollbar { display: none; }
 .dept-tab {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 0 20px; height: 50px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 13px; font-weight: 700;
-  color: var(--text-light);
-  border: none; background: none;
-  border-bottom: 3px solid transparent;
-  white-space: nowrap; cursor: pointer;
-  transition: color var(--transition), border-color var(--transition);
+  padding: 0 18px; height: 50px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text-light); border: none; background: none;
+  border-bottom: 3px solid transparent; white-space: nowrap;
+  cursor: pointer; transition: color var(--transition), border-color var(--transition);
   flex-shrink: 0;
 }
 .dept-tab:hover { color: var(--blue); }
 .dept-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
-.dept-tab .dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: currentColor; opacity: 0.5; flex-shrink: 0;
-}
+.dept-tab .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: 0.5; flex-shrink: 0; }
 .dept-tab.active .dot { opacity: 1; }
 
 /* ===== MAIN LAYOUT ===== */
 main { flex: 1; }
-.page {
-  max-width: 1100px;
-  margin: 28px auto 60px;
-  padding: 0 20px;
-}
+.page { max-width: 1100px; margin: 28px auto 60px; padding: 0 20px; }
 .layout { display: flex; gap: 20px; align-items: flex-start; direction: ltr; }
 
 /* ===== SIDEBAR ===== */
 .filters {
-  width: 210px; flex-shrink: 0;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--card-radius);
-  padding: 14px;
+  width: 220px; flex-shrink: 0;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--card-radius); padding: 14px;
   box-shadow: var(--shadow);
 }
 .filters-title {
   font-size: 11px; font-weight: 700;
   color: rgba(0,0,0,0.38); letter-spacing: 1.8px;
-  text-transform: uppercase; margin-bottom: 14px;
-  text-align: left;
+  text-transform: uppercase; margin-bottom: 14px; text-align: left;
 }
+/* Subject search inside sidebar */
+.subject-search-wrap {
+  position: relative; margin-bottom: 12px;
+}
+.subject-search-input {
+  width: 100%; height: 36px;
+  padding: 0 32px 0 10px;
+  border-radius: 8px; border: 1px solid rgba(0,0,0,0.12);
+  background: #f9fafb; outline: none;
+  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--text-dark); direction: rtl; text-align: right;
+  transition: border-color 0.2s, background 0.2s;
+}
+.subject-search-input::placeholder { color: rgba(0,0,0,0.35); font-weight: 400; }
+.subject-search-input:focus { border-color: var(--blue); background: #fff; }
+.subject-search-icon {
+  position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; opacity: 0.45; display: flex; align-items: center;
+}
+.subject-search-icon svg { width: 14px; height: 14px; }
+.subject-search-no-result {
+  display: none; padding: 10px 6px; text-align: center; direction: rtl;
+}
+.subject-search-no-result.show { display: block; }
+.subject-search-no-result img { width: 40px; height: 40px; object-fit: contain; margin-bottom: 4px; display: block; margin-left: auto; margin-right: auto; }
+.subject-search-no-result p { font-size: 11px; font-weight: 700; color: #dc2626; }
+
 .stage-group { margin-bottom: 4px; }
 .stage-btn {
-  width: 100%;
-  border: 1px solid rgba(0,0,0,0.09);
+  width: 100%; border: 1px solid rgba(0,0,0,0.09);
   background: #fff; border-radius: 8px;
   padding: 9px 11px; cursor: pointer; text-align: left;
-  font-family: 'Ubuntu', sans-serif;
-  font-weight: 700; font-size: 13px; color: var(--text-dark);
+  font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 13px; color: var(--text-dark);
   display: flex; align-items: center; justify-content: space-between;
   transition: background var(--transition);
 }
 .stage-btn:hover { background: #f3f4f6; }
-.stage-btn.active {
-  border-color: rgba(0,71,171,0.28);
-  background: rgba(0,71,171,0.06);
-  color: var(--blue);
-}
-.stage-btn .chev {
-  font-size: 10px; opacity: 0.45;
-  transition: transform var(--transition);
-  font-style: normal;
-}
+.stage-btn.active { border-color: rgba(0,71,171,0.28); background: rgba(0,71,171,0.06); color: var(--blue); }
+.stage-btn .chev { font-size: 10px; opacity: 0.45; transition: transform var(--transition); font-style: normal; }
 .stage-btn.open .chev { transform: rotate(180deg); }
 .sub-list { display: none; flex-direction: column; gap: 2px; padding: 4px 0; }
 .sub-list.open { display: flex; }
 .sub-btn {
-  border: none; background: transparent;
-  border-radius: 7px; padding: 7px 10px 7px 22px;
-  cursor: pointer; text-align: left;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 12px; font-weight: 700; color: var(--text-light);
-  transition: background var(--transition), color var(--transition);
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  width: 100%;
+  border: none; background: transparent; border-radius: 7px;
+  padding: 7px 10px 7px 22px; cursor: pointer; text-align: left;
+  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--text-light); transition: background var(--transition), color var(--transition);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;
 }
 .sub-btn:hover { background: #f3f4f6; color: var(--text-dark); }
 .sub-btn.active { background: rgba(0,71,171,0.07); color: var(--blue); }
+.sub-btn.hidden-by-search { display: none; }
 
-/* Mobile filter toggle */
 .filter-toggle {
   display: none; width: 100%; height: 44px;
   border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
   background: #fff; color: var(--text-dark);
-  font-family: 'Ubuntu', sans-serif;
-  font-weight: 700; cursor: pointer;
+  font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer;
   direction: rtl; padding: 0 14px; margin-bottom: 14px;
   align-items: center; justify-content: space-between;
 }
@@ -354,18 +319,75 @@ main { flex: 1; }
 /* ===== FILES AREA ===== */
 .files-area { flex: 1; min-width: 0; }
 
+/* University filters bar */
+.uni-filter-bar {
+  display: none; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 14px; padding: 12px 14px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--card-radius); box-shadow: var(--shadow);
+  direction: rtl;
+}
+.uni-filter-bar.show { display: flex; }
+.uni-filter-label {
+  font-size: 11px; font-weight: 700; color: #888;
+  text-transform: uppercase; letter-spacing: 1px;
+  width: 100%; margin-bottom: 4px;
+}
+.uni-filter-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  background: #fff; color: var(--text-mid);
+  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all var(--transition); white-space: nowrap;
+}
+.uni-filter-btn:hover { border-color: var(--blue); color: var(--blue); background: rgba(0,71,171,0.05); }
+.uni-filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.uni-filter-btn img { width: 18px; height: 18px; object-fit: contain; border-radius: 3px; }
+
+/* Professor card */
+.professor-card {
+  display: none; margin-bottom: 14px;
+  background: linear-gradient(135deg, #e8f0fe 0%, #e0f2f1 100%);
+  border: 1.5px solid rgba(0,71,171,0.18);
+  border-radius: var(--card-radius); padding: 14px 18px;
+  direction: rtl; box-shadow: 0 2px 12px rgba(0,71,171,0.08);
+  align-items: center; gap: 14px;
+}
+.professor-card.show { display: flex; }
+.professor-avatar {
+  width: 56px; height: 56px; border-radius: 12px;
+  object-fit: cover; flex-shrink: 0;
+  border: 2px solid rgba(0,71,171,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.professor-info { flex: 1; min-width: 0; direction: rtl; }
+.professor-name {
+  font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px;
+}
+.professor-username {
+  font-size: 12px; color: var(--blue); font-weight: 700; margin-bottom: 5px; direction: ltr; text-align: right;
+}
+.professor-desc { font-size: 12px; color: var(--text-mid); line-height: 1.6; font-weight: 700; }
+.professor-goto {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 10px;
+  background: rgba(0,71,171,0.1); border: 1.5px solid rgba(0,71,171,0.2);
+  color: var(--blue); text-decoration: none; font-size: 18px;
+  flex-shrink: 0; transition: background var(--transition);
+}
+.professor-goto:hover { background: rgba(0,71,171,0.2); }
+
 /* Loading */
 .loading-row {
   background: #fff; border: 1px solid var(--border);
   border-radius: var(--card-radius); padding: 44px;
   text-align: center; color: var(--text-light);
-  font-size: 14px; font-weight: 700;
-  box-shadow: var(--shadow);
+  font-size: 14px; font-weight: 700; box-shadow: var(--shadow);
 }
 .loading-row .spin {
   width: 32px; height: 32px; border-radius: 50%;
-  border: 3px solid rgba(0,71,171,0.15);
-  border-top-color: var(--blue);
+  border: 3px solid rgba(0,71,171,0.15); border-top-color: var(--blue);
   animation: spin 0.8s linear infinite;
   display: block; margin: 0 auto 14px;
 }
@@ -385,20 +407,17 @@ main { flex: 1; }
 .files-list {
   background: #fff; border: 1px solid var(--border);
   border-radius: var(--card-radius); overflow: hidden;
-  direction: ltr; text-align: left;
-  box-shadow: var(--shadow);
+  direction: ltr; text-align: left; box-shadow: var(--shadow);
 }
 .file-item {
   display: flex; gap: 16px; align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.055);
+  padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,0.055);
   transition: background var(--transition);
 }
 .file-item:last-child { border-bottom: none; }
 .file-item:hover { background: #fafbff; }
 .file-icon {
-  width: 44px; height: 44px; flex-shrink: 0;
-  border-radius: 10px;
+  width: 44px; height: 44px; flex-shrink: 0; border-radius: 10px;
   background: linear-gradient(135deg, #dc2626, #b91c1c);
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; font-weight: 700; color: #fff; letter-spacing: 0.5px;
@@ -406,8 +425,7 @@ main { flex: 1; }
 }
 .file-main { flex: 1; min-width: 0; }
 .file-name {
-  display: block; color: #1a0dab;
-  font-size: 14px; font-weight: 700;
+  display: block; color: #1a0dab; font-size: 14px; font-weight: 700;
   text-decoration: none; line-height: 1.35;
 }
 .file-name:hover { text-decoration: underline; }
@@ -415,43 +433,135 @@ main { flex: 1; }
   margin-top: 4px; font-size: 12px;
   display: flex; gap: 9px; align-items: center; flex-wrap: wrap;
 }
-.file-uploader {
-  color: #188038; font-weight: 700;
-  text-decoration: none;
-}
+.file-uploader { color: #188038; font-weight: 700; text-decoration: none; }
 .file-uploader:hover { text-decoration: underline; }
 .file-tag {
-  background: rgba(0,0,0,0.05);
-  color: #374151; font-size: 11px; font-weight: 700;
-  padding: 2px 8px; border-radius: 5px;
+  background: rgba(0,0,0,0.05); color: #374151;
+  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 5px;
 }
 .dl-btn {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 8px 15px; border-radius: 20px;
-  background: rgba(0,71,171,0.08);
-  border: 1px solid rgba(0,71,171,0.17);
+  background: rgba(0,71,171,0.08); border: 1px solid rgba(0,71,171,0.17);
   color: var(--blue); text-decoration: none;
-  font-family: 'Ubuntu', sans-serif;
-  font-weight: 700; font-size: 11px; white-space: nowrap;
-  transition: background var(--transition); flex-shrink: 0;
+  font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 11px;
+  white-space: nowrap; transition: background var(--transition); flex-shrink: 0;
 }
 .dl-btn:hover { background: rgba(0,71,171,0.16); }
 
+/* ===== AUTH BUTTON ===== */
+#authBtn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 13px; border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+#authBtn.state-loading { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); border: 1.5px solid rgba(255,255,255,0.1); pointer-events: none; }
+#authBtn.state-guest   { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.32); }
+#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
+#authBtn.state-user    { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
+#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
+.auth-avatar { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.35); display: block; flex-shrink: 0; }
+
+/* ===== UPLOAD MODAL ===== */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  z-index: 5000; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 18px;
+  width: 100%; max-width: 520px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.28); overflow: hidden;
+  animation: slideUp 0.22s ease; max-height: 90vh; overflow-y: auto;
+}
+@keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 22px; background: var(--teal); color: #fff;
+  position: sticky; top: 0; z-index: 1;
+}
+.modal-head h3 { font-size: 16px; font-weight: 700; }
+.modal-close-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28);
+  color: #fff; font-size: 17px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition); font-family: 'Ubuntu', sans-serif;
+}
+.modal-close-btn:hover { background: rgba(255,255,255,0.32); }
+.modal-body { padding: 22px; }
+.form-group { margin-bottom: 16px; }
+.form-group label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: var(--text-mid); margin-bottom: 6px; letter-spacing: 0.5px;
+}
+.form-control {
+  width: 100%; padding: 10px 14px;
+  border: 1px solid rgba(0,0,0,0.14); border-radius: 10px; outline: none;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; color: var(--text-dark);
+  background: #fafafa; transition: border-color var(--transition), box-shadow var(--transition);
+  direction: rtl;
+}
+.form-control:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,128,128,0.1); background: #fff; }
+textarea.form-control { resize: vertical; min-height: 90px; }
+select.form-control { cursor: pointer; }
+.form-control.ltr-input { direction: ltr; text-align: left; }
+.upload-sub-select { display: none; }
+.upload-sub-select.active { display: block; }
+.upload-progress-wrap { display: none; margin-top: 12px; }
+.upload-progress-wrap.active { display: block; }
+.upload-progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
+.upload-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal));
+  border-radius: 3px; width: 0%; transition: width 0.3s ease;
+}
+.upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
+.copyright-check-wrap {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 10px; background: #f9fafb; margin-bottom: 14px; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.copyright-check-wrap.shake { animation: shakeAnim 0.4s ease; border-color: #dc2626; background: #fef2f2; }
+@keyframes shakeAnim { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
+.copyright-check-wrap input[type="checkbox"] { width: 16px; height: 16px; margin-top: 2px; cursor: pointer; flex-shrink: 0; accent-color: var(--teal); }
+.copyright-check-wrap label { font-size: 12px; font-weight: 700; color: var(--text-mid); cursor: pointer; line-height: 1.5; }
+.modal-submit-btn {
+  width: 100%; padding: 12px; background: var(--teal); color: #fff;
+  border: none; border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: background var(--transition); margin-top: 4px;
+}
+.modal-submit-btn:hover { background: #006666; }
+.modal-submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+
+/* Toast */
+#toastContainer {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  z-index: 9990; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none; align-items: center;
+}
+.toast {
+  background: #1f2937; color: #fff; padding: 10px 20px; border-radius: 24px;
+  font-size: 14px; font-weight: 700; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  animation: toastIn 0.25s ease, toastOut 0.25s ease 2.5s forwards;
+  pointer-events: auto;
+}
+.toast.success { background: #065f46; }
+.toast.error   { background: #991b1b; }
+@keyframes toastIn  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes toastOut { to{opacity:0;transform:translateY(12px)} }
+
 /* ===== VISION ===== */
-.vision-section {
-  background: var(--blue); padding: 24px 30px; text-align: center;
-}
+.vision-section { background: var(--blue); padding: 24px 30px; text-align: center; }
 .vision-section h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-.vision-section p {
-  font-size: 14px; color: rgba(255,255,255,0.8);
-  line-height: 1.8; max-width: 660px; margin: 0 auto;
-}
+.vision-section p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.8; max-width: 660px; margin: 0 auto; }
 
 /* ===== FOOTER ===== */
-footer {
-  background: #06101f; color: rgba(255,255,255,0.6);
-  padding: 52px 30px 26px; direction: rtl;
-}
+footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 26px; direction: rtl; }
 .footer-inner {
   max-width: 1100px; margin: 0 auto;
   display: grid; grid-template-columns: 1.4fr 1fr;
@@ -461,29 +571,20 @@ footer {
 .footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
 .footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
 .footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
-.footer-col h4 {
-  font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45);
-  letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px;
-}
+.footer-col h4 { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.45); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
 .footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.45); }
 .footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
 .footer-contact a:hover { color: #fff; }
-.footer-bottom {
-  max-width: 1100px; margin: 26px auto 0;
-  display: flex; align-items: center;
-  justify-content: space-between; flex-wrap: wrap; gap: 10px;
-}
+.footer-bottom { max-width: 1100px; margin: 26px auto 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
 .footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.28); }
 .footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.08); letter-spacing: 4px; }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .layout { flex-direction: column; }
-  .filters { width: 100%; }
-}
+@media (max-width: 900px) { .layout { flex-direction: column; } .filters { width: 100%; } }
 @media (max-width: 768px) {
   #bar nav { display: none; }
   .menu-btn { display: inline-flex; }
+  .nav-search-wrap { display: none; }
   .page-hero { padding: 36px 20px; }
   .page { padding: 0 14px; margin-top: 20px; }
   .filter-toggle { display: flex; }
@@ -496,86 +597,44 @@ footer {
   }
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
-}
-#authBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 6px 13px;
-  border-radius: 9px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.25s ease;
-}
-#authBtn.state-loading {
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.35);
-  border: 1.5px solid rgba(255,255,255,0.1);
-  pointer-events: none;
-}
-#authBtn.state-guest {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.32);
-}
-#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
-#authBtn.state-user {
-  background: rgba(255,255,255,0.14);
-  color: #fff;
-  border: 1.5px solid rgba(255,255,255,0.28);
-}
-#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
-.auth-avatar {
-  width: 26px; height: 26px;
-  border-radius: 6px; object-fit: cover;
-  border: 1.5px solid rgba(255,255,255,0.35);
-  display: block; flex-shrink: 0;
-}
-@media (max-width: 768px) {
   #authBtn { display: none; }
 }
 </style>
 </head>
 <body>
 
+<div id="toastContainer"></div>
+
 <!-- AUTH GATE OVERLAY -->
 <div id="authGate">
   <div class="auth-gate-box">
     <span class="auth-gate-icon">🔒</span>
     <div class="auth-gate-title">تسجيل الدخول مطلوب</div>
-    <p class="auth-gate-msg">
-      يجب أن تكون عضواً مسجلاً للوصول إلى المكتبة العلمية والاطلاع على مرفوعات الطلاب.
-    </p>
+    <p class="auth-gate-msg">يجب أن تكون عضواً مسجلاً للوصول إلى المكتبة العلمية والاطلاع على مرفوعات الطلاب.</p>
     <div class="auth-gate-btns">
-      <a href="https://esc-iq.github.io/login.html" class="auth-gate-btn primary">تسجيل الدخول</a>
-      <a href="https://esc-iq.github.io/register.html" class="auth-gate-btn secondary">إنشاء حساب جديد</a>
+      <a href="login.html" class="auth-gate-btn primary">تسجيل الدخول</a>
+      <a href="register.html" class="auth-gate-btn secondary">إنشاء حساب جديد</a>
     </div>
   </div>
 </div>
 
 <header id="bar">
-  <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+  <div class="bar-left">
     <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
-      <img src="media/icon-512-w.png" alt="ESC"
-           style="height:38px;width:auto;display:block;">
+      <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
     </a>
     <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+
     <div class="nav-search-wrap" id="navSearchWrap">
-  <input type="search" class="nav-search-input" id="navSearchInput"
-         placeholder="البحث عن مستخدم..." autocomplete="off">
-  <span class="nav-search-icon" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="7"/>
-      <line x1="16.5" y1="16.5" x2="21" y2="21"/>
-    </svg>
-  </span>
-  <div class="nav-search-results" id="navSearchResults"></div>
-</div>
+      <input type="search" class="nav-search-input" id="navSearchInput"
+             placeholder="البحث عن مستخدم..." autocomplete="off">
+      <span class="nav-search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+        </svg>
+      </span>
+      <div class="nav-search-results" id="navSearchResults"></div>
+    </div>
   </div>
 
   <nav aria-label="روابط الموقع">
@@ -586,8 +645,7 @@ footer {
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
 
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات"
-          aria-expanded="false" aria-controls="mobileMenu">
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
 
@@ -598,13 +656,11 @@ footer {
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
-      <a role="menuitem" id="authBtnMobile" href="login.html"> تسجيل الدخول</a>
+      <a role="menuitem" id="authBtnMobile" href="login.html">تسجيل الدخول</a>
     </div>
   </div>
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
-<div id="menuBackdrop" aria-hidden="true"></div>
-<div id="menuBackdrop"></div>
 <div id="filtersBd" class="filters-drawer-bd"></div>
 
 <div class="page-hero">
@@ -612,32 +668,21 @@ footer {
     <span class="page-hero-tag">المكتبة العلمية</span>
     <h1>مرفوعات الطلاب</h1>
     <p>مستودع من ملخصات وكتب الأجيال الهندسية السابقة بين يديك.</p>
+    <button class="hero-upload-btn" id="heroUploadBtn">📤 رفع ملف جديد</button>
   </div>
 </div>
 
 <!-- Department Tabs -->
 <div class="dept-bar" id="deptBar">
-  <button class="dept-tab active" data-dept="civil">
-    <span class="dot"></span> هندسة مدنية
-  </button>
-  <button class="dept-tab" data-dept="electrical">
-    <span class="dot"></span> هندسة كهرباء والكترونيك
-  </button>
-  <button class="dept-tab" data-dept="mechanical">
-    <span class="dot"></span> هندسة ميكانيك
-  </button>
-  <button class="dept-tab" data-dept="electromech">
-    <span class="dot"></span> هندسة كهروميكانيك
-  </button>
-  <button class="dept-tab" data-dept="biomedical">
-    <span class="dot"></span> هندسة طب حياتي
-  </button>
-  <button class="dept-tab" data-dept="prosthetics">
-    <span class="dot"></span> هندسة أطراف ومساند
-  </button>
-  <button class="dept-tab" data-dept="software">
-    <span class="dot"></span> هندسة برمجيات
-  </button>
+  <button class="dept-tab active" data-dept="civil"><span class="dot"></span> هندسة مدنية</button>
+  <button class="dept-tab" data-dept="electrical"><span class="dot"></span> هندسة كهرباء والكترونيك</button>
+  <button class="dept-tab" data-dept="mechanical"><span class="dot"></span> هندسة ميكانيك</button>
+  <button class="dept-tab" data-dept="electromech"><span class="dot"></span> هندسة كهروميكانيك</button>
+  <button class="dept-tab" data-dept="biomedical"><span class="dot"></span> هندسة طب حياتي</button>
+  <button class="dept-tab" data-dept="Prosthetics"><span class="dot"></span> هندسة أطراف ومساند</button>
+  <button class="dept-tab" data-dept="software"><span class="dot"></span> هندسة برمجيات</button>
+  <button class="dept-tab" data-dept="architecture"><span class="dot"></span> هندسة معمارية</button>
+  <button class="dept-tab" data-dept="chemical"><span class="dot"></span> هندسة كيميائية</button>
 </div>
 
 <main>
@@ -650,10 +695,42 @@ footer {
     <div class="layout">
       <aside id="filtersPanel" class="filters">
         <div class="filters-title">المرحلة الدراسية</div>
+
+        <!-- Subject search -->
+        <div class="subject-search-wrap">
+          <input type="search" class="subject-search-input" id="subjectSearchInput"
+                 placeholder="ابحث عن مادة..." autocomplete="off">
+          <span class="subject-search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+            </svg>
+          </span>
+        </div>
+        <div class="subject-search-no-result" id="subjectSearchNoResult">
+          <img src="media/ERROR.png" alt="خطأ" onerror="this.style.display='none'">
+          <p>لا توجد مادة بهذا الاسم</p>
+        </div>
+
         <div id="stageTree"></div>
       </aside>
 
       <section class="files-area">
+        <!-- University filters -->
+        <div class="uni-filter-bar" id="uniFilterBar">
+          <span class="uni-filter-label">فلترة حسب الجامعة</span>
+        </div>
+
+        <!-- Professor card -->
+        <div class="professor-card" id="professorCard">
+          <img class="professor-avatar" id="professorAvatar" src="media/1nkown.png" alt="صورة الأستاذ" onerror="this.src='media/1nkown.png'">
+          <div class="professor-info">
+            <div class="professor-name" id="professorName">—</div>
+            <div class="professor-username" id="professorUsername"></div>
+            <div class="professor-desc" id="professorDesc"></div>
+          </div>
+          <a class="professor-goto" id="professorGoto" href="#" title="الذهاب للبروفايل">↗</a>
+        </div>
+
         <div id="filesContainer">
           <div class="loading-row">
             <span class="spin"></span>
@@ -694,11 +771,106 @@ footer {
   </div>
 </footer>
 
+<!-- UPLOAD MODAL -->
+<div id="uploadModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>📤 رفع ملف للمجتمع</h3>
+      <button class="modal-close-btn" id="uploadModalClose">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>الملف (PDF فقط، الحد الأقصى 12 ميجابايت)</label>
+        <input type="file" id="uploadFileInput" class="form-control" accept=".pdf">
+      </div>
+      <div class="form-group">
+        <label>اسم الملف (يظهر للطلاب)</label>
+        <input type="text" id="uploadNameInput" class="form-control" maxlength="80"
+               placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
+      </div>
+      <div class="form-group">
+        <label>الجامعة</label>
+        <select id="uploadUniSelect" class="form-control">
+          <option value="">— اختر الجامعة —</option>
+          <option value="karbala">جامعة كربلاء المقدسة</option>
+          <option value="baghdad">جامعة بغداد</option>
+          <option value="basra">جامعة البصرة</option>
+          <option value="mosul">جامعة الموصل</option>
+          <option value="kufa">جامعة الكوفة</option>
+          <option value="najaf">جامعة النجف الأشرف التقنية</option>
+          <option value="mustansiriyah">الجامعة المستنصرية</option>
+          <option value="technology">الجامعة التكنولوجية</option>
+          <option value="other">جامعة أخرى</option>
+        </select>
+      </div>
+      <div class="form-group upload-sub-select" id="otherUniGroup">
+        <label>اسم الجامعة</label>
+        <input type="text" id="otherUniInput" class="form-control" maxlength="60" placeholder="أدخل اسم الجامعة">
+      </div>
+      <div class="form-group">
+        <label>القسم الهندسي</label>
+        <select id="uploadDeptSelect" class="form-control">
+          <option value="">— اختر القسم —</option>
+          <option value="civil">هندسة مدنية</option>
+          <option value="electrical">هندسة كهرباء وإلكترونيك</option>
+          <option value="mechanical">هندسة ميكانيك</option>
+          <option value="electromech">هندسة كهروميكانيك</option>
+          <option value="Prosthetics">هندسة أطراف ومساند</option>
+          <option value="biomedical">هندسة الطب الحياتي</option>
+          <option value="architecture">هندسة معمارية</option>
+          <option value="chemical">هندسة كيميائية</option>
+          <option value="software">هندسة برمجيات</option>
+          <option value="other">أخرى</option>
+        </select>
+      </div>
+      <div class="form-group upload-sub-select" id="otherDeptGroup">
+        <label>اسم القسم</label>
+        <input type="text" id="otherDeptInput" class="form-control" maxlength="50" placeholder="أدخل اسم قسمك الهندسي">
+      </div>
+      <div class="form-group">
+        <label>المرحلة الدراسية</label>
+        <select id="uploadStageSelect" class="form-control">
+          <option value="">— اختر المرحلة —</option>
+          <option value="1">الأولى</option>
+          <option value="2">الثانية</option>
+          <option value="3">الثالثة</option>
+          <option value="4">الرابعة</option>
+        </select>
+      </div>
+      <div class="form-group upload-sub-select" id="subjectGroup">
+        <label>المادة</label>
+        <select id="uploadSubjectSelect" class="form-control">
+          <option value="">— اختر المادة —</option>
+        </select>
+      </div>
+      <div class="form-group upload-sub-select" id="customSubjectGroup">
+        <label>اسم المادة (إذا لم تجدها في القائمة)</label>
+        <input type="text" id="customSubjectInput" class="form-control" maxlength="60" placeholder="مثلاً: هندسة التخمين">
+      </div>
+      <div class="copyright-check-wrap" id="copyrightWrap">
+        <input type="checkbox" id="copyrightCheck">
+        <label for="copyrightCheck">
+          أؤكد أن هذا الملف لا يحتوي على حقوق ملكية فكرية محمية، وأنني متأكد من ذلك تماماً قبل الرفع.
+        </label>
+      </div>
+      <div class="upload-progress-wrap" id="uploadProgressWrap">
+        <div class="upload-progress-bar">
+          <div class="upload-progress-fill" id="uploadProgressFill"></div>
+        </div>
+        <div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div>
+      </div>
+      <button class="modal-submit-btn" id="submitUploadBtn">رفع الملف</button>
+    </div>
+  </div>
+</div>
+
 <script type="module">
 import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs, orderBy }
+import { getFirestore, collection, query, where, getDocs, addDoc }
                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL }
+                            from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
@@ -709,201 +881,187 @@ const firebaseConfig = {
   appId:             "1:371432549665:web:4d3b9617243731fb06e260"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db  = getFirestore(app);
-// ── قاموس الجامعات ──
+const app     = initializeApp(firebaseConfig);
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
+
+/* ── DICTIONARIES ── */
 const UNIVERSITY_DICT = {
-  "karbala": "جامعة كربلاء المقدسة",
-  "baghdad": "جامعة بغداد",
-  "basra": "جامعة البصرة",
-  "mosul": "جامعة الموصل",
-  "kufa": "جامعة الكوفة",
-  "najaf": "جامعة النجف الأشرف التقنية",
+  "karbala":       "جامعة كربلاء المقدسة",
+  "baghdad":       "جامعة بغداد",
+  "basra":         "جامعة البصرة",
+  "mosul":         "جامعة الموصل",
+  "kufa":          "جامعة الكوفة",
+  "najaf":         "جامعة النجف الأشرف التقنية",
   "mustansiriyah": "الجامعة المستنصرية",
-  "technology": "الجامعة التكنولوجية"
+  "technology":    "الجامعة التكنولوجية"
 };
 
-// ── دوال البحث ──
-let allStudentsCache = null;
-let navSearchTimer   = null;
-
-function escHtml(str) {
-  return String(str)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-async function getAllStudents() {
-  if (allStudentsCache) return allStudentsCache;
-  const snap = await getDocs(collection(db, "students"));
-  allStudentsCache = [];
-  snap.forEach(d => allStudentsCache.push({ id: d.id, ...d.data() }));
-  return allStudentsCache;
-}
-
-async function performNavSearch(q) {
-  const resultsEl = document.getElementById('navSearchResults');
-  try {
-    const students = await getAllStudents();
-    const lq       = q.toLowerCase();
-    const results  = students.filter(s =>
-      (s.id || '').toLowerCase().includes(lq) ||
-      (s.fullName || '').toLowerCase().includes(lq)
-    ).slice(0, 6);
-
-    if (results.length === 0) {
-      resultsEl.innerHTML = '<div class="search-no-result">لا توجد نتائج.</div>';
-      return;
-    }
-    resultsEl.innerHTML = results.map(s => {
-      const uniName = UNIVERSITY_DICT[s.university] || s.university || '';
-      const avatar  = s.avatarURL ? escHtml(s.avatarURL) : 'media/1nkown.png';
-      return `<a class="search-result-item" href="profile.html?u=${encodeURIComponent(s.id)}">
-        <img class="search-result-avatar" src="${avatar}"
-             onerror="this.src='media/1nkown.png'" alt="${escHtml(s.fullName||s.id)}">
-        <div class="search-result-info">
-          <div class="search-result-name">${escHtml("المهندس " + (s.fullName || s.id))}</div>
-          <div class="search-result-username">@${escHtml(s.id)}</div>
-          ${uniName ? `<div class="search-result-uni">${escHtml(uniName)}</div>` : ''}
-        </div>
-      </a>`;
-    }).join('');
-  } catch(e) {
-    resultsEl.innerHTML = '<div class="search-no-result">خطأ في البحث.</div>';
-  }
-}
-
-// ── ربط الأحداث ──
-const navSearchInput   = document.getElementById('navSearchInput');
-const navSearchResults = document.getElementById('navSearchResults');
-
-navSearchInput.addEventListener('input', () => {
-  clearTimeout(navSearchTimer);
-  const q = navSearchInput.value.trim();
-  if (!q) { navSearchResults.classList.remove('show'); navSearchResults.innerHTML = ''; return; }
-  navSearchResults.innerHTML = '<div class="search-loading">جاري البحث...</div>';
-  navSearchResults.classList.add('show');
-  navSearchTimer = setTimeout(() => performNavSearch(q), 300);
-});
-
-navSearchInput.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    navSearchResults.classList.remove('show');
-    navSearchInput.blur();
-  }
-});
-
-document.addEventListener('click', e => {
-  if (!document.getElementById('navSearchWrap').contains(e.target))
-    navSearchResults.classList.remove('show');
-});
-/* ── AUTH GATE ── */
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    document.getElementById('authGate').classList.add('show');
-  }
-});
-
-/* ─────────────────────────────────────────────
-   DEPARTMENT → STAGE → SUBJECTS CONFIG
-   ───────────────────────────────────────────── */
-const DEPT_CONFIG = {
+const SUBJECTS_CONFIG = {
   civil: {
-    label: "هندسة مدنية",
-    stages: {
-      4: ["هندسة التخمين","المنشآت الحديدية","تصميم الأسس","الخرسانة المسلحة","الصحية","علم المياه","المنشآت الهيدروليكية"],
-      3: ["هندسة المرور","ميكانيكا التربة","الري والبزل","الخرسانة المسلحة 1","هندسة الإنشاءات","إدارة المشاريع","التحليل الهندسي"],
-      2: ["هيدروليك","ميكانيكا مواد","مساحة هندسية","مقاومة مواد","رياضيات هندسية"],
-      1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"]
-    }
+    1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"],
+    2: ["هيدروليك","ميكانيكا مواد","مساحة هندسية","مقاومة مواد","رياضيات هندسية"],
+    3: ["ميكانيكا التربة","الخرسانة المسلحة 1","هندسة المرور","الري والبزل","هندسة الإنشاءات","إدارة المشاريع","التحليل الهندسي"],
+    4: ["هندسة التخمين","المنشآت الحديدية","تصميم الأسس","الخرسانة المسلحة","هندسة صحية","علم المياه","المنشآت الهيدروليكية"]
   },
   electrical: {
-    label: "هندسة كهرباء والكترونيك",
-    stages: {
-      4: ["محطات طاقة","نظم تحكم","حماية منظومات","مشروع تخرج"],
-      3: ["آلات كهربائية","إشارات وأنظمة","اتصالات","إلكترونيات قدرة"],
-      2: ["دوائر كهربائية","إلكترونيات","رياضيات هندسية","قياسات كهربائية"],
-      1: ["رياضيات","فيزياء","مبادئ الكهرباء","رسم هندسي"]
-    }
+    1: ["رياضيات","فيزياء","مبادئ الكهرباء","رسم هندسي"],
+    2: ["دوائر كهربائية","إلكترونيات","رياضيات هندسية","قياسات كهربائية"],
+    3: ["آلات كهربائية","إشارات وأنظمة","اتصالات","إلكترونيات قدرة"],
+    4: ["محطات طاقة","نظم تحكم","حماية منظومات","مشروع تخرج"]
   },
   mechanical: {
-    label: "هندسة ميكانيك",
-    stages: {
-      4: ["محركات احتراق","تبريد وتكييف","تصميم منظومات","مشروع تخرج"],
-      3: ["آلات حرارية","تصميم آلي","تصنيع","ديناميكا"],
-      2: ["ترموديناميك","ميكانيكا الموائع","مقاومة مواد","رياضيات هندسية"],
-      1: ["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"]
-    }
+    1: ["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"],
+    2: ["ترموديناميك","ميكانيكا الموائع","مقاومة مواد","رياضيات هندسية"],
+    3: ["آلات حرارية","تصميم آلي","تصنيع","ديناميكا"],
+    4: ["محركات احتراق","تبريد وتكييف","تصميم منظومات","مشروع تخرج"]
   },
   electromech: {
-    label: "هندسة كهروميكانيك",
-    stages: {
-      4: ["تصميم منظومات","صيانة صناعية","مشروع تخرج"],
-      3: ["محركات كهربائية","تحكم صناعي","آلات صناعية"],
-      2: ["دوائر كهربائية","ميكانيكا","رياضيات هندسية"],
-      1: ["رياضيات","فيزياء","مبادئ كهروميكانيك","رسم هندسي"]
-    }
+    1: ["رياضيات","فيزياء","مبادئ كهروميكانيك","رسم هندسي"],
+    2: ["دوائر كهربائية","ميكانيكا","رياضيات هندسية"],
+    3: ["محركات كهربائية","تحكم صناعي","آلات صناعية"],
+    4: ["تصميم منظومات","صيانة صناعية","مشروع تخرج"]
   },
   biomedical: {
-    label: "هندسة طب حياتي",
-    stages: {
-      4: ["أجهزة طبية متقدمة","هندسة أنسجة","مشروع تخرج"],
-      3: ["أجهزة طبية","إشارات حيوية","تصوير طبي"],
-      2: ["فيزياء طبية","إلكترونيات طبية","رياضيات هندسية"],
-      1: ["رياضيات","فيزياء","أحياء","كيمياء عضوية"]
-    }
+    1: ["رياضيات","فيزياء","أحياء","كيمياء عضوية"],
+    2: ["فيزياء طبية","إلكترونيات طبية","رياضيات هندسية"],
+    3: ["أجهزة طبية","إشارات حيوية","تصوير طبي"],
+    4: ["أجهزة طبية متقدمة","هندسة أنسجة","مشروع تخرج"]
   },
-  prosthetics: {
-    label: "هندسة أطراف ومساند",
-    stages: {
-      4: ["تصميم أطراف متقدمة","مواد طبية","مشروع تخرج"],
-      3: ["ميكانيكا أطراف","مواد صناعية","تأهيل حركي"],
-      2: ["تشريح","مقاومة مواد","رياضيات هندسية"],
-      1: ["رياضيات","فيزياء","أحياء","كيمياء"]
-    }
+  Prosthetics: {
+    1: ["رياضيات","فيزياء","أحياء","كيمياء"],
+    2: ["تشريح","مقاومة مواد","رياضيات هندسية"],
+    3: ["ميكانيكا أطراف","مواد صناعية","تأهيل حركي"],
+    4: ["تصميم أطراف متقدمة","مواد طبية","مشروع تخرج"]
   },
   software: {
-    label: "هندسة برمجيات",
-    stages: {
-      4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج","هندسة سحابية"],
-      3: ["هندسة برمجيات","شبكات حاسوب","أنظمة تشغيل","قواعد بيانات متقدمة"],
-      2: ["هياكل بيانات","خوارزميات","قواعد بيانات","رياضيات هندسية"],
-      1: ["رياضيات","مقدمة في البرمجة","منطق رقمي","إحصاء"]
-    }
+    1: ["رياضيات","مقدمة في البرمجة","منطق رقمي","إحصاء"],
+    2: ["هياكل بيانات","خوارزميات","قواعد بيانات","رياضيات هندسية"],
+    3: ["هندسة برمجيات","شبكات حاسوب","أنظمة تشغيل","قواعد بيانات متقدمة"],
+    4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج","هندسة سحابية"]
+  },
+  architecture: {
+    1: ["رياضيات","فيزياء","رسم معماري","تاريخ العمارة"],
+    2: ["تصميم معماري 1","مواد بناء","إنشاءات معمارية","رياضيات هندسية"],
+    3: ["تصميم معماري 2","عمارة بيئية","تخطيط عمراني","تقنيات بناء"],
+    4: ["تصميم معماري متقدم","إدارة مشاريع","مشروع تخرج"]
+  },
+  chemical: {
+    1: ["رياضيات","فيزياء","كيمياء عامة","كيمياء عضوية"],
+    2: ["ترموديناميك كيميائي","عمليات انتقال","رياضيات هندسية","كيمياء تحليلية"],
+    3: ["تصميم مفاعلات","عمليات فصل","هندسة بيئية","سيطرة على العمليات"],
+    4: ["تصميم مصانع","هندسة بترول","مشروع تخرج"]
   }
 };
 
-const STAGE_LABELS = { 1: "المرحلة الأولى", 2: "المرحلة الثانية", 3: "المرحلة الثالثة", 4: "المرحلة الرابعة" };
+const STAGE_LABELS = { 1:"المرحلة الأولى", 2:"المرحلة الثانية", 3:"المرحلة الثالثة", 4:"المرحلة الرابعة" };
 
-/* ─────────────────────────────────────────────
-   STATE
-   ───────────────────────────────────────────── */
-let currentDept    = "civil";
-let currentStage   = 4;
-let currentSubject = null;
-let allDeptFiles   = [];
+/* ── STATE ── */
+let currentDept      = "civil";
+let currentStage     = 4;
+let currentSubject   = null;
+let currentUniFilter = null;
+let allDeptFiles     = [];
+let uploadsJsonData  = [];
+let allStudentsCache = null;
+let currentUserData  = null;
+let currentUsername  = null;
 
-/* ─────────────────────────────────────────────
-   HELPERS
-   ───────────────────────────────────────────── */
+/* ── HELPERS ── */
 function escHtml(str) {
-  return String(str || '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function toast(msg, type = '') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type; t.textContent = msg;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(() => t.remove(), 2800);
+}
+function openModal(id)  { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+/* ── AUTH ── */
+onAuthStateChanged(auth, async (user) => {
+  updateAuthButton(user);
+  if (!user) {
+    document.getElementById('authGate').classList.add('show');
+  } else {
+    // Load current user data for upload
+    try {
+      const q = query(collection(db,"students"), where("uid","==",user.uid));
+      const snap = await getDocs(q);
+      if (!snap.empty) {
+        currentUsername = snap.docs[0].id;
+        currentUserData = snap.docs[0].data();
+      }
+    } catch(e) {}
+  }
+});
+
+async function updateAuthButton(user) {
+  const btn       = document.getElementById('authBtn');
+  const btnMobile = document.getElementById('authBtnMobile');
+  if (!user) {
+    btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول';
+    if (btnMobile) { btnMobile.href = 'login.html'; btnMobile.innerHTML = 'تسجيل الدخول'; }
+    return;
+  }
+  try {
+    const q    = query(collection(db,"students"), where("uid","==",user.uid));
+    const snap = await getDocs(q);
+    if (snap.empty) { btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول'; return; }
+    const username  = snap.docs[0].id;
+    const data      = snap.docs[0].data();
+    const avatarSrc = data.avatarURL || 'media/1nkown.png';
+    const pUrl      = `profile.html?u=${encodeURIComponent(username)}`;
+    btn.className   = 'state-user'; btn.href = pUrl;
+    btn.innerHTML   = `<img class="auth-avatar" src="${avatarSrc}" onerror="this.src='media/1nkown.png'" alt="صورة"><span>@${username}</span>`;
+    if (btnMobile) { btnMobile.href = pUrl; btnMobile.innerHTML = '👤 @' + username; }
+  } catch(e) {
+    btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول';
+  }
 }
 
-/* ─────────────────────────────────────────────
-   BUILD SIDEBAR TREE
-   ───────────────────────────────────────────── */
+/* ── LOAD UPLOADS JSON ── */
+async function loadUploadsJson() {
+  try {
+    const res = await fetch('jsonfiles/uploads.json');
+    if (!res.ok) return;
+    uploadsJsonData = await res.json();
+  } catch(e) { uploadsJsonData = []; }
+}
+
+/* ── SUBJECT SEARCH ── */
+document.getElementById('subjectSearchInput').addEventListener('input', function() {
+  const q = this.value.trim().toLowerCase();
+  const noResult = document.getElementById('subjectSearchNoResult');
+  const allSubBtns = document.querySelectorAll('.sub-btn');
+  let anyVisible = false;
+  allSubBtns.forEach(btn => {
+    const match = !q || btn.textContent.toLowerCase().includes(q);
+    btn.classList.toggle('hidden-by-search', !match);
+    if (match) anyVisible = true;
+  });
+  noResult.classList.toggle('show', q && !anyVisible);
+  // Auto-expand all stage groups when searching
+  if (q) {
+    document.querySelectorAll('.stage-btn').forEach(b => { b.classList.add('open'); b.querySelector('.chev').textContent='▲'; });
+    document.querySelectorAll('.sub-list').forEach(sl => sl.classList.add('open'));
+  }
+});
+
+/* ── BUILD SIDEBAR TREE ── */
 function buildStageTree(dept) {
-  const tree    = document.getElementById('stageTree');
-  const stages  = DEPT_CONFIG[dept].stages;
-  const stageNums = [4, 3, 2, 1];
+  const tree = document.getElementById('stageTree');
+  const stageConf = SUBJECTS_CONFIG[dept] || {};
+  const stageNums = [4,3,2,1];
   tree.innerHTML = '';
+  document.getElementById('subjectSearchInput').value = '';
+  document.getElementById('subjectSearchNoResult').classList.remove('show');
 
   stageNums.forEach((stageNum, idx) => {
-    const subjects = stages[stageNum] || [];
+    const subjects = stageConf[stageNum] || [];
     const grp = document.createElement('div');
     grp.className = 'stage-group';
 
@@ -911,11 +1069,10 @@ function buildStageTree(dept) {
     btn.className = 'stage-btn' + (idx === 0 ? ' open active' : '');
     btn.type = 'button';
     btn.dataset.stage = stageNum;
-    btn.innerHTML = `<span>${STAGE_LABELS[stageNum]}</span><em class="chev">▼</em>`;
+    btn.innerHTML = `<span>${STAGE_LABELS[stageNum]}</span><em class="chev">${idx===0?'▲':'▼'}</em>`;
 
     const subList = document.createElement('div');
     subList.className = 'sub-list' + (idx === 0 ? ' open' : '');
-    subList.id = 'sub-' + stageNum;
 
     subjects.forEach(subj => {
       const sb = document.createElement('button');
@@ -933,21 +1090,20 @@ function buildStageTree(dept) {
 
     btn.addEventListener('click', () => {
       const isOpen = btn.classList.contains('open');
-      tree.querySelectorAll('.stage-btn').forEach(b => {
-        b.classList.remove('open');
-        b.querySelector('.chev').textContent = '▼';
-      });
+      tree.querySelectorAll('.stage-btn').forEach(b => { b.classList.remove('open'); b.querySelector('.chev').textContent='▼'; });
       tree.querySelectorAll('.sub-list').forEach(sl => sl.classList.remove('open'));
       if (!isOpen) {
-        btn.classList.add('open');
-        btn.querySelector('.chev').textContent = '▲';
+        btn.classList.add('open'); btn.querySelector('.chev').textContent='▲';
         subList.classList.add('open');
       }
       currentStage   = stageNum;
       currentSubject = null;
+      currentUniFilter = null;
       tree.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
       tree.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      buildUniFilters();
+      showProfessorCard();
       renderFiltered();
     });
   });
@@ -959,12 +1115,12 @@ function buildStageTree(dept) {
       tree.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
       sb.classList.add('active');
       const parentList = sb.closest('.sub-list');
-      if (parentList) {
-        const parentBtn = parentList.previousElementSibling;
-        if (parentBtn) parentBtn.classList.add('active');
-      }
+      if (parentList) { const pb = parentList.previousElementSibling; if(pb) pb.classList.add('active'); }
       currentStage   = parseInt(sb.dataset.stage);
       currentSubject = sb.dataset.subject;
+      currentUniFilter = null;
+      buildUniFilters();
+      showProfessorCard();
       renderFiltered();
       if (window.innerWidth <= 768) closeFilters();
     });
@@ -979,41 +1135,128 @@ function buildStageTree(dept) {
   }
 }
 
-/* ─────────────────────────────────────────────
-   FETCH ALL FILES FOR DEPT
-   ───────────────────────────────────────────── */
+/* ── BUILD UNIVERSITY FILTERS ── */
+function buildUniFilters() {
+  if (!currentSubject) {
+    document.getElementById('uniFilterBar').classList.remove('show');
+    return;
+  }
+  // Find unique universities from allDeptFiles filtered by stage+subject
+  const relevant = allDeptFiles.filter(f =>
+    String(f.stage) === String(currentStage) &&
+    (f.subject||'').trim() === (currentSubject||'').trim()
+  );
+  const unis = [...new Set(relevant.map(f => f.uni).filter(Boolean))];
+  if (unis.length === 0) {
+    document.getElementById('uniFilterBar').classList.remove('show');
+    return;
+  }
+
+  const bar = document.getElementById('uniFilterBar');
+  bar.innerHTML = '<span class="uni-filter-label">فلترة حسب الجامعة</span>';
+
+  // "الكل" button
+  const allBtn = document.createElement('button');
+  allBtn.className = 'uni-filter-btn active';
+  allBtn.textContent = 'الكل';
+  allBtn.dataset.uni = '';
+  bar.appendChild(allBtn);
+
+  unis.forEach(uni => {
+    const label = UNIVERSITY_DICT[uni] || uni;
+    // Check if there's a unitag in uploadsJsonData
+    const jsonEntry = uploadsJsonData.find(u => u.work === uni && u.dept === currentDept && String(u.stage) === String(currentStage) && u.subject === currentSubject);
+    const btn = document.createElement('button');
+    btn.className = 'uni-filter-btn';
+    btn.dataset.uni = uni;
+    if (jsonEntry && jsonEntry.unitag) {
+      btn.innerHTML = `<img src="${escHtml(jsonEntry.unitag)}" alt="${escHtml(label)}" onerror="this.style.display='none'"> ${escHtml(label)}`;
+    } else {
+      btn.textContent = label;
+    }
+    bar.appendChild(btn);
+  });
+
+  bar.classList.add('show');
+
+  bar.querySelectorAll('.uni-filter-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      bar.querySelectorAll('.uni-filter-btn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      currentUniFilter = b.dataset.uni || null;
+      showProfessorCard();
+      renderFiltered();
+    });
+  });
+}
+
+/* ── SHOW PROFESSOR CARD ── */
+async function showProfessorCard() {
+  const card = document.getElementById('professorCard');
+  if (!currentSubject || !currentUniFilter) {
+    card.classList.remove('show');
+    return;
+  }
+  // Find matching entry in uploads.json
+  const entry = uploadsJsonData.find(u =>
+    u.work === currentUniFilter &&
+    u.dept === currentDept &&
+    String(u.stage) === String(currentStage) &&
+    u.subject === currentSubject
+  );
+  if (!entry || !entry.dr_username || !entry.dr_username.length) {
+    card.classList.remove('show');
+    return;
+  }
+  const drUsername = entry.dr_username[0];
+  // Fetch professor profile from Firestore
+  try {
+    const students = await getAllStudents();
+    const prof = students.find(s => s.id === drUsername);
+    if (!prof) { card.classList.remove('show'); return; }
+
+    document.getElementById('professorName').textContent  = "المهندس/الدكتور " + (prof.fullName || drUsername);
+    document.getElementById('professorUsername').textContent = '@' + drUsername;
+    document.getElementById('professorDesc').textContent  = entry.description1 || '';
+    document.getElementById('professorAvatar').src        = prof.avatarURL || 'media/1nkown.png';
+    document.getElementById('professorGoto').href         = `profile.html?u=${encodeURIComponent(drUsername)}`;
+    card.classList.add('show');
+  } catch(e) { card.classList.remove('show'); }
+}
+
+/* ── FETCH ALL FILES FOR DEPT ── */
 async function fetchDeptFiles(dept) {
   document.getElementById('filesContainer').style.display = 'block';
   document.getElementById('filesContainer').innerHTML =
     '<div class="loading-row"><span class="spin"></span>جاري تحميل الملفات...</div>';
-  document.getElementById('filesList').style.display = 'none';
+  document.getElementById('filesList').style.display  = 'none';
   document.getElementById('noResults').classList.remove('show');
+  document.getElementById('uniFilterBar').classList.remove('show');
+  document.getElementById('professorCard').classList.remove('show');
 
   try {
-    const q    = query(collection(db, "uploads"), where("dept", "==", dept));
+    const q    = query(collection(db,"uploads"), where("dept","==", dept));
     const snap = await getDocs(q);
     allDeptFiles = [];
     snap.forEach(d => allDeptFiles.push({ id: d.id, ...d.data() }));
-  } catch(e) {
-    allDeptFiles = [];
-  }
+  } catch(e) { allDeptFiles = []; }
 
   document.getElementById('filesContainer').style.display = 'none';
   renderFiltered();
+  if (currentSubject) buildUniFilters();
 }
 
-/* ─────────────────────────────────────────────
-   RENDER FILTERED FILES
-   ───────────────────────────────────────────── */
+/* ── RENDER FILTERED FILES ── */
 function renderFiltered() {
   const noResults = document.getElementById('noResults');
   const filesList = document.getElementById('filesList');
 
   let filtered = allDeptFiles.filter(f => String(f.stage) === String(currentStage));
   if (currentSubject) {
-    filtered = filtered.filter(f =>
-      (f.subject || '').trim() === currentSubject.trim()
-    );
+    filtered = filtered.filter(f => (f.subject||'').trim() === currentSubject.trim());
+  }
+  if (currentUniFilter) {
+    filtered = filtered.filter(f => f.uni === currentUniFilter);
   }
 
   if (filtered.length === 0) {
@@ -1027,148 +1270,250 @@ function renderFiltered() {
   filesList.innerHTML = '';
 
   filtered.forEach(f => {
+    const uniLabel = UNIVERSITY_DICT[f.uni] || f.uni || '';
     const item = document.createElement('div');
     item.className = 'file-item';
-
     const uploaderHref = f.uploader
       ? `<a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader">@${escHtml(f.uploader)}</a>`
       : `<span class="file-uploader">مجهول</span>`;
-
-    const subjectTag = f.subject
-      ? `<span class="file-tag">${escHtml(f.subject)}</span>` : '';
-    const stageTag   = f.stage
-      ? `<span class="file-tag">${STAGE_LABELS[f.stage] || ('المرحلة ' + f.stage)}</span>` : '';
-
     item.innerHTML = `
       <div class="file-icon">PDF</div>
       <div class="file-main">
         <a href="${escHtml(f.url)}" target="_blank" class="file-name">${escHtml(f.name)}</a>
         <div class="file-meta">
           ${uploaderHref}
-          ${subjectTag}
-          ${stageTag}
+          ${uniLabel ? `<span class="file-tag">${escHtml(uniLabel)}</span>` : ''}
+          ${f.subject ? `<span class="file-tag">${escHtml(f.subject)}</span>` : ''}
+          ${f.stage   ? `<span class="file-tag">${STAGE_LABELS[f.stage]||('المرحلة '+f.stage)}</span>` : ''}
         </div>
       </div>
-      <a href="${escHtml(f.url)}" download class="dl-btn">&#11015; تحميل</a>
+      <a href="${escHtml(f.url)}" download class="dl-btn">⬇ تحميل</a>
     `;
     filesList.appendChild(item);
   });
 }
 
-/* ─────────────────────────────────────────────
-   DEPT TABS
-   ───────────────────────────────────────────── */
+/* ── DEPT TABS ── */
 document.querySelectorAll('.dept-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.dept-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
-    currentDept = tab.dataset.dept;
+    currentDept      = tab.dataset.dept;
+    currentStage     = 4;
+    currentSubject   = null;
+    currentUniFilter = null;
     buildStageTree(currentDept);
     fetchDeptFiles(currentDept);
   });
 });
 
-/* ─────────────────────────────────────────────
-   MOBILE MENU
-   ───────────────────────────────────────────── */
+/* ── GET ALL STUDENTS ── */
+async function getAllStudents() {
+  if (allStudentsCache) return allStudentsCache;
+  const snap = await getDocs(collection(db,"students"));
+  allStudentsCache = [];
+  snap.forEach(d => allStudentsCache.push({ id: d.id, ...d.data() }));
+  return allStudentsCache;
+}
+
+/* ── NAV SEARCH ── */
+let navSearchTimer = null;
+const navSearchInput   = document.getElementById('navSearchInput');
+const navSearchResults = document.getElementById('navSearchResults');
+
+navSearchInput.addEventListener('input', () => {
+  clearTimeout(navSearchTimer);
+  const q = navSearchInput.value.trim();
+  if (!q) { navSearchResults.classList.remove('show'); navSearchResults.innerHTML = ''; return; }
+  navSearchResults.innerHTML = '<div class="search-loading">جاري البحث...</div>';
+  navSearchResults.classList.add('show');
+  navSearchTimer = setTimeout(() => performNavSearch(q), 300);
+});
+navSearchInput.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { navSearchResults.classList.remove('show'); navSearchInput.blur(); }
+});
+document.addEventListener('click', e => {
+  if (!document.getElementById('navSearchWrap').contains(e.target))
+    navSearchResults.classList.remove('show');
+});
+
+async function performNavSearch(q) {
+  try {
+    const students = await getAllStudents();
+    const lq       = q.toLowerCase();
+    const results  = students.filter(s =>
+      (s.id||'').toLowerCase().includes(lq) ||
+      (s.fullName||'').toLowerCase().includes(lq)
+    ).slice(0, 6);
+    if (results.length === 0) {
+      navSearchResults.innerHTML = '<div class="search-no-result">لا توجد نتائج.</div>'; return;
+    }
+    navSearchResults.innerHTML = results.map(s => {
+      const uniName = UNIVERSITY_DICT[s.university] || s.university || '';
+      const avatar  = s.avatarURL ? escHtml(s.avatarURL) : 'media/1nkown.png';
+      return `<a class="search-result-item" href="profile.html?u=${encodeURIComponent(s.id)}">
+        <img class="search-result-avatar" src="${avatar}" onerror="this.src='media/1nkown.png'" alt="${escHtml(s.fullName||s.id)}">
+        <div>
+          <div class="search-result-name">${escHtml("المهندس " + (s.fullName||s.id))}</div>
+          <div class="search-result-username">@${escHtml(s.id)}</div>
+          ${uniName?`<div class="search-result-uni">${escHtml(uniName)}</div>`:''}
+        </div>
+      </a>`;
+    }).join('');
+  } catch(e) {
+    navSearchResults.innerHTML = '<div class="search-no-result">خطأ في البحث.</div>';
+  }
+}
+
+/* ── UPLOAD MODAL ── */
+document.getElementById('heroUploadBtn').addEventListener('click', () => {
+  const user = auth.currentUser;
+  if (!user) { toast('يجب تسجيل الدخول أولاً.', 'error'); return; }
+  resetUploadModal();
+  openModal('uploadModal');
+});
+document.getElementById('uploadModalClose').addEventListener('click', () => closeModal('uploadModal'));
+document.getElementById('uploadModal').addEventListener('click', e => { if(e.target===document.getElementById('uploadModal')) closeModal('uploadModal'); });
+
+function resetUploadModal() {
+  document.getElementById('uploadFileInput').value     = '';
+  document.getElementById('uploadNameInput').value     = '';
+  document.getElementById('uploadUniSelect').value     = '';
+  document.getElementById('uploadDeptSelect').value    = '';
+  document.getElementById('uploadStageSelect').value   = '';
+  document.getElementById('uploadSubjectSelect').value = '';
+  document.getElementById('customSubjectInput').value  = '';
+  document.getElementById('otherUniInput').value       = '';
+  document.getElementById('otherDeptInput').value      = '';
+  ['otherUniGroup','otherDeptGroup','subjectGroup','customSubjectGroup'].forEach(id =>
+    document.getElementById(id).classList.remove('active'));
+  document.getElementById('uploadProgressWrap').classList.remove('active');
+  document.getElementById('copyrightCheck').checked = false;
+  document.getElementById('copyrightWrap').classList.remove('shake');
+  document.getElementById('copyrightWrap').style.borderColor = '';
+}
+
+document.getElementById('uploadUniSelect').addEventListener('change', function() {
+  document.getElementById('otherUniGroup').classList.toggle('active', this.value === 'other');
+});
+document.getElementById('uploadDeptSelect').addEventListener('change', function() {
+  document.getElementById('otherDeptGroup').classList.toggle('active', this.value === 'other');
+  updateSubjectSelect();
+});
+document.getElementById('uploadStageSelect').addEventListener('change', updateSubjectSelect);
+
+function updateSubjectSelect() {
+  const dept  = document.getElementById('uploadDeptSelect').value;
+  const stage = document.getElementById('uploadStageSelect').value;
+  const sel   = document.getElementById('uploadSubjectSelect');
+  const sg    = document.getElementById('subjectGroup');
+  const csg   = document.getElementById('customSubjectGroup');
+  if (!dept || dept === 'other' || !stage) { sg.classList.remove('active'); csg.classList.add('active'); return; }
+  const subjects = (SUBJECTS_CONFIG[dept]||{})[stage] || [];
+  sel.innerHTML = '<option value="">— اختر المادة —</option>';
+  subjects.forEach(s => { const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
+  const otherOpt = document.createElement('option'); otherOpt.value='__other__'; otherOpt.textContent='مادة أخرى...'; sel.appendChild(otherOpt);
+  sg.classList.add('active'); csg.classList.remove('active');
+}
+document.getElementById('uploadSubjectSelect').addEventListener('change', function() {
+  document.getElementById('customSubjectGroup').classList.toggle('active', this.value === '__other__');
+});
+
+document.getElementById('submitUploadBtn').addEventListener('click', async () => {
+  const user = auth.currentUser;
+  if (!user) { toast('يجب تسجيل الدخول أولاً.', 'error'); return; }
+  const uploaderUsername = currentUsername || 'unknown';
+  const file      = document.getElementById('uploadFileInput').files[0];
+  const name      = document.getElementById('uploadNameInput').value.trim();
+  const uniVal    = document.getElementById('uploadUniSelect').value;
+  const deptVal   = document.getElementById('uploadDeptSelect').value;
+  const stageVal  = document.getElementById('uploadStageSelect').value;
+  const subjectEl = document.getElementById('uploadSubjectSelect').value;
+  const customSub = document.getElementById('customSubjectInput').value.trim();
+  const otherDept = document.getElementById('otherDeptInput').value.trim();
+  const otherUni  = document.getElementById('otherUniInput').value.trim();
+  const copyrightOk = document.getElementById('copyrightCheck').checked;
+
+  if (!file)     { toast('اختر ملف PDF.', 'error'); return; }
+  if (!name)     { toast('أدخل اسم الملف.', 'error'); return; }
+  if (!uniVal)   { toast('اختر الجامعة.', 'error'); return; }
+  if (!deptVal)  { toast('اختر القسم الهندسي.', 'error'); return; }
+  if (!stageVal) { toast('اختر المرحلة الدراسية.', 'error'); return; }
+  if (file.type !== 'application/pdf') { toast('يُقبل ملفات PDF فقط.', 'error'); return; }
+  if (file.size > 12*1024*1024) { toast('حجم الملف يتجاوز الحد الأقصى (12 ميجابايت).', 'error'); return; }
+
+  if (!copyrightOk) {
+    const cw = document.getElementById('copyrightWrap');
+    cw.classList.remove('shake'); void cw.offsetWidth; cw.classList.add('shake');
+    setTimeout(() => cw.classList.remove('shake'), 600);
+    return;
+  }
+
+  const uni     = uniVal === 'other' ? (otherUni || 'أخرى') : uniVal;
+  const dept    = deptVal === 'other' ? (otherDept || 'أخرى') : deptVal;
+  const subject = (subjectEl && subjectEl !== '__other__') ? subjectEl : (customSub || 'عام');
+
+  const progWrap  = document.getElementById('uploadProgressWrap');
+  const progFill  = document.getElementById('uploadProgressFill');
+  const progLabel = document.getElementById('uploadProgressLabel');
+  const btn       = document.getElementById('submitUploadBtn');
+  progWrap.classList.add('active'); btn.disabled = true;
+  progFill.style.width = '20%'; progLabel.textContent = 'جاري الرفع...';
+  try {
+    const storRef = ref(storage, `community_files/${uploaderUsername}/${Date.now()}_${file.name}`);
+    progFill.style.width = '55%';
+    const snap = await uploadBytes(storRef, file);
+    progFill.style.width = '80%';
+    const url  = await getDownloadURL(snap.ref);
+    progFill.style.width = '95%';
+    await addDoc(collection(db,"uploads"), {
+      name, url, uploader: uploaderUsername,
+      uni, dept, stage: stageVal, subject,
+      timestamp: new Date().toISOString()
+    });
+    progFill.style.width = '100%';
+    progLabel.textContent = 'تم الرفع بنجاح!';
+    setTimeout(() => {
+      closeModal('uploadModal'); toast('تم رفع الملف بنجاح ✓', 'success');
+      btn.disabled = false; progWrap.classList.remove('active');
+      // Refresh if current dept matches
+      if (dept === currentDept) fetchDeptFiles(currentDept);
+    }, 700);
+  } catch(e) {
+    progLabel.textContent = 'فشل الرفع: ' + e.message;
+    progFill.style.background = '#dc2626';
+    btn.disabled = false; toast('فشل الرفع: ' + e.message, 'error');
+  }
+});
+
+/* ── MOBILE MENU ── */
 const menuBtn    = document.getElementById('menuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
 const navBd      = document.getElementById('menuBackdrop');
 function openNav()  { mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); }
 function closeNav() { mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); }
-menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded') === 'true' ? closeNav() : openNav(); });
+menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true'?closeNav():openNav(); });
 navBd.addEventListener('click', closeNav);
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeNav(); closeFilters(); } });
-window.addEventListener('resize', () => { if (window.innerWidth > 768) closeNav(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape'){closeNav();closeFilters();} });
+window.addEventListener('resize', () => { if(window.innerWidth>768) closeNav(); });
 
-/* ─────────────────────────────────────────────
-   MOBILE FILTERS DRAWER
-   ───────────────────────────────────────────── */
+/* ── MOBILE FILTERS ── */
 const filterToggle = document.getElementById('filterToggle');
 const filtersPanel = document.getElementById('filtersPanel');
 const filtersBd    = document.getElementById('filtersBd');
 function openFilters()  { filtersPanel.classList.add('open'); filtersBd.classList.add('show'); filterToggle.setAttribute('aria-expanded','true'); }
 function closeFilters() { filtersPanel.classList.remove('open'); filtersBd.classList.remove('show'); filterToggle.setAttribute('aria-expanded','false'); }
-filterToggle.addEventListener('click', e => {
-  e.stopPropagation();
-  filterToggle.getAttribute('aria-expanded') === 'true' ? closeFilters() : openFilters();
-});
+filterToggle.addEventListener('click', e => { e.stopPropagation(); filterToggle.getAttribute('aria-expanded')==='true'?closeFilters():openFilters(); });
 filtersBd.addEventListener('click', closeFilters);
-window.addEventListener('resize', () => { if (window.innerWidth > 900) closeFilters(); });
+window.addEventListener('resize', () => { if(window.innerWidth>900) closeFilters(); });
 
-/* ─────────────────────────────────────────────
-   INIT
-   ───────────────────────────────────────────── */
-buildStageTree(currentDept);
-fetchDeptFiles(currentDept);
+/* ── INIT ── */
+(async () => {
+  await loadUploadsJson();
+  buildStageTree(currentDept);
+  fetchDeptFiles(currentDept);
+})();
 </script>
-
-<script type="module">
-import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, onAuthStateChanged }
-                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, query, where, getDocs }
-                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
-  authDomain:        "engineering-students-community.firebaseapp.com",
-  projectId:         "engineering-students-community",
-  storageBucket:     "engineering-students-community.firebasestorage.app",
-  messagingSenderId: "371432549665",
-  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
-};
-
-const app       = initializeApp(firebaseConfig);
-const auth      = getAuth(app);
-const db        = getFirestore(app);
-const btn       = document.getElementById('authBtn');
-const btnMobile = document.getElementById('authBtnMobile');
-
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    btn.className = 'state-guest';
-    btn.href      = 'login.html';
-    btn.innerHTML = ' تسجيل الدخول';
-    if (btnMobile) {
-      btnMobile.href      = 'login.html';
-      btnMobile.innerHTML = ' تسجيل الدخول';
-    }
-    return;
-  }
-  try {
-    const q    = query(collection(db,"students"), where("uid","==",user.uid));
-    const snap = await getDocs(q);
-    if (snap.empty) {
-      btn.className = 'state-guest';
-      btn.href      = 'login.html';
-      btn.innerHTML = ' تسجيل الدخول';
-      return;
-    }
-    const username   = snap.docs[0].id;
-    const data       = snap.docs[0].data();
-    const avatarSrc  = data.avatarURL || 'media/1nkown.png';
-    const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
-
-    btn.className = 'state-user';
-    btn.href      = profileUrl;
-    btn.innerHTML =
-      `<img class="auth-avatar" src="${avatarSrc}"
-            onerror="this.src='media/1nkown.png'" alt="صورة">` +
-      `<span>@${username}</span>`;
-
-    if (btnMobile) {
-      btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
-    }
-  } catch (e) {
-    btn.className = 'state-guest';
-    btn.href      = 'login.html';
-    btn.innerHTML = ' تسجيل الدخول';
-  }
-});
-</script>
-
 </body>
 </html>
