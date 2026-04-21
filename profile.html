@@ -1846,6 +1846,7 @@ async function loadProfile() {
     await loadCertificates();
     await loadResearchFromGitHub();
     renderSkills(profileData.skills || []);
+ renderLinks(profileData.links || []);
   } catch(e) {
     toast("خطأ في تحميل البيانات: " + e.message, 'error');
   } finally {
