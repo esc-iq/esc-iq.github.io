@@ -46,6 +46,40 @@ body {
 }
 
 /* ============================================================
+   AUTH GATE OVERLAY  (مقتبس من الكود الثاني)
+   ============================================================ */
+#authGate {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(8px);
+  z-index: 8000;
+  align-items: center; justify-content: center;
+  padding: 20px;
+}
+#authGate.show { display: flex; }
+.auth-gate-box {
+  background: #fff; border-radius: 20px;
+  padding: 36px 32px; max-width: 400px; width: 100%;
+  text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  animation: authSlideUp 0.25s ease;
+}
+@keyframes authSlideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+.auth-gate-icon { font-size: 52px; margin-bottom: 14px; display: block; }
+.auth-gate-title { font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; }
+.auth-gate-msg { font-size: 14px; color: var(--text-light); line-height: 1.75; margin-bottom: 24px; }
+.auth-gate-btns { display: flex; gap: 10px; flex-direction: column; }
+.auth-gate-btn {
+  display: block; width: 100%; padding: 12px; border-radius: 12px;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700;
+  text-decoration: none; transition: background var(--transition);
+}
+.auth-gate-btn.primary { background: var(--blue); color: #fff; }
+.auth-gate-btn.primary:hover { background: #0059d4; }
+.auth-gate-btn.secondary { background: #f3f4f6; color: var(--text-dark); border: 1px solid rgba(0,0,0,0.10); }
+.auth-gate-btn.secondary:hover { background: #e5e7eb; }
+
+/* ============================================================
    LOADING OVERLAY
    ============================================================ */
 #loadingOverlay {
@@ -315,11 +349,37 @@ body {
   color: var(--text-dark); margin-bottom: 4px;
   display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
 }
+
+/* ── VERIFICATION BADGE — أكبر مع tooltip ── */
 .verify-badge {
   display: inline-flex; align-items: center;
-  width: 22px; height: 22px; flex-shrink: 0;
+  width: 30px; height: 30px; flex-shrink: 0;
+  position: relative; cursor: help;
 }
-.verify-badge img { width: 22px; height: 22px; object-fit: contain; }
+.verify-badge img { width: 30px; height: 30px; object-fit: contain; }
+.verify-badge .verify-tooltip {
+  display: none;
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 50%; transform: translateX(50%);
+  background: #1f2937;
+  color: #fff;
+  font-size: 12px; font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  z-index: 100;
+  pointer-events: none;
+}
+.verify-badge .verify-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; right: 50%; transform: translateX(50%);
+  border: 5px solid transparent;
+  border-top-color: #1f2937;
+}
+.verify-badge:hover .verify-tooltip { display: block; }
 
 .profile-member-title {
   font-size: 14px; color: #555;
@@ -341,13 +401,11 @@ body {
   font-size: 12px; font-weight: 700;
   padding: 4px 12px; border-radius: 20px;
 }
-/* color variants */
 .profile-tag.color-0 { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
 .profile-tag.color-1 { background: var(--tag-teal-bg);   color: var(--tag-teal-fg); }
 .profile-tag.color-2 { background: var(--tag-gold-bg);   color: var(--tag-gold-fg); }
 .profile-tag.color-3 { background: var(--tag-rose-bg);   color: var(--tag-rose-fg); }
 .profile-tag.color-4 { background: var(--tag-violet-bg); color: var(--tag-violet-fg); }
-/* legacy classes kept for compatibility */
 .profile-tag.blue   { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
 .profile-tag.teal   { background: var(--tag-teal-bg);   color: var(--tag-teal-fg); }
 
@@ -365,13 +423,13 @@ body {
 }
 
 /* ============================================================
-   SIDEBAR CARDS  — larger, matching founder page
+   SIDEBAR CARDS
    ============================================================ */
 .sidebar-card {
   background: #fff;
   border-radius: var(--card-radius);
   border: 1px solid var(--border);
-  padding: 26px 24px;       /* increased */
+  padding: 26px 24px;
   box-shadow: var(--shadow);
 }
 .sidebar-card + .sidebar-card { margin-top: 16px; }
@@ -385,10 +443,10 @@ body {
 }
 .info-row {
   display: flex; align-items: flex-start;
-  gap: 12px; margin-bottom: 16px;   /* increased spacing */
+  gap: 12px; margin-bottom: 16px;
 }
 .info-row:last-child { margin-bottom: 0; }
-.info-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; } /* bigger icon */
+.info-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
 .info-label {
   font-size: 11px; color: #999; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px;
@@ -421,7 +479,7 @@ body {
 .edu-dot.teal  { background: var(--teal); }
 .edu-dot.gold  { background: #b45309; }
 
-/* ── Organisation card (member only) ── */
+/* Organisation card */
 #orgCard { display: none; }
 #orgCard.show { display: block; }
 
@@ -454,7 +512,7 @@ body {
 .owner-mode .contact-link-delete { display: flex; }
 
 /* ============================================================
-   EDIT BUTTONS (small inline)
+   EDIT BUTTONS
    ============================================================ */
 .edit-inline-btn {
   display: none;
@@ -506,7 +564,7 @@ body {
 }
 
 /* ============================================================
-   ABOUT CARD (main column)
+   ABOUT CARD
    ============================================================ */
 .about-text-main {
   font-size: 14px; color: #444; line-height: 1.85;
@@ -620,6 +678,9 @@ body {
   font-size: 10px; font-weight: 700;
   padding: 2px 7px; border-radius: 5px;
 }
+.file-actions {
+  display: flex; gap: 6px; align-items: center; flex-shrink: 0;
+}
 .file-dl-btn {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 7px 14px; border-radius: 18px;
@@ -628,10 +689,35 @@ body {
   color: var(--blue); text-decoration: none;
   font-family: 'Ubuntu', sans-serif;
   font-weight: 700; font-size: 11px;
-  flex-shrink: 0;
   transition: background var(--transition);
 }
 .file-dl-btn:hover { background: rgba(0,71,171,0.15); }
+
+/* ── Owner-only file buttons ── */
+.file-edit-btn, .file-delete-btn {
+  display: none;
+  align-items: center; justify-content: center;
+  padding: 7px 10px; border-radius: 18px;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; font-size: 11px;
+  cursor: pointer; border: 1px solid;
+  transition: background var(--transition);
+  white-space: nowrap;
+}
+.file-edit-btn {
+  background: rgba(0,128,128,0.07);
+  border-color: rgba(0,128,128,0.2);
+  color: var(--teal);
+}
+.file-edit-btn:hover { background: rgba(0,128,128,0.15); }
+.file-delete-btn {
+  background: rgba(220,38,38,0.07);
+  border-color: rgba(220,38,38,0.2);
+  color: #dc2626;
+}
+.file-delete-btn:hover { background: rgba(220,38,38,0.15); }
+.owner-mode .file-edit-btn,
+.owner-mode .file-delete-btn { display: inline-flex; }
 
 .files-empty {
   padding: 36px 20px; text-align: center; direction: rtl;
@@ -745,7 +831,7 @@ body {
 }
 
 /* ============================================================
-   ACHIEVEMENTS (was CERTIFICATES)
+   ACHIEVEMENTS
    ============================================================ */
 .cert-list-wrap {
   background: #fff;
@@ -1064,6 +1150,19 @@ footer {
 </head>
 <body>
 
+<!-- ── AUTH GATE (تسجيل الدخول مطلوب) ── -->
+<div id="authGate">
+  <div class="auth-gate-box">
+    <span class="auth-gate-icon">🔒</span>
+    <div class="auth-gate-title">تسجيل الدخول مطلوب</div>
+    <p class="auth-gate-msg">يجب أن تكون عضواً مسجلاً للوصول إلى ملفات المستخدمين والاطلاع على بياناتهم.</p>
+    <div class="auth-gate-btns">
+      <a href="login.html" class="auth-gate-btn primary">تسجيل الدخول</a>
+      <a href="register.html" class="auth-gate-btn secondary">إنشاء حساب جديد</a>
+    </div>
+  </div>
+</div>
+
 <div id="loadingOverlay">
   <img src="media/icon-512-w.png" alt="ESC" class="loader-logo">
   <span class="loader-text">جاري تحميل البروفايل...</span>
@@ -1149,6 +1248,7 @@ footer {
       <span id="profileNameText">...</span>
       <span id="verifyBadgeWrap" class="verify-badge" style="display:none">
         <img id="verifyBadgeImg" src="" alt="✅">
+        <span class="verify-tooltip">هذا الحساب موثق ومعتمد من قبل ESC</span>
       </span>
     </div>
     <div id="profileMemberTitle" class="profile-member-title"></div>
@@ -1211,7 +1311,6 @@ footer {
         </div>
       </div>
 
-      <!-- Member email: shows label "البريد الإلكتروني" as link text -->
       <div class="info-row" id="rowMemberEmail" style="display:none">
         <span class="info-icon">✉️</span>
         <div style="flex:1">
@@ -1221,7 +1320,7 @@ footer {
       </div>
     </div>
 
-    <!-- ORGANISATION CARD (members only) -->
+    <!-- ORGANISATION CARD -->
     <div class="sidebar-card" id="orgCard">
       <div class="sidebar-card-title">المنظمة</div>
       <div class="info-row">
@@ -1269,7 +1368,7 @@ footer {
       </div>
     </div>
 
-    <!-- ABOUT CARD (main column — single unified card) -->
+    <!-- ABOUT CARD -->
     <div class="content-card" id="mainAboutCard">
       <div class="card-header">
         <h2>حول</h2>
@@ -1305,7 +1404,7 @@ footer {
       </div>
     </div>
 
-    <!-- ACHIEVEMENTS CARD (was "الشهادات المكتملة") -->
+    <!-- ACHIEVEMENTS CARD -->
     <div class="content-card">
       <div class="card-header">
         <h2>الإنجازات المكتملة</h2>
@@ -1387,7 +1486,6 @@ footer {
       <button class="modal-close-btn" data-close="infoModal">✕</button>
     </div>
     <div class="modal-body">
-
       <div class="form-group">
         <label>هل أنت طالب حالياً؟</label>
         <select id="isStudentInput" class="form-control">
@@ -1403,7 +1501,6 @@ footer {
           <option value="phd">دكتوراه</option>
         </select>
       </div>
-      <!-- Stage: BSc students only -->
       <div class="form-group conditional-field" id="stageGroup">
         <label>المرحلة الدراسية</label>
         <select id="stageInput" class="form-control">
@@ -1413,20 +1510,17 @@ footer {
           <option value="4">الرابعة</option>
         </select>
       </div>
-      <!-- MSc university (msc or phd) -->
       <div class="form-group conditional-field" id="mscUniGroup">
         <label id="mscUniLabel">جامعة الماجستير</label>
         <input type="text" id="mscUniInput" class="form-control"
                placeholder="مثلاً: جامعة بغداد">
       </div>
-      <!-- PhD university (phd only) -->
       <div class="form-group conditional-field" id="phdUniGroup">
         <label>جامعة الدكتوراه</label>
         <input type="text" id="phdUniInput" class="form-control"
                placeholder="مثلاً: University of Leeds">
       </div>
 
-      <!-- Iraqi Governorates -->
       <div class="form-group">
         <label>المحافظة</label>
         <select id="cityInput" class="form-control">
@@ -1452,7 +1546,6 @@ footer {
         </select>
       </div>
 
-      <!-- Job Status -->
       <div class="form-group">
         <label>الحالة الوظيفية</label>
         <select id="jobStatusInput" class="form-control">
@@ -1558,7 +1651,6 @@ footer {
         <input type="text" id="uploadNameInput" class="form-control" maxlength="80"
                placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
       </div>
-      <!-- NEW: University selector -->
       <div class="form-group">
         <label>الجامعة</label>
         <select id="uploadUniSelect" class="form-control">
@@ -1639,6 +1731,75 @@ footer {
   </div>
 </div>
 
+<!-- EDIT FILE MODAL -->
+<div id="editFileModal" class="modal-backdrop">
+  <div class="modal-box" style="max-width:480px;">
+    <div class="modal-head">
+      <h3>✏️ تعديل بيانات الملف</h3>
+      <button class="modal-close-btn" data-close="editFileModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editFileDocId">
+      <div class="form-group">
+        <label>اسم الملف</label>
+        <input type="text" id="editFileNameInput" class="form-control" maxlength="80"
+               placeholder="اسم الملف الظاهر للطلاب">
+      </div>
+      <div class="form-group">
+        <label>الجامعة</label>
+        <select id="editFileUniSelect" class="form-control">
+          <option value="">— اختر الجامعة —</option>
+          <option value="karbala">جامعة كربلاء المقدسة</option>
+          <option value="baghdad">جامعة بغداد</option>
+          <option value="basra">جامعة البصرة</option>
+          <option value="mosul">جامعة الموصل</option>
+          <option value="kufa">جامعة الكوفة</option>
+          <option value="najaf">جامعة النجف الأشرف التقنية</option>
+          <option value="mustansiriyah">الجامعة المستنصرية</option>
+          <option value="technology">الجامعة التكنولوجية</option>
+          <option value="other">جامعة أخرى</option>
+        </select>
+      </div>
+      <div class="form-group upload-sub-select" id="editOtherUniGroup">
+        <label>اسم الجامعة</label>
+        <input type="text" id="editOtherUniInput" class="form-control" maxlength="60"
+               placeholder="أدخل اسم الجامعة">
+      </div>
+      <div class="form-group">
+        <label>القسم الهندسي</label>
+        <select id="editFileDeptSelect" class="form-control">
+          <option value="">— اختر القسم —</option>
+          <option value="civil">هندسة مدنية</option>
+          <option value="electrical">هندسة كهرباء وإلكترونيك</option>
+          <option value="mechanical">هندسة ميكانيك</option>
+          <option value="electromech">هندسة كهروميكانيك</option>
+          <option value="Prosthetics">هندسة أطراف ومساند</option>
+          <option value="biomedical">هندسة الطب الحياتي</option>
+          <option value="architecture">هندسة معمارية</option>
+          <option value="software">هندسة برمجيات</option>
+          <option value="other">أخرى</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>المرحلة الدراسية</label>
+        <select id="editFileStageSelect" class="form-control">
+          <option value="">— اختر المرحلة —</option>
+          <option value="1">الأولى</option>
+          <option value="2">الثانية</option>
+          <option value="3">الثالثة</option>
+          <option value="4">الرابعة</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>المادة / الموضوع</label>
+        <input type="text" id="editFileSubjectInput" class="form-control" maxlength="60"
+               placeholder="مثلاً: ميكانيكا التربة">
+      </div>
+      <button class="modal-submit-btn teal" id="saveEditFileBtn">حفظ التعديلات</button>
+    </div>
+  </div>
+</div>
+
 <!-- CONFIRM MODAL -->
 <div id="confirmModal" class="modal-backdrop">
   <div class="modal-box">
@@ -1662,7 +1823,7 @@ footer {
 import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, query, where, getDocs, addDoc }
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, addDoc }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
@@ -1717,7 +1878,7 @@ const SUBJECTS_CONFIG = {
   software: {1:["رياضيات","مقدمة في البرمجة","منطق رقمي"],2:["هياكل بيانات","خوارزميات","قواعد بيانات"],3:["شبكات حاسوب","أنظمة تشغيل"],4:["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]}
 };
 
-/* ─── TAG COLORS (5 rotating colors) ─── */
+/* ─── TAG COLORS ─── */
 const TAG_COLORS = ['color-0','color-1','color-2','color-3','color-4'];
 
 /* ─── GLOBALS ─── */
@@ -1732,23 +1893,30 @@ let   allStudentsCache= null;
 /* ─── AUTH & REDIRECT ─── */
 onAuthStateChanged(auth, async (user) => {
   updateAuthButton(user);
+
+  if (!user) {
+    /* غير مسجّل: أظهر صفحة المنع */
+    document.getElementById('authGate').classList.add('show');
+    /* أخفِ overlay التحميل */
+    const ov = document.getElementById('loadingOverlay');
+    ov.classList.add('fade-out');
+    setTimeout(() => ov.remove(), 400);
+    return;
+  }
+
   if (!TARGET_USERNAME) {
-    if (user) {
-      const q    = query(collection(db,"students"), where("uid","==",user.uid));
-      const snap = await getDocs(q);
-      if (!snap.empty) window.location.href = "profile.html?u=" + snap.docs[0].id;
-      else window.location.href = "login.html";
-    } else { window.location.href = "login.html"; }
+    const q    = query(collection(db,"students"), where("uid","==",user.uid));
+    const snap = await getDocs(q);
+    if (!snap.empty) window.location.href = "profile.html?u=" + snap.docs[0].id;
+    else window.location.href = "login.html";
   } else {
     loadProfile();
-    if (user) {
-      const checkInterval = setInterval(() => {
-        if (profileData.uid) {
-          clearInterval(checkInterval);
-          if (user.uid === profileData.uid) activateOwnerMode();
-        }
-      }, 100);
-    }
+    const checkInterval = setInterval(() => {
+      if (profileData.uid) {
+        clearInterval(checkInterval);
+        if (user.uid === profileData.uid) activateOwnerMode();
+      }
+    }, 100);
   }
 });
 
@@ -1846,7 +2014,7 @@ async function loadProfile() {
     await loadCertificates();
     await loadResearchFromGitHub();
     renderSkills(profileData.skills || []);
- renderLinks(profileData.links || []);
+    renderLinks(profileData.links || []);
   } catch(e) {
     toast("خطأ في تحميل البيانات: " + e.message, 'error');
   } finally {
@@ -1870,7 +2038,7 @@ function renderProfile() {
   document.getElementById('profileNameText').textContent = "المهندس " + (d.fullName || TARGET_USERNAME);
   document.getElementById('profileUsername').textContent = '@' + TARGET_USERNAME;
 
-  /* Verification badge */
+  /* Verification badge — أكبر مع tooltip */
   if (md && md.verf) {
     const vw = document.getElementById('verifyBadgeWrap');
     document.getElementById('verifyBadgeImg').src = md.verf;
@@ -1887,7 +2055,7 @@ function renderProfile() {
     if (titleHTML) { titleEl.innerHTML = titleHTML; titleEl.classList.add('show'); }
   }
 
-  /* Tags — rotating color palette */
+  /* Tags */
   const tagsEl = document.getElementById('profileTags');
   tagsEl.innerHTML = '';
   const isStudent = d.isStudent !== false;
@@ -1928,7 +2096,7 @@ function renderProfile() {
     wrap.classList.add('show');
   }
 
-  /* Education — always shown, cannot be hidden */
+  /* Education */
   const hidden = d.hiddenFields || [];
   {
     const uniRow   = document.getElementById('rowUniversity');
@@ -1973,7 +2141,7 @@ function renderProfile() {
     document.getElementById('infoJobStatus').textContent = JOB_STATUS_LABELS[d.jobStatus] || '—';
   }
 
-  /* Member email — show label "البريد الإلكتروني" as link text, no emoji */
+  /* Member email */
   if (md && md.member_email) {
     document.getElementById('rowMemberEmail').style.display = '';
     document.getElementById('infoMemberEmail').innerHTML =
@@ -1986,11 +2154,8 @@ function renderProfile() {
     document.getElementById('orgRoleValue').textContent = md.memeberrank || '—';
   }
 
-  /* Bio (single location in main col) */
+  /* Bio */
   renderBio(d.bio, md);
-
-  /* Show edit bio button if rendered */
-  // shown via owner-mode class in CSS
 }
 
 function setInfoRow(rowId, valId, value, isHidden) {
@@ -2007,7 +2172,6 @@ function renderBio(bio, md) {
   } else {
     main.innerHTML = '<p class="about-text-main" style="color:#c0c0c0;font-style:italic;">لم يُضَف وصف بعد.</p>';
   }
-  /* CV link below about */
   const cvLink = document.getElementById('cvDownloadLink');
   if (md && md.cvfile) { cvLink.href = md.cvfile; cvLink.classList.add('show'); }
 }
@@ -2142,44 +2306,157 @@ async function deleteSkill(idx) {
 }
 
 /* ─── LOAD FILES ─── */
+/* نخزّن بيانات الملفات لاستخدامها في التعديل والحذف */
+let loadedFiles = [];
+
 async function loadFiles() {
   try {
     const q    = query(collection(db,"uploads"), where("uploader","==",TARGET_USERNAME));
     const snap = await getDocs(q);
     const cont = document.getElementById('filesContainer');
     const badge= document.getElementById('filesCountBadge');
+
+    loadedFiles = [];
+    snap.forEach(d => loadedFiles.push({ id: d.id, ...d.data() }));
+
     if (!snap.empty) { badge.textContent = snap.size; badge.style.display = 'inline-flex'; }
     else { badge.style.display = 'none'; }
-    if (snap.empty) { cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>'; return; }
-    const wrap = document.createElement('div');
-    wrap.className = 'files-list-wrap';
-    snap.forEach(d => {
-      const f = d.data();
-      const uniLabel = UNIVERSITY_DICT[f.uni] || f.uni || '';
-      const row = document.createElement('div');
-      row.className = 'file-item-row';
-      row.innerHTML = `
-        <div class="file-icon-box">PDF</div>
-        <div class="file-info">
-          <a href="${escHtml(f.url)}" target="_blank" class="file-title">${escHtml(f.name)}</a>
-          <div class="file-sub">
-            <a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader-tag">@${escHtml(f.uploader)}</a>
-            ${uniLabel ? `<span class="file-badge">${escHtml(uniLabel)}</span>` : ''}
-            ${f.subject ? `<span class="file-badge">${escHtml(f.subject)}</span>` : ''}
-            ${f.stage   ? `<span class="file-badge">المرحلة ${escHtml(f.stage)}</span>` : ''}
-          </div>
-        </div>
-        <a href="${escHtml(f.url)}" download class="file-dl-btn">⬇ تحميل</a>
-      `;
-      wrap.appendChild(row);
-    });
-    cont.innerHTML = ''; cont.appendChild(wrap);
+
+    if (snap.empty) {
+      cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>';
+      return;
+    }
+    renderFilesList();
   } catch(e) {
-    document.getElementById('filesContainer').innerHTML = '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
+    document.getElementById('filesContainer').innerHTML =
+      '<div class="files-empty"><p>تعذّر تحميل الملفات.</p></div>';
   }
 }
 
-/* ─── LOAD ACHIEVEMENTS (previously certificates) ─── */
+function renderFilesList() {
+  const cont = document.getElementById('filesContainer');
+  if (loadedFiles.length === 0) {
+    cont.innerHTML = '<div class="files-empty"><p>لا توجد ملفات مرفوعة حالياً.</p></div>';
+    return;
+  }
+  const wrap = document.createElement('div');
+  wrap.className = 'files-list-wrap';
+  loadedFiles.forEach(f => {
+    const uniLabel = UNIVERSITY_DICT[f.uni] || f.uni || '';
+    const row = document.createElement('div');
+    row.className = 'file-item-row';
+    row.dataset.fileId = f.id;
+    row.innerHTML = `
+      <div class="file-icon-box">PDF</div>
+      <div class="file-info">
+        <a href="${escHtml(f.url)}" target="_blank" class="file-title">${escHtml(f.name)}</a>
+        <div class="file-sub">
+          <a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader-tag">@${escHtml(f.uploader)}</a>
+          ${uniLabel ? `<span class="file-badge">${escHtml(uniLabel)}</span>` : ''}
+          ${f.subject ? `<span class="file-badge">${escHtml(f.subject)}</span>` : ''}
+          ${f.stage   ? `<span class="file-badge">المرحلة ${escHtml(f.stage)}</span>` : ''}
+        </div>
+      </div>
+      <div class="file-actions">
+        <button class="file-edit-btn" data-id="${escHtml(f.id)}" title="تعديل بيانات الملف">✏️ تعديل</button>
+        <button class="file-delete-btn" data-id="${escHtml(f.id)}" data-url="${escHtml(f.url||'')}" title="حذف الملف نهائياً">🗑 حذف</button>
+        <a href="${escHtml(f.url)}" download class="file-dl-btn">⬇ تحميل</a>
+      </div>
+    `;
+    wrap.appendChild(row);
+  });
+  cont.innerHTML = ''; cont.appendChild(wrap);
+
+  /* تعديل الملف */
+  cont.querySelectorAll('.file-edit-btn').forEach(btn => {
+    btn.addEventListener('click', () => openEditFileModal(btn.dataset.id));
+  });
+
+  /* حذف الملف */
+  cont.querySelectorAll('.file-delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const fid  = btn.dataset.id;
+      const furl = btn.dataset.url;
+      showConfirm(
+        'هل تريد حذف هذا الملف نهائياً من حسابك والسيرفر؟ لا يمكن التراجع.',
+        () => deleteFile(fid, furl),
+        'نعم، احذف الملف'
+      );
+    });
+  });
+}
+
+/* ── فتح مودال التعديل ── */
+function openEditFileModal(fileId) {
+  const f = loadedFiles.find(x => x.id === fileId);
+  if (!f) return;
+  document.getElementById('editFileDocId').value          = fileId;
+  document.getElementById('editFileNameInput').value      = f.name || '';
+  document.getElementById('editFileUniSelect').value      = UNIVERSITY_DICT[f.uni] ? f.uni : (f.uni === 'other' ? 'other' : f.uni || '');
+  document.getElementById('editFileDeptSelect').value     = f.dept || '';
+  document.getElementById('editFileStageSelect').value    = f.stage || '';
+  document.getElementById('editFileSubjectInput').value   = f.subject || '';
+  document.getElementById('editOtherUniGroup').classList.toggle('active', f.uni === 'other');
+  document.getElementById('editOtherUniInput').value      = (!UNIVERSITY_DICT[f.uni] && f.uni) ? f.uni : '';
+  openModal('editFileModal');
+}
+
+document.getElementById('editFileUniSelect').addEventListener('change', function() {
+  document.getElementById('editOtherUniGroup').classList.toggle('active', this.value === 'other');
+});
+
+document.getElementById('saveEditFileBtn').addEventListener('click', async () => {
+  const fileId   = document.getElementById('editFileDocId').value;
+  const name     = document.getElementById('editFileNameInput').value.trim();
+  const uniVal   = document.getElementById('editFileUniSelect').value;
+  const dept     = document.getElementById('editFileDeptSelect').value;
+  const stage    = document.getElementById('editFileStageSelect').value;
+  const subject  = document.getElementById('editFileSubjectInput').value.trim();
+  const otherUni = document.getElementById('editOtherUniInput').value.trim();
+
+  if (!name)  { toast('أدخل اسم الملف.', 'error'); return; }
+  if (!uniVal){ toast('اختر الجامعة.', 'error'); return; }
+
+  const uni = uniVal === 'other' ? (otherUni || 'أخرى') : uniVal;
+
+  try {
+    await updateDoc(doc(db,"uploads",fileId), { name, uni, dept, stage, subject });
+    /* حدّث المصفوفة المحلية */
+    const idx = loadedFiles.findIndex(x => x.id === fileId);
+    if (idx !== -1) Object.assign(loadedFiles[idx], { name, uni, dept, stage, subject });
+    renderFilesList();
+    closeModal('editFileModal');
+    toast('تم حفظ التعديلات ✓', 'success');
+  } catch(e) { toast('خطأ: ' + e.message, 'error'); }
+});
+
+/* ── حذف الملف من Firestore + Storage ── */
+async function deleteFile(fileId, fileUrl) {
+  try {
+    /* حذف من Firestore */
+    await deleteDoc(doc(db,"uploads",fileId));
+
+    /* حذف من Storage إن أمكن */
+    if (fileUrl) {
+      try {
+        const fileRef = ref(storage, fileUrl);
+        await deleteObject(fileRef);
+      } catch(e) { /* قد لا يكون مسار Storage متاحاً — نتجاهل الخطأ */ }
+    }
+
+    loadedFiles = loadedFiles.filter(x => x.id !== fileId);
+    renderFilesList();
+
+    /* تحديث badge العدد */
+    const badge = document.getElementById('filesCountBadge');
+    if (loadedFiles.length === 0) { badge.style.display = 'none'; }
+    else { badge.textContent = loadedFiles.length; }
+
+    toast('تم حذف الملف نهائياً.', 'success');
+  } catch(e) { toast('فشل الحذف: ' + e.message, 'error'); }
+}
+
+/* ─── LOAD ACHIEVEMENTS ─── */
 async function loadCertificates() {
   const container = document.getElementById('certsContainer');
   try {
@@ -2318,7 +2595,6 @@ function activateOwnerMode() {
   isOwner = true;
   document.getElementById('ownerActionBar').classList.add('visible');
   document.body.classList.add('owner-mode');
-  // Show bio edit button inside main about card
   document.getElementById('editBioBtn').style.display = 'inline-flex';
   const rb = document.getElementById('requestResearchBtn');
   if (rb) rb.style.display = 'inline-flex';
@@ -2373,11 +2649,12 @@ async function deleteAvatar() {
   } catch(e) { toast('فشل حذف الصورة: ' + e.message, 'error'); }
 }
 
+/* ─── AVATAR UPLOAD — الحد الأدنى 5 ميجابايت ─── */
 document.getElementById('avatarInput').addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
   if (!file.type.startsWith('image/')) { toast('يُقبل صور فقط.', 'error'); return; }
-  if (file.size > 3 * 1024 * 1024) { toast('حجم الصورة يجب أن يكون أقل من 3 ميجابايت.', 'error'); return; }
+  if (file.size > 5 * 1024 * 1024) { toast('حجم الصورة يجب أن يكون أقل من 5 ميجابايت.', 'error'); return; }
   const isSquare = await new Promise(resolve => {
     const img = new Image(); const url = URL.createObjectURL(file);
     img.onload = () => { URL.revokeObjectURL(url); resolve(img.naturalWidth === img.naturalHeight); };
@@ -2466,7 +2743,6 @@ document.getElementById('saveInfoBtn').addEventListener('click', async () => {
   const phdUni    = document.getElementById('phdUniInput').value.trim();
   const jobStatus = document.getElementById('jobStatusInput').value;
   const hidden    = [];
-  // Education (university) is ALWAYS shown — not added to hidden
   if (!document.getElementById('toggleDept').checked)  hidden.push('department');
   if (!document.getElementById('toggleStage').checked) hidden.push('stage');
   if (!document.getElementById('toggleCity').checked)  hidden.push('city');
@@ -2474,7 +2750,6 @@ document.getElementById('saveInfoBtn').addEventListener('click', async () => {
     await updateDoc(doc(db,"students",TARGET_USERNAME), {
       city, hiddenFields: hidden, isStudent: isStud, degreeLevel: degLvl, stage: stg,
       mscUniversity: mscUni, phdUniversity: phdUni, jobStatus
-      // Note: 'university' (BSc) is NOT updated here — set only during registration
     });
     Object.assign(profileData, { city, hiddenFields: hidden, isStudent: isStud, degreeLevel: degLvl, stage: stg, mscUniversity: mscUni, phdUniversity: phdUni, jobStatus });
     renderProfile();
