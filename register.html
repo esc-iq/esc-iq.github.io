@@ -268,6 +268,18 @@ select.field-input {
 /* Success state */
 .field-input.valid { border-color: var(--success); }
 
+/* ===== "OTHER" EXTRA INPUT ===== */
+.other-input-wrap {
+  display: none;
+  margin-top: 10px;
+  animation: fadeSlideIn 0.25s ease both;
+}
+.other-input-wrap.show { display: block; }
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ===== DIVIDER ===== */
 .divider {
   border: none;
@@ -275,33 +287,98 @@ select.field-input {
   margin: 8px 0 20px;
 }
 
+/* ===== TERMS CHECKBOX ===== */
+.terms-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 14px;
+  background: linear-gradient(90deg, rgba(0,71,171,0.04), rgba(0,128,128,0.04));
+  border: 1px solid rgba(0,71,171,0.12);
+  border-radius: 10px;
+}
+.terms-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 1px;
+  background: #fff;
+  transition: border-color var(--transition), background var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+.terms-checkbox:checked {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.terms-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+.terms-text {
+  font-size: 12.5px;
+  color: #555;
+  line-height: 1.7;
+  cursor: pointer;
+  user-select: none;
+}
+.terms-text a {
+  color: var(--blue);
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(0,71,171,0.35);
+  padding-bottom: 1px;
+  transition: color var(--transition);
+}
+.terms-text a:hover { color: #003a8c; }
+.field-error.terms-err {
+  margin-top: -12px;
+  margin-bottom: 8px;
+}
+
 /* ===== SUBMIT BUTTON ===== */
 .btn-submit {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(90deg, var(--blue), #005fa3);
+  background: #b0b7c3;
   color: #fff;
   font-family: 'Ubuntu', sans-serif;
   font-size: 15px; font-weight: 700;
   border: none; border-radius: 10px;
-  cursor: pointer;
+  cursor: not-allowed;
   transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
   display: flex; align-items: center; justify-content: center; gap: 8px;
   position: relative; overflow: hidden;
 }
-.btn-submit::after {
+.btn-submit.active {
+  background: linear-gradient(90deg, var(--blue), #005fa3);
+  cursor: pointer;
+}
+.btn-submit.active::after {
   content: '';
   position: absolute; inset: 0;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
   transform: translateX(-100%);
   transition: transform 0.5s ease;
 }
-.btn-submit:hover::after { transform: translateX(100%); }
-.btn-submit:hover {
+.btn-submit.active:hover::after { transform: translateX(100%); }
+.btn-submit.active:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0,71,171,0.35);
 }
-.btn-submit:active { transform: translateY(0); }
+.btn-submit.active:active { transform: translateY(0); }
 
 /* ===== REGISTER LINK ===== */
 .register-strip {
@@ -365,12 +442,147 @@ select.field-input {
   position: relative; z-index: 1;
 }
 
+/* ===== TERMS MODAL ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal-overlay.open {
+  display: flex;
+  animation: overlayIn 0.2s ease both;
+}
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.modal-box {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  animation: modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both;
+  overflow: hidden;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal-header {
+  background: linear-gradient(135deg, var(--blue) 0%, #005fa3 60%, var(--teal) 100%);
+  padding: 22px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header h2 {
+  font-size: 17px; font-weight: 700;
+  color: #fff;
+}
+.modal-close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  border-radius: 8px;
+  width: 32px; height: 32px;
+  cursor: pointer;
+  color: #fff;
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+.modal-close:hover { background: rgba(255,255,255,0.28); }
+.modal-body {
+  padding: 26px 26px 10px;
+  overflow-y: auto;
+  flex: 1;
+}
+.modal-body::-webkit-scrollbar { width: 5px; }
+.modal-body::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 5px; }
+.modal-body::-webkit-scrollbar-thumb { background: rgba(0,71,171,0.3); border-radius: 5px; }
+
+.terms-intro {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.8;
+  padding: 12px 14px;
+  background: var(--blue-light);
+  border-radius: 10px;
+  border-right: 3px solid var(--blue);
+}
+.terms-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.terms-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 14px 16px;
+  background: #f9fafb;
+  border-radius: 10px;
+  border: 1px solid #eee;
+  transition: border-color var(--transition);
+}
+.terms-item:hover { border-color: rgba(0,71,171,0.2); }
+.terms-num {
+  min-width: 28px; height: 28px;
+  background: linear-gradient(135deg, var(--blue), #005fa3);
+  color: #fff;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  flex-shrink: 0;
+}
+.terms-item-text {
+  font-size: 13px;
+  color: #333;
+  line-height: 1.75;
+}
+.modal-footer {
+  padding: 16px 26px 24px;
+  border-top: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: center;
+}
+.btn-modal-accept {
+  padding: 11px 32px;
+  background: linear-gradient(90deg, var(--blue), #005fa3);
+  color: #fff;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 14px; font-weight: 700;
+  border: none; border-radius: 10px;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.btn-modal-accept:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,71,171,0.3);
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 520px) {
   .card-body { padding: 22px 20px 26px; }
   .card-header { padding: 26px 20px 22px; }
   .nav { padding: 0 16px; }
   .nav-title { font-size: 13px; }
+  .modal-body { padding: 18px 18px 10px; }
+  .modal-header { padding: 18px 20px; }
+  .modal-footer { padding: 14px 20px 20px; }
 }
 </style>
 </head>
@@ -389,11 +601,59 @@ select.field-input {
   <span class="nav-title">مجتمع طلبة الهندسة</span>
 </nav>
 
+<!-- ===== TERMS MODAL ===== -->
+<div class="modal-overlay" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h2 id="modalTitle">📋 شروط وأحكام مجتمع طلبة الهندسة</h2>
+      <button class="modal-close" id="closeModal" aria-label="إغلاق">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="terms-intro">
+        بالانضمام إلى مجتمع طلبة الهندسة (ESC)، تؤكد موافقتك على الالتزام بهذه الشروط والأحكام.
+        يُعدّ مجتمعنا بيئةً أكاديميةً محترمةً تهدف إلى خدمة طلاب الهندسة وتطوير مسيرتهم العلمية.
+      </p>
+      <ul class="terms-list">
+        <li class="terms-item">
+          <div class="terms-num">1</div>
+          <p class="terms-item-text">
+            يؤكد العضو عدم رفع ملفات لا صلة لها بالدراسة في محاولة لأغراض تخريبية،
+            وعليه فإن القائم بالأعمال المخالفة يتحمل التبعات القانونية والمسائلة الكاملة وفق القوانين المعمول بها.
+          </p>
+        </li>
+        <li class="terms-item">
+          <div class="terms-num">2</div>
+          <p class="terms-item-text">
+            يؤكد العضو عدم خدش معايير الحياء في الصورة الشخصية أو وصف الحساب،
+            وللمجتمع الحق في التدخل وحظر الحساب فوراً عند مخالفة هذا البند.
+          </p>
+        </li>
+        <li class="terms-item">
+          <div class="terms-num">3</div>
+          <p class="terms-item-text">
+            يؤكد العضو أنه لا يملك أي نوايا في إعادة نشر بحوث الزملاء أو الدورات التعليمية لأغراض تجارية،
+            وللمجتمع حق مقاضاة العضو ومتابعته قانونياً في حال ثبوت المخالفة.
+          </p>
+        </li>
+        <li class="terms-item">
+          <div class="terms-num">4</div>
+          <p class="terms-item-text">
+            يؤكد العضو أنه سيحترم المعايير الأخلاقية في النقاش مع بقية الأعضاء في جميع قنوات النقاش والتواصل داخل المجتمع.
+          </p>
+        </li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-modal-accept" id="acceptTermsBtn">✔ فهمت وأوافق على الشروط</button>
+    </div>
+  </div>
+</div>
+
 <main class="page-wrap">
   <div class="register-card">
 
     <div class="card-header">
-    <img src="media/whiteone.png" alt="ESC" class="header-logo-fallback" style="height:100px;width:100px;display:block;" onerror="this.style.display='none';co">
+      <img src="media/whiteone.png" alt="ESC" class="header-logo-fallback" style="height:100px;width:100px;display:block;" onerror="this.style.display='none'">
       <h1>إنشاء حساب عضو في المجتمع</h1>
       <p>أهلاً بك في مجتمع طلبة الهندسة</p>
     </div>
@@ -423,6 +683,7 @@ select.field-input {
           <div class="field-error" id="err-username">أدخل يوزر إنجليزي صحيح (أحرف، أرقام، شرطة سفلية) بدون مسافات.</div>
         </div>
 
+        <!-- UNIVERSITY -->
         <div class="field-group">
           <label class="field-label" for="university">
             <span>*</span> الجامعة المنسوب إليها
@@ -444,8 +705,17 @@ select.field-input {
             <span class="select-arrow">▾</span>
           </div>
           <div class="field-error" id="err-university">الرجاء اختيار جامعتك</div>
+          <!-- Extra field shown when "other" is selected -->
+          <div class="other-input-wrap" id="otherUniversityWrap">
+            <div class="field-wrap">
+              <input type="text" id="otherUniversity" class="field-input" placeholder="اكتب اسم جامعتك" maxlength="100">
+              <span class="field-icon">✏️</span>
+            </div>
+            <div class="field-error" id="err-other-university">الرجاء كتابة اسم الجامعة</div>
+          </div>
         </div>
 
+        <!-- DEPARTMENT -->
         <div class="field-group">
           <label class="field-label" for="department">
             <span>*</span> قسم الهندسة
@@ -467,6 +737,14 @@ select.field-input {
             <span class="select-arrow">▾</span>
           </div>
           <div class="field-error" id="err-department">الرجاء اختيار قسمك</div>
+          <!-- Extra field shown when "other" is selected -->
+          <div class="other-input-wrap" id="otherDepartmentWrap">
+            <div class="field-wrap">
+              <input type="text" id="otherDepartment" class="field-input" placeholder="اكتب اسم قسمك" maxlength="100">
+              <span class="field-icon">✏️</span>
+            </div>
+            <div class="field-error" id="err-other-department">الرجاء كتابة اسم القسم</div>
+          </div>
         </div>
 
         <div class="field-group">
@@ -516,7 +794,17 @@ select.field-input {
           <div class="field-error" id="err-confirm">كلمتا المرور غير متطابقتان</div>
         </div>
 
-        <button type="submit" class="btn-submit">
+        <!-- ===== TERMS CHECKBOX ===== -->
+        <div class="terms-wrap">
+          <input type="checkbox" id="termsCheck" class="terms-checkbox" aria-describedby="terms-label">
+          <label class="terms-text" id="terms-label" for="termsCheck">
+            أوافق على
+            <a href="#" id="openTermsLink">الشروط الخاصة بمجتمع طلبة الهندسة وأحكامها</a>
+          </label>
+        </div>
+        <div class="field-error terms-err" id="err-terms">يجب الموافقة على الشروط والأحكام للمتابعة</div>
+
+        <button type="submit" class="btn-submit" id="submitBtn" disabled>
           <span></span>
           <span>إنشاء حساب</span>
         </button>
@@ -542,7 +830,6 @@ select.field-input {
 </footer>
 
 <script type="module">
-  // 1. استدعاء مكتبات فايربيس (تم إضافة getDoc للفحص و onAuthStateChanged للتوجيه)
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
   import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
@@ -561,22 +848,20 @@ select.field-input {
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  let isRegistering = false; // متغير لمنع النقل الفوري عند ضغط زر التسجيل
+  let isRegistering = false;
 
-  // التوجيه الذكي: فحص حالة تسجيل الدخول عند فتح الصفحة
   onAuthStateChanged(auth, (user) => {
-    // إذا كان مسجلاً للدخول ولم يكن في منتصف عملية إنشاء حساب جديدة، انقله للبروفايل
     if (user && !isRegistering) {
       window.location.href = "profile.html";
     }
   });
 
+  // ===== Password toggle =====
   function setupToggle(btnId, inputId, iconId) {
     document.getElementById(btnId).addEventListener('click', function() {
       var inp = document.getElementById(inputId);
-      var ico = document.getElementById(iconId);
-      if (inp.type === 'password') { inp.type = 'text'; ico.textContent = '👁'; } 
-      else { inp.type = 'password'; ico.textContent = '👁'; }
+      if (inp.type === 'password') { inp.type = 'text'; }
+      else { inp.type = 'password'; }
     });
   }
   setupToggle('togglePass', 'password', 'eyeIcon');
@@ -591,85 +876,168 @@ select.field-input {
     document.getElementById(errId).classList.remove('show');
   }
 
-  // --- معالجة الإرسال ---
+  // ===== "Other" university/department toggle =====
+  document.getElementById('university').addEventListener('change', function() {
+    const wrap = document.getElementById('otherUniversityWrap');
+    if (this.value === 'other') {
+      wrap.classList.add('show');
+      document.getElementById('otherUniversity').focus();
+    } else {
+      wrap.classList.remove('show');
+      document.getElementById('otherUniversity').value = '';
+      clearError('otherUniversity', 'err-other-university');
+    }
+  });
+
+  document.getElementById('department').addEventListener('change', function() {
+    const wrap = document.getElementById('otherDepartmentWrap');
+    if (this.value === 'other') {
+      wrap.classList.add('show');
+      document.getElementById('otherDepartment').focus();
+    } else {
+      wrap.classList.remove('show');
+      document.getElementById('otherDepartment').value = '';
+      clearError('otherDepartment', 'err-other-department');
+    }
+  });
+
+  // ===== Terms checkbox → enable/disable submit button =====
+  const termsCheck = document.getElementById('termsCheck');
+  const submitBtn  = document.getElementById('submitBtn');
+
+  termsCheck.addEventListener('change', function() {
+    if (this.checked) {
+      submitBtn.disabled = false;
+      submitBtn.classList.add('active');
+      document.getElementById('err-terms').classList.remove('show');
+    } else {
+      submitBtn.disabled = true;
+      submitBtn.classList.remove('active');
+    }
+  });
+
+  // ===== Terms Modal =====
+  const modal        = document.getElementById('termsModal');
+  const openTermsLink= document.getElementById('openTermsLink');
+  const closeModal   = document.getElementById('closeModal');
+  const acceptBtn    = document.getElementById('acceptTermsBtn');
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModalFn() {
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  openTermsLink.addEventListener('click', openModal);
+  closeModal.addEventListener('click', closeModalFn);
+
+  // Click accept in modal → close and tick checkbox
+  acceptBtn.addEventListener('click', function() {
+    termsCheck.checked = true;
+    termsCheck.dispatchEvent(new Event('change'));
+    closeModalFn();
+  });
+
+  // Click outside modal box to close
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModalFn();
+  });
+
+  // ESC key to close
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModalFn();
+  });
+
+  // ===== FORM SUBMIT =====
   document.getElementById('registerForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    
-    const name = document.getElementById('studentName').value.trim();
+
+    // If button still disabled (terms not accepted), show error and stop
+    if (!termsCheck.checked) {
+      document.getElementById('err-terms').classList.add('show');
+      return;
+    }
+
+    const name     = document.getElementById('studentName').value.trim();
     const username = document.getElementById('username').value.trim().toLowerCase();
-    const uni = document.getElementById('university').value;
-    const dep = document.getElementById('department').value;
-    const ph = document.getElementById('phone').value.replace(/\s/g,'');
-    const pass = document.getElementById('password').value;
-    const conf = document.getElementById('passwordConfirm').value;
+    const uniSel   = document.getElementById('university').value;
+    const depSel   = document.getElementById('department').value;
+    const ph       = document.getElementById('phone').value.replace(/\s/g,'');
+    const pass     = document.getElementById('password').value;
+    const conf     = document.getElementById('passwordConfirm').value;
 
-    // فحص اليوزر (حروف إنجليزية، أرقام، وشرطة سفلية فقط)
+    // Resolve "other" values
+    const uni = uniSel === 'other'
+      ? document.getElementById('otherUniversity').value.trim()
+      : uniSel;
+    const dep = depSel === 'other'
+      ? document.getElementById('otherDepartment').value.trim()
+      : depSel;
+
     const usernameRegex = /^[a-z0-9_]{3,30}$/;
-
     let isValid = true;
 
-    if (name.length < 4) { showError('studentName', 'err-name'); isValid = false; } else clearError('studentName', 'err-name');
-    if (!usernameRegex.test(username)) { showError('username', 'err-username'); isValid = false; } else clearError('username', 'err-username');
-    if (!uni) { showError('university', 'err-university'); isValid = false; } else clearError('university', 'err-university');
-    if (!dep) { showError('department', 'err-department'); isValid = false; } else clearError('department', 'err-department');
-    if (!/^07[0-9]{9}$/.test(ph)) { showError('phone', 'err-phone'); isValid = false; } else clearError('phone', 'err-phone');
-    if (pass.length < 6) { showError('password', 'err-password'); isValid = false; } else clearError('password', 'err-password');
-    if (pass !== conf || !conf) { showError('passwordConfirm', 'err-confirm'); isValid = false; } else clearError('passwordConfirm', 'err-confirm');
+    if (name.length < 4)              { showError('studentName','err-name');       isValid = false; } else clearError('studentName','err-name');
+    if (!usernameRegex.test(username)){ showError('username','err-username');       isValid = false; } else clearError('username','err-username');
+    if (!uniSel)                      { showError('university','err-university');   isValid = false; } else clearError('university','err-university');
+    if (uniSel === 'other' && !uni)   { showError('otherUniversity','err-other-university'); isValid = false; } else clearError('otherUniversity','err-other-university');
+    if (!depSel)                      { showError('department','err-department');   isValid = false; } else clearError('department','err-department');
+    if (depSel === 'other' && !dep)   { showError('otherDepartment','err-other-department'); isValid = false; } else clearError('otherDepartment','err-other-department');
+    if (!/^07[0-9]{9}$/.test(ph))    { showError('phone','err-phone');             isValid = false; } else clearError('phone','err-phone');
+    if (pass.length < 6)             { showError('password','err-password');        isValid = false; } else clearError('password','err-password');
+    if (pass !== conf || !conf)       { showError('passwordConfirm','err-confirm'); isValid = false; } else clearError('passwordConfirm','err-confirm');
 
     if (!isValid) return;
 
     const btn = this.querySelector('.btn-submit');
     btn.innerHTML = '<span>⏳</span><span>جارٍ إنشاء الحساب...</span>';
     btn.disabled = true;
-    
-    // إخبار السيرفر أننا نقوم بإنشاء حساب الآن لكي لا يطردنا من الصفحة فجأة
-    isRegistering = true; 
+    isRegistering = true;
 
     try {
-      // 1. فحص هل اليوزر موجود مسبقاً في قاعدة البيانات؟
-      const userDocRef = doc(db, "students", username);
+      const userDocRef  = doc(db, "students", username);
       const userDocSnap = await getDoc(userDocRef);
-      
+
       if (userDocSnap.exists()) {
-        showError('username', 'err-username');
+        showError('username','err-username');
         document.getElementById('err-username').textContent = 'اسم المستخدم هذا محجوز، الرجاء اختيار اسم آخر.';
         throw new Error("USERNAME_TAKEN");
       }
 
-      // 2. إنشاء حساب التوثيق
-      const virtualEmail = ph + "@esc.local";
+      const virtualEmail   = ph + "@esc.local";
       const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, pass);
-      const user = userCredential.user;
+      const user           = userCredential.user;
 
-      // 3. حفظ بيانات الطالب باسم اليوزر كمعرف للملف (Document ID)
       await setDoc(doc(db, "students", username), {
-        uid: user.uid,
-        username: username,
-        fullName: name,
-        university: uni,
-        department: dep,
+        uid:         user.uid,
+        username:    username,
+        fullName:    name,
+        university:  uni,
+        department:  dep,
         phoneNumber: ph,
-        createdAt: new Date().toISOString(),
-        role: "student" 
+        createdAt:   new Date().toISOString(),
+        role:        "student"
       });
 
-      // 4. النجاح
       document.getElementById('successMsg').classList.add('show');
       btn.innerHTML = '<span>✔️</span><span>تم بنجاح</span>';
-      
-      // توجيه الطالب مباشرة إلى بروفايله بدلاً من تسجيل الدخول (لأن إنشاء الحساب يسجل دخوله تلقائياً)
       setTimeout(() => { window.location.href = "profile.html"; }, 2000);
 
     } catch (error) {
       console.error("Firebase Error:", error);
-      btn.disabled = false;
+      btn.disabled  = false;
+      btn.classList.add('active');
       btn.innerHTML = '<span></span><span>إنشاء حساب</span>';
-      isRegistering = false; // إعادة المتغير لحالته الطبيعية عند حدوث خطأ
-      
+      isRegistering = false;
+
       if (error.message === "USERNAME_TAKEN") {
-         // تم معالجة الرسالة في الأعلى
+        // already handled above
       } else if (error.code === 'auth/email-already-in-use') {
-        showError('phone', 'err-phone');
+        showError('phone','err-phone');
         document.getElementById('err-phone').textContent = 'هذا الرقم مسجل مسبقاً في المجتمع.';
       } else {
         alert("حدث خطأ: " + error.message);
