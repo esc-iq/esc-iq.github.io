@@ -12,4 +12,14 @@
     "description2": " مؤسس مجتمع طلبة الهندسة (ESC) ",
     "tags": ["المؤسس", "🔬 باحث"]
   }
+  {
+    "member_username": ["fatimah_49"], 
+    "cvfile": "cv/cv02.pdf",
+    "amemeber": "yes",
+    "verf": "media/verification.png",
+    "memeberrank": "عضو مجتمع طلبة الهندسة",
+    "description1": "جامعة الزهراء للبنات — قسم الهندسة المعمارية",
+    "description2": " عضو مجتمع طلبة الهندسة (ESC) ",
+    "tags": ["عضو في المجتمع"]
+  }
 ]
