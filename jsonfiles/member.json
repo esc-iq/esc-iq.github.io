@@ -12,6 +12,17 @@
     "description2": " مؤسس مجتمع طلبة الهندسة (ESC) ",
     "tags": ["المؤسس", "🔬 باحث"]
   },
+    {
+    "member_username": ["eng_jafer"], 
+    "cvfile": "cv/cv03.pdf",
+    "amemeber": "yes",
+    "unitag": "media/uok.PNG",
+     "verf": "media/verification.png",
+    "memeberrank": "مهندس مجتمع طلبة الهندسة",
+    "description1": " جامعة كربلاء — قسم الهندسة المدنية",
+    "description2": " المهندس الفاعل في مجتمع طلبة الهندسة (ESC) ",
+    "tags": ["🔬 باحث"]
+  },
   {
     "member_username": ["fatimah_49"], 
     "cvfile": "cv/cv02.pdf",
