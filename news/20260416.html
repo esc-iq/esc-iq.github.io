@@ -496,7 +496,7 @@ footer {
     <a role="menuitem" href="../research.html">الأبحاث</a>
     <a role="menuitem" href="../uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
-      <a role="menuitem" id="authBtnMobile" href="login.html"> تسجيل الدخول</a>
+      <a role="menuitem" id="authBtnMobile" href="../login.html"> تسجيل الدخول</a>
     </div>
   </div>
 </header>
@@ -697,10 +697,10 @@ document.addEventListener('click', e => {
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     btn.className = 'state-guest';
-    btn.href      = 'login.html';
+    btn.href      = '../login.html';
     btn.innerHTML = ' تسجيل الدخول';
     if (btnMobile) {
-      btnMobile.href      = 'login.html';
+      btnMobile.href      = '../login.html';
       btnMobile.innerHTML = ' تسجيل الدخول';
     }
     return;
@@ -710,7 +710,7 @@ onAuthStateChanged(auth, async (user) => {
     const snap = await getDocs(q);
     if (snap.empty) {
       btn.className = 'state-guest';
-      btn.href      = 'login.html';
+      btn.href      = '../login.html';
       btn.innerHTML = ' تسجيل الدخول';
       return;
     }
@@ -732,7 +732,7 @@ onAuthStateChanged(auth, async (user) => {
     }
   } catch (e) {
     btn.className = 'state-guest';
-    btn.href      = 'login.html';
+    btn.href      = '../login.html';
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
