@@ -456,7 +456,7 @@ footer {
       <img src="../media/icon-512-w.png" alt="ESC"
            style="height:38px;width:auto;display:block;">
     </a>
-    <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+    <a id="authBtn" class="state-loading" href="../../login.html">⏳</a>
     <div class="nav-search-wrap" id="navSearchWrap">
   <input type="search" class="nav-search-input" id="navSearchInput"
          placeholder="البحث عن مستخدم..." autocomplete="off">
@@ -472,10 +472,10 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
-    <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
-    <a href="research.html">الأبحاث</a>
+    <a href="../faq.html">الأسئلة الشائعة</a>
+    <a href="../course.html">الدورات</a>
+    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="../research.html">الأبحاث</a>
     <a href="../uploads.html">الملفات المرفوعة</a>
   </nav>
 
@@ -485,13 +485,13 @@ footer {
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
-    <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
-    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="../course.html">الدورات</a>
+    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="../research.html">الأبحاث</a>
     <a role="menuitem" href="../uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
-      <a role="menuitem" id="authBtnMobile" href="login.html"> تسجيل الدخول</a>
+      <a role="menuitem" id="authBtnMobile" href="../../login.html"> تسجيل الدخول</a>
     </div>
   </div>
 </header>
@@ -693,10 +693,10 @@ document.addEventListener('click', e => {
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     btn.className = 'state-guest';
-    btn.href      = 'login.html';
+    btn.href      = '../../login.html';
     btn.innerHTML = ' تسجيل الدخول';
     if (btnMobile) {
-      btnMobile.href      = 'login.html';
+      btnMobile.href      = '../../login.html';
       btnMobile.innerHTML = ' تسجيل الدخول';
     }
     return;
@@ -706,7 +706,7 @@ onAuthStateChanged(auth, async (user) => {
     const snap = await getDocs(q);
     if (snap.empty) {
       btn.className = 'state-guest';
-      btn.href      = 'login.html';
+      btn.href      = '../../login.html';
       btn.innerHTML = ' تسجيل الدخول';
       return;
     }
@@ -728,7 +728,7 @@ onAuthStateChanged(auth, async (user) => {
     }
   } catch (e) {
     btn.className = 'state-guest';
-    btn.href      = 'login.html';
+    btn.href      = '../../login.html';
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
