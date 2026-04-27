@@ -7,9 +7,7 @@
 <meta name="description" content="مجتمع طلبة الهندسة بُني لغرض واحد, ألا يضيع شغف المهندسين المتحمسين وجهودهم من خلال تقدير وتثمين أبحاثهم وتوفير بيئة تعليمية مستمرة خارج الصرح الأكاديمي.">
 <link rel="canonical" href="https://esc-iq.net/login.html">
 <link rel="icon" href="media/favicon.png" type="image/png" sizes="32x32">
-<link rel="icon" href="media/icon-512.png" type="image/png" sizes="512x512">
-<link rel="apple-touch-icon" href="media/icon-512.png">
-
+<link rel="apple-touch-icon" href="media/icon-512-w.png">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -17,15 +15,12 @@
   --blue: #0047AB;
   --teal: #008080;
   --cream: #FAF9F6;
-  --dark: #0a0a0f;
   --error: #dc2626;
   --success: #188038;
   --card-radius: 18px;
   --transition: 0.3s ease;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body {
   font-family: 'Ubuntu', sans-serif;
   background: var(--cream);
@@ -38,144 +33,202 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== ANIMATED BACKGROUND ===== */
-.bg-decor {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.bg-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.13;
-  animation: blobFloat 12s ease-in-out infinite alternate;
-}
-.bg-blob-1 { width: 500px; height: 500px; background: var(--blue); top: -120px; right: -100px; animation-delay: 0s; }
-.bg-blob-2 { width: 380px; height: 380px; background: var(--teal); bottom: -80px; left: -60px; animation-delay: -5s; }
-.bg-blob-3 { width: 260px; height: 260px; background: #3a0060; top: 40%; left: 10%; animation-delay: -3s; }
-@keyframes blobFloat {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(30px, 20px) scale(1.05); }
-}
+/* ===== BG ===== */
+.bg-decor { position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden; }
+.bg-blob { position:absolute;border-radius:50%;filter:blur(80px);opacity:0.13;animation:blobFloat 12s ease-in-out infinite alternate; }
+.bg-blob-1 { width:500px;height:500px;background:var(--blue);top:-120px;right:-100px;animation-delay:0s; }
+.bg-blob-2 { width:380px;height:380px;background:var(--teal);bottom:-80px;left:-60px;animation-delay:-5s; }
+.bg-blob-3 { width:260px;height:260px;background:#3a0060;top:40%;left:10%;animation-delay:-3s; }
+@keyframes blobFloat { 0%{transform:translate(0,0) scale(1)}100%{transform:translate(30px,20px) scale(1.05)} }
 
-/* ===== NAVBAR ===== */
+/* ===== NAV ===== */
 .nav {
-  position: relative; z-index: 10;
-  height: 58px;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 28px;
-  background: var(--blue);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
-  direction: ltr;
+  position:relative;z-index:10;height:58px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 28px;background:var(--blue);
+  box-shadow:0 2px 20px rgba(0,0,0,0.25);direction:ltr;
 }
-.nav-logo img { height: 36px; width: auto; display: block; }
-.nav-title { font-size: 15px; font-weight: 700; color: rgba(255,255,255,0.85); direction: rtl; }
+.nav-title { font-size:15px;font-weight:700;color:rgba(255,255,255,0.85);direction:rtl; }
 
-/* ===== MAIN LAYOUT ===== */
+/* ===== PAGE ===== */
 .page-wrap {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  position: relative; z-index: 1;
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:40px 20px;position:relative;z-index:1;
 }
 
 /* ===== CARD ===== */
 .login-card {
-  width: 100%;
-  max-width: 420px;
-  background: #fff;
-  border-radius: var(--card-radius);
-  box-shadow: 0 8px 40px rgba(0,71,171,0.13), 0 2px 10px rgba(0,0,0,0.06);
-  overflow: hidden;
-  animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  width:100%;max-width:440px;background:#fff;
+  border-radius:var(--card-radius);
+  box-shadow:0 8px 40px rgba(0,71,171,0.13),0 2px 10px rgba(0,0,0,0.06);
+  overflow:hidden;
+  animation:cardIn 0.55s cubic-bezier(0.22,1,0.36,1) both;
 }
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(28px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
+@keyframes cardIn { from{opacity:0;transform:translateY(28px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)} }
 
-/* ===== CARD HEADER ===== */
+/* ===== HEADER ===== */
 .card-header {
-  background: linear-gradient(135deg, var(--blue) 0%, #005fa3 60%, var(--teal) 100%);
-  padding: 32px 32px 28px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
+  background:linear-gradient(135deg,var(--blue) 0%,#005fa3 60%,var(--teal) 100%);
+  padding:32px 32px 28px;text-align:center;position:relative;overflow:hidden;
 }
-.card-header::before {
-  content: ''; position: absolute; top: -60px; left: -60px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.06);
-}
-.card-header::after {
-  content: ''; position: absolute; bottom: -40px; right: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(0,128,128,0.15);
-}
-.header-logo-fallback {
-  margin: 0 auto 14px; object-fit: 300%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;
-}
-.card-header h1 { font-size: 20px; font-weight: 700; color: #fff; position: relative; z-index: 1; margin-bottom: 6px; }
-.card-header p { font-size: 13px; color: rgba(255,255,255,0.78); position: relative; z-index: 1; }
+.card-header::before { content:'';position:absolute;top:-60px;left:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06); }
+.card-header::after  { content:'';position:absolute;bottom:-40px;right:-30px;width:150px;height:150px;border-radius:50%;background:rgba(0,128,128,0.15); }
+.card-header img { display:block;position:relative;z-index:1;margin:0 auto 14px; }
+.card-header h1 { font-size:20px;font-weight:700;color:#fff;position:relative;z-index:1;margin-bottom:6px; }
+.card-header p  { font-size:13px;color:rgba(255,255,255,0.78);position:relative;z-index:1; }
 
-/* ===== FORM BODY ===== */
-.card-body { padding: 28px 32px 32px; }
-.field-group { margin-bottom: 18px; }
-.field-label { display: block; font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 7px; }
-.field-wrap { position: relative; }
-.field-icon { position: absolute; top: 50%; right: 14px; transform: translateY(-50%); font-size: 16px; pointer-events: none; color: #9ca3af; transition: color var(--transition); }
+/* ===== BODY ===== */
+.card-body { padding:28px 32px 32px; }
+.field-group { margin-bottom:18px; }
+.field-label { display:block;font-size:13px;font-weight:700;color:#374151;margin-bottom:7px; }
+.field-wrap { position:relative; }
+.field-icon { position:absolute;top:50%;right:14px;transform:translateY(-50%);font-size:16px;pointer-events:none;color:#9ca3af;transition:color var(--transition); }
+
 .field-input {
-  width: 100%; padding: 12px 44px 12px 16px; font-family: 'Ubuntu', sans-serif; font-size: 14px; color: #111;
-  background: #f9fafb; border: 1.5px solid #e5e7eb; border-radius: 10px; outline: none; transition: all var(--transition);
-  direction: rtl; text-align: right;
+  width:100%;padding:12px 44px 12px 16px;
+  font-family:'Ubuntu',sans-serif;font-size:14px;color:#111;
+  background:#f9fafb;border:1.5px solid #e5e7eb;border-radius:10px;outline:none;
+  transition:all var(--transition);direction:rtl;text-align:right;
 }
-.field-input::placeholder { color: #b0b7c3; }
-.field-input:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(0,71,171,0.10); }
-.field-input:focus + .field-icon { color: var(--blue); }
+.field-input::placeholder { color:#b0b7c3; }
+.field-input:focus { border-color:var(--blue);background:#fff;box-shadow:0 0 0 3px rgba(0,71,171,0.10); }
+.field-input:focus + .field-icon { color:var(--blue); }
+.field-input.error { border-color:var(--error); }
+.field-error { display:none;font-size:11px;font-weight:700;color:var(--error);margin-top:5px;padding-right:4px; }
+.field-error.show { display:block; }
 
+select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padding-left:40px; }
+.select-arrow { position:absolute;top:50%;left:14px;transform:translateY(-50%);pointer-events:none;color:#9ca3af;font-size:12px; }
+
+/* ===== TWO COL ===== */
+.two-col-row { display:flex;gap:10px; }
+.two-col-row .field-group { flex:1;margin-bottom:0; }
+
+/* ===== LOGIN METHOD TABS ===== */
+.method-tabs {
+  display:flex;gap:0;border:1.5px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:20px;
+}
+.method-tab {
+  flex:1;padding:10px 6px;text-align:center;
+  font-family:'Ubuntu',sans-serif;font-size:13px;font-weight:700;
+  color:#6b7280;background:#f9fafb;border:none;cursor:pointer;
+  transition:all var(--transition);display:flex;align-items:center;justify-content:center;gap:6px;
+}
+.method-tab:first-child { border-left:none; }
+.method-tab.active {
+  background:linear-gradient(135deg,var(--blue),#005fa3);
+  color:#fff;
+}
+.method-tab:not(.active):hover { background:#f0f4ff;color:var(--blue); }
+
+/* phone tab hidden when non-Iraq */
+.method-tab.hidden-tab { display:none; }
+
+/* ===== PASS TOGGLE ===== */
 .pass-toggle {
-  position: absolute; top: 50%; left: 14px; transform: translateY(-50%); background: none; border: none;
-  cursor: pointer; padding: 4px; color: #9ca3af; font-size: 16px; transition: color var(--transition);
+  position:absolute;top:50%;left:14px;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;padding:4px;
+  color:#9ca3af;font-size:16px;transition:color var(--transition);
 }
-.pass-toggle:hover { color: var(--blue); }
+.pass-toggle:hover { color:var(--blue); }
 
-.field-input.error { border-color: var(--error); }
-.field-error { display: none; font-size: 11px; font-weight: 700; color: var(--error); margin-top: 5px; padding-right: 4px; }
-.field-error.show { display: block; }
+/* ===== FORGOT PASSWORD SECTION ===== */
+.forgot-link {
+  display:block;text-align:center;margin-top:6px;margin-bottom:2px;
+  font-size:12.5px;font-weight:700;color:#9ca3af;cursor:pointer;
+  transition:color var(--transition);text-decoration:none;
+}
+.forgot-link:hover { color:var(--blue); }
 
-/* ===== SUBMIT BUTTON ===== */
+.forgot-box {
+  display:none;margin-top:14px;
+  padding:16px;
+  background:linear-gradient(90deg,rgba(0,71,171,0.05),rgba(0,128,128,0.05));
+  border:1px solid rgba(0,71,171,0.15);border-radius:12px;
+  animation:fadeSlideIn 0.25s ease both;
+}
+.forgot-box.show { display:block; }
+@keyframes fadeSlideIn { from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)} }
+.forgot-box p { font-size:13px;color:#555;margin-bottom:12px;line-height:1.7; }
+.forgot-tabs { display:flex;gap:8px;margin-bottom:12px; }
+.forgot-tab {
+  flex:1;padding:9px 6px;font-family:'Ubuntu',sans-serif;font-size:12.5px;font-weight:700;
+  border:1.5px solid #e5e7eb;border-radius:8px;background:#f9fafb;color:#6b7280;cursor:pointer;
+  transition:all var(--transition);
+}
+.forgot-tab.active { background:var(--blue);border-color:var(--blue);color:#fff; }
+.btn-send-reset {
+  width:100%;padding:11px;
+  background:linear-gradient(90deg,var(--blue),#005fa3);color:#fff;
+  font-family:'Ubuntu',sans-serif;font-size:13px;font-weight:700;
+  border:none;border-radius:8px;cursor:pointer;transition:all var(--transition);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.btn-send-reset:hover { transform:translateY(-1px);box-shadow:0 5px 16px rgba(0,71,171,0.3); }
+.reset-note { font-size:11px;color:#aaa;margin-top:8px;text-align:center; }
+
+/* ===== SUBMIT ===== */
 .btn-submit {
-  width: 100%; padding: 14px; background: linear-gradient(90deg, var(--blue), #005fa3); color: #fff;
-  font-family: 'Ubuntu', sans-serif; font-size: 15px; font-weight: 700; border: none; border-radius: 10px;
-  cursor: pointer; transition: all var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px;
-  position: relative; overflow: hidden; margin-top: 10px;
+  width:100%;padding:14px;
+  background:linear-gradient(90deg,var(--blue),#005fa3);color:#fff;
+  font-family:'Ubuntu',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:10px;cursor:pointer;
+  transition:all var(--transition);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  position:relative;overflow:hidden;margin-top:10px;
 }
-.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,71,171,0.35); }
-.btn-submit:active { transform: translateY(0); }
-
-/* ===== SUPPORT LINK ===== */
-.support-link {
-  display: block; text-align: center; margin-top: 18px; font-size: 13px; font-weight: 700; color: #555; text-decoration: none; transition: color var(--transition);
+.btn-submit::after {
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
+  transform:translateX(-100%);transition:transform 0.5s ease;
 }
-.support-link:hover { color: var(--blue); text-decoration: underline; }
+.btn-submit:hover::after { transform:translateX(100%); }
+.btn-submit:hover { transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,71,171,0.35); }
+.btn-submit:active { transform:translateY(0); }
 
 /* ===== REGISTER STRIP ===== */
 .register-strip {
-  margin-top: 24px; padding: 14px 16px; background: linear-gradient(90deg, rgba(0,71,171,0.05), rgba(0,128,128,0.05));
-  border: 1px solid rgba(0,71,171,0.12); border-radius: 10px; text-align: center; font-size: 13px; color: #555; line-height: 1.7;
+  margin-top:24px;padding:14px 16px;
+  background:linear-gradient(90deg,rgba(0,71,171,0.05),rgba(0,128,128,0.05));
+  border:1px solid rgba(0,71,171,0.12);border-radius:10px;
+  text-align:center;font-size:13px;color:#555;line-height:1.7;
 }
-.register-strip a { color: var(--blue); font-weight: 700; text-decoration: none; border-bottom: 1.5px solid rgba(0,71,171,0.3); padding-bottom: 1px; }
-.register-strip a:hover { color: #003a8c; border-color: #003a8c; }
+.register-strip a {
+  color:var(--blue);font-weight:700;text-decoration:none;
+  border-bottom:1.5px solid rgba(0,71,171,0.3);padding-bottom:1px;
+}
+.register-strip a:hover { color:#003a8c; }
 
-.success-msg { display: none; margin-top: 16px; padding: 12px 16px; background: #e6f7ee; border: 1px solid rgba(24,128,56,0.25); border-radius: 10px; font-size: 13px; font-weight: 700; color: var(--success); text-align: center; }
-.success-msg.show { display: block; }
+.success-msg {
+  display:none;margin-top:16px;padding:12px 16px;
+  background:#e6f7ee;border:1px solid rgba(24,128,56,0.25);border-radius:10px;
+  font-size:13px;font-weight:700;color:var(--success);text-align:center;
+}
+.success-msg.show { display:block; }
 
-.page-footer { text-align: center; font-size: 12px; color: #aaa; padding: 18px; position: relative; z-index: 1; }
+/* ===== INFO BADGE (non-Iraq phone notice) ===== */
+.info-badge {
+  display:none;padding:10px 14px;margin-bottom:16px;
+  background:linear-gradient(90deg,rgba(0,71,171,0.06),rgba(0,128,128,0.06));
+  border:1px solid rgba(0,71,171,0.15);border-radius:10px;
+  font-size:12.5px;color:#374151;line-height:1.7;
+}
+.info-badge.show { display:block;animation:fadeSlideIn 0.25s ease both; }
 
-@media (max-width: 520px) {
-  .card-body { padding: 22px 20px 26px; }
-  .card-header { padding: 26px 20px 22px; }
+/* ===== LOCATION STEP ===== */
+.location-step {
+  padding:20px 0 4px;
+}
+.location-step label.field-label { margin-bottom:10px; }
+.step-note { font-size:12px;color:#9ca3af;margin-top:10px;margin-bottom:2px;text-align:center; }
+
+.page-footer { text-align:center;font-size:12px;color:#aaa;padding:18px;position:relative;z-index:1; }
+
+@media (max-width:520px) {
+  .card-body { padding:22px 20px 26px; }
+  .card-header { padding:26px 20px 22px; }
+  .nav { padding:0 16px; }
+  .two-col-row { flex-direction:column; }
 }
 </style>
 </head>
@@ -189,7 +242,7 @@ body {
 
 <nav class="nav">
   <a href="index.html" aria-label="الرئيسية">
-    <img src="media/icon-512.png" alt="ESC" class="nav-logo" style="height:36px;width:auto;display:block;" onerror="this.style.display='none'">
+    <img src="media/icon-512-w.png" alt="ESC" style="height:36px;width:auto;display:block;" onerror="this.style.display='none'">
   </a>
   <span class="nav-title">مجتمع طلبة الهندسة</span>
 </nav>
@@ -198,51 +251,157 @@ body {
   <div class="login-card">
 
     <div class="card-header">
-      <img src="media/whiteone.png" alt="ESC" class="header-logo-fallback" style="height:90px;width:90px;display:block;" onerror="this.style.display='none';">
+      <img src="media/whiteone.png" alt="ESC" style="height:100px;width:100px;" onerror="this.style.display='none'">
       <h1>تسجيل الدخول</h1>
       <p>مرحباً بعودتك إلى مجتمع طلبة الهندسة</p>
     </div>
 
     <div class="card-body">
-      <form id="loginForm" novalidate>
 
-        <div class="field-group">
-          <label class="field-label" for="phone">رقم الهاتف</label>
-          <div class="field-wrap">
-            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="13" style="direction:ltr; text-align:right;">
-            <span class="field-icon">☎</span>
+      <!-- ===== STEP 1: LOCATION ===== -->
+      <div id="locationStep" class="location-step">
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">📍 أين تدرس حالياً؟</label>
+          <div class="two-col-row">
+            <div class="field-group">
+              <div class="field-wrap">
+                <select id="lContinent" class="field-input" onchange="loadLoginCountries()">
+                  <option value="" disabled selected>— القارة —</option>
+                  <option value="asia">آسيا</option>
+                  <option value="africa">أفريقيا</option>
+                  <option value="europe">أوروبا</option>
+                  <option value="north_america">أمريكا الشمالية</option>
+                  <option value="south_america">أمريكا الجنوبية</option>
+                  <option value="oceania">أوقيانوسيا</option>
+                </select>
+                <span class="field-icon">🌍</span>
+                <span class="select-arrow">▾</span>
+              </div>
+              <div class="field-error" id="err-lcontinent">اختر القارة</div>
+            </div>
+            <div class="field-group">
+              <div class="field-wrap">
+                <select id="lCountry" class="field-input" disabled onchange="onCountryChange()">
+                  <option value="" disabled selected>— الدولة —</option>
+                </select>
+                <span class="field-icon">🏳️</span>
+                <span class="select-arrow">▾</span>
+              </div>
+              <div class="field-error" id="err-lcountry">اختر الدولة</div>
+            </div>
           </div>
-          <div class="field-error" id="err-phone">الرجاء إدخال رقم هاتف صحيح</div>
+        </div>
+        <p class="step-note">يُستخدم هذا لتحديد خيارات تسجيل الدخول المتاحة لك</p>
+      </div>
+
+      <form id="loginForm" novalidate style="margin-top:20px;">
+
+        <!-- ===== NON-IRAQ NOTICE ===== -->
+        <div class="info-badge" id="nonIraqBadge">
+          ℹ️ تسجيل الدخول عبر رقم الهاتف متاح حصريًا للمستخدمين داخل العراق.
+          يُرجى تسجيل الدخول باستخدام بريدك الإلكتروني.
         </div>
 
+        <!-- ===== METHOD TABS ===== -->
+        <div class="method-tabs" id="methodTabs">
+          <button type="button" class="method-tab active" id="tabEmail" onclick="switchMethod('email')">
+            ✉️ البريد الإلكتروني
+          </button>
+          <button type="button" class="method-tab" id="tabPhone" onclick="switchMethod('phone')">
+            ☎ رقم الهاتف
+          </button>
+        </div>
+
+        <!-- ===== EMAIL FIELD ===== -->
+        <div class="field-group" id="emailGroup">
+          <label class="field-label" for="email">البريد الإلكتروني</label>
+          <div class="field-wrap">
+            <input type="email" id="email" class="field-input" placeholder="example@gmail.com"
+                   autocomplete="email" style="direction:ltr;text-align:right;">
+            <span class="field-icon">✉️</span>
+          </div>
+          <div class="field-error" id="err-email">الرجاء إدخال بريد إلكتروني صحيح</div>
+        </div>
+
+        <!-- ===== PHONE FIELD ===== -->
+        <div class="field-group" id="phoneGroup" style="display:none;">
+          <label class="field-label" for="phone">رقم الهاتف</label>
+          <div class="field-wrap">
+            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx"
+                   autocomplete="tel" maxlength="13" style="direction:ltr;text-align:right;">
+            <span class="field-icon">☎</span>
+          </div>
+          <div class="field-error" id="err-phone">الرجاء إدخال رقم هاتف صحيح (07xxxxxxxxx)</div>
+        </div>
+
+        <!-- ===== PASSWORD ===== -->
         <div class="field-group">
           <label class="field-label" for="password">كلمة المرور</label>
           <div class="field-wrap">
-            <input type="password" id="password" class="field-input" placeholder="أدخل كلمة المرور الخاصة بك" autocomplete="current-password">
+            <input type="password" id="password" class="field-input"
+                   placeholder="أدخل كلمة المرور الخاصة بك" autocomplete="current-password">
             <span class="field-icon">⚿</span>
-            <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء كلمة المرور">
+            <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء">
               <span id="eyeIcon">👁</span>
             </button>
           </div>
           <div class="field-error" id="err-password">الرجاء إدخال كلمة المرور</div>
         </div>
 
-        <button type="submit" class="btn-submit">
+        <!-- ===== FORGOT LINK ===== -->
+        <a class="forgot-link" id="forgotToggle" onclick="toggleForgot()">نسيت كلمة المرور؟</a>
+
+        <!-- ===== FORGOT BOX ===== -->
+        <div class="forgot-box" id="forgotBox">
+          <p>أدخل البريد الإلكتروني أو رقم الهاتف المرتبط بحسابك وسنرسل لك رابط إعادة التعيين.</p>
+          <div class="forgot-tabs">
+            <button type="button" class="forgot-tab active" id="ftabEmail" onclick="switchForgot('email')">✉️ البريد الإلكتروني</button>
+            <button type="button" class="forgot-tab" id="ftabPhone" onclick="switchForgot('phone')">☎ رقم الهاتف</button>
+          </div>
+
+          <!-- forgot email -->
+          <div id="forgotEmailWrap">
+            <div class="field-wrap" style="margin-bottom:10px;">
+              <input type="email" id="forgotEmail" class="field-input"
+                     placeholder="example@gmail.com" style="direction:ltr;text-align:right;">
+              <span class="field-icon">✉️</span>
+            </div>
+            <div class="field-error" id="err-forgot-email">أدخل بريدًا إلكترونيًا صحيحًا</div>
+          </div>
+
+          <!-- forgot phone (hidden for non-Iraq) -->
+          <div id="forgotPhoneWrap" style="display:none;">
+            <div class="field-wrap" style="margin-bottom:10px;">
+              <input type="tel" id="forgotPhone" class="field-input"
+                     placeholder="07xxxxxxxxx" maxlength="13" style="direction:ltr;text-align:right;">
+              <span class="field-icon">☎</span>
+            </div>
+            <div class="field-error" id="err-forgot-phone">أدخل رقم هاتف صحيح</div>
+            <p style="font-size:11.5px;color:#6b7280;margin-bottom:8px;line-height:1.7;">
+              سيتم إرسال طلب إعادة تعيين كلمة المرور إلى فريق الدعم عبر البريد الإلكتروني مع رقمك.
+            </p>
+          </div>
+
+          <button type="button" class="btn-send-reset" id="resetBtn" onclick="sendReset()">
+            <span>📨</span><span>إرسال رابط الاستعادة</span>
+          </button>
+          <p class="reset-note" id="resetNote"></p>
+        </div>
+
+        <!-- ===== SUBMIT ===== -->
+        <button type="submit" class="btn-submit" id="submitBtn">
           <span></span>
           <span>تسجيل الدخول</span>
         </button>
 
-        <a href="#" id="supportBtn" class="support-link">نسيت كلمة المرور؟ إتصل بالدعم</a>
-
         <div class="success-msg" id="successMsg">
-          تم تسجيل الدخول بنجاح! جاري تحويلك...
+          ✅ تم تسجيل الدخول بنجاح! جاري تحويلك...
         </div>
 
       </form>
 
       <div class="register-strip">
-        لا تملك حساباً في المجتمع؟
-        <br>
+        لا تملك حساباً في المجتمع؟<br>
         <a href="register.html">قم بإنشاء حساب جديد ←</a>
       </div>
     </div>
@@ -254,12 +413,133 @@ body {
   © 2026 Engineering Student Community — ESC — جميع الحقوق محفوظة
 </footer>
 
-<script type="module">
-  // 1. استدعاء مكتبات فايربيس الخاصة بتسجيل الدخول وإضافة onAuthStateChanged
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+<script>
+/* ===== COUNTRIES DATA ===== */
+const countriesByContinent = {
+  asia: [
+    {v:"iraq",l:"العراق"},{v:"saudi",l:"المملكة العربية السعودية"},{v:"uae",l:"الإمارات العربية المتحدة"},
+    {v:"jordan",l:"الأردن"},{v:"syria",l:"سوريا"},{v:"lebanon",l:"لبنان"},{v:"egypt",l:"مصر"},
+    {v:"yemen",l:"اليمن"},{v:"oman",l:"سلطنة عُمان"},{v:"qatar",l:"قطر"},{v:"bahrain",l:"البحرين"},
+    {v:"palestine",l:"جمهورية فلسطين"},{v:"turkey",l:"تركيا"},{v:"iran",l:"إيران"},
+    {v:"pakistan",l:"باكستان"},{v:"india",l:"الهند"},{v:"bangladesh",l:"بنغلاديش"},
+    {v:"indonesia",l:"إندونيسيا"},{v:"malaysia",l:"ماليزيا"},{v:"china",l:"الصين"},
+    {v:"japan",l:"اليابان"},{v:"southkorea",l:"كوريا الجنوبية"},{v:"afghanistan",l:"أفغانستان"},
+    {v:"kazakhstan",l:"كازاخستان"},{v:"uzbekistan",l:"أوزبكستان"},{v:"azerbaijan",l:"أذربيجان"},
+    {v:"armenia",l:"أرمينيا"},{v:"georgia",l:"جورجيا"},{v:"singapore",l:"سنغافورة"},
+    {v:"thailand",l:"تايلاند"},{v:"vietnam",l:"فيتنام"},{v:"philippines",l:"الفلبين"},
+    {v:"myanmar",l:"ميانمار"},{v:"cambodia",l:"كمبوديا"},{v:"nepal",l:"نيبال"},{v:"srilanka",l:"سريلانكا"}
+  ],
+  africa: [
+    {v:"morocco",l:"المغرب"},{v:"algeria",l:"الجزائر"},{v:"tunisia",l:"تونس"},{v:"libya",l:"ليبيا"},
+    {v:"sudan",l:"السودان"},{v:"ethiopia",l:"إثيوبيا"},{v:"nigeria",l:"نيجيريا"},
+    {v:"southafrica",l:"جنوب أفريقيا"},{v:"kenya",l:"كينيا"},{v:"ghana",l:"غانا"},
+    {v:"cameroon",l:"الكاميرون"},{v:"tanzania",l:"تنزانيا"},{v:"senegal",l:"السنغال"},
+    {v:"uganda",l:"أوغندا"},{v:"mozambique",l:"موزمبيق"},{v:"zambia",l:"زامبيا"},
+    {v:"somalia",l:"الصومال"},{v:"mauritania",l:"موريتانيا"},{v:"mali",l:"مالي"},{v:"niger",l:"النيجر"}
+  ],
+  europe: [
+    {v:"uk",l:"المملكة المتحدة"},{v:"germany",l:"ألمانيا"},{v:"france",l:"فرنسا"},
+    {v:"netherlands",l:"هولندا"},{v:"sweden",l:"السويد"},{v:"norway",l:"النرويج"},
+    {v:"denmark",l:"الدنمارك"},{v:"finland",l:"فنلندا"},{v:"switzerland",l:"سويسرا"},
+    {v:"austria",l:"النمسا"},{v:"belgium",l:"بلجيكا"},{v:"spain",l:"إسبانيا"},
+    {v:"italy",l:"إيطاليا"},{v:"portugal",l:"البرتغال"},{v:"poland",l:"بولندا"},
+    {v:"czechia",l:"التشيك"},{v:"hungary",l:"المجر"},{v:"romania",l:"رومانيا"},
+    {v:"greece",l:"اليونان"},{v:"ukraine",l:"أوكرانيا"},{v:"russia",l:"روسيا"},
+    {v:"serbia",l:"صربيا"},{v:"croatia",l:"كرواتيا"},{v:"slovakia",l:"سلوفاكيا"},
+    {v:"bulgaria",l:"بلغاريا"},{v:"albania",l:"ألبانيا"}
+  ],
+  north_america: [
+    {v:"usa",l:"الولايات المتحدة الأمريكية"},{v:"canada",l:"كندا"},{v:"mexico",l:"المكسيك"},
+    {v:"cuba",l:"كوبا"},{v:"jamaica",l:"جامايكا"},{v:"dominicanrep",l:"جمهورية الدومينيكان"},
+    {v:"costarica",l:"كوستاريكا"},{v:"panama",l:"بنما"},{v:"guatemala",l:"غواتيمالا"},
+    {v:"honduras",l:"هندوراس"},{v:"elsalvador",l:"السلفادور"},{v:"nicaragua",l:"نيكاراغوا"}
+  ],
+  south_america: [
+    {v:"brazil",l:"البرازيل"},{v:"argentina",l:"الأرجنتين"},{v:"colombia",l:"كولومبيا"},
+    {v:"chile",l:"تشيلي"},{v:"peru",l:"بيرو"},{v:"venezuela",l:"فنزويلا"},
+    {v:"ecuador",l:"الإكوادور"},{v:"bolivia",l:"بوليفيا"},{v:"paraguay",l:"باراغواي"},
+    {v:"uruguay",l:"أوروغواي"},{v:"guyana",l:"غيانا"},{v:"suriname",l:"سورينام"}
+  ],
+  oceania: [
+    {v:"australia",l:"أستراليا"},{v:"newzealand",l:"نيوزيلندا"},{v:"fiji",l:"فيجي"},
+    {v:"png",l:"بابوا غينيا الجديدة"},{v:"samoa",l:"ساموا"},{v:"tonga",l:"تونغا"}
+  ]
+};
 
-  // 2. إعدادات فايربيس الخاصة بمشروعك
+let isIraq = false;
+let activeMethod = 'email';  // 'email' | 'phone'
+let forgotMethod = 'email';
+
+function loadLoginCountries() {
+  const cont = document.getElementById('lContinent').value;
+  const sel  = document.getElementById('lCountry');
+  sel.innerHTML = '<option value="" disabled selected>— الدولة —</option>';
+  (countriesByContinent[cont] || []).forEach(c => {
+    const o = document.createElement('option');
+    o.value = c.v; o.textContent = c.l;
+    sel.appendChild(o);
+  });
+  sel.disabled = false;
+  document.getElementById('err-lcontinent').classList.remove('show');
+}
+
+function onCountryChange() {
+  const country = document.getElementById('lCountry').value;
+  document.getElementById('err-lcountry').classList.remove('show');
+
+  isIraq = (country === 'iraq');
+
+  const tabPhone   = document.getElementById('tabPhone');
+  const nonIraq    = document.getElementById('nonIraqBadge');
+  const ftabPhone  = document.getElementById('ftabPhone');
+
+  if (isIraq) {
+    tabPhone.classList.remove('hidden-tab');
+    nonIraq.classList.remove('show');
+    ftabPhone.style.display = '';
+  } else {
+    tabPhone.classList.add('hidden-tab');
+    nonIraq.classList.add('show');
+    ftabPhone.style.display = 'none';
+    // force email method
+    switchMethod('email');
+    switchForgot('email');
+  }
+}
+
+function switchMethod(m) {
+  activeMethod = m;
+  document.getElementById('tabEmail').classList.toggle('active', m === 'email');
+  document.getElementById('tabPhone').classList.toggle('active', m === 'phone');
+  document.getElementById('emailGroup').style.display = m === 'email' ? '' : 'none';
+  document.getElementById('phoneGroup').style.display = m === 'phone' ? '' : 'none';
+  // clear errors
+  ['email','phone'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById('err-' + id).classList.remove('show');
+  });
+}
+
+function toggleForgot() {
+  const box = document.getElementById('forgotBox');
+  box.classList.toggle('show');
+}
+
+function switchForgot(m) {
+  forgotMethod = m;
+  document.getElementById('ftabEmail').classList.toggle('active', m === 'email');
+  document.getElementById('ftabPhone').classList.toggle('active', m === 'phone');
+  document.getElementById('forgotEmailWrap').style.display = m === 'email' ? '' : 'none';
+  document.getElementById('forgotPhoneWrap').style.display = m === 'phone' ? '' : 'none';
+  document.getElementById('resetNote').textContent = '';
+}
+</script>
+
+<script type="module">
+  import { initializeApp }                                            from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged,
+           sendPasswordResetEmail }                                   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
     authDomain: "engineering-students-community.firebaseapp.com",
@@ -269,111 +549,182 @@ body {
     appId: "1:371432549665:web:4d3b9617243731fb06e260",
     measurementId: "G-6L0FRLSVZW"
   };
-
-  const app = initializeApp(firebaseConfig);
+  const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  let isLoggingIn = false; // متغير لمنع التحويل الفوري أثناء محاولة تسجيل الدخول
+  let isLoggingIn = false;
 
-  // التوجيه الذكي: فحص حالة تسجيل الدخول عند فتح الصفحة
   onAuthStateChanged(auth, (user) => {
-    // إذا كان المستخدم مسجلاً للدخول ولم يكن يضغط على زر الدخول للتو، انقله للبروفايل
-    if (user && !isLoggingIn) {
+    if (user && !isLoggingIn && user.emailVerified) {
       window.location.href = "profile.html";
     }
   });
 
-  // إظهار/إخفاء كلمة المرور
-  document.getElementById('togglePass').addEventListener('click', function() {
-    var inp = document.getElementById('password');
-    var ico = document.getElementById('eyeIcon');
-    if (inp.type === 'password') { inp.type = 'text'; ico.textContent = '👁'; } 
-    else { inp.type = 'password'; ico.textContent = '👁'; }
+  // ─── Password toggle ───
+  document.getElementById('togglePass').addEventListener('click', () => {
+    const inp = document.getElementById('password');
+    inp.type = inp.type === 'password' ? 'text' : 'password';
   });
 
-  function showError(id, errId) {
+  // ─── Helpers ───
+  function showErr(id, errId, msg) {
     document.getElementById(id).classList.add('error');
-    document.getElementById(errId).classList.add('show');
+    const el = document.getElementById(errId);
+    if (msg) el.textContent = msg;
+    el.classList.add('show');
   }
-  function clearError(id, errId) {
+  function clearErr(id, errId) {
     document.getElementById(id).classList.remove('error');
     document.getElementById(errId).classList.remove('show');
   }
 
-  // --- برمجة زر إرسال الإيميل (الدعم الفني) ---
-  document.getElementById('supportBtn').addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    // جلب التاريخ والوقت الحاليين من جهاز المستخدم
-    const now = new Date();
-    
-    // تنسيق التاريخ والوقت
-    const dateStr = now.toLocaleDateString('ar-EG'); 
-    const timeStr = now.toLocaleTimeString('ar-EG');
-    
-    // محتوى الرسالة
-    const bodyText = `------ الرجاء من المستخدم ملئ الــnnn بإجاباته الخاصة ------
-إنني الطالب nnn صاحب إسم المستخدم (اليوزر) : @nnn
-قد فقدت كلمة مروري 
-الرجاء الإتصال بي على رقم هاتفي الخاص بالحساب الذي استخدمته عندما سجلت بالموقع لأول مرة
-----
-التاريخ: ${dateStr}
-الوقت: ${timeStr}
-نطاق الزمن: +3:00 بتوقيت بغداد`;
+  // ─── Reset password (exposed globally) ───
+  window.sendReset = async function() {
+    const method = window.forgotMethod || 'email';
+    const note   = document.getElementById('resetNote');
+    const btn    = document.getElementById('resetBtn');
+    note.textContent = '';
+    note.style.color = '';
 
-    const subject = 'نسيت كلمة المرور';
-    const email = 'esc.irq@gmail.com';
-    
-    // إنشاء رابط الإرسال وفتحه
-    const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
-    window.location.href = mailtoLink;
-  });
+    if (method === 'email') {
+      const email = document.getElementById('forgotEmail').value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('err-forgot-email').classList.add('show');
+        return;
+      }
+      document.getElementById('err-forgot-email').classList.remove('show');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span><span>جارٍ الإرسال...</span>';
+      try {
+        await sendPasswordResetEmail(auth, email);
+        note.textContent = '✅ تم إرسال رابط إعادة التعيين، راجع صندوق الوارد.';
+        note.style.color = '#188038';
+      } catch(e) {
+        note.textContent = e.code === 'auth/user-not-found'
+          ? 'لا يوجد حساب مرتبط بهذا البريد.'
+          : 'حدث خطأ: ' + e.message;
+        note.style.color = '#dc2626';
+      }
+      btn.disabled = false;
+      btn.innerHTML = '<span>📨</span><span>إرسال رابط الاستعادة</span>';
 
-  // --- برمجة تسجيل الدخول (Firebase) ---
+    } else {
+      // phone → mailto support
+      const ph = document.getElementById('forgotPhone').value.replace(/\s/g,'');
+      if (!/^07[0-9]{9}$/.test(ph)) {
+        document.getElementById('err-forgot-phone').classList.add('show');
+        return;
+      }
+      document.getElementById('err-forgot-phone').classList.remove('show');
+      const now = new Date();
+      const body = `------ طلب إعادة تعيين كلمة المرور ------
+رقم الهاتف المرتبط بالحساب: ${ph}
+التاريخ: ${now.toLocaleDateString('ar-EG')}
+الوقت: ${now.toLocaleTimeString('ar-EG')} (توقيت بغداد +3:00)
+------
+الرجاء التواصل مع صاحب الرقم لتأكيد هويته ومساعدته في استعادة الحساب.`;
+      window.location.href = `mailto:esc.irq@gmail.com?subject=${encodeURIComponent('طلب استعادة كلمة المرور')}&body=${encodeURIComponent(body)}`;
+    }
+  };
+
+  // ─── LOGIN ───
   document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
-    
-    const ph = document.getElementById('phone').value.replace(/\s/g,'');
-    const pass = document.getElementById('password').value;
 
-    let isValid = true;
+    // Validate location first
+    const continent = document.getElementById('lContinent').value;
+    const country   = document.getElementById('lCountry').value;
+    let locValid = true;
+    if (!continent) { document.getElementById('err-lcontinent').classList.add('show'); locValid=false; }
+    if (!country)   { document.getElementById('err-lcountry').classList.add('show');   locValid=false; }
+    if (!locValid) return;
 
-    if (!/^07[0-9]{9}$/.test(ph)) { showError('phone', 'err-phone'); isValid = false; } else clearError('phone', 'err-phone');
-    if (pass.length < 1) { showError('password', 'err-password'); isValid = false; } else clearError('password', 'err-password');
+    const method = window.activeMethod || 'email';
+    const pass   = document.getElementById('password').value;
+    let loginEmail = '';
+    let valid = true;
 
-    if (!isValid) return;
+    if (method === 'email') {
+      const email = document.getElementById('email').value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showErr('email','err-email'); valid=false;
+      } else {
+        clearErr('email','err-email');
+        loginEmail = email;
+      }
+    } else {
+      const ph = document.getElementById('phone').value.replace(/\s/g,'');
+      if (!/^07[0-9]{9}$/.test(ph)) {
+        showErr('phone','err-phone'); valid=false;
+      } else {
+        clearErr('phone','err-phone');
+        loginEmail = ph + "@esc.local";   // legacy accounts
+      }
+    }
 
-    const btn = this.querySelector('.btn-submit');
+    if (pass.length < 1) { showErr('password','err-password'); valid=false; }
+    else clearErr('password','err-password');
+
+    if (!valid) return;
+
+    const btn = document.getElementById('submitBtn');
     btn.innerHTML = '<span>⏳</span><span>جارٍ التحقق...</span>';
     btn.disabled = true;
-
-    // إخبار الحارس أننا نسجل الدخول الآن
     isLoggingIn = true;
 
     try {
-      // تحويل رقم الهاتف إلى الإيميل الوهمي للتحقق منه في قاعدة البيانات
-      const virtualEmail = ph + "@esc.local";
-      
-      await signInWithEmailAndPassword(auth, virtualEmail, pass);
-      
+      const cred = await signInWithEmailAndPassword(auth, loginEmail, pass);
+      const user = cred.user;
+
+      // Check email verification (skip for legacy phone accounts)
+      if (!user.emailVerified && method === 'email') {
+        btn.innerHTML = '<span>📧</span><span>يُرجى تأكيد بريدك أولاً</span>';
+        btn.disabled = false;
+        isLoggingIn = false;
+        document.getElementById('successMsg').textContent = '⚠️ لم يتم تأكيد بريدك الإلكتروني بعد. يُرجى مراجعة صندوق الوارد.';
+        document.getElementById('successMsg').style.background = '#fff7e6';
+        document.getElementById('successMsg').style.color = '#b45309';
+        document.getElementById('successMsg').style.borderColor = 'rgba(180,83,9,0.2)';
+        document.getElementById('successMsg').classList.add('show');
+        return;
+      }
+
+      document.getElementById('successMsg').textContent = '✅ تم تسجيل الدخول بنجاح! جاري تحويلك...';
+      document.getElementById('successMsg').style = '';
       document.getElementById('successMsg').classList.add('show');
       btn.innerHTML = '<span>✔️</span><span>تم الدخول</span>';
-      
-      // توجيه الطالب إلى صفحة البروفايل بدلاً من الرئيسية
       setTimeout(() => { window.location.href = "profile.html"; }, 1500);
 
     } catch (error) {
       console.error("Login Error:", error);
       btn.disabled = false;
       btn.innerHTML = '<span></span><span>تسجيل الدخول</span>';
-      isLoggingIn = false; // إعادة المتغير لحالته إذا فشل الدخول
-      
-      // معالجة الأخطاء (كلمة مرور خاطئة أو رقم غير مسجل)
-      alert("معلومات الدخول غير صحيحة. الرجاء التأكد من رقم الهاتف وكلمة المرور.");
-      showError('phone', 'err-phone');
-      showError('password', 'err-password');
+      isLoggingIn = false;
+
+      let msg = 'معلومات الدخول غير صحيحة. الرجاء التأكد من بيانات تسجيل الدخول.';
+      if (error.code === 'auth/user-not-found')  msg = 'لا يوجد حساب مرتبط بهذه البيانات.';
+      if (error.code === 'auth/wrong-password')  msg = 'كلمة المرور غير صحيحة.';
+      if (error.code === 'auth/invalid-email')   msg = 'البريد الإلكتروني غير صحيح.';
+      if (error.code === 'auth/too-many-requests') msg = 'تم تجاوز عدد المحاولات، حاول لاحقاً.';
+      alert(msg);
     }
   });
+
+  // expose globals
+  window.activeMethod = 'email';
+  window.forgotMethod = 'email';
+
+  // keep globals in sync
+  const origSwitchMethod = window.switchMethod;
+  window.switchMethod = function(m) {
+    window.activeMethod = m;
+    origSwitchMethod(m);
+  };
+  const origSwitchForgot = window.switchForgot;
+  window.switchForgot = function(m) {
+    window.forgotMethod = m;
+    origSwitchForgot(m);
+  };
 </script>
 </body>
 </html>
