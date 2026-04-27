@@ -3,21 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESC — تسجيل الدخول</title>
+<title>ESC — إنشاء حساب</title>
 <meta name="description" content="مجتمع طلبة الهندسة بُني لغرض واحد, ألا يضيع شغف المهندسين المتحمسين وجهودهم من خلال تقدير وتثمين أبحاثهم وتوفير بيئة تعليمية مستمرة خارج الصرح الأكاديمي.">
 <link rel="canonical" href="https://esc-iq.net/">
-<meta name="keywords" content="هندسة مدنية, جامعة كربلاء, مجتمع طلبة الهندسة, ESC, دورات هندسية, جامعة كربلاء كلية الهندسة , Engineering Student Community , جامعة بغداد كلية الهندسة , مجتمع طلاب الهندسة , محمد باقر الجبوري , الهندسة المدنية , أبحاث هندسية">
+<meta name="keywords" content="هندسة مدنية, جامعة كربلاء, مجتمع طلبة الهندسة, ESC, دورات هندسية">
 <meta name="author" content="Mohammed Baqer A. Azeez">
-
 <link rel="icon" href="media/favicon.png" type="image/png" sizes="32x32">
-<link rel="icon" href="media/icon-512-w.png" type="image/png" sizes="512x512">
 <link rel="apple-touch-icon" href="media/icon-512-w.png">
-
 <meta property="og:title" content="ESC — مجتمع طلبة الهندسة">
 <meta property="og:description" content="منصة تعليمية مخصصة لطلاب الهندسة في العراق.">
 <meta property="og:image" content="https://esc-iq.net/media/icon-512-w.png">
 <meta property="og:type" content="website">
-
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -63,27 +59,12 @@ body {
   opacity: 0.13;
   animation: blobFloat 12s ease-in-out infinite alternate;
 }
-.bg-blob-1 {
-  width: 500px; height: 500px;
-  background: var(--blue);
-  top: -120px; right: -100px;
-  animation-delay: 0s;
-}
-.bg-blob-2 {
-  width: 380px; height: 380px;
-  background: var(--teal);
-  bottom: -80px; left: -60px;
-  animation-delay: -5s;
-}
-.bg-blob-3 {
-  width: 260px; height: 260px;
-  background: #3a0060;
-  top: 40%; left: 10%;
-  animation-delay: -3s;
-}
+.bg-blob-1 { width:500px;height:500px;background:var(--blue);top:-120px;right:-100px;animation-delay:0s; }
+.bg-blob-2 { width:380px;height:380px;background:var(--teal);bottom:-80px;left:-60px;animation-delay:-5s; }
+.bg-blob-3 { width:260px;height:260px;background:#3a0060;top:40%;left:10%;animation-delay:-3s; }
 @keyframes blobFloat {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(30px, 20px) scale(1.05); }
+  0%   { transform: translate(0,0) scale(1); }
+  100% { transform: translate(30px,20px) scale(1.05); }
 }
 
 /* ===== NAVBAR ===== */
@@ -96,14 +77,8 @@ body {
   box-shadow: 0 2px 20px rgba(0,0,0,0.25);
   direction: ltr;
 }
-.nav-logo img {
-  height: 36px; width: auto; display: block;
-}
-.nav-title {
-  font-size: 15px; font-weight: 700;
-  color: rgba(255,255,255,0.85);
-  direction: rtl;
-}
+.nav-logo img { height:36px;width:auto;display:block; }
+.nav-title { font-size:15px;font-weight:700;color:rgba(255,255,255,0.85);direction:rtl; }
 
 /* ===== MAIN LAYOUT ===== */
 .page-wrap {
@@ -123,11 +98,11 @@ body {
   border-radius: var(--card-radius);
   box-shadow: 0 8px 40px rgba(0,71,171,0.13), 0 2px 10px rgba(0,0,0,0.06);
   overflow: hidden;
-  animation: cardIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: cardIn 0.55s cubic-bezier(0.22,1,0.36,1) both;
 }
 @keyframes cardIn {
-  from { opacity: 0; transform: translateY(28px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity:0;transform:translateY(28px) scale(0.97); }
+  to   { opacity:1;transform:translateY(0) scale(1); }
 }
 
 /* ===== CARD HEADER ===== */
@@ -139,450 +114,288 @@ body {
   overflow: hidden;
 }
 .card-header::before {
-  content: '';
-  position: absolute;
-  top: -60px; left: -60px;
-  width: 200px; height: 200px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
+  content:'';position:absolute;top:-60px;left:-60px;
+  width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06);
 }
 .card-header::after {
-  content: '';
-  position: absolute;
-  bottom: -40px; right: -30px;
-  width: 150px; height: 150px;
-  border-radius: 50%;
-  background: rgba(0,128,128,0.15);
+  content:'';position:absolute;bottom:-40px;right:-30px;
+  width:150px;height:150px;border-radius:50%;background:rgba(0,128,128,0.15);
 }
 .header-logo-fallback {
-  margin: 0 auto 14px;
-  object-fit:300%;
-  display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 1;
-  font-size: 28px; font-weight: 700; color: #ffffff00;
-  letter-spacing: 1px;
+  margin:0 auto 14px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;
+  font-size:28px;font-weight:700;color:#ffffff00;letter-spacing:1px;
 }
-.card-header h1 {
-  font-size: 20px; font-weight: 700;
-  color: #fff;
-  position: relative; z-index: 1;
-  margin-bottom: 6px;
-}
-.card-header p {
-  font-size: 13px; color: rgba(255,255,255,0.78);
-  position: relative; z-index: 1;
-}
+.card-header h1 { font-size:20px;font-weight:700;color:#fff;position:relative;z-index:1;margin-bottom:6px; }
+.card-header p  { font-size:13px;color:rgba(255,255,255,0.78);position:relative;z-index:1; }
 
 /* ===== FORM BODY ===== */
-.card-body { padding: 28px 32px 32px; }
+.card-body { padding:28px 32px 32px; }
+.field-group { margin-bottom:18px; }
+.field-label { display:block;font-size:13px;font-weight:700;color:#374151;margin-bottom:7px; }
+.field-label span { color:var(--error);margin-right:2px; }
 
-.field-group { margin-bottom: 18px; }
-
-.field-label {
-  display: block;
-  font-size: 13px; font-weight: 700;
-  color: #374151;
-  margin-bottom: 7px;
-}
-.field-label span {
-  color: var(--error);
-  margin-right: 2px;
-}
-
-.field-wrap {
-  position: relative;
-}
+.field-wrap { position:relative; }
 .field-icon {
-  position: absolute;
-  top: 50%; right: 14px;
-  transform: translateY(-50%);
-  font-size: 16px;
-  pointer-events: none;
-  color: #9ca3af;
-  transition: color var(--transition);
+  position:absolute;top:50%;right:14px;transform:translateY(-50%);
+  font-size:16px;pointer-events:none;color:#9ca3af;transition:color var(--transition);
 }
 
 .field-input {
-  width: 100%;
-  padding: 12px 44px 12px 16px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #111;
-  background: #f9fafb;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
-  direction: rtl;
-  text-align: right;
+  width:100%;padding:12px 44px 12px 16px;
+  font-family:'Ubuntu',sans-serif;font-size:14px;font-weight:400;
+  color:#111;background:#f9fafb;
+  border:1.5px solid #e5e7eb;border-radius:10px;outline:none;
+  transition:border-color var(--transition),box-shadow var(--transition),background var(--transition);
+  direction:rtl;text-align:right;
 }
-.field-input::placeholder { color: #b0b7c3; }
+.field-input::placeholder { color:#b0b7c3; }
 .field-input:focus {
-  border-color: var(--blue);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(0,71,171,0.10);
+  border-color:var(--blue);background:#fff;
+  box-shadow:0 0 0 3px rgba(0,71,171,0.10);
 }
-.field-input:focus + .field-icon { color: var(--blue); }
+.field-input:focus + .field-icon { color:var(--blue); }
 
-/* Select styling */
-select.field-input {
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  padding-left: 40px;
-}
+select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padding-left:40px; }
 .select-arrow {
-  position: absolute;
-  top: 50%; left: 14px;
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #9ca3af;
-  font-size: 12px;
+  position:absolute;top:50%;left:14px;transform:translateY(-50%);
+  pointer-events:none;color:#9ca3af;font-size:12px;
 }
 
-/* Password toggle */
 .pass-toggle {
-  position: absolute;
-  top: 50%; left: 14px;
-  transform: translateY(-50%);
-  background: none; border: none;
-  cursor: pointer; padding: 4px;
-  color: #9ca3af; font-size: 16px;
-  transition: color var(--transition);
-  display: flex; align-items: center;
+  position:absolute;top:50%;left:14px;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;padding:4px;
+  color:#9ca3af;font-size:16px;transition:color var(--transition);
+  display:flex;align-items:center;
 }
-.pass-toggle:hover { color: var(--blue); }
+.pass-toggle:hover { color:var(--blue); }
 
-/* Error state */
-.field-input.error { border-color: var(--error); }
-.field-error {
-  display: none;
-  font-size: 11px; font-weight: 700;
-  color: var(--error);
-  margin-top: 5px;
-  padding-right: 4px;
-}
-.field-error.show { display: block; }
+.field-input.error { border-color:var(--error); }
+.field-error { display:none;font-size:11px;font-weight:700;color:var(--error);margin-top:5px;padding-right:4px; }
+.field-error.show { display:block; }
+.field-input.valid { border-color:var(--success); }
 
-/* Success state */
-.field-input.valid { border-color: var(--success); }
-
-/* ===== "OTHER" EXTRA INPUT ===== */
-.other-input-wrap {
-  display: none;
-  margin-top: 10px;
-  animation: fadeSlideIn 0.25s ease both;
-}
-.other-input-wrap.show { display: block; }
+.other-input-wrap { display:none;margin-top:10px;animation:fadeSlideIn 0.25s ease both; }
+.other-input-wrap.show { display:block; }
 @keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity:0;transform:translateY(-6px); }
+  to   { opacity:1;transform:translateY(0); }
+}
+
+/* ===== GENDER TOGGLE ===== */
+.gender-row {
+  display:flex;
+  gap:10px;
+  direction:rtl;
+}
+.gender-btn {
+  flex:1;
+  padding:12px 10px;
+  border:1.5px solid #e5e7eb;
+  border-radius:10px;
+  background:#f9fafb;
+  color:#6b7280;
+  font-family:'Ubuntu',sans-serif;
+  font-size:14px;font-weight:700;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:all var(--transition);
+  user-select:none;
+}
+.gender-btn:hover:not(.selected) {
+  border-color:#9ca3af;
+  background:#f3f4f6;
+}
+.gender-btn.selected {
+  background:linear-gradient(135deg, var(--blue), #005fa3);
+  border-color:var(--blue);
+  color:#fff;
+  box-shadow:0 4px 14px rgba(0,71,171,0.28);
+}
+.gender-icon { font-size:18px; }
+
+/* ===== CONTINENT + COUNTRY ROW ===== */
+.two-col-row {
+  display:flex;
+  gap:10px;
+  direction:rtl;
+}
+.two-col-row .field-group {
+  flex:1;
+  margin-bottom:0;
 }
 
 /* ===== DIVIDER ===== */
-.divider {
-  border: none;
-  border-top: 1px solid #f0f0f0;
-  margin: 8px 0 20px;
-}
+.divider { border:none;border-top:1px solid #f0f0f0;margin:8px 0 20px; }
 
 /* ===== TERMS CHECKBOX ===== */
 .terms-wrap {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 12px 14px;
-  background: linear-gradient(90deg, rgba(0,71,171,0.04), rgba(0,128,128,0.04));
-  border: 1px solid rgba(0,71,171,0.12);
-  border-radius: 10px;
+  display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;
+  padding:12px 14px;
+  background:linear-gradient(90deg,rgba(0,71,171,0.04),rgba(0,128,128,0.04));
+  border:1px solid rgba(0,71,171,0.12);border-radius:10px;
 }
 .terms-checkbox {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  min-width: 20px;
-  border: 2px solid #d1d5db;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 1px;
-  background: #fff;
-  transition: border-color var(--transition), background var(--transition);
-  position: relative;
-  flex-shrink: 0;
+  appearance:none;-webkit-appearance:none;
+  width:20px;height:20px;min-width:20px;
+  border:2px solid #d1d5db;border-radius:5px;cursor:pointer;margin-top:1px;
+  background:#fff;transition:border-color var(--transition),background var(--transition);
+  position:relative;flex-shrink:0;
 }
-.terms-checkbox:checked {
-  background: var(--blue);
-  border-color: var(--blue);
-}
+.terms-checkbox:checked { background:var(--blue);border-color:var(--blue); }
 .terms-checkbox:checked::after {
-  content: '✓';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  color: #fff;
-  font-size: 13px;
-  font-weight: 700;
-  line-height: 1;
+  content:'✓';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);color:#fff;font-size:13px;font-weight:700;line-height:1;
 }
-.terms-text {
-  font-size: 12.5px;
-  color: #555;
-  line-height: 1.7;
-  cursor: pointer;
-  user-select: none;
-}
+.terms-text { font-size:12.5px;color:#555;line-height:1.7;cursor:pointer;user-select:none; }
 .terms-text a {
-  color: var(--blue);
-  font-weight: 700;
-  text-decoration: none;
-  border-bottom: 1.5px solid rgba(0,71,171,0.35);
-  padding-bottom: 1px;
-  transition: color var(--transition);
+  color:var(--blue);font-weight:700;text-decoration:none;
+  border-bottom:1.5px solid rgba(0,71,171,0.35);padding-bottom:1px;transition:color var(--transition);
 }
-.terms-text a:hover { color: #003a8c; }
-.field-error.terms-err {
-  margin-top: -12px;
-  margin-bottom: 8px;
-}
+.terms-text a:hover { color:#003a8c; }
+.field-error.terms-err { margin-top:-12px;margin-bottom:8px; }
 
 /* ===== SUBMIT BUTTON ===== */
 .btn-submit {
-  width: 100%;
-  padding: 14px;
-  background: #b0b7c3;
-  color: #fff;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 15px; font-weight: 700;
-  border: none; border-radius: 10px;
-  cursor: not-allowed;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  position: relative; overflow: hidden;
+  width:100%;padding:14px;
+  background:#b0b7c3;color:#fff;
+  font-family:'Ubuntu',sans-serif;font-size:15px;font-weight:700;
+  border:none;border-radius:10px;cursor:not-allowed;
+  transition:transform var(--transition),box-shadow var(--transition),background var(--transition);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  position:relative;overflow:hidden;
 }
-.btn-submit.active {
-  background: linear-gradient(90deg, var(--blue), #005fa3);
-  cursor: pointer;
-}
+.btn-submit.active { background:linear-gradient(90deg,var(--blue),#005fa3);cursor:pointer; }
 .btn-submit.active::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent);
+  transform:translateX(-100%);transition:transform 0.5s ease;
 }
-.btn-submit.active:hover::after { transform: translateX(100%); }
-.btn-submit.active:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,71,171,0.35);
-}
-.btn-submit.active:active { transform: translateY(0); }
+.btn-submit.active:hover::after { transform:translateX(100%); }
+.btn-submit.active:hover { transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,71,171,0.35); }
+.btn-submit.active:active { transform:translateY(0); }
 
 /* ===== REGISTER LINK ===== */
 .register-strip {
-  margin-top: 20px;
-  padding: 14px 16px;
-  background: linear-gradient(90deg, rgba(0,71,171,0.05), rgba(0,128,128,0.05));
-  border: 1px solid rgba(0,71,171,0.12);
-  border-radius: 10px;
-  text-align: center;
-  font-size: 13px;
-  color: #555;
-  line-height: 1.7;
+  margin-top:20px;padding:14px 16px;
+  background:linear-gradient(90deg,rgba(0,71,171,0.05),rgba(0,128,128,0.05));
+  border:1px solid rgba(0,71,171,0.12);border-radius:10px;
+  text-align:center;font-size:13px;color:#555;line-height:1.7;
 }
 .register-strip a {
-  color: var(--blue);
-  font-weight: 700;
-  text-decoration: none;
-  border-bottom: 1.5px solid rgba(0,71,171,0.3);
-  padding-bottom: 1px;
-  transition: color var(--transition), border-color var(--transition);
+  color:var(--blue);font-weight:700;text-decoration:none;
+  border-bottom:1.5px solid rgba(0,71,171,0.3);padding-bottom:1px;
+  transition:color var(--transition),border-color var(--transition);
 }
-.register-strip a:hover {
-  color: #003a8c;
-  border-color: #003a8c;
-}
+.register-strip a:hover { color:#003a8c;border-color:#003a8c; }
 
-/* ===== SUCCESS MESSAGE ===== */
+/* ===== SUCCESS / INFO MESSAGES ===== */
 .success-msg {
-  display: none;
-  margin-top: 16px;
-  padding: 12px 16px;
-  background: #e6f7ee;
-  border: 1px solid rgba(24,128,56,0.25);
-  border-radius: 10px;
-  font-size: 13px; font-weight: 700;
-  color: var(--success);
-  text-align: center;
+  display:none;margin-top:16px;padding:12px 16px;
+  background:#e6f7ee;border:1px solid rgba(24,128,56,0.25);border-radius:10px;
+  font-size:13px;font-weight:700;color:var(--success);text-align:center;
 }
-.success-msg.show { display: block; }
+.success-msg.show { display:block; }
+
+/* ===== EMAIL VERIFY BANNER ===== */
+.verify-banner {
+  display:none;
+  margin-top:16px;padding:16px;
+  background:linear-gradient(90deg,rgba(0,71,171,0.07),rgba(0,128,128,0.07));
+  border:1px solid rgba(0,71,171,0.2);border-radius:12px;
+  text-align:center;
+}
+.verify-banner.show { display:block;animation:fadeSlideIn 0.3s ease both; }
+.verify-banner h3 { font-size:15px;color:var(--blue);margin-bottom:8px; }
+.verify-banner p  { font-size:13px;color:#555;line-height:1.7;margin-bottom:12px; }
+.verify-banner .resend-btn {
+  background:none;border:1.5px solid var(--blue);border-radius:8px;
+  color:var(--blue);font-family:'Ubuntu',sans-serif;font-size:13px;font-weight:700;
+  padding:8px 20px;cursor:pointer;transition:all var(--transition);
+}
+.verify-banner .resend-btn:hover { background:var(--blue);color:#fff; }
+.verify-banner .resend-note { font-size:11px;color:#aaa;margin-top:8px; }
 
 /* ===== PASSWORD STRENGTH ===== */
-.strength-bar-wrap {
-  margin-top: 8px;
-  display: flex; gap: 4px;
-}
-.strength-seg {
-  flex: 1; height: 3px;
-  border-radius: 3px;
-  background: #e5e7eb;
-  transition: background 0.3s ease;
-}
-.strength-seg.weak   { background: var(--error); }
-.strength-seg.medium { background: #f59e0b; }
-.strength-seg.strong { background: var(--success); }
+.strength-bar-wrap { margin-top:8px;display:flex;gap:4px; }
+.strength-seg { flex:1;height:3px;border-radius:3px;background:#e5e7eb;transition:background 0.3s ease; }
+.strength-seg.weak   { background:var(--error); }
+.strength-seg.medium { background:#f59e0b; }
+.strength-seg.strong { background:var(--success); }
 
 /* ===== FOOTER ===== */
-.page-footer {
-  text-align: center;
-  font-size: 12px; color: #aaa;
-  padding: 18px;
-  position: relative; z-index: 1;
-}
+.page-footer { text-align:center;font-size:12px;color:#aaa;padding:18px;position:relative;z-index:1; }
 
 /* ===== TERMS MODAL ===== */
 .modal-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(3px);
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,0.55);backdrop-filter:blur(3px);
+  align-items:center;justify-content:center;padding:20px;
 }
-.modal-overlay.open {
-  display: flex;
-  animation: overlayIn 0.2s ease both;
-}
-@keyframes overlayIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+.modal-overlay.open { display:flex;animation:overlayIn 0.2s ease both; }
+@keyframes overlayIn { from{opacity:0}to{opacity:1} }
 .modal-box {
-  background: #fff;
-  border-radius: 16px;
-  width: 100%;
-  max-width: 520px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-  animation: modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both;
-  overflow: hidden;
+  background:#fff;border-radius:16px;width:100%;max-width:520px;max-height:85vh;
+  display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  animation:modalIn 0.3s cubic-bezier(0.22,1,0.36,1) both;overflow:hidden;
 }
 @keyframes modalIn {
-  from { opacity: 0; transform: translateY(24px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from{opacity:0;transform:translateY(24px) scale(0.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
 .modal-header {
-  background: linear-gradient(135deg, var(--blue) 0%, #005fa3 60%, var(--teal) 100%);
-  padding: 22px 26px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background:linear-gradient(135deg,var(--blue) 0%,#005fa3 60%,var(--teal) 100%);
+  padding:22px 26px;display:flex;align-items:center;justify-content:space-between;
 }
-.modal-header h2 {
-  font-size: 17px; font-weight: 700;
-  color: #fff;
-}
+.modal-header h2 { font-size:17px;font-weight:700;color:#fff; }
 .modal-close {
-  background: rgba(255,255,255,0.15);
-  border: none;
-  border-radius: 8px;
-  width: 32px; height: 32px;
-  cursor: pointer;
-  color: #fff;
-  font-size: 18px;
-  display: flex; align-items: center; justify-content: center;
-  transition: background var(--transition);
-  flex-shrink: 0;
+  background:rgba(255,255,255,0.15);border:none;border-radius:8px;
+  width:32px;height:32px;cursor:pointer;color:#fff;font-size:18px;
+  display:flex;align-items:center;justify-content:center;transition:background var(--transition);flex-shrink:0;
 }
-.modal-close:hover { background: rgba(255,255,255,0.28); }
-.modal-body {
-  padding: 26px 26px 10px;
-  overflow-y: auto;
-  flex: 1;
-}
-.modal-body::-webkit-scrollbar { width: 5px; }
-.modal-body::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 5px; }
-.modal-body::-webkit-scrollbar-thumb { background: rgba(0,71,171,0.3); border-radius: 5px; }
-
+.modal-close:hover { background:rgba(255,255,255,0.28); }
+.modal-body { padding:26px 26px 10px;overflow-y:auto;flex:1; }
+.modal-body::-webkit-scrollbar { width:5px; }
+.modal-body::-webkit-scrollbar-track { background:#f0f0f0;border-radius:5px; }
+.modal-body::-webkit-scrollbar-thumb { background:rgba(0,71,171,0.3);border-radius:5px; }
 .terms-intro {
-  font-size: 13px;
-  color: #555;
-  margin-bottom: 20px;
-  line-height: 1.8;
-  padding: 12px 14px;
-  background: var(--blue-light);
-  border-radius: 10px;
-  border-right: 3px solid var(--blue);
+  font-size:13px;color:#555;margin-bottom:20px;line-height:1.8;
+  padding:12px 14px;background:var(--blue-light);border-radius:10px;border-right:3px solid var(--blue);
 }
-.terms-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 20px;
-}
+.terms-list { list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:20px; }
 .terms-item {
-  display: flex;
-  gap: 12px;
-  align-items: flex-start;
-  padding: 14px 16px;
-  background: #f9fafb;
-  border-radius: 10px;
-  border: 1px solid #eee;
-  transition: border-color var(--transition);
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px 16px;background:#f9fafb;border-radius:10px;
+  border:1px solid #eee;transition:border-color var(--transition);
 }
-.terms-item:hover { border-color: rgba(0,71,171,0.2); }
+.terms-item:hover { border-color:rgba(0,71,171,0.2); }
 .terms-num {
-  min-width: 28px; height: 28px;
-  background: linear-gradient(135deg, var(--blue), #005fa3);
-  color: #fff;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700;
-  flex-shrink: 0;
+  min-width:28px;height:28px;background:linear-gradient(135deg,var(--blue),#005fa3);
+  color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;flex-shrink:0;
 }
-.terms-item-text {
-  font-size: 13px;
-  color: #333;
-  line-height: 1.75;
-}
-.modal-footer {
-  padding: 16px 26px 24px;
-  border-top: 1px solid #f0f0f0;
-  display: flex;
-  justify-content: center;
-}
+.terms-item-text { font-size:13px;color:#333;line-height:1.75; }
+.modal-footer { padding:16px 26px 24px;border-top:1px solid #f0f0f0;display:flex;justify-content:center; }
 .btn-modal-accept {
-  padding: 11px 32px;
-  background: linear-gradient(90deg, var(--blue), #005fa3);
-  color: #fff;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 14px; font-weight: 700;
-  border: none; border-radius: 10px;
-  cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+  padding:11px 32px;background:linear-gradient(90deg,var(--blue),#005fa3);
+  color:#fff;font-family:'Ubuntu',sans-serif;font-size:14px;font-weight:700;
+  border:none;border-radius:10px;cursor:pointer;transition:transform var(--transition),box-shadow var(--transition);
 }
-.btn-modal-accept:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,71,171,0.3);
-}
+.btn-modal-accept:hover { transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,71,171,0.3); }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 520px) {
-  .card-body { padding: 22px 20px 26px; }
-  .card-header { padding: 26px 20px 22px; }
-  .nav { padding: 0 16px; }
-  .nav-title { font-size: 13px; }
-  .modal-body { padding: 18px 18px 10px; }
-  .modal-header { padding: 18px 20px; }
-  .modal-footer { padding: 14px 20px 20px; }
+@media (max-width:520px) {
+  .card-body { padding:22px 20px 26px; }
+  .card-header { padding:26px 20px 22px; }
+  .nav { padding:0 16px; }
+  .nav-title { font-size:13px; }
+  .modal-body { padding:18px 18px 10px; }
+  .modal-header { padding:18px 20px; }
+  .modal-footer { padding:14px 20px 20px; }
+  .two-col-row { flex-direction:column; }
+  .gender-btn { font-size:13px; }
 }
 </style>
 </head>
@@ -616,30 +429,19 @@ select.field-input {
       <ul class="terms-list">
         <li class="terms-item">
           <div class="terms-num">1</div>
-          <p class="terms-item-text">
-            يؤكد العضو عدم رفع ملفات لا صلة لها بالدراسة في محاولة لأغراض تخريبية،
-            وعليه فإن القائم بالأعمال المخالفة يتحمل التبعات القانونية والمسائلة الكاملة وفق القوانين المعمول بها.
-          </p>
+          <p class="terms-item-text">يؤكد العضو عدم رفع ملفات لا صلة لها بالدراسة في محاولة لأغراض تخريبية، وعليه فإن القائم بالأعمال المخالفة يتحمل التبعات القانونية والمسائلة الكاملة وفق القوانين المعمول بها.</p>
         </li>
         <li class="terms-item">
           <div class="terms-num">2</div>
-          <p class="terms-item-text">
-            يؤكد العضو عدم خدش معايير الحياء في الصورة الشخصية أو وصف الحساب،
-            وللمجتمع الحق في التدخل وحظر الحساب فوراً عند مخالفة هذا البند.
-          </p>
+          <p class="terms-item-text">يؤكد العضو عدم خدش معايير الحياء في الصورة الشخصية أو وصف الحساب، وللمجتمع الحق في التدخل وحظر الحساب فوراً عند مخالفة هذا البند.</p>
         </li>
         <li class="terms-item">
           <div class="terms-num">3</div>
-          <p class="terms-item-text">
-            يؤكد العضو أنه لا يملك أي نوايا في إعادة نشر بحوث الزملاء أو الدورات التعليمية لأغراض تجارية،
-            وللمجتمع حق مقاضاة العضو ومتابعته قانونياً في حال ثبوت المخالفة.
-          </p>
+          <p class="terms-item-text">يؤكد العضو أنه لا يملك أي نوايا في إعادة نشر بحوث الزملاء أو الدورات التعليمية لأغراض تجارية، وللمجتمع حق مقاضاة العضو ومتابعته قانونياً في حال ثبوت المخالفة.</p>
         </li>
         <li class="terms-item">
           <div class="terms-num">4</div>
-          <p class="terms-item-text">
-            يؤكد العضو أنه سيحترم المعايير الأخلاقية في النقاش مع بقية الأعضاء في جميع قنوات النقاش والتواصل داخل المجتمع.
-          </p>
+          <p class="terms-item-text">يؤكد العضو أنه سيحترم المعايير الأخلاقية في النقاش مع بقية الأعضاء في جميع قنوات النقاش والتواصل داخل المجتمع.</p>
         </li>
       </ul>
     </div>
@@ -661,38 +463,94 @@ select.field-input {
     <div class="card-body">
       <form id="registerForm" novalidate>
 
+        <!-- ===== FULL NAME ===== -->
         <div class="field-group">
-          <label class="field-label" for="studentName">
-            <span>*</span> اسم الطالب
-          </label>
+          <label class="field-label" for="studentName"><span>*</span> اسم الطالب</label>
           <div class="field-wrap">
-            <input type="text" id="studentName" class="field-input" placeholder="أدخل اسمك الرباعي" autocomplete="name" maxlength="80">
+            <input type="text" id="studentName" class="field-input" placeholder="أدخل اسمك الثلاثي بالعربية" autocomplete="name" maxlength="80">
             <span class="field-icon">👤</span>
           </div>
           <div class="field-error" id="err-name">الرجاء إدخال اسمك الكامل</div>
         </div>
 
+        <!-- ===== USERNAME ===== -->
         <div class="field-group">
-          <label class="field-label" for="username">
-            <span>*</span> اسم المستخدم
-          </label>
+          <label class="field-label" for="username"><span>*</span> اسم المستخدم</label>
           <div class="field-wrap">
-            <input type="text" id="username" class="field-input" placeholder="مثال: eng_mohammed" autocomplete="off" maxlength="10" style="direction:ltr; text-align:right;">
+            <input type="text" id="username" class="field-input" placeholder="مثال: eng_mohammed" autocomplete="off" maxlength="30" style="direction:ltr;text-align:right;">
             <span class="field-icon">@</span>
           </div>
           <div class="field-error" id="err-username">أدخل يوزر إنجليزي صحيح (أحرف، أرقام، شرطة سفلية) بدون مسافات.</div>
         </div>
 
-        <!-- UNIVERSITY -->
+        <!-- ===== EMAIL ===== -->
         <div class="field-group">
-          <label class="field-label" for="university">
-            <span>*</span> الجامعة المنسوب إليها
-          </label>
+          <label class="field-label" for="email"><span>*</span> البريد الإلكتروني</label>
+          <div class="field-wrap">
+            <input type="email" id="email" class="field-input" placeholder="example@gmail.com" autocomplete="email" maxlength="120" style="direction:ltr;text-align:right;">
+            <span class="field-icon">✉️</span>
+          </div>
+          <div class="field-error" id="err-email">الرجاء إدخال بريد إلكتروني صحيح</div>
+        </div>
+
+        <!-- ===== GENDER ===== -->
+        <div class="field-group">
+          <label class="field-label"><span>*</span> الجنس</label>
+          <div class="gender-row">
+            <button type="button" class="gender-btn" id="genderMale" onclick="selectGender('male')">
+              <span class="gender-icon">👨‍🎓</span> ذكر
+            </button>
+            <button type="button" class="gender-btn" id="genderFemale" onclick="selectGender('female')">
+              <span class="gender-icon">👩‍🎓</span> أنثى
+            </button>
+          </div>
+          <input type="hidden" id="genderValue" value="">
+          <div class="field-error" id="err-gender">الرجاء تحديد الجنس</div>
+        </div>
+
+        <!-- ===== CONTINENT + COUNTRY ===== -->
+        <div class="field-group">
+          <label class="field-label"><span>*</span> موقع الدراسة</label>
+          <div class="two-col-row">
+            <!-- Continent -->
+            <div class="field-group">
+              <div class="field-wrap">
+                <select id="continent" class="field-input" onchange="loadCountries()">
+                  <option value="" disabled selected>— القارة —</option>
+                  <option value="asia">آسيا</option>
+                  <option value="africa">أفريقيا</option>
+                  <option value="europe">أوروبا</option>
+                  <option value="north_america">أمريكا الشمالية</option>
+                  <option value="south_america">أمريكا الجنوبية</option>
+                  <option value="oceania">أوقيانوسيا</option>
+                </select>
+                <span class="field-icon">🌍</span>
+                <span class="select-arrow">▾</span>
+              </div>
+              <div class="field-error" id="err-continent">اختر القارة</div>
+            </div>
+            <!-- Country -->
+            <div class="field-group">
+              <div class="field-wrap">
+                <select id="country" class="field-input" disabled>
+                  <option value="" disabled selected>— الدولة —</option>
+                </select>
+                <span class="field-icon">🏳️</span>
+                <span class="select-arrow">▾</span>
+              </div>
+              <div class="field-error" id="err-country">اختر الدولة</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== UNIVERSITY (البكالوريوس) ===== -->
+        <div class="field-group">
+          <label class="field-label" for="university"><span>*</span> جامعة البكالوريوس</label>
           <div class="field-wrap">
             <select id="university" class="field-input">
               <option value="" disabled selected>— اختر جامعتك —</option>
               <option value="karbala">جامعة كربلاء</option>
-               <option value="zahra4girls">جامعة الزهراء للبنات</option>
+              <option value="zahra4girls">جامعة الزهراء للبنات</option>
               <option value="baghdad">جامعة بغداد</option>
               <option value="basra">جامعة البصرة</option>
               <option value="mosul">جامعة الموصل</option>
@@ -706,7 +564,6 @@ select.field-input {
             <span class="select-arrow">▾</span>
           </div>
           <div class="field-error" id="err-university">الرجاء اختيار جامعتك</div>
-          <!-- Extra field shown when "other" is selected -->
           <div class="other-input-wrap" id="otherUniversityWrap">
             <div class="field-wrap">
               <input type="text" id="otherUniversity" class="field-input" placeholder="اكتب اسم جامعتك" maxlength="100">
@@ -716,11 +573,9 @@ select.field-input {
           </div>
         </div>
 
-        <!-- DEPARTMENT -->
+        <!-- ===== DEPARTMENT ===== -->
         <div class="field-group">
-          <label class="field-label" for="department">
-            <span>*</span> قسم الهندسة
-          </label>
+          <label class="field-label" for="department"><span>*</span> قسم الهندسة</label>
           <div class="field-wrap">
             <select id="department" class="field-input">
               <option value="" disabled selected>— اختر قسمك —</option>
@@ -738,7 +593,6 @@ select.field-input {
             <span class="select-arrow">▾</span>
           </div>
           <div class="field-error" id="err-department">الرجاء اختيار قسمك</div>
-          <!-- Extra field shown when "other" is selected -->
           <div class="other-input-wrap" id="otherDepartmentWrap">
             <div class="field-wrap">
               <input type="text" id="otherDepartment" class="field-input" placeholder="اكتب اسم قسمك" maxlength="100">
@@ -748,12 +602,11 @@ select.field-input {
           </div>
         </div>
 
+        <!-- ===== PHONE ===== -->
         <div class="field-group">
-          <label class="field-label" for="phone">
-            <span>*</span> رقم الهاتف
-          </label>
+          <label class="field-label" for="phone"><span>*</span> رقم الهاتف</label>
           <div class="field-wrap">
-            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="13" style="direction:ltr; text-align:right;">
+            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="13" style="direction:ltr;text-align:right;">
             <span class="field-icon">☎</span>
           </div>
           <div class="field-error" id="err-phone">أدخل رقم هاتف صحيح (07801112222)</div>
@@ -761,10 +614,9 @@ select.field-input {
 
         <hr class="divider">
 
+        <!-- ===== PASSWORD ===== -->
         <div class="field-group">
-          <label class="field-label" for="password">
-            <span>*</span> كلمة المرور
-          </label>
+          <label class="field-label" for="password"><span>*</span> كلمة المرور</label>
           <div class="field-wrap">
             <input type="password" id="password" class="field-input" placeholder="أدخل كلمة مرور قوية" autocomplete="new-password" maxlength="64">
             <span class="field-icon">⚿</span>
@@ -781,10 +633,9 @@ select.field-input {
           <div class="field-error" id="err-password">كلمة المرور يجب أن تكون 6 أحرف على الأقل</div>
         </div>
 
+        <!-- ===== CONFIRM PASSWORD ===== -->
         <div class="field-group">
-          <label class="field-label" for="passwordConfirm">
-            <span>*</span> إعد إدخال كلمة المرور
-          </label>
+          <label class="field-label" for="passwordConfirm"><span>*</span> إعد إدخال كلمة المرور</label>
           <div class="field-wrap">
             <input type="password" id="passwordConfirm" class="field-input" placeholder="أعد إدخال كلمة المرور" autocomplete="new-password" maxlength="64">
             <span class="field-icon">⚿</span>
@@ -795,7 +646,7 @@ select.field-input {
           <div class="field-error" id="err-confirm">كلمتا المرور غير متطابقتان</div>
         </div>
 
-        <!-- ===== TERMS CHECKBOX ===== -->
+        <!-- ===== TERMS ===== -->
         <div class="terms-wrap">
           <input type="checkbox" id="termsCheck" class="terms-checkbox" aria-describedby="terms-label">
           <label class="terms-text" id="terms-label" for="termsCheck">
@@ -811,14 +662,25 @@ select.field-input {
         </button>
 
         <div class="success-msg" id="successMsg">
-         تم إنشاء الحساب بنجاح! جاري تحويلك...
+          ✅ تم إنشاء الحساب! يُرجى تأكيد بريدك الإلكتروني للمتابعة.
+        </div>
+
+        <!-- ===== EMAIL VERIFICATION BANNER ===== -->
+        <div class="verify-banner" id="verifyBanner">
+          <h3>📧 تحقق من بريدك الإلكتروني</h3>
+          <p>
+            أرسلنا رابط التحقق إلى<br>
+            <strong id="verifyEmailDisplay"></strong><br>
+            يُرجى فتح بريدك والنقر على رابط التأكيد للوصول إلى حسابك.
+          </p>
+          <button class="resend-btn" id="resendBtn" onclick="resendVerification()">⟳ إعادة إرسال الرابط</button>
+          <p class="resend-note" id="resendNote"></p>
         </div>
 
       </form>
 
       <div class="register-strip">
-        تملك حسابا في مجتمع طلبة الهندسة؟
-        <br>
+        تملك حسابًا في مجتمع طلبة الهندسة؟<br>
         <a href="login.html">قم بتسجيل الدخول ←</a>
       </div>
     </div>
@@ -830,10 +692,165 @@ select.field-input {
   © 2026 Engineering Student Community — ESC — جميع الحقوق محفوظة
 </footer>
 
+<script>
+// ===== COUNTRIES DATA (blocked: Israel → Palestine, Kuwait, Taiwan) =====
+const countriesByContinent = {
+  asia: [
+    { v:"iraq",         l:"العراق" },
+    { v:"saudi",        l:"المملكة العربية السعودية" },
+    { v:"uae",          l:"الإمارات العربية المتحدة" },
+    { v:"jordan",       l:"الأردن" },
+    { v:"syria",        l:"سوريا" },
+    { v:"lebanon",      l:"لبنان" },
+    { v:"egypt",        l:"مصر" },
+    { v:"yemen",        l:"اليمن" },
+    { v:"oman",         l:"سلطنة عُمان" },
+    { v:"qatar",        l:"قطر" },
+    { v:"bahrain",      l:"البحرين" },
+    { v:"palestine",    l:"جمهورية فلسطين" },
+    { v:"turkey",       l:"تركيا" },
+    { v:"iran",         l:"إيران" },
+    { v:"pakistan",     l:"باكستان" },
+    { v:"india",        l:"الهند" },
+    { v:"bangladesh",   l:"بنغلاديش" },
+    { v:"indonesia",    l:"إندونيسيا" },
+    { v:"malaysia",     l:"ماليزيا" },
+    { v:"china",        l:"الصين" },
+    { v:"japan",        l:"اليابان" },
+    { v:"southkorea",   l:"كوريا الجنوبية" },
+    { v:"afghanistan",  l:"أفغانستان" },
+    { v:"kazakhstan",   l:"كازاخستان" },
+    { v:"uzbekistan",   l:"أوزبكستان" },
+    { v:"azerbaijan",   l:"أذربيجان" },
+    { v:"armenia",      l:"أرمينيا" },
+    { v:"georgia",      l:"جورجيا" },
+    { v:"singapore",    l:"سنغافورة" },
+    { v:"thailand",     l:"تايلاند" },
+    { v:"vietnam",      l:"فيتنام" },
+    { v:"philippines",  l:"الفلبين" },
+    { v:"myanmar",      l:"ميانمار" },
+    { v:"cambodia",     l:"كمبوديا" },
+    { v:"nepal",        l:"نيبال" },
+    { v:"srilanka",     l:"سريلانكا" },
+  ],
+  africa: [
+    { v:"morocco",      l:"المغرب" },
+    { v:"algeria",      l:"الجزائر" },
+    { v:"tunisia",      l:"تونس" },
+    { v:"libya",        l:"ليبيا" },
+    { v:"sudan",        l:"السودان" },
+    { v:"ethiopia",     l:"إثيوبيا" },
+    { v:"nigeria",      l:"نيجيريا" },
+    { v:"southafrica",  l:"جنوب أفريقيا" },
+    { v:"kenya",        l:"كينيا" },
+    { v:"ghana",        l:"غانا" },
+    { v:"cameroon",     l:"الكاميرون" },
+    { v:"tanzania",     l:"تنزانيا" },
+    { v:"senegal",      l:"السنغال" },
+    { v:"uganda",       l:"أوغندا" },
+    { v:"mozambique",   l:"موزمبيق" },
+    { v:"zambia",       l:"زامبيا" },
+    { v:"somalia",      l:"الصومال" },
+    { v:"mauritania",   l:"موريتانيا" },
+    { v:"mali",         l:"مالي" },
+    { v:"niger",        l:"النيجر" },
+  ],
+  europe: [
+    { v:"uk",           l:"المملكة المتحدة" },
+    { v:"germany",      l:"ألمانيا" },
+    { v:"france",       l:"فرنسا" },
+    { v:"netherlands",  l:"هولندا" },
+    { v:"sweden",       l:"السويد" },
+    { v:"norway",       l:"النرويج" },
+    { v:"denmark",      l:"الدنمارك" },
+    { v:"finland",      l:"فنلندا" },
+    { v:"switzerland",  l:"سويسرا" },
+    { v:"austria",      l:"النمسا" },
+    { v:"belgium",      l:"بلجيكا" },
+    { v:"spain",        l:"إسبانيا" },
+    { v:"italy",        l:"إيطاليا" },
+    { v:"portugal",     l:"البرتغال" },
+    { v:"poland",       l:"بولندا" },
+    { v:"czechia",      l:"التشيك" },
+    { v:"hungary",      l:"المجر" },
+    { v:"romania",      l:"رومانيا" },
+    { v:"greece",       l:"اليونان" },
+    { v:"ukraine",      l:"أوكرانيا" },
+    { v:"russia",       l:"روسيا" },
+    { v:"serbia",       l:"صربيا" },
+    { v:"croatia",      l:"كرواتيا" },
+    { v:"slovakia",     l:"سلوفاكيا" },
+    { v:"bulgaria",     l:"بلغاريا" },
+    { v:"albania",      l:"ألبانيا" },
+  ],
+  north_america: [
+    { v:"usa",          l:"الولايات المتحدة الأمريكية" },
+    { v:"canada",       l:"كندا" },
+    { v:"mexico",       l:"المكسيك" },
+    { v:"cuba",         l:"كوبا" },
+    { v:"jamaica",      l:"جامايكا" },
+    { v:"dominicanrep", l:"جمهورية الدومينيكان" },
+    { v:"costarica",    l:"كوستاريكا" },
+    { v:"panama",       l:"بنما" },
+    { v:"guatemala",    l:"غواتيمالا" },
+    { v:"honduras",     l:"هندوراس" },
+    { v:"elsalvador",   l:"السلفادور" },
+    { v:"nicaragua",    l:"نيكاراغوا" },
+  ],
+  south_america: [
+    { v:"brazil",       l:"البرازيل" },
+    { v:"argentina",    l:"الأرجنتين" },
+    { v:"colombia",     l:"كولومبيا" },
+    { v:"chile",        l:"تشيلي" },
+    { v:"peru",         l:"بيرو" },
+    { v:"venezuela",    l:"فنزويلا" },
+    { v:"ecuador",      l:"الإكوادور" },
+    { v:"bolivia",      l:"بوليفيا" },
+    { v:"paraguay",     l:"باراغواي" },
+    { v:"uruguay",      l:"أوروغواي" },
+    { v:"guyana",       l:"غيانا" },
+    { v:"suriname",     l:"سورينام" },
+  ],
+  oceania: [
+    { v:"australia",    l:"أستراليا" },
+    { v:"newzealand",   l:"نيوزيلندا" },
+    { v:"fiji",         l:"فيجي" },
+    { v:"png",          l:"بابوا غينيا الجديدة" },
+    { v:"samoa",        l:"ساموا" },
+    { v:"tonga",        l:"تونغا" },
+  ]
+};
+
+function loadCountries() {
+  const continent = document.getElementById('continent').value;
+  const countrySelect = document.getElementById('country');
+  countrySelect.innerHTML = '<option value="" disabled selected>— الدولة —</option>';
+  if (!continent) { countrySelect.disabled = true; return; }
+  const list = countriesByContinent[continent] || [];
+  list.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.v; opt.textContent = c.l;
+    countrySelect.appendChild(opt);
+  });
+  countrySelect.disabled = false;
+  document.getElementById('err-continent').classList.remove('show');
+}
+
+// ===== GENDER SELECTION =====
+function selectGender(g) {
+  document.getElementById('genderValue').value = g;
+  document.getElementById('genderMale').classList.toggle('selected', g === 'male');
+  document.getElementById('genderFemale').classList.toggle('selected', g === 'female');
+  document.getElementById('err-gender').classList.remove('show');
+}
+</script>
+
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+  import { initializeApp }                         from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword,
+           sendEmailVerification, onAuthStateChanged,
+           reload }                                 from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, getDoc }     from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
@@ -845,201 +862,219 @@ select.field-input {
     measurementId: "G-6L0FRLSVZW"
   };
 
-  const app = initializeApp(firebaseConfig);
+  const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db = getFirestore(app);
+  const db   = getFirestore(app);
 
   let isRegistering = false;
+  let currentUser   = null;
+  let verifyPollInterval = null;
 
+  // ─── Redirect if already signed in & verified ───
   onAuthStateChanged(auth, (user) => {
     if (user && !isRegistering) {
-      window.location.href = "profile.html";
+      if (user.emailVerified) {
+        window.location.href = "profile.html";
+      } else {
+        // المستخدم مسجل الدخول لكن لم يفعل إيميله
+        currentUser = user;
+        document.getElementById('registerForm').style.display = 'none'; // إخفاء الفورم
+        document.getElementById('verifyEmailDisplay').textContent = user.email;
+        document.getElementById('verifyBanner').classList.add('show');
+        startVerifyPolling(user); // إعادة تشغيل المؤقت
+      }
     }
   });
 
-  // ===== Password toggle =====
-  function setupToggle(btnId, inputId, iconId) {
-    document.getElementById(btnId).addEventListener('click', function() {
-      var inp = document.getElementById(inputId);
-      if (inp.type === 'password') { inp.type = 'text'; }
-      else { inp.type = 'password'; }
+  // ─── Password toggle ───
+  function setupToggle(btnId, inputId) {
+    document.getElementById(btnId).addEventListener('click', () => {
+      const inp = document.getElementById(inputId);
+      inp.type = inp.type === 'password' ? 'text' : 'password';
     });
   }
-  setupToggle('togglePass', 'password', 'eyeIcon');
-  setupToggle('togglePassConfirm', 'passwordConfirm', 'eyeIcon2');
+  setupToggle('togglePass', 'password');
+  setupToggle('togglePassConfirm', 'passwordConfirm');
 
-  function showError(id, errId) {
+  // ─── Error helpers ───
+  function showError(id, errId, msg) {
     document.getElementById(id).classList.add('error');
-    document.getElementById(errId).classList.add('show');
+    const el = document.getElementById(errId);
+    if (msg) el.textContent = msg;
+    el.classList.add('show');
   }
   function clearError(id, errId) {
     document.getElementById(id).classList.remove('error');
     document.getElementById(errId).classList.remove('show');
   }
 
-  // ===== "Other" university/department toggle =====
+  // ─── "Other" university/department toggle ───
   document.getElementById('university').addEventListener('change', function() {
     const wrap = document.getElementById('otherUniversityWrap');
-    if (this.value === 'other') {
-      wrap.classList.add('show');
-      document.getElementById('otherUniversity').focus();
-    } else {
-      wrap.classList.remove('show');
-      document.getElementById('otherUniversity').value = '';
-      clearError('otherUniversity', 'err-other-university');
-    }
+    if (this.value === 'other') { wrap.classList.add('show'); document.getElementById('otherUniversity').focus(); }
+    else { wrap.classList.remove('show'); document.getElementById('otherUniversity').value=''; clearError('otherUniversity','err-other-university'); }
   });
-
   document.getElementById('department').addEventListener('change', function() {
     const wrap = document.getElementById('otherDepartmentWrap');
-    if (this.value === 'other') {
-      wrap.classList.add('show');
-      document.getElementById('otherDepartment').focus();
-    } else {
-      wrap.classList.remove('show');
-      document.getElementById('otherDepartment').value = '';
-      clearError('otherDepartment', 'err-other-department');
-    }
+    if (this.value === 'other') { wrap.classList.add('show'); document.getElementById('otherDepartment').focus(); }
+    else { wrap.classList.remove('show'); document.getElementById('otherDepartment').value=''; clearError('otherDepartment','err-other-department'); }
   });
 
-  // ===== Terms checkbox → enable/disable submit button =====
+  // ─── Terms checkbox ───
   const termsCheck = document.getElementById('termsCheck');
   const submitBtn  = document.getElementById('submitBtn');
-
   termsCheck.addEventListener('change', function() {
-    if (this.checked) {
-      submitBtn.disabled = false;
-      submitBtn.classList.add('active');
-      document.getElementById('err-terms').classList.remove('show');
-    } else {
-      submitBtn.disabled = true;
-      submitBtn.classList.remove('active');
-    }
+    if (this.checked) { submitBtn.disabled=false; submitBtn.classList.add('active'); document.getElementById('err-terms').classList.remove('show'); }
+    else              { submitBtn.disabled=true;  submitBtn.classList.remove('active'); }
   });
 
-  // ===== Terms Modal =====
-  const modal        = document.getElementById('termsModal');
-  const openTermsLink= document.getElementById('openTermsLink');
-  const closeModal   = document.getElementById('closeModal');
-  const acceptBtn    = document.getElementById('acceptTermsBtn');
+  // ─── Terms Modal ───
+  const modal         = document.getElementById('termsModal');
+  const openTermsLink = document.getElementById('openTermsLink');
+  const closeModalBtn = document.getElementById('closeModal');
+  const acceptBtn     = document.getElementById('acceptTermsBtn');
 
-  function openModal(e) {
-    if (e) e.preventDefault();
-    modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModalFn() {
-    modal.classList.remove('open');
-    document.body.style.overflow = '';
-  }
+  function openModal(e)  { if(e)e.preventDefault(); modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeModalFn(){ modal.classList.remove('open'); document.body.style.overflow=''; }
 
   openTermsLink.addEventListener('click', openModal);
-  closeModal.addEventListener('click', closeModalFn);
+  closeModalBtn.addEventListener('click', closeModalFn);
+  acceptBtn.addEventListener('click', () => { termsCheck.checked=true; termsCheck.dispatchEvent(new Event('change')); closeModalFn(); });
+  modal.addEventListener('click', e => { if(e.target===modal) closeModalFn(); });
+  document.addEventListener('keydown', e => { if(e.key==='Escape'&&modal.classList.contains('open')) closeModalFn(); });
 
-  // Click accept in modal → close and tick checkbox
-  acceptBtn.addEventListener('click', function() {
-    termsCheck.checked = true;
-    termsCheck.dispatchEvent(new Event('change'));
-    closeModalFn();
-  });
+  // ─── Email verification polling ───
+  function startVerifyPolling(user) {
+    clearInterval(verifyPollInterval);
+    verifyPollInterval = setInterval(async () => {
+      try {
+        await reload(user);
+        if (user.emailVerified) {
+          clearInterval(verifyPollInterval);
+          window.location.href = "profile.html";
+        }
+      } catch(_) {}
+    }, 3000);
+  }
 
-  // Click outside modal box to close
-  modal.addEventListener('click', function(e) {
-    if (e.target === modal) closeModalFn();
-  });
+  // ─── Resend verification (exposed globally) ───
+  window.resendVerification = async function() {
+    if (!currentUser) return;
+    const btn  = document.getElementById('resendBtn');
+    const note = document.getElementById('resendNote');
+    btn.disabled = true;
+    try {
+      await sendEmailVerification(currentUser);
+      note.textContent = "✅ تم إعادة الإرسال، راجع صندوق الوارد.";
+      note.style.color = "#188038";
+    } catch(e) {
+      note.textContent = "حدث خطأ: " + e.message;
+      note.style.color = "#dc2626";
+    }
+    setTimeout(() => { btn.disabled=false; note.textContent=''; }, 30000);
+  };
 
-  // ESC key to close
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && modal.classList.contains('open')) closeModalFn();
-  });
-
-  // ===== FORM SUBMIT =====
+  // ─── FORM SUBMIT ───
   document.getElementById('registerForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // If button still disabled (terms not accepted), show error and stop
-    if (!termsCheck.checked) {
-      document.getElementById('err-terms').classList.add('show');
-      return;
-    }
+    if (!termsCheck.checked) { document.getElementById('err-terms').classList.add('show'); return; }
 
     const name     = document.getElementById('studentName').value.trim();
     const username = document.getElementById('username').value.trim().toLowerCase();
+    const email    = document.getElementById('email').value.trim().toLowerCase();
+    const gender   = document.getElementById('genderValue').value;
+    const continentVal = document.getElementById('continent').value;
+    const countryVal   = document.getElementById('country').value;
     const uniSel   = document.getElementById('university').value;
     const depSel   = document.getElementById('department').value;
     const ph       = document.getElementById('phone').value.replace(/\s/g,'');
     const pass     = document.getElementById('password').value;
     const conf     = document.getElementById('passwordConfirm').value;
 
-    // Resolve "other" values
-    const uni = uniSel === 'other'
-      ? document.getElementById('otherUniversity').value.trim()
-      : uniSel;
-    const dep = depSel === 'other'
-      ? document.getElementById('otherDepartment').value.trim()
-      : depSel;
+    const uni = uniSel==='other' ? document.getElementById('otherUniversity').value.trim() : uniSel;
+    const dep = depSel==='other' ? document.getElementById('otherDepartment').value.trim()  : depSel;
 
     const usernameRegex = /^[a-z0-9_]{3,30}$/;
+    const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let isValid = true;
 
-    if (name.length < 4)              { showError('studentName','err-name');       isValid = false; } else clearError('studentName','err-name');
-    if (!usernameRegex.test(username)){ showError('username','err-username');       isValid = false; } else clearError('username','err-username');
-    if (!uniSel)                      { showError('university','err-university');   isValid = false; } else clearError('university','err-university');
-    if (uniSel === 'other' && !uni)   { showError('otherUniversity','err-other-university'); isValid = false; } else clearError('otherUniversity','err-other-university');
-    if (!depSel)                      { showError('department','err-department');   isValid = false; } else clearError('department','err-department');
-    if (depSel === 'other' && !dep)   { showError('otherDepartment','err-other-department'); isValid = false; } else clearError('otherDepartment','err-other-department');
-    if (!/^07[0-9]{9}$/.test(ph))    { showError('phone','err-phone');             isValid = false; } else clearError('phone','err-phone');
-    if (pass.length < 6)             { showError('password','err-password');        isValid = false; } else clearError('password','err-password');
-    if (pass !== conf || !conf)       { showError('passwordConfirm','err-confirm'); isValid = false; } else clearError('passwordConfirm','err-confirm');
+    if (name.length < 4)               { showError('studentName','err-name');                  isValid=false; } else clearError('studentName','err-name');
+    if (!usernameRegex.test(username)) { showError('username','err-username');                  isValid=false; } else clearError('username','err-username');
+    if (!emailRegex.test(email))       { showError('email','err-email');                        isValid=false; } else clearError('email','err-email');
+    if (!gender)                       { document.getElementById('err-gender').classList.add('show'); isValid=false; } else document.getElementById('err-gender').classList.remove('show');
+    if (!continentVal)                 { document.getElementById('err-continent').classList.add('show'); isValid=false; } else document.getElementById('err-continent').classList.remove('show');
+    if (!countryVal)                   { document.getElementById('err-country').classList.add('show');  isValid=false; } else document.getElementById('err-country').classList.remove('show');
+    if (!uniSel)                       { showError('university','err-university');              isValid=false; } else clearError('university','err-university');
+    if (uniSel==='other'&&!uni)        { showError('otherUniversity','err-other-university');   isValid=false; } else clearError('otherUniversity','err-other-university');
+    if (!depSel)                       { showError('department','err-department');              isValid=false; } else clearError('department','err-department');
+    if (depSel==='other'&&!dep)        { showError('otherDepartment','err-other-department');   isValid=false; } else clearError('otherDepartment','err-other-department');
+    if (!/^07[0-9]{9}$/.test(ph))     { showError('phone','err-phone');                        isValid=false; } else clearError('phone','err-phone');
+    if (pass.length < 6)              { showError('password','err-password');                   isValid=false; } else clearError('password','err-password');
+    if (pass!==conf||!conf)            { showError('passwordConfirm','err-confirm');            isValid=false; } else clearError('passwordConfirm','err-confirm');
 
     if (!isValid) return;
 
-    const btn = this.querySelector('.btn-submit');
+    const btn = document.getElementById('submitBtn');
     btn.innerHTML = '<span>⏳</span><span>جارٍ إنشاء الحساب...</span>';
     btn.disabled = true;
     isRegistering = true;
 
     try {
-      const userDocRef  = doc(db, "students", username);
-      const userDocSnap = await getDoc(userDocRef);
-
+      // Check username uniqueness
+      const userDocSnap = await getDoc(doc(db,"students",username));
       if (userDocSnap.exists()) {
-        showError('username','err-username');
-        document.getElementById('err-username').textContent = 'اسم المستخدم هذا محجوز، الرجاء اختيار اسم آخر.';
+        showError('username','err-username','اسم المستخدم هذا محجوز، الرجاء اختيار اسم آخر.');
         throw new Error("USERNAME_TAKEN");
       }
 
-      const virtualEmail   = ph + "@esc.local";
-      const userCredential = await createUserWithEmailAndPassword(auth, virtualEmail, pass);
-      const user           = userCredential.user;
+      // Create Firebase Auth user with real email
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      const user = userCredential.user;
+      currentUser = user;
 
-      await setDoc(doc(db, "students", username), {
+      // Send verification email immediately
+      await sendEmailVerification(user);
+
+      // Save profile to Firestore
+      await setDoc(doc(db,"students",username), {
         uid:         user.uid,
         username:    username,
         fullName:    name,
+        email:       email,
+        gender:      gender,
+        continent:   continentVal,
+        country:     countryVal,
         university:  uni,
         department:  dep,
         phoneNumber: ph,
         createdAt:   new Date().toISOString(),
-        role:        "student"
+        role:        "student",
+        emailVerified: false
       });
 
+      // Show success + verify banner
       document.getElementById('successMsg').classList.add('show');
-      btn.innerHTML = '<span>✔️</span><span>تم بنجاح</span>';
-      setTimeout(() => { window.location.href = "profile.html"; }, 2000);
+      document.getElementById('verifyEmailDisplay').textContent = email;
+      document.getElementById('verifyBanner').classList.add('show');
+      btn.innerHTML = '<span>📧</span><span>في انتظار تأكيد البريد</span>';
+
+      // Poll for email verification
+      startVerifyPolling(user);
 
     } catch (error) {
       console.error("Firebase Error:", error);
-      btn.disabled  = false;
+      isRegistering = false;
+      btn.disabled = false;
       btn.classList.add('active');
       btn.innerHTML = '<span></span><span>إنشاء حساب</span>';
-      isRegistering = false;
 
       if (error.message === "USERNAME_TAKEN") {
-        // already handled above
+        // already handled
       } else if (error.code === 'auth/email-already-in-use') {
-        showError('phone','err-phone');
-        document.getElementById('err-phone').textContent = 'هذا الرقم مسجل مسبقاً في المجتمع.';
+        showError('email','err-email','هذا البريد الإلكتروني مسجل مسبقاً.');
+      } else if (error.code === 'auth/invalid-email') {
+        showError('email','err-email','صيغة البريد الإلكتروني غير صحيحة.');
       } else {
         alert("حدث خطأ: " + error.message);
       }
