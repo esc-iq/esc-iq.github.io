@@ -1894,33 +1894,40 @@ let   confirmCallback = null;
 let   allStudentsCache= null;
 
 /* ─── AUTH & REDIRECT ─── */
+/* ─── AUTH & REDIRECT ─── */
 onAuthStateChanged(auth, async (user) => {
-  updateAuthButton(user);
+  updateAuthButton(user);
 
-  if (!user) {
-    /* غير مسجّل: أظهر صفحة المنع */
-    document.getElementById('authGate').classList.add('show');
-    /* أخفِ overlay التحميل */
-    const ov = document.getElementById('loadingOverlay');
-    ov.classList.add('fade-out');
-    setTimeout(() => ov.remove(), 400);
-    return;
-  }
+  // إذا كان هناك اسم مستخدم في الرابط (مثل: profile.html?u=ali)
+  if (TARGET_USERNAME) {
+    // 1. قم بتحميل وعرض البروفايل للجميع (للزوار والمستخدمين المسجلين)
+    loadProfile();
 
-  if (!TARGET_USERNAME) {
-    const q    = query(collection(db,"students"), where("uid","==",user.uid));
-    const snap = await getDocs(q);
-    if (!snap.empty) window.location.href = "profile.html?u=" + snap.docs[0].id;
-    else window.location.href = "login.html";
-  } else {
-    loadProfile();
-    const checkInterval = setInterval(() => {
-      if (profileData.uid) {
-        clearInterval(checkInterval);
-        if (user.uid === profileData.uid) activateOwnerMode();
-      }
-    }, 100);
-  }
+    // 2. إذا كان المستخدم مسجلاً للدخول، افحص إذا كان هو صاحب البروفايل لتفعيل أزرار التعديل
+    if (user) {
+      const checkInterval = setInterval(() => {
+        if (profileData.uid) {
+          clearInterval(checkInterval);
+          if (user.uid === profileData.uid) activateOwnerMode();
+        }
+      }, 100);
+    }
+  } else {
+    // إذا دخل الزائر للصفحة بدون تحديد اسم مستخدم (profile.html فقط)
+    if (!user) {
+      // زائر: أظهر له شاشة تسجيل الدخول لأنه لم يحدد بروفايل من يبحث عنه
+      document.getElementById('authGate').classList.add('show');
+      const ov = document.getElementById('loadingOverlay');
+      ov.classList.add('fade-out');
+      setTimeout(() => ov.remove(), 400);
+    } else {
+      // مستخدم مسجل: ابحث عن حسابه في قاعدة البيانات وحوله لملفه الشخصي تلقائياً
+      const q = query(collection(db,"students"), where("uid","==",user.uid));
+      const snap = await getDocs(q);
+      if (!snap.empty) window.location.href = "profile.html?u=" + snap.docs[0].id;
+      else window.location.href = "login.html";
+    }
+  }
 });
 
 async function updateAuthButton(user) {
