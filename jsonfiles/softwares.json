@@ -2,7 +2,7 @@
   {
     "publisher": ["mohammedbaqer"],
     "title": "Bearing Capacity Factor Finder for Pressuremeter Test - BCFF",
-    "applogo" "media/softwareicons.png",
+    "applogo" "media/softwareicons/bcff.png",
     "description1": "it's a free software that help you to determning Bearing Capacity Factor Of Soil at a ture shallow depths",
     "version": "0.1v",
     "descripton2" : "this version is beta",
