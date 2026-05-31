@@ -9,26 +9,20 @@
 
 <style>
 /* ============================================================
-   VARIABLES & RESET
+   VARIABLES
    ============================================================ */
 :root {
   --nav-height: 58px;
   --blue: #0047AB;
   --teal: #008080;
   --cream: #FAF9F6;
-  --dark: #0a0a0f;
-  --card-radius: 14px;
-  --transition: 0.3s ease;
   --text-dark: #0d1b2a;
   --text-mid: #374151;
   --text-light: #6b7280;
   --border: rgba(0,0,0,0.08);
   --shadow: 0 2px 14px rgba(0,0,0,0.07);
-  --tag-blue-bg: #e6eeff;   --tag-blue-fg: #0047AB;
-  --tag-teal-bg: #e6f7f4;   --tag-teal-fg: #008080;
-  --tag-gold-bg: #fef3c7;   --tag-gold-fg: #92400e;
-  --tag-rose-bg: #ffe4e6;   --tag-rose-fg: #9f1239;
-  --tag-violet-bg: #ede9fe; --tag-violet-fg: #5b21b6;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -42,23 +36,19 @@ body {
 }
 
 /* ============================================================
-   LOADING OVERLAY
+   LOADING
    ============================================================ */
 #loadingOverlay {
-  position: fixed; inset: 0;
-  background: var(--cream);
-  z-index: 9999;
+  position: fixed; inset: 0; background: var(--cream); z-index: 9999;
   display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 16px;
-  transition: opacity 0.4s ease;
+  flex-direction: column; gap: 16px; transition: opacity 0.35s ease;
 }
 #loadingOverlay.fade-out { opacity: 0; pointer-events: none; }
 .loader-logo {
   width: 60px; height: 60px; border-radius: 14px;
-  object-fit: cover;
-  animation: pulse 1.4s ease-in-out infinite;
+  object-fit: cover; animation: pulse 1.4s ease-in-out infinite;
 }
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.95)} }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.55;transform:scale(0.95)} }
 .loader-text { font-size: 14px; font-weight: 700; color: var(--text-light); }
 
 /* ============================================================
@@ -83,7 +73,6 @@ body {
 #bar nav a:hover { background: rgba(255,255,255,0.18); }
 .bar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 
-/* ── AUTH BUTTON ── */
 #authBtn {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 6px 13px; border-radius: 9px;
@@ -95,10 +84,9 @@ body {
 #authBtn.state-guest   { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.32); }
 #authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
 #authBtn.state-user    { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
-#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
+#authBtn.state-user:hover  { background: rgba(255,255,255,0.24); }
 .auth-avatar { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.35); display: block; flex-shrink: 0; }
 
-/* ── MOBILE MENU ── */
 .menu-btn {
   display: none; height: 42px; width: 42px;
   border: 0; background: transparent; cursor: pointer;
@@ -106,287 +94,239 @@ body {
 }
 .menu-btn:hover { background: rgba(255,255,255,0.18); }
 .menu-icon { width: 24px; height: 2px; background: #fff; display: block; position: relative; margin: auto; }
-.menu-icon::before, .menu-icon::after {
-  content: ""; position: absolute; left: 0;
-  width: 24px; height: 2px; background: #fff;
-  transition: transform .18s ease, top .18s ease;
-}
-.menu-icon::before { top: -7px; }
-.menu-icon::after  { top: 7px; }
+.menu-icon::before,.menu-icon::after { content:""; position:absolute; left:0; width:24px; height:2px; background:#fff; transition:transform .18s ease,top .18s ease; }
+.menu-icon::before { top:-7px; } .menu-icon::after { top:7px; }
 .menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
-.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
-.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
-#menuBackdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
-#menuBackdrop.show { display: block; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top:0; transform:rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top:0; transform:rotate(-45deg); }
+#menuBackdrop { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:999; }
+#menuBackdrop.show { display:block; }
 .mobile-menu {
-  display: none; position: absolute;
-  right: 16px; top: calc(var(--nav-height) + 8px);
-  min-width: 240px; background: #fff;
-  border-radius: 14px; padding: 8px;
-  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
-  border: 1px solid var(--border);
-  z-index: 1001; direction: rtl;
-  transform-origin: top right;
-  transform: translateY(-6px) scale(0.98); opacity: 0;
-  transition: opacity .14s ease, transform .14s ease;
+  display:none; position:absolute; right:16px; top:calc(var(--nav-height)+8px);
+  min-width:240px; background:#fff; border-radius:14px; padding:8px;
+  box-shadow:0 14px 35px rgba(0,0,0,0.22); border:1px solid var(--border);
+  z-index:1001; direction:rtl;
+  transform-origin:top right; transform:translateY(-6px) scale(0.98); opacity:0;
+  transition:opacity .14s ease, transform .14s ease;
 }
-.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
-.mobile-menu a { display: block; padding: 11px 12px; border-radius: 10px; color: var(--text-dark); text-decoration: none; font-weight: 700; }
-.mobile-menu a:hover { background: #f3f4f6; }
+.mobile-menu.open { display:block; opacity:1; transform:translateY(0) scale(1); }
+.mobile-menu a { display:block; padding:11px 12px; border-radius:10px; color:var(--text-dark); text-decoration:none; font-weight:700; }
+.mobile-menu a:hover { background:#f3f4f6; }
 
 /* ============================================================
-   NOT FOUND / ERROR STATE
+   NOT FOUND
    ============================================================ */
-#notFoundState {
-  display: none;
-  max-width: 480px; margin: 80px auto; padding: 0 24px;
-  text-align: center;
-}
-#notFoundState.show { display: block; }
-.nf-icon { font-size: 64px; margin-bottom: 16px; }
-.nf-title { font-size: 22px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; }
-.nf-sub { font-size: 14px; color: var(--text-light); line-height: 1.75; margin-bottom: 24px; }
-.nf-btn {
-  display: inline-block; padding: 10px 24px;
-  background: var(--blue); color: #fff; border-radius: 10px;
-  text-decoration: none; font-weight: 700; font-size: 14px;
-}
+#notFoundState { display:none; max-width:440px; margin:100px auto; padding:0 24px; text-align:center; }
+#notFoundState.show { display:block; }
+.nf-icon { margin-bottom:16px; opacity:0.25; }
+.nf-title { font-size:20px; font-weight:700; margin-bottom:8px; }
+.nf-sub { font-size:14px; color:var(--text-light); line-height:1.75; margin-bottom:24px; }
+.nf-btn { display:inline-block; padding:10px 24px; background:var(--blue); color:#fff; border-radius:10px; text-decoration:none; font-weight:700; font-size:14px; }
 
 /* ============================================================
-   SOFTWARE PAGE CONTENT
+   SOFTWARE PAGE — إخفاء حتى يُكمل التحميل
    ============================================================ */
-#softwarePage { display: none; }
-#softwarePage.show { display: block; }
+#softwarePage { display:none; }
+#softwarePage.show { display:block; }
 
-/* ── COVER ── */
-.sw-cover {
-  height: 210px;
-  background: linear-gradient(135deg, #001a40 0%, #003080 45%, #006060 100%);
-  position: relative; overflow: hidden;
-}
-.sw-cover::before {
-  content: '';
-  position: absolute; top: -60px; right: -60px;
-  width: 380px; height: 380px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,207,255,0.12), transparent 70%);
-  pointer-events: none;
-}
-.sw-cover::after {
-  content: '';
-  position: absolute; bottom: -40px; left: 10%;
-  width: 220px; height: 220px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(0,128,128,0.15), transparent 70%);
-  pointer-events: none;
-}
-.cover-watermark {
-  position: absolute; bottom: 14px; left: 24px;
-  font-size: 26px; font-weight: 700; color: rgba(255,255,255,0.07);
-  letter-spacing: 6px; pointer-events: none;
-}
-.cover-uni-logo-wrap {
-  position: absolute; bottom: 14px; left: 20px;
-  display: none; align-items: center;
-}
-.cover-uni-logo-wrap.show { display: flex; }
-.cover-uni-logo {
-  max-height: 52px; max-width: 160px; object-fit: contain;
-  opacity: 0.8; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
-  border-radius: 6px;
-}
-
-/* ── HEADER BAND ── */
-.sw-header-band {
-  background: #fff;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 22px;
+/* ============================================================
+   HERO SECTION — شريط علوي مُصمَّم خصيصاً للبرامج
+   ============================================================ */
+.sw-hero {
+  background: linear-gradient(135deg, #001a40 0%, #003080 45%, #004d60 100%);
+  padding: 40px 0 0;
   position: relative;
-}
-.sw-logo-wrap {
-  position: absolute;
-  top: -60px; right: 40px;
-}
-.sw-logo-box {
-  width: 120px; height: 120px; border-radius: 20px;
-  border: 4px solid #fff;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
-  background: #f0f4ff;
   overflow: hidden;
+}
+.sw-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(0,71,171,0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 80% 30%, rgba(0,128,128,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+/* خطوط شبكية هادئة في الخلفية */
+.sw-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.sw-hero-inner {
+  max-width: 1060px; margin: 0 auto;
+  padding: 0 28px 36px;
+  position: relative; z-index: 1;
+  display: flex; align-items: flex-start; gap: 28px;
+}
+
+/* ── أيقونة البرنامج الكبيرة ── */
+.sw-app-icon {
+  width: 110px; height: 110px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.07);
+  border: 1.5px solid rgba(255,255,255,0.15);
   display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+  backdrop-filter: blur(8px);
 }
-.sw-logo-box img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-}
-.sw-logo-fallback {
-  font-size: 48px; line-height: 1;
+.sw-app-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sw-app-icon-fallback {
+  width: 52px; height: 52px;
+  color: rgba(255,255,255,0.6);
 }
 
-.sw-header-info {
-  padding: 16px 40px 0;
-  padding-right: 182px;
-}
-.sw-title {
-  font-size: 22px; font-weight: 700; color: var(--text-dark);
-  margin-bottom: 6px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
-  line-height: 1.3;
-}
-.sw-version-tag {
-  font-size: 11px; font-weight: 700;
-  background: var(--tag-teal-bg); color: var(--tag-teal-fg);
-  padding: 3px 10px; border-radius: 20px; flex-shrink: 0;
-}
-.sw-sub-row {
-  font-size: 13px; color: var(--text-light); font-weight: 700;
-  margin-bottom: 10px;
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-}
-.sw-sub-row span { display: flex; align-items: center; gap: 4px; }
+/* ── معلومات البرنامج بجانب الأيقونة ── */
+.sw-hero-info { flex: 1; padding-top: 4px; }
 
-/* Verification badge */
-.verify-badge {
+.sw-hero-eyebrow {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 10px; flex-wrap: wrap;
+}
+.sw-eyebrow-chip {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 10px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.07);
+}
+.sw-eyebrow-chip.green {
+  background: rgba(22,163,74,0.2); color: #4ade80;
+  border-color: rgba(22,163,74,0.3);
+}
+
+.sw-hero-title {
+  font-size: 30px; font-weight: 700; color: #fff;
+  line-height: 1.2; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.sw-verify-badge {
   display: inline-flex; align-items: center;
-  width: 28px; height: 28px; flex-shrink: 0;
+  width: 26px; height: 26px; flex-shrink: 0;
   position: relative; cursor: help;
 }
-.verify-badge img { width: 28px; height: 28px; object-fit: contain; }
-.verify-badge .verify-tooltip {
-  display: none;
-  position: absolute;
+.sw-verify-badge img { width: 26px; height: 26px; object-fit: contain; }
+.sw-verify-badge .tooltip {
+  display: none; position: absolute;
   bottom: calc(100% + 8px); right: 50%; transform: translateX(50%);
   background: #1f2937; color: #fff;
-  font-size: 12px; font-weight: 700;
-  padding: 6px 12px; border-radius: 8px;
+  font-size: 11px; font-weight: 700;
+  padding: 5px 10px; border-radius: 7px;
   white-space: nowrap; box-shadow: 0 4px 14px rgba(0,0,0,0.25);
   z-index: 100; pointer-events: none;
 }
-.verify-badge .verify-tooltip::after {
+.sw-verify-badge .tooltip::after {
   content: ''; position: absolute;
   top: 100%; right: 50%; transform: translateX(50%);
   border: 5px solid transparent; border-top-color: #1f2937;
 }
-.verify-badge:hover .verify-tooltip { display: block; }
+.sw-verify-badge:hover .tooltip { display: block; }
 
-/* ── TAGS ROW ── */
-.sw-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
-.sw-tag {
-  font-size: 12px; font-weight: 700;
-  padding: 4px 12px; border-radius: 20px;
-  display: inline-block;
+.sw-hero-meta {
+  display: flex; align-items: center; gap: 18px;
+  flex-wrap: wrap; margin-bottom: 20px;
 }
-.sw-tag.blue   { background: var(--tag-blue-bg);   color: var(--tag-blue-fg); }
-.sw-tag.teal   { background: var(--tag-teal-bg);   color: var(--tag-teal-fg); }
-.sw-tag.gold   { background: var(--tag-gold-bg);   color: var(--tag-gold-fg); }
-.sw-tag.violet { background: var(--tag-violet-bg); color: var(--tag-violet-fg); }
+.sw-meta-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.55);
+}
+.sw-meta-item svg { opacity: 0.6; flex-shrink: 0; }
+.sw-meta-divider {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: rgba(255,255,255,0.2); flex-shrink: 0;
+}
+.sw-meta-item a { color: rgba(255,255,255,0.55); text-decoration: none; }
+.sw-meta-item a:hover { color: #fff; }
+
+/* ── زر التحميل الأساسي ── */
+.sw-hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.btn-download-main {
+  display: inline-flex; align-items: center; gap: 0;
+  background: #16a34a; color: #fff;
+  border-radius: 10px; text-decoration: none;
+  font-family: 'Ubuntu', sans-serif;
+  font-weight: 700; cursor: pointer; border: none;
+  box-shadow: 0 4px 20px rgba(22,163,74,0.45);
+  transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  overflow: hidden;
+}
+.btn-download-main:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(22,163,74,0.55); filter: brightness(1.07); }
+.btn-download-main:active { transform: translateY(0); }
+.btn-download-main.disabled { background: #374151; box-shadow: none; pointer-events: none; cursor: default; }
+
+.btn-dl-body { padding: 13px 20px 13px 4px; }
+.btn-dl-label { font-size: 15px; font-weight: 700; display: block; line-height: 1.2; }
+.btn-dl-sub   { font-size: 11px; font-weight: 400; opacity: 0.8; display: block; margin-top: 2px; }
+.btn-dl-icon  {
+  width: 52px; height: 52px;
+  background: rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.btn-dl-icon svg { width: 22px; height: 22px; color: #fff; }
+
+.btn-share {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 16px; border-radius: 10px;
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  color: rgba(255,255,255,0.75);
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background var(--transition);
+}
+.btn-share:hover { background: rgba(255,255,255,0.18); color: #fff; }
+.btn-share svg { width: 15px; height: 15px; }
+
+/* ── شريط الإحصائيات ── */
+.sw-stats-bar {
+  background: rgba(0,0,0,0.25);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  backdrop-filter: blur(4px);
+}
+.sw-stats-inner {
+  max-width: 1060px; margin: 0 auto;
+  padding: 0 28px;
+  display: flex; align-items: stretch;
+}
+.sw-stat-cell {
+  flex: 1; padding: 14px 16px;
+  border-left: 1px solid rgba(255,255,255,0.07);
+  display: flex; align-items: center; gap: 10px;
+}
+.sw-stat-cell:first-child { border-right: none; }
+.sw-stat-cell:last-child  { border-left: none; }
+.sw-stat-icon-box {
+  width: 32px; height: 32px; border-radius: 7px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.sw-stat-icon-box svg { width: 15px; height: 15px; color: rgba(255,255,255,0.6); }
+.sw-stat-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.8px; }
+.sw-stat-value { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.85); margin-top: 1px; line-height: 1.3; }
 
 /* ============================================================
    BODY LAYOUT
    ============================================================ */
 .sw-body {
-  max-width: 1000px;
-  margin: 28px auto 60px;
+  max-width: 1060px; margin: 28px auto 70px;
   padding: 0 24px;
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 1fr 290px;
   gap: 24px;
   align-items: flex-start;
 }
 
 /* ============================================================
-   SIDEBAR
-   ============================================================ */
-.sidebar-card {
-  background: #fff;
-  border-radius: var(--card-radius);
-  border: 1px solid var(--border);
-  padding: 24px 22px;
-  box-shadow: var(--shadow);
-}
-.sidebar-card + .sidebar-card { margin-top: 16px; }
-.sidebar-card-title {
-  font-size: 12px; font-weight: 700;
-  color: #888; letter-spacing: 1.5px;
-  text-transform: uppercase; margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(0,0,0,0.06);
-}
-.info-row {
-  display: flex; align-items: flex-start;
-  gap: 12px; margin-bottom: 14px;
-}
-.info-row:last-child { margin-bottom: 0; }
-.info-icon { font-size: 17px; flex-shrink: 0; margin-top: 2px; }
-.info-label {
-  font-size: 10px; color: #999; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px;
-}
-.info-value {
-  font-size: 13px; color: var(--text-dark); font-weight: 700; line-height: 1.5;
-}
-.info-value a { color: var(--blue); text-decoration: none; }
-.info-value a:hover { text-decoration: underline; }
-
-/* ── DOWNLOAD BUTTON ── */
-.download-btn-wrap { margin-top: 6px; }
-.download-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 13px 18px;
-  background: linear-gradient(135deg, var(--blue), #0059d4);
-  color: #fff; border-radius: 12px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 14px; font-weight: 700;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(0,71,171,0.30);
-  transition: all var(--transition);
-  border: none; cursor: pointer;
-}
-.download-btn:hover {
-  background: linear-gradient(135deg, #0059d4, #0047AB);
-  box-shadow: 0 6px 22px rgba(0,71,171,0.4);
-  transform: translateY(-1px);
-}
-.download-btn img {
-  width: 22px; height: 22px; object-fit: contain; flex-shrink: 0;
-  filter: brightness(0) invert(1);
-}
-.download-btn-sub {
-  margin-top: 8px; font-size: 11px; font-weight: 700;
-  color: #9ca3af; text-align: center; line-height: 1.5;
-}
-
-/* ── CONTACT CARD ── */
-.contact-btn {
-  display: flex; align-items: center; gap: 8px;
-  width: 100%; padding: 10px 14px;
-  background: rgba(0,71,171,0.06);
-  border: 1px solid rgba(0,71,171,0.14);
-  border-radius: 10px;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 13px; font-weight: 700; color: var(--blue);
-  text-decoration: none;
-  transition: background var(--transition);
-}
-.contact-btn:hover { background: rgba(0,71,171,0.13); }
-
-/* Publisher link */
-.publisher-link {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px;
-  background: #f9fafb;
-  border-radius: 10px; border: 1px solid var(--border);
-  text-decoration: none; color: var(--text-dark);
-  transition: background var(--transition);
-}
-.publisher-link:hover { background: #f0f4ff; }
-.pub-avatar {
-  width: 38px; height: 38px; border-radius: 9px;
-  object-fit: cover; flex-shrink: 0;
-  border: 1.5px solid rgba(0,0,0,0.08);
-  background: #e5e7eb;
-}
-.pub-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
-.pub-handle { font-size: 11px; font-weight: 700; color: var(--blue); margin-top: 1px; }
-
-/* ============================================================
-   MAIN CONTENT
+   CONTENT CARDS (main)
    ============================================================ */
 .content-card {
   background: #fff;
@@ -409,43 +349,133 @@ body {
 .card-header h2::before {
   content: ''; position: absolute;
   right: 0; top: 50%; transform: translateY(-50%);
-  width: 4px; height: 17px;
+  width: 4px; height: 18px;
   background: var(--teal); border-radius: 3px;
 }
 
-/* Description */
-.sw-desc-text {
+/* ── وصف البرنامج ── */
+.sw-desc-body {
   font-size: 14px; color: #444; line-height: 1.9;
   white-space: pre-wrap; word-break: break-word;
+  font-weight: 400;
 }
-.sw-desc-text.beta-note {
-  margin-top: 12px; padding: 10px 14px;
-  background: var(--tag-gold-bg);
+.sw-desc-note {
+  margin-top: 16px; padding: 14px 16px;
+  background: #fffbeb;
+  border: 1px solid rgba(180,120,0,0.18);
   border-radius: 8px;
-  font-size: 13px; color: var(--tag-gold-fg);
-  font-weight: 700;
+  font-size: 13px; color: #78450a; line-height: 1.65;
 }
+.sw-desc-note::before { content: '⚠ '; font-weight: 700; }
 
-/* Legal box */
-.legal-box {
-  background: #fff8f0;
-  border: 1px solid rgba(180,83,9,0.2);
-  border-radius: 12px;
-  padding: 18px 20px;
+/* ── بطاقة الحقوق ── */
+.legal-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.legal-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--text-mid); line-height: 1.7;
 }
-.legal-box-title {
-  font-size: 13px; font-weight: 700; color: #92400e;
-  margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
-}
-.legal-item {
-  display: flex; align-items: flex-start; gap: 8px;
-  margin-bottom: 8px; font-size: 13px; color: #374151; line-height: 1.65;
-}
-.legal-item:last-child { margin-bottom: 0; }
 .legal-dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: #b45309; flex-shrink: 0; margin-top: 7px;
+  background: var(--teal); flex-shrink: 0; margin-top: 6px;
 }
+
+/* ── بطاقة مشابهة ── */
+.similar-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+}
+.similar-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px;
+  background: #f9fafb; border: 1px solid var(--border);
+  border-radius: 10px; text-decoration: none; color: var(--text-dark);
+  transition: all var(--transition);
+}
+.similar-card:hover { background: #eef2fc; border-color: rgba(0,71,171,0.18); }
+.similar-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  border: 1px solid var(--border); background: #e5e7eb;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+}
+.similar-icon img { width: 100%; height: 100%; object-fit: cover; }
+.similar-icon svg { width: 18px; height: 18px; color: var(--text-light); }
+.similar-title { font-size: 13px; font-weight: 700; line-height: 1.3; color: var(--text-dark); }
+.similar-dept  { font-size: 11px; color: var(--text-light); margin-top: 2px; }
+
+/* ============================================================
+   SIDEBAR CARDS
+   ============================================================ */
+.sidebar-card {
+  background: #fff;
+  border-radius: var(--card-radius);
+  border: 1px solid var(--border);
+  padding: 22px 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.sidebar-card:last-child { margin-bottom: 0; }
+.sidebar-card-title {
+  font-size: 11px; font-weight: 700;
+  color: #888; letter-spacing: 1.5px;
+  text-transform: uppercase; margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* ── صفوف المعلومات في الـ sidebar ── */
+.info-row {
+  display: flex; align-items: flex-start;
+  gap: 10px; margin-bottom: 14px;
+}
+.info-row:last-child { margin-bottom: 0; }
+.info-icon-box {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: #f3f4f6; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.info-icon-box svg { width: 15px; height: 15px; color: var(--text-light); }
+.info-label { font-size: 10.5px; color: #999; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 2px; }
+.info-value { font-size: 13px; color: var(--text-dark); font-weight: 700; line-height: 1.4; }
+.info-value a { color: var(--blue); text-decoration: none; }
+.info-value a:hover { text-decoration: underline; }
+
+/* ── ناشر البرنامج ── */
+.publisher-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 11px; border-radius: 9px;
+  background: #f9fafb; border: 1px solid var(--border);
+  text-decoration: none; color: var(--text-dark);
+  transition: all var(--transition); margin-bottom: 8px;
+}
+.publisher-item:last-child { margin-bottom: 0; }
+.publisher-item:hover { background: #eef2fc; border-color: rgba(0,71,171,0.15); }
+.pub-avatar { width: 36px; height: 36px; border-radius: 9px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--border); background: #e5e7eb; }
+.pub-name { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.pub-handle { font-size: 11px; font-weight: 700; color: var(--blue); margin-top: 1px; direction: ltr; }
+
+/* ── زر التواصل ── */
+.contact-btn {
+  display: flex; align-items: center; gap: 9px;
+  padding: 10px 14px; border-radius: 9px;
+  background: #f9fafb; border: 1px solid var(--border);
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text-dark); text-decoration: none; cursor: pointer;
+  transition: all var(--transition); width: 100%;
+}
+.contact-btn:hover { background: #eef2fc; border-color: rgba(0,71,171,0.18); color: var(--blue); }
+.contact-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+.contact-sub { font-size: 11.5px; color: var(--text-light); margin-top: 8px; line-height: 1.6; }
+
+/* ── تاغات ── */
+.tags-wrap { display: flex; gap: 7px; flex-wrap: wrap; }
+.tag-chip {
+  font-size: 11.5px; font-weight: 700; padding: 4px 11px;
+  border-radius: 20px; display: inline-block;
+}
+.tag-chip.blue   { background: #e6eeff; color: var(--blue); }
+.tag-chip.teal   { background: #e6f3f3; color: var(--teal); }
+.tag-chip.violet { background: #ede9fe; color: #5b21b6; }
 
 /* ============================================================
    TOAST
@@ -461,10 +491,9 @@ body {
   font-size: 14px; font-weight: 700;
   box-shadow: 0 6px 20px rgba(0,0,0,0.3);
   animation: toastIn 0.25s ease, toastOut 0.25s ease 2.5s forwards;
-  pointer-events: auto;
 }
+.toast.error { background: #991b1b; }
 .toast.success { background: #065f46; }
-.toast.error   { background: #991b1b; }
 @keyframes toastIn  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 @keyframes toastOut { to{opacity:0;transform:translateY(12px)} }
 
@@ -483,8 +512,8 @@ footer {
 }
 .footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
 .footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
-.footer-col h4 { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
+.footer-brand p  { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4   { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
 .footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
 .footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
 .footer-contact a:hover { color: #fff; }
@@ -494,43 +523,51 @@ footer {
   justify-content: space-between; flex-wrap: wrap; gap: 10px;
 }
 .footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
-.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.08); letter-spacing: 4px; }
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
-@media (max-width: 860px) { .sw-body { grid-template-columns: 1fr; } }
+@media (max-width: 860px) {
+  .sw-body { grid-template-columns: 1fr; }
+  .sw-stats-inner { flex-wrap: wrap; }
+  .sw-stat-cell { min-width: 50%; border-left: 1px solid rgba(255,255,255,0.07); }
+  .similar-grid { grid-template-columns: 1fr; }
+}
 @media (max-width: 768px) {
   #bar nav { display: none; }
   .menu-btn { display: inline-flex; }
-  .sw-logo-wrap { right: 20px; top: -50px; }
-  .sw-logo-box { width: 100px; height: 100px; }
-  .sw-header-info { padding: 12px 20px 0; padding-right: 140px; }
-  .sw-title { font-size: 17px; }
+  .sw-hero-inner { flex-direction: column; gap: 18px; }
+  .sw-app-icon { width: 80px; height: 80px; }
+  .sw-hero-title { font-size: 22px; }
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 500px) {
+  .sw-stat-cell { min-width: 100%; }
+  .sw-hero-inner { padding: 0 18px 28px; }
 }
 </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div id="loadingOverlay">
   <img src="media/icon-512.png" alt="ESC" class="loader-logo">
-  <span class="loader-text">يتم تحميل البرنامج...</span>
+  <span class="loader-text">جارٍ تحميل الصفحة...</span>
 </div>
 
 <div id="toastContainer"></div>
 
-<!-- NAVBAR -->
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
 <header id="bar">
   <div class="bar-left">
-    <a href="index.html" aria-label="الصفحة الرئيسية">
+    <a href="index.html" aria-label="الرئيسية">
       <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
     </a>
     <a id="authBtn" class="state-loading" href="login.html">⏳</a>
   </div>
-
   <nav aria-label="روابط الموقع">
     <a href="faq.html">الأسئلة الشائعة</a>
     <a href="course.html">الدورات</a>
@@ -538,8 +575,7 @@ footer {
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
-
-  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+  <button id="menuBtn" class="menu-btn" aria-label="القائمة" aria-expanded="false" aria-controls="mobileMenu">
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
   <div id="mobileMenu" class="mobile-menu" role="menu">
@@ -555,181 +591,331 @@ footer {
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
 
-<!-- NOT FOUND STATE -->
+<!-- ============================================================
+     NOT FOUND
+     ============================================================ -->
 <div id="notFoundState">
-  <div class="nf-icon">🔍</div>
+  <div class="nf-icon">
+    <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" width="64" height="64">
+      <circle cx="32" cy="32" r="28"/>
+      <path d="M22 22l20 20M42 22L22 42"/>
+    </svg>
+  </div>
   <div class="nf-title">البرنامج غير موجود</div>
   <p class="nf-sub">لم يتم العثور على البرنامج المطلوب، أو أن الرابط غير صحيح.</p>
   <a href="index.html" class="nf-btn">العودة للرئيسية</a>
 </div>
 
-<!-- SOFTWARE PAGE -->
+<!-- ============================================================
+     SOFTWARE PAGE
+     ============================================================ -->
 <div id="softwarePage">
 
-  <!-- COVER -->
-  <div class="sw-cover" id="swCover">
-    <div class="cover-watermark" id="coverWatermark">ESC</div>
-    <div class="cover-uni-logo-wrap" id="coverUniLogoWrap">
-      <img id="coverUniLogo" src="" alt="شعار الجامعة" class="cover-uni-logo">
-    </div>
-  </div>
+  <!-- ── HERO ── -->
+  <section class="sw-hero">
+    <div class="sw-hero-inner">
 
-  <!-- HEADER BAND -->
-  <div class="sw-header-band">
-    <div class="sw-logo-wrap">
-      <div class="sw-logo-box" id="swLogoBox">
-        <span class="sw-logo-fallback" id="swLogoFallback">💾</span>
-        <img id="swLogoImg" src="" alt="شعار البرنامج" style="display:none;">
+      <!-- أيقونة البرنامج -->
+      <div class="sw-app-icon" id="swAppIcon">
+        <svg class="sw-app-icon-fallback" id="swIconFallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+        </svg>
+        <img id="swIconImg" src="" alt="" style="display:none;"
+             onerror="this.style.display='none';document.getElementById('swIconFallback').style.display='block';">
       </div>
-    </div>
-    <div class="sw-header-info">
-      <div class="sw-title">
-        <span id="swTitleText">...</span>
-        <span id="swVersionTag" class="sw-version-tag" style="display:none;"></span>
-        <span id="verifyBadgeWrap" class="verify-badge" style="display:none;" title="">
-          <img id="verifyBadgeImg" src="" alt="✅">
-          <span class="verify-tooltip">هذا البرنامج موثق ومعتمد من قبل ESC</span>
-        </span>
-      </div>
-      <div class="sw-sub-row" id="swSubRow">
-        <span id="swDateSpan" style="display:none;">📅 <span id="swDate"></span></span>
-        <span id="swWorkSpan" style="display:none;">🏛️ <span id="swWork"></span></span>
-        <span id="swDeptSpan" style="display:none;">🔧 <span id="swDept"></span></span>
-      </div>
-      <div class="sw-tags" id="swTags"></div>
-    </div>
-  </div>
 
-  <!-- BODY -->
+      <!-- معلومات البرنامج -->
+      <div class="sw-hero-info">
+
+        <!-- eyebrow -->
+        <div class="sw-hero-eyebrow">
+          <span class="sw-eyebrow-chip">برنامج هندسي</span>
+          <span class="sw-eyebrow-chip green" id="eyebrowFree">مجاني</span>
+          <span class="sw-eyebrow-chip" id="eyebrowSystem" style="display:none;"></span>
+        </div>
+
+        <!-- عنوان + badge التوثيق -->
+        <div class="sw-hero-title">
+          <span id="swTitle">...</span>
+          <span id="swVerifyWrap" class="sw-verify-badge" style="display:none;">
+            <img id="swVerifyImg" src="verification2.png" alt="موثق">
+            <span class="tooltip">برنامج آمن أحدى برمجيات فريق ESC</span>
+          </span>
+        </div>
+
+        <!-- ميتا -->
+        <div class="sw-hero-meta" id="swHeroMeta">
+          <span class="sw-meta-item" id="metaVersion" style="display:none;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" width="14" height="14">
+              <path d="M2 8h12M8 2v12"/>
+            </svg>
+            <span id="metaVersionText"></span>
+          </span>
+          <span class="sw-meta-divider" id="metaDivider1" style="display:none;"></span>
+          <span class="sw-meta-item" id="metaDate" style="display:none;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" width="14" height="14">
+              <rect x="2" y="3" width="12" height="11" rx="2"/>
+              <path d="M5 1v2M11 1v2M2 7h12"/>
+            </svg>
+            <span id="metaDateText"></span>
+          </span>
+          <span class="sw-meta-divider" id="metaDivider2" style="display:none;"></span>
+          <span class="sw-meta-item" id="metaWork" style="display:none;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" width="14" height="14">
+              <path d="M2 14V6l6-4 6 4v8H2z"/>
+            </svg>
+            <span id="metaWorkText"></span>
+          </span>
+          <span class="sw-meta-divider" id="metaDivider3" style="display:none;"></span>
+          <span class="sw-meta-item" id="metaDept" style="display:none;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" width="14" height="14">
+              <path d="M3 13V6a2 2 0 012-2h6a2 2 0 012 2v7M1 13h14"/>
+            </svg>
+            <span id="metaDeptText"></span>
+          </span>
+        </div>
+
+        <!-- أزرار الإجراء -->
+        <div class="sw-hero-actions">
+          <a id="dlBtnHero" href="#" class="btn-download-main">
+            <div class="btn-dl-body">
+              <span class="btn-dl-label">تحميل مجاني</span>
+              <span class="btn-dl-sub" id="dlBtnSub">Windows</span>
+            </div>
+            <div class="btn-dl-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+            </div>
+          </a>
+
+          <button class="btn-share" id="shareBtn" title="مشاركة الرابط">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+            مشاركة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- شريط الإحصائيات -->
+    <div class="sw-stats-bar">
+      <div class="sw-stats-inner" id="swStatsInner">
+
+        <div class="sw-stat-cell">
+          <div class="sw-stat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sw-stat-label">الترخيص</div>
+            <div class="sw-stat-value">مجاني — Freeware</div>
+          </div>
+        </div>
+
+        <div class="sw-stat-cell" id="statSystem">
+          <div class="sw-stat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sw-stat-label">نظام التشغيل</div>
+            <div class="sw-stat-value" id="statSystemVal">Windows</div>
+          </div>
+        </div>
+
+        <div class="sw-stat-cell" id="statVersion" style="display:none;">
+          <div class="sw-stat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sw-stat-label">الإصدار</div>
+            <div class="sw-stat-value" id="statVersionVal">—</div>
+          </div>
+        </div>
+
+        <div class="sw-stat-cell" id="statDate" style="display:none;">
+          <div class="sw-stat-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sw-stat-label">تاريخ النشر</div>
+            <div class="sw-stat-value" id="statDateVal">—</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BODY (main + sidebar)
+       ============================================================ -->
   <div class="sw-body">
 
-    <!-- SIDEBAR -->
-    <aside id="swSidebar">
+    <!-- ── MAIN COLUMN ── -->
+    <main>
 
-      <!-- DOWNLOAD CARD -->
-      <div class="sidebar-card">
-        <div class="sidebar-card-title">تحميل البرنامج</div>
-        <div class="download-btn-wrap">
-          <a id="downloadBtn" href="#" class="download-btn" download>
-            <img src="media/download.png" alt="تحميل" onerror="this.style.display='none'">
-            <span>تحميل البرنامج</span>
-          </a>
-          <p class="download-btn-sub" id="downloadSub">مجاني — للاستخدام الشخصي والأكاديمي</p>
+      <!-- وصف البرنامج -->
+      <div class="content-card" id="descCard">
+        <div class="card-header"><h2>حول البرنامج</h2></div>
+        <p class="sw-desc-body" id="swDesc1">...</p>
+        <div class="sw-desc-note" id="swDesc2Wrap" style="display:none;">
+          <span id="swDesc2"></span>
         </div>
       </div>
 
-      <!-- INFO CARD -->
+      <!-- تاغات -->
+      <div class="content-card" id="tagsCard" style="display:none;">
+        <div class="card-header"><h2>التصنيفات</h2></div>
+        <div class="tags-wrap" id="tagsContainer"></div>
+      </div>
+
+      <!-- برامج مشابهة -->
+      <div class="content-card" id="similarCard" style="display:none;">
+        <div class="card-header"><h2>برامج مشابهة</h2></div>
+        <div class="similar-grid" id="similarGrid"></div>
+      </div>
+
+      <!-- الحقوق والاستخدام -->
+      <div class="content-card">
+        <div class="card-header"><h2>الحقوق والاستخدام</h2></div>
+        <ul class="legal-list">
+          <li><div class="legal-dot"></div><span>هذا البرنامج مجاني ومقدَّم من منصة <strong>ESC — مجتمع طلبة الهندسة</strong>.</span></li>
+          <li><div class="legal-dot"></div><span>جميع الحقوق محفوظة للمنصة والناشرين المذكورين. يُمنع إعادة نشر البرنامج أو توزيعه أو بيعه دون إذن صريح.</span></li>
+          <li><div class="legal-dot"></div><span>يُسمح باستخدامه للأغراض الشخصية والأكاديمية غير التجارية فقط.</span></li>
+          <li><div class="legal-dot"></div><span>للتعاون أو طلب إذن خاص، تواصل مع الناشر أو راسل فريق ESC على <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a></span></li>
+        </ul>
+      </div>
+
+    </main>
+
+    <!-- ── SIDEBAR ── -->
+    <aside>
+
+      <!-- معلومات البرنامج -->
       <div class="sidebar-card">
         <div class="sidebar-card-title">معلومات البرنامج</div>
-        <div class="info-row" id="rowVersion" style="display:none;">
-          <span class="info-icon">🏷️</span>
-          <div>
-            <div class="info-label">الإصدار</div>
-            <div class="info-value" id="infoVersion">—</div>
-          </div>
-        </div>
-        <div class="info-row" id="rowDate" style="display:none;">
-          <span class="info-icon">📅</span>
-          <div>
-            <div class="info-label">تاريخ النشر</div>
-            <div class="info-value" id="infoDate">—</div>
-          </div>
-        </div>
-        <div class="info-row" id="rowWork" style="display:none;">
-          <span class="info-icon">🏛️</span>
-          <div>
-            <div class="info-label">الجهة</div>
-            <div class="info-value" id="infoWork">—</div>
-          </div>
-        </div>
-        <div class="info-row" id="rowDept" style="display:none;">
-          <span class="info-icon">🔧</span>
-          <div>
-            <div class="info-label">القسم</div>
-            <div class="info-value" id="infoDept">—</div>
-          </div>
-        </div>
+
         <div class="info-row">
-          <span class="info-icon">⚖️</span>
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/>
+            </svg>
+          </div>
           <div>
             <div class="info-label">الترخيص</div>
             <div class="info-value">مجاني — حقوق محفوظة لـ ESC</div>
           </div>
         </div>
+
+        <div class="info-row">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-label">نظام التشغيل</div>
+            <div class="info-value" id="sideSystem">Windows</div>
+          </div>
+        </div>
+
+        <div class="info-row" id="sideVersionRow" style="display:none;">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-label">الإصدار</div>
+            <div class="info-value" id="sideVersion">—</div>
+          </div>
+        </div>
+
+        <div class="info-row" id="sideDateRow" style="display:none;">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-label">تاريخ النشر</div>
+            <div class="info-value" id="sideDate">—</div>
+          </div>
+        </div>
+
+        <div class="info-row" id="sideWorkRow" style="display:none;">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-label">الجامعة</div>
+            <div class="info-value" id="sideWork">—</div>
+          </div>
+        </div>
+
+        <div class="info-row" id="sideDeptRow" style="display:none;">
+          <div class="info-icon-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21V8a2 2 0 012-2h14a2 2 0 012 2v13M9 21V12h6v9"/>
+            </svg>
+          </div>
+          <div>
+            <div class="info-label">القسم الهندسي</div>
+            <div class="info-value" id="sideDept">—</div>
+          </div>
+        </div>
+
       </div>
 
-      <!-- PUBLISHER CARD -->
+      <!-- الناشر -->
       <div class="sidebar-card" id="publisherCard" style="display:none;">
         <div class="sidebar-card-title">الناشر</div>
         <div id="publisherList"></div>
       </div>
 
-      <!-- CONTACT CARD -->
+      <!-- تواصل -->
       <div class="sidebar-card" id="contactCard" style="display:none;">
         <div class="sidebar-card-title">تواصل مع الناشر</div>
         <a id="contactEmailBtn" href="#" class="contact-btn">
-          ✉️ <span id="contactEmailText">البريد الإلكتروني</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+          <span id="contactEmailText">البريد الإلكتروني</span>
         </a>
-        <p style="font-size:11px;color:#9ca3af;font-weight:700;margin-top:8px;line-height:1.6;">
-          للإبلاغ عن مشكلة أو طلب دعم تقني
-        </p>
+        <p class="contact-sub">للإبلاغ عن مشكلة أو طلب دعم تقني</p>
       </div>
 
     </aside>
-
-    <!-- MAIN COLUMN -->
-    <main id="swMain">
-
-      <!-- DESCRIPTION CARD -->
-      <div class="content-card">
-        <div class="card-header">
-          <h2>وصف البرنامج</h2>
-        </div>
-        <p class="sw-desc-text" id="swDesc1">...</p>
-        <p class="sw-desc-text beta-note" id="swDesc2" style="display:none;"></p>
-      </div>
-
-      <!-- LEGAL CARD -->
-      <div class="content-card">
-        <div class="card-header">
-          <h2>الحقوق والاستخدام</h2>
-        </div>
-        <div class="legal-box">
-          <div class="legal-box-title">⚖️ شروط الاستخدام والملكية الفكرية</div>
-          <div class="legal-item">
-            <div class="legal-dot"></div>
-            <span>هذا البرنامج مجاني بالكامل ومقدَّم من منصة <strong>ESC — مجتمع طلبة الهندسة</strong>.</span>
-          </div>
-          <div class="legal-item">
-            <div class="legal-dot"></div>
-            <span>جميع الحقوق محفوظة للمنصة والناشرين المذكورين. يُمنع إعادة نشر البرنامج أو توزيعه أو بيعه دون إذن صريح من أصحابه.</span>
-          </div>
-          <div class="legal-item">
-            <div class="legal-dot"></div>
-            <span>يُسمح باستخدامه للأغراض الشخصية والأكاديمية غير التجارية فقط.</span>
-          </div>
-          <div class="legal-item">
-            <div class="legal-dot"></div>
-            <span>في حال الرغبة بالتعاون أو الحصول على إذن خاص، تواصل مع الناشر عبر البريد الإلكتروني أو راسل فريق ESC.</span>
-          </div>
-        </div>
-      </div>
-
-    </main>
   </div>
-</div>
+</div><!-- /#softwarePage -->
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
-      <img src="media/icon-512-w.png" alt="شعار ESC">
+      <img src="media/icon-512-w.png" alt="ESC">
       <h3>مجتمع طلبة الهندسة</h3>
-      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+      <p>منصة تعليمية وأكاديمية مخصصة لطلاب الهندسة في العراق.</p>
     </div>
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
-      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
+      <p>هل لديك سؤال أو مقترح؟<br>
         <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
       </p>
     </div>
@@ -745,275 +931,270 @@ footer {
    DICTIONARIES
    ============================================================ */
 const DEPT_DICT = {
-  "civil":       "هندسة مدنية",
-  "electrical":  "هندسة كهرباء وإلكترونيك",
-  "mechanical":  "هندسة ميكانيك",
-  "electromech": "هندسة كهروميكانيك",
-  "Prosthetics": "هندسة أطراف ومساند",
-  "biomedical":  "هندسة الطب الحياتي",
-  "architecture":"هندسة معمارية",
-  "software":    "هندسة برمجيات",
-  "other":       "أخرى"
+  civil:"هندسة مدنية", electrical:"هندسة كهرباء وإلكترونيك",
+  mechanical:"هندسة ميكانيك", electromech:"هندسة كهروميكانيك",
+  Prosthetics:"هندسة أطراف ومساند", biomedical:"هندسة الطب الحياتي",
+  architecture:"هندسة معمارية", software:"هندسة برمجيات", other:"أخرى"
 };
 const WORK_DICT = {
-  "karbala":       "جامعة كربلاء المقدسة",
-  "baghdad":       "جامعة بغداد",
-  "basra":         "جامعة البصرة",
-  "mosul":         "جامعة الموصل",
-  "kufa":          "جامعة الكوفة",
-  "zahra4girls":   "جامعة الزهراء للبنات",
-  "najaf":         "جامعة النجف الأشرف التقنية",
-  "mustansiriyah": "الجامعة المستنصرية",
-  "technology":    "الجامعة التكنولوجية"
+  karbala:"جامعة كربلاء المقدسة", baghdad:"جامعة بغداد",
+  basra:"جامعة البصرة", mosul:"جامعة الموصل",
+  kufa:"جامعة الكوفة", zahra4girls:"جامعة الزهراء للبنات",
+  najaf:"جامعة النجف الأشرف التقنية",
+  mustansiriyah:"الجامعة المستنصرية", technology:"الجامعة التكنولوجية"
 };
 
 /* ============================================================
-   UTILITIES
+   HELPERS
    ============================================================ */
-function escHtml(str) {
-  return String(str || '')
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val;}
+function show(id){const el=document.getElementById(id);if(el)el.style.display='';}
+function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
+function toast(msg,type=''){
+  const t=document.createElement('div');t.className='toast '+(type||'');
+  t.textContent=msg;document.getElementById('toastContainer').appendChild(t);
+  setTimeout(()=>t.remove(),2800);
 }
-function toast(msg, type = '') {
-  const t = document.createElement('div');
-  t.className = 'toast ' + type; t.textContent = msg;
-  document.getElementById('toastContainer').appendChild(t);
-  setTimeout(() => t.remove(), 2800);
-}
-function hideLoading() {
-  const ov = document.getElementById('loadingOverlay');
-  ov.classList.add('fade-out');
-  setTimeout(() => ov.remove(), 420);
+function hideLoading(){
+  const ov=document.getElementById('loadingOverlay');
+  ov.classList.add('fade-out');setTimeout(()=>ov?.remove(),380);
 }
 
 /* ============================================================
    MOBILE MENU
    ============================================================ */
-const menuBtn    = document.getElementById('menuBtn');
-const mobileMenu = document.getElementById('mobileMenu');
-const navBd      = document.getElementById('menuBackdrop');
-const openNav    = () => { mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
-const closeNav   = () => { mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
-menuBtn.addEventListener('click', e => { e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeNav() : openNav(); });
-navBd.addEventListener('click', closeNav);
-mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
-document.addEventListener('keydown', e => { if(e.key==='Escape') closeNav(); });
-window.addEventListener('resize', () => { if(window.innerWidth > 768) closeNav(); });
+const menuBtn=document.getElementById('menuBtn');
+const mobileMenu=document.getElementById('mobileMenu');
+const navBd=document.getElementById('menuBackdrop');
+const openNav=()=>{mobileMenu.classList.add('open');navBd.classList.add('show');menuBtn.setAttribute('aria-expanded','true');};
+const closeNav=()=>{mobileMenu.classList.remove('open');navBd.classList.remove('show');menuBtn.setAttribute('aria-expanded','false');};
+menuBtn.addEventListener('click',e=>{e.stopPropagation();menuBtn.getAttribute('aria-expanded')==='true'?closeNav():openNav();});
+navBd.addEventListener('click',closeNav);
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeNav));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav();});
+window.addEventListener('resize',()=>{if(window.innerWidth>768)closeNav();});
 
 /* ============================================================
-   LOAD & RENDER
+   SHARE
    ============================================================ */
-const params     = new URLSearchParams(window.location.search);
-const TARGET_ID  = (params.get('u') || '').trim().toLowerCase();
+document.getElementById('shareBtn').addEventListener('click',async()=>{
+  const url=window.location.href;
+  try{await navigator.clipboard.writeText(url);toast('تم نسخ الرابط ✓','success');}
+  catch{toast('تعذّر نسخ الرابط','error');}
+});
 
-async function init() {
-  if (!TARGET_ID) { showNotFound(); return; }
-  try {
-    const res  = await fetch('jsonfiles/softwares.json');
-    if (!res.ok) throw new Error('fetch failed');
-    const list = await res.json();
-    const sw   = list.find(item =>
-      item.browserid && item.browserid.toLowerCase() === TARGET_ID
-    );
-    if (!sw) { showNotFound(); return; }
-    renderSoftware(sw);
-  } catch(e) {
-    toast('خطأ في تحميل البيانات.', 'error');
+/* ============================================================
+   MAIN INIT
+   ============================================================ */
+const params=new URLSearchParams(window.location.search);
+const TARGET_ID=(params.get('u')||'').trim().toLowerCase();
+
+async function init(){
+  if(!TARGET_ID){showNotFound();return;}
+  try{
+    const res=await fetch('jsonfiles/softwares.json');
+    if(!res.ok)throw new Error('fetch error');
+    const list=await res.json();
+    const sw=list.find(item=>item.browserid&&item.browserid.toLowerCase()===TARGET_ID);
+    if(!sw){showNotFound();return;}
+    renderPage(sw, list);
+  }catch(e){
+    toast('خطأ في تحميل البيانات.','error');
     showNotFound();
   }
 }
 
-function showNotFound() {
+function showNotFound(){
   hideLoading();
   document.getElementById('notFoundState').classList.add('show');
 }
 
-function renderSoftware(sw) {
-  document.title = 'ESC — ' + (sw.title || 'برنامج هندسي');
+/* ============================================================
+   RENDER
+   ============================================================ */
+function renderPage(sw, allList){
+  document.title='ESC — '+(sw.title||'برنامج هندسي');
 
-  /* ── TITLE & VERSION ── */
-  document.getElementById('swTitleText').textContent = sw.title || '—';
-  if (sw.version) {
-    const vtag = document.getElementById('swVersionTag');
-    vtag.textContent = sw.version;
-    vtag.style.display = 'inline-block';
-    document.getElementById('infoVersion').textContent = sw.version;
-    document.getElementById('rowVersion').style.display = '';
+  const deptLabel = DEPT_DICT[sw.dept] || sw.dept || '';
+  const workLabel = WORK_DICT[sw.work] || sw.work || '';
+
+  /* ─ أيقونة البرنامج ─ */
+  if(sw.applogo){
+    const img=document.getElementById('swIconImg');
+    img.src=sw.applogo; img.style.display='block';
+    hide('swIconFallback');
   }
 
-  /* ── VERIFICATION ── */
-  if (sw.verf) {
-    const vw = document.getElementById('verifyBadgeWrap');
-    document.getElementById('verifyBadgeImg').src = sw.verf;
-    vw.style.display = 'inline-flex';
+  /* ─ eyebrow النظام ─ */
+  if(sw.system){
+    const chip=document.getElementById('eyebrowSystem');
+    chip.textContent=sw.system; chip.style.display='';
   }
 
-  /* ── DATE ── */
-  if (sw.date) {
-    document.getElementById('swDate').textContent = sw.date;
-    document.getElementById('swDateSpan').style.display = '';
-    document.getElementById('infoDate').textContent = sw.date;
-    document.getElementById('rowDate').style.display = '';
+  /* ─ عنوان + توثيق ─ */
+  setText('swTitle', sw.title||'—');
+  if(sw.verf){
+    document.getElementById('swVerifyImg').src=sw.verf;
+    show('swVerifyWrap');
   }
 
-  /* ── WORK / UNIVERSITY ── */
-  if (sw.work) {
-    const workLabel = WORK_DICT[sw.work] || sw.work;
-    document.getElementById('swWork').textContent = workLabel;
-    document.getElementById('swWorkSpan').style.display = '';
-    document.getElementById('infoWork').textContent = workLabel;
-    document.getElementById('rowWork').style.display = '';
+  /* ─ ميتا ─ */
+  if(sw.version){ setText('metaVersionText','الإصدار '+sw.version); show('metaVersion'); show('metaDivider1'); }
+  if(sw.date)   { setText('metaDateText',   sw.date);                show('metaDate');    show('metaDivider2'); }
+  if(workLabel) { setText('metaWorkText',   workLabel);              show('metaWork');    show('metaDivider3'); }
+  if(deptLabel) { setText('metaDeptText',   deptLabel);              show('metaDept'); }
+
+  /* ─ زر التحميل ─ */
+  const dlBtn=document.getElementById('dlBtnHero');
+  if(sw.download){
+    dlBtn.href=sw.download;
+  }else{
+    dlBtn.classList.add('disabled');
+    dlBtn.removeAttribute('href');
   }
+  setText('dlBtnSub', sw.system||'Windows');
 
-  /* ── DEPT ── */
-  if (sw.dept) {
-    const deptLabel = DEPT_DICT[sw.dept] || sw.dept;
-    document.getElementById('swDept').textContent = deptLabel;
-    document.getElementById('swDeptSpan').style.display = '';
-    document.getElementById('infoDept').textContent = deptLabel;
-    document.getElementById('rowDept').style.display = '';
-  }
+  /* ─ شريط الإحصائيات ─ */
+  setText('statSystemVal', sw.system||'Windows');
+  if(sw.version){ setText('statVersionVal',sw.version); show('statVersion'); }
+  if(sw.date)   { setText('statDateVal',   sw.date);    show('statDate'); }
 
-  /* ── TAGS ── */
-  const tagsEl = document.getElementById('swTags');
-  tagsEl.innerHTML = '';
-  const addTag = (text, cls) => {
-    const sp = document.createElement('span');
-    sp.className = 'sw-tag ' + cls;
-    sp.textContent = text;
-    tagsEl.appendChild(sp);
-  };
-  addTag('برنامج هندسي', 'blue');
-  if (sw.dept) addTag(DEPT_DICT[sw.dept] || sw.dept, 'teal');
-  if (sw.version && sw.version.toLowerCase().includes('beta')) addTag('نسخة تجريبية', 'gold');
-  if (sw.work) addTag(WORK_DICT[sw.work] || sw.work, 'violet');
+  /* ─ وصف ─ */
+  setText('swDesc1', sw.description1||'لم يُضَف وصف بعد.');
+  const note = sw.descripton2 || sw.description2;
+  if(note){ setText('swDesc2',note); show('swDesc2Wrap'); }
 
-  /* ── LOGO ── */
-  if (sw.applogo) {
-    const img = document.getElementById('swLogoImg');
-    img.src = sw.applogo;
-    img.style.display = 'block';
-    document.getElementById('swLogoFallback').style.display = 'none';
-    img.onerror = () => { img.style.display = 'none'; document.getElementById('swLogoFallback').style.display = ''; };
-  }
-
-  /* ── UNI LOGO IN COVER ── */
-  if (sw.unitag) {
-    document.getElementById('coverWatermark').style.display = 'none';
-    const wrap = document.getElementById('coverUniLogoWrap');
-    const img  = document.getElementById('coverUniLogo');
-    img.src = sw.unitag;
-    img.onload = () => {
-      const ratio = img.naturalWidth / img.naturalHeight;
-      if (ratio > 1.5) { img.style.maxHeight = '44px'; img.style.maxWidth = '200px'; }
-      else { img.style.maxHeight = '52px'; img.style.maxWidth = '52px'; img.style.borderRadius = '10px'; }
-    };
-    wrap.classList.add('show');
-  }
-
-  /* ── DOWNLOAD BUTTON ── */
-  const dlBtn = document.getElementById('downloadBtn');
-  if (sw.download) {
-    dlBtn.href = sw.download;
-    dlBtn.setAttribute('download', '');
-  } else {
-    dlBtn.style.opacity = '0.5';
-    dlBtn.style.pointerEvents = 'none';
-    document.getElementById('downloadSub').textContent = 'رابط التحميل غير متوفر حالياً';
-  }
-
-  /* ── DESCRIPTIONS ── */
-  const d1 = document.getElementById('swDesc1');
-  const d2 = document.getElementById('swDesc2');
-  d1.textContent = sw.description1 || 'لم يُضَف وصف بعد.';
-  if (sw.descripton2 || sw.description2) {
-    d2.textContent = '⚠️ ملاحظة: ' + (sw.descripton2 || sw.description2);
-    d2.style.display = '';
-  }
-
-  /* ── PUBLISHERS ── */
-  if (sw.publisher && sw.publisher.length > 0) {
-    const card = document.getElementById('publisherCard');
-    const list = document.getElementById('publisherList');
-    card.style.display = '';
-    list.innerHTML = sw.publisher.map(username => `
-      <a class="publisher-link" href="profile.html?u=${encodeURIComponent(username)}" style="margin-bottom:8px; display:flex;">
-        <img class="pub-avatar" src="media/1nkown.png" alt="${escHtml(username)}"
-             onerror="this.src='media/1nkown.png'">
-        <div>
-          <div class="pub-name">المهندس ${escHtml(username)}</div>
-          <div class="pub-handle">@${escHtml(username)}</div>
-        </div>
-      </a>
-    `).join('');
-
-    /* محاولة تحميل صورة الناشر من Firebase إن أمكن */
-    sw.publisher.forEach(username => {
-      fetchPublisherAvatar(username);
+  /* ─ تاغات ─ */
+  const tagsContainer=document.getElementById('tagsContainer');
+  tagsContainer.innerHTML='';
+  const tags=[
+    {text:'برنامج هندسي',cls:'blue'},
+    deptLabel && {text:deptLabel,cls:'teal'},
+    workLabel && {text:workLabel,cls:'violet'},
+  ].filter(Boolean);
+  if(tags.length>0){
+    show('tagsCard');
+    tags.forEach(t=>{
+      const sp=document.createElement('span');
+      sp.className='tag-chip '+t.cls; sp.textContent=t.text;
+      tagsContainer.appendChild(sp);
     });
   }
 
-  /* ── EMAIL / CONTACT ── */
-  if (sw.email) {
-    const contactCard = document.getElementById('contactCard');
-    const emailBtn    = document.getElementById('contactEmailBtn');
-    const emailText   = document.getElementById('contactEmailText');
-    contactCard.style.display = '';
-    emailBtn.href = `mailto:${sw.email}?subject=${encodeURIComponent('استفسار / بلاغ — ' + (sw.title||''))}`;
-    emailText.textContent = sw.email;
+  /* ─ sidebar معلومات ─ */
+  setText('sideSystem', sw.system||'Windows');
+  if(sw.version){ setText('sideVersion',sw.version); show('sideVersionRow'); }
+  if(sw.date)   { setText('sideDate',   sw.date);    show('sideDateRow'); }
+  if(workLabel) { setText('sideWork',   workLabel);  show('sideWorkRow'); }
+  if(deptLabel) { setText('sideDept',   deptLabel);  show('sideDeptRow'); }
+
+  /* ─ الناشر ─ */
+  if(sw.publisher&&sw.publisher.length>0){
+    show('publisherCard');
+    const list=document.getElementById('publisherList');
+    list.innerHTML=sw.publisher.map(u=>`
+      <a class="publisher-item" href="profile.html?u=${encodeURIComponent(u)}" target="_blank" rel="noopener">
+        <img class="pub-avatar" src="media/1nkown.png" alt="${esc(u)}"
+             onerror="this.src='media/1nkown.png'" data-user="${esc(u)}">
+        <div>
+          <div class="pub-name">${esc(u)}</div>
+          <div class="pub-handle">@${esc(u)}</div>
+        </div>
+      </a>`).join('');
+    sw.publisher.forEach(u=>fetchPubAvatar(u));
   }
 
-  /* ── SHOW PAGE ── */
+  /* ─ تواصل ─ */
+  if(sw.email){
+    show('contactCard');
+    const cb=document.getElementById('contactEmailBtn');
+    cb.href=`mailto:${esc(sw.email)}?subject=${encodeURIComponent('استفسار — '+(sw.title||''))}`;
+    setText('contactEmailText', sw.email);
+  }
+
+  /* ─ برامج مشابهة ─ */
+  const similar=allList
+    .filter(s=>s.browserid!==sw.browserid&&(s.dept===sw.dept||s.work===sw.work))
+    .slice(0,4);
+  if(similar.length>0){
+    show('similarCard');
+    document.getElementById('similarGrid').innerHTML=similar.map(s=>`
+      <a class="similar-card" href="software.html?u=${encodeURIComponent(s.browserid||'')}">
+        <div class="similar-icon">
+          ${s.applogo
+            ? `<img src="${esc(s.applogo)}" alt="" onerror="this.parentElement.innerHTML='<svg viewBox=\\'0 0 24 24\\' fill=\\'none\\' stroke=\\'currentColor\\' stroke-width=\\'1.5\\' width=\\'18\\' height=\\'18\\'><rect x=\\'2\\' y=\\'3\\' width=\\'20\\' height=\\'14\\' rx=\\'2\\'></rect></svg>'">`
+            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><rect x="2" y="3" width="20" height="14" rx="2"/></svg>`
+          }
+        </div>
+        <div>
+          <div class="similar-title">${esc(s.title||'—')}</div>
+          <div class="similar-dept">${esc(DEPT_DICT[s.dept]||s.dept||'')}</div>
+        </div>
+      </a>`).join('');
+  }
+
+  /* ─ إظهار الصفحة ─ */
   document.getElementById('softwarePage').classList.add('show');
   hideLoading();
 }
 
-/* تحميل صورة الناشر من Firestore — اختياري */
-async function fetchPublisherAvatar(username) {
-  /* نحاول قراءة avatarURL من Firestore دون Firebase SDK — نتجاهل الفشل بصمت */
-  try {
-    const REST = `https://firestore.googleapis.com/v1/projects/engineering-students-community/databases/(default)/documents/students/${username}`;
-    const res  = await fetch(REST);
-    if (!res.ok) return;
-    const data = await res.json();
-    const avatarURL = data?.fields?.avatarURL?.stringValue;
-    if (!avatarURL) return;
-    /* تحديث كل صور الناشر المعروضة */
-    document.querySelectorAll('.publisher-link').forEach(link => {
-      if (link.href.includes('u=' + encodeURIComponent(username))) {
-        const img = link.querySelector('.pub-avatar');
-        if (img) { img.src = avatarURL; }
-        const nameEl = link.querySelector('.pub-name');
-        if (nameEl) nameEl.textContent = 'المهندس ' + username;
+/* ─ جلب صورة الناشر ─ */
+async function fetchPubAvatar(username){
+  try{
+    const res=await fetch(
+      `https://firestore.googleapis.com/v1/projects/engineering-students-community/databases/(default)/documents/students/${encodeURIComponent(username)}`
+    );
+    if(!res.ok)return;
+    const data=await res.json();
+    const avatarURL=data?.fields?.avatarURL?.stringValue;
+    const fullName =data?.fields?.fullName?.stringValue;
+    document.querySelectorAll(`.pub-avatar[data-user="${username}"]`).forEach(img=>{
+      if(avatarURL) img.src=avatarURL;
+    });
+    document.querySelectorAll(`.publisher-item`).forEach(item=>{
+      if(item.href&&item.href.includes(encodeURIComponent(username))){
+        if(fullName){
+          const nm=item.querySelector('.pub-name');
+          if(nm)nm.textContent=fullName;
+        }
       }
     });
-    /* كذلك محاولة إظهار الاسم الكامل */
-    const fullName = data?.fields?.fullName?.stringValue;
-    if (fullName) {
-      document.querySelectorAll('.publisher-link').forEach(link => {
-        if (link.href.includes('u=' + encodeURIComponent(username))) {
-          const nameEl = link.querySelector('.pub-name');
-          if (nameEl) nameEl.textContent = 'المهندس ' + fullName;
-        }
-      });
-    }
-  } catch(e) { /* تجاهل بصمت */ }
+  }catch(e){}
 }
 
 /* ============================================================
-   AUTH BUTTON (static — no Firebase SDK needed for display)
+   AUTH
    ============================================================ */
-const authBtn       = document.getElementById('authBtn');
-const authBtnMobile = document.getElementById('authBtnMobile');
-authBtn.className   = 'state-guest';
-authBtn.href        = 'login.html';
-authBtn.textContent = 'تسجيل الدخول';
-if (authBtnMobile) { authBtnMobile.href = 'login.html'; authBtnMobile.textContent = 'تسجيل الدخول'; }
+(async()=>{
+  const authBtn    = document.getElementById('authBtn');
+  const authBtnMob = document.getElementById('authBtnMobile');
+  authBtn.className='state-guest'; authBtn.href='login.html'; authBtn.innerHTML='تسجيل الدخول';
+  if(authBtnMob){ authBtnMob.href='login.html'; authBtnMob.textContent='تسجيل الدخول'; }
+  try{
+    const {initializeApp}      = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js");
+    const {getAuth,onAuthStateChanged} = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js");
+    const {getFirestore,collection,query,where,getDocs} = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js");
+    const app  = initializeApp({apiKey:"AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",authDomain:"engineering-students-community.firebaseapp.com",projectId:"engineering-students-community",storageBucket:"engineering-students-community.firebasestorage.app",messagingSenderId:"371432549665",appId:"1:371432549665:web:4d3b9617243731fb06e260"});
+    const auth = getAuth(app); const db=getFirestore(app);
+    onAuthStateChanged(auth,async(user)=>{
+      if(!user){authBtn.className='state-guest';authBtn.href='login.html';authBtn.innerHTML='تسجيل الدخول';return;}
+      try{
+        const q=query(collection(db,"students"),where("uid","==",user.uid));
+        const snap=await getDocs(q);
+        if(snap.empty){authBtn.className='state-guest';authBtn.href='login.html';authBtn.innerHTML='تسجيل الدخول';return;}
+        const username=snap.docs[0].id; const data=snap.docs[0].data();
+        const av=data.avatarURL||'media/1nkown.png';
+        const pUrl=`profile.html?u=${encodeURIComponent(username)}`;
+        authBtn.className='state-user'; authBtn.href=pUrl;
+        authBtn.innerHTML=`<img class="auth-avatar" src="${av}" onerror="this.src='media/1nkown.png'" alt=""><span>@${username}</span>`;
+        if(authBtnMob){ authBtnMob.href=pUrl; authBtnMob.innerHTML='👤 @'+username; }
+      }catch(e){}
+    });
+  }catch(e){}
+})();
 
-/* ============================================================
-   START
-   ============================================================ */
+/* بدء التهيئة */
 init();
 </script>
 </body>
