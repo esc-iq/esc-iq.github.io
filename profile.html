@@ -1237,20 +1237,137 @@ body {
   background: #1a1a2e; border-radius: 12px;
   overflow: hidden; aspect-ratio: 9/16;
   position: relative; cursor: pointer;
+  transition: transform 0.2s ease;
 }
-.short-card video {
+.short-card:hover { transform: scale(1.02); }
+.short-thumbnail {
   width: 100%; height: 100%; object-fit: cover;
 }
+.short-play-icon {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  width: 44px; height: 44px; background: rgba(255,255,255,0.85); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s;
+}
+.short-card:hover .short-play-icon { opacity: 1; }
+.short-play-icon svg { width: 20px; height: 20px; margin-left: 3px; }
 .short-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%);
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%);
   display: flex; flex-direction: column;
   justify-content: flex-end; padding: 12px;
 }
 .short-title {
   font-size: 12px; font-weight: 700; color: #fff;
-  line-height: 1.4;
+  line-height: 1.4; margin-bottom: 4px;
 }
+.short-meta {
+  font-size: 11px; color: rgba(255,255,255,0.7); font-weight: 700;
+  display: flex; gap: 8px;
+}
+
+/* Short video player modal */
+#shortPlayerModal .modal-box { max-width: 420px; background: #0a0a0f; border-radius: 20px; }
+#shortPlayerModal .modal-head { background: #0d1117; }
+.short-player-wrap {
+  position: relative; background: #000; border-radius: 0 0 8px 8px;
+  overflow: hidden; max-height: 70vh;
+}
+.short-player-wrap video {
+  width: 100%; max-height: 70vh; object-fit: contain; display: block;
+}
+.short-player-info { padding: 16px; background: #0d1117; }
+.short-player-desc {
+  font-size: 13px; color: rgba(255,255,255,0.8); line-height: 1.7; direction: rtl;
+}
+.short-player-actions {
+  display: flex; align-items: center; gap: 10px; margin-top: 12px;
+  padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);
+}
+.short-player-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 14px; border-radius: 20px;
+  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
+  background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.12); cursor: pointer;
+  transition: all 0.15s;
+}
+.short-player-btn:hover { background: rgba(255,255,255,0.16); }
+.short-player-btn.liked { color: var(--blue); border-color: var(--blue); background: rgba(0,71,171,0.12); }
+.short-player-btn svg { width: 16px; height: 16px; }
+.short-edit-btn { color: var(--teal); border-color: var(--teal); }
+.short-delete-btn { color: #dc2626; border-color: #dc2626; }
+
+/* Publish short modal */
+#publishShortModal .modal-box { max-width: 520px; }
+
+/* ============================================================
+   FOLLOW OVERLAY
+   ============================================================ */
+#followOverlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+  z-index: 7000; align-items: center; justify-content: center; padding: 20px;
+}
+#followOverlay.show { display: flex; }
+.follow-overlay-box {
+  background: #fff; border-radius: 20px;
+  width: 100%; max-width: 480px; max-height: 80vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.28);
+  animation: slideUp 0.22s ease; overflow: hidden;
+}
+.follow-overlay-tabs {
+  display: flex; border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.follow-overlay-tab {
+  flex: 1; padding: 14px; text-align: center;
+  font-size: 14px; font-weight: 700; color: var(--text-light);
+  background: none; border: none; cursor: pointer;
+  border-bottom: 3px solid transparent; transition: all 0.2s;
+}
+.follow-overlay-tab.active { color: var(--blue); border-bottom-color: var(--blue); }
+.follow-overlay-close {
+  position: absolute; top: 12px; left: 12px;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(0,0,0,0.08); border: none; cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center;
+}
+.follow-overlay-head {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  padding: 16px 48px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.follow-overlay-title { font-size: 16px; font-weight: 700; color: var(--text-dark); }
+.follow-overlay-body { flex: 1; overflow-y: auto; padding: 8px 0; }
+.follow-list-empty {
+  padding: 40px 20px; text-align: center;
+  font-size: 13px; font-weight: 700; color: #c0c0c0;
+}
+.follow-locked {
+  padding: 40px 20px; text-align: center;
+  font-size: 13px; font-weight: 700; color: #9ca3af;
+}
+.follow-locked svg { width: 36px; height: 36px; opacity: 0.3; display: block; margin: 0 auto 10px; }
+.follow-user-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 18px; border-bottom: 1px solid rgba(0,0,0,0.04);
+  text-decoration: none; transition: background 0.15s; cursor: pointer;
+}
+.follow-user-item:hover { background: #f3f7ff; }
+.follow-user-avatar {
+  width: 44px; height: 44px; border-radius: 12px;
+  object-fit: cover; border: 1px solid rgba(0,0,0,0.08); flex-shrink: 0;
+}
+.follow-user-name { font-size: 14px; font-weight: 700; color: var(--text-dark); }
+.follow-user-sub  { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 1px; }
+.follow-hashtag-item {
+  display: inline-flex; align-items: center; gap: 6px; margin: 4px;
+  padding: 5px 12px; border-radius: 20px;
+  background: rgba(0,128,0,0.07); border: 1px solid rgba(0,128,0,0.18);
+  font-size: 13px; font-weight: 700; color: #065f46;
+}
+.follow-hashtags-wrap { padding: 12px 16px; display: flex; flex-wrap: wrap; }
 
 /* ============================================================
    PUBLISH ARTICLE MODAL
@@ -2487,6 +2604,111 @@ footer {
   </div>
 </div>
 
+<!-- FOLLOW OVERLAY -->
+<div id="followOverlay">
+  <div class="follow-overlay-box">
+    <div class="follow-overlay-head">
+      <div class="follow-overlay-title" id="followOverlayTitle">المتابعة</div>
+      <button class="follow-overlay-close" id="followOverlayClose">✕</button>
+    </div>
+    <div class="follow-overlay-tabs">
+      <button class="follow-overlay-tab active" data-ftab="following" id="ftabFollowing">يتابعهم</button>
+      <button class="follow-overlay-tab" data-ftab="followers" id="ftabFollowers">يتابعونه</button>
+    </div>
+    <div class="follow-overlay-body" id="followOverlayBody">
+      <div class="follow-list-empty">جاري التحميل...</div>
+    </div>
+  </div>
+</div>
+
+<!-- SHORT PLAYER MODAL -->
+<div id="shortPlayerModal" class="modal-backdrop">
+  <div class="modal-box" style="max-width:420px;background:#0a0a0f;border-radius:20px;">
+    <div class="modal-head" style="background:#0d1117;">
+      <h3 style="color:#fff;">▶ مشغّل المقطع</h3>
+      <button class="modal-close-btn" data-close="shortPlayerModal" style="background:rgba(255,255,255,0.1);">✕</button>
+    </div>
+    <div class="short-player-wrap">
+      <video id="shortPlayerVideo" controls playsinline style="width:100%;max-height:65vh;object-fit:contain;display:block;background:#000;"></video>
+    </div>
+    <div class="short-player-info">
+      <div class="short-player-desc" id="shortPlayerDesc"></div>
+      <div class="article-hashtags" id="shortPlayerHashtags" style="padding:6px 0 0;"></div>
+      <div class="short-player-actions">
+        <button class="short-player-btn" id="shortLikeBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          <span id="shortLikeCount">0</span>
+        </button>
+        <button class="short-player-btn" id="shortShareBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          مشاركة
+        </button>
+        <button class="short-player-btn short-edit-btn" id="shortEditDescBtn" style="display:none;">✏️ تعديل</button>
+        <button class="short-player-btn short-delete-btn" id="shortDeleteBtn" style="display:none;">🗑 حذف</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PUBLISH SHORT MODAL -->
+<div id="publishShortModal" class="modal-backdrop">
+  <div class="modal-box" style="max-width:520px;">
+    <div class="modal-head">
+      <h3>🎬 نشر مقطع قصير</h3>
+      <button class="modal-close-btn" data-close="publishShortModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>ملف الفيديو (MP4 / WebM — طولي 9:16 — الحد الأقصى 50 ميجابايت)</label>
+        <input type="file" id="shortFileInput" class="form-control" accept="video/mp4,video/webm,video/*">
+      </div>
+      <div class="form-group">
+        <label>وصف المقطع (حد أقصى 400 حرف)</label>
+        <textarea id="shortDescInput" class="form-control" maxlength="400" rows="3"
+          placeholder="اكتب وصفاً مختصراً للمقطع..."></textarea>
+        <div class="char-counter" id="shortDescCounter">0 / 400</div>
+      </div>
+      <div class="hashtag-suggest-wrap">
+        <div class="hashtag-suggest-label">الهاشتاقات</div>
+        <div class="hashtag-chips" id="shortHashtagChips">
+          <span class="hashtag-chip" data-tag="هندسة_مدنية">#هندسة_مدنية</span>
+          <span class="hashtag-chip" data-tag="هندسة_كهرباء">#هندسة_كهرباء</span>
+          <span class="hashtag-chip" data-tag="هندسة_كهرباء_وإلكترونيك">#هندسة_كهرباء_وإلكترونيك</span>
+          <span class="hashtag-chip" data-tag="هندسة_إتصالات">#هندسة_إتصالات</span>
+          <span class="hashtag-chip" data-tag="هندسة_طب_حياتي">#هندسة_طب_حياتي</span>
+          <span class="hashtag-chip" data-tag="هندسة_ميكانيك">#هندسة_ميكانيك</span>
+          <span class="hashtag-chip" data-tag="هندسة_برمجيات">#هندسة_برمجيات</span>
+          <span class="hashtag-chip" data-tag="هندسة_معمارية">#هندسة_معمارية</span>
+        </div>
+      </div>
+      <div class="upload-progress-wrap" id="shortUploadProgress">
+        <div class="upload-progress-bar"><div class="upload-progress-fill" id="shortProgressFill"></div></div>
+        <div class="upload-progress-label" id="shortProgressLabel">جاري الرفع...</div>
+      </div>
+      <button class="modal-submit-btn teal" id="submitShortBtn" style="margin-top:8px;">نشر المقطع ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT SHORT DESC MODAL -->
+<div id="editShortModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>✏️ تعديل وصف المقطع</h3>
+      <button class="modal-close-btn" data-close="editShortModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editShortDocId">
+      <div class="form-group">
+        <label>الوصف الجديد</label>
+        <textarea id="editShortDescInput" class="form-control" maxlength="400" rows="3"></textarea>
+        <div class="char-counter" id="editShortCounter">0 / 400</div>
+      </div>
+      <button class="modal-submit-btn teal" id="saveEditShortBtn">حفظ التعديلات</button>
+    </div>
+  </div>
+</div>
+
 <!-- ======================================================
      FIREBASE + MAIN SCRIPT
      ====================================================== -->
@@ -2541,6 +2763,7 @@ let   profileData     = {};
 let   memberData      = null;
 let   isOwner         = false;
 let   currentUser     = null;
+let   currentUsername = null;  /* اسم مستخدم الشخص المسجّل حالياً */
 let   confirmCallback = null;
 let   allStudentsCache= null;
 let   uploadAllowed   = false;
@@ -2548,18 +2771,28 @@ let   loadedFiles     = [];
 let   allResearchData = [];
 let   articleImages   = [];
 let   selectedHashtags= [];
+let   shortImages     = [];
 let   currentLbImages = [];
 let   currentLbIdx    = 0;
 let   currentShareUrl = '';
 let   selectedLinkType= '';
+let   followersCache  = [];   /* قائمة uid من يتابعون صاحب الملف */
+let   followingCache  = [];   /* قائمة username من يتابعهم صاحب الملف */
+let   followingHashtagsCache = []; /* هاشتاقات يتابعها صاحب الملف */
 
 /* ─── AUTH ─── */
 onAuthStateChanged(auth, async (user) => {
   currentUser = user;
+  currentUsername = null;
   updateAuthButton(user);
   if (TARGET_USERNAME) {
     loadProfile();
     if (user) {
+      /* احفظ اسم مستخدم الشخص المسجّل */
+      const qMe = query(collection(db,"students"), where("uid","==",user.uid));
+      const sMe = await getDocs(qMe);
+      if (!sMe.empty) currentUsername = sMe.docs[0].id;
+
       const iv = setInterval(() => {
         if (profileData.uid) {
           clearInterval(iv);
@@ -2663,10 +2896,7 @@ document.getElementById('cmPublishArticle').addEventListener('click', () => {
   if (!isOwner) { toast('يمكن النشر فقط من ملفك الشخصي.','error'); return; }
   openPublishModal();
 });
-document.getElementById('cmPublishVideo').addEventListener('click', () => {
-  cMenu.classList.remove('show'); gcBtn.classList.remove('open');
-  toast('خاصية رفع المقاطع القصيرة قادمة قريباً!');
-});
+/* cmPublishVideo — موجود في قسم SHORTS أسفل */
 document.getElementById('cmUploadFile').addEventListener('click', () => {
   cMenu.classList.remove('show'); gcBtn.classList.remove('open');
   if (!isOwner) { toast('يمكن الرفع فقط من ملفك الشخصي.','error'); return; }
@@ -2709,15 +2939,42 @@ async function loadProfile() {
     profileData = snap.data();
     memberData  = await loadMemberData(TARGET_USERNAME);
     uploadAllowed = await checkUploadAuth(TARGET_USERNAME);
+
+    /* ── جلب بيانات المتابعة من مجلدات منفصلة ── */
+    await loadFollowData();
+
     renderProfile();
     await loadFiles();
     await loadCertificates();
     await loadResearchFromGitHub();
     await loadArticles();
+    await loadShorts();
     renderSkills(profileData.skills||[]);
     renderLinks(profileData.links||[]);
   } catch(e) { toast("خطأ في تحميل البيانات: "+e.message,'error'); }
   finally { fadeOutLoader(); }
+}
+
+/* ─── LOAD FOLLOW DATA ─── */
+/*
+  هيكل Firestore:
+  follows/{TARGET_USERNAME}/followers/{uid}  → { uid, username, addedAt }
+  follows/{TARGET_USERNAME}/following/{username} → { username, addedAt }
+  follows/{TARGET_USERNAME}/hashtags/{tag}   → { tag, addedAt }
+*/
+async function loadFollowData() {
+  try {
+    const fwersSnap = await getDocs(collection(db,"follows",TARGET_USERNAME,"followers"));
+    followersCache = fwersSnap.docs.map(d=>d.data());
+
+    const fwingSnap = await getDocs(collection(db,"follows",TARGET_USERNAME,"following"));
+    followingCache = fwingSnap.docs.map(d=>d.data());
+
+    const htSnap = await getDocs(collection(db,"follows",TARGET_USERNAME,"hashtags"));
+    followingHashtagsCache = htSnap.docs.map(d=>d.data().tag);
+  } catch(e) {
+    followersCache=[]; followingCache=[]; followingHashtagsCache=[];
+  }
 }
 
 /* ─── RENDER PROFILE ─── */
@@ -2768,10 +3025,8 @@ function renderProfile() {
   }
 
   /* Follow counts */
-  const followers=d.followers||[];
-  const following=d.following||[];
-  document.getElementById('followersCount').textContent=followers.length;
-  document.getElementById('followingCount').textContent=following.length;
+  document.getElementById('followersCount').textContent = followersCache.length;
+  document.getElementById('followingCount').textContent = followingCache.length;
 
   /* Education */
   const hidden=d.hiddenFields||[];
@@ -2820,28 +3075,33 @@ function renderFollowBtn(user) {
   if (!user || user.uid === profileData.uid) return;
   const btn=document.getElementById('followUserBtn');
   btn.style.display='inline-flex';
-  const followers=profileData.followers||[];
-  const isFollowing=followers.includes(user.uid);
-  btn.textContent=isFollowing?'متابَع':'متابعة';
-  btn.classList.toggle('following',isFollowing);
-  btn.onclick=()=>toggleFollow(user,isFollowing);
+  const isFollowing = followersCache.some(f=>f.uid===user.uid);
+  btn.textContent = isFollowing ? 'متابَع' : 'متابعة';
+  btn.classList.toggle('following', isFollowing);
+  btn.onclick = () => toggleFollow(user, isFollowing);
 }
-async function toggleFollow(user,wasFollowing) {
+
+async function toggleFollow(user, wasFollowing) {
+  if (!currentUsername) { toast('سجّل الدخول أولاً.','error'); return; }
   const btn=document.getElementById('followUserBtn');
-  const profileRef=doc(db,"students",TARGET_USERNAME);
+  const followerDocRef = doc(db,"follows",TARGET_USERNAME,"followers",user.uid);
+  const followingDocRef= doc(db,"follows",currentUsername,"following",TARGET_USERNAME);
   try {
-    if(wasFollowing){
-      await updateDoc(profileRef,{followers:arrayRemove(user.uid)});
-      profileData.followers=(profileData.followers||[]).filter(x=>x!==user.uid);
+    if (wasFollowing) {
+      await deleteDoc(followerDocRef);
+      await deleteDoc(followingDocRef);
+      followersCache = followersCache.filter(f=>f.uid!==user.uid);
       btn.textContent='متابعة'; btn.classList.remove('following');
     } else {
-      await updateDoc(profileRef,{followers:arrayUnion(user.uid)});
-      profileData.followers=[...(profileData.followers||[]),user.uid];
+      const now = new Date().toISOString();
+      await setDoc(followerDocRef, { uid: user.uid, username: currentUsername, addedAt: now });
+      await setDoc(followingDocRef, { username: TARGET_USERNAME, addedAt: now });
+      followersCache.push({ uid: user.uid, username: currentUsername, addedAt: now });
       btn.textContent='متابَع'; btn.classList.add('following');
     }
-    document.getElementById('followersCount').textContent=(profileData.followers||[]).length;
+    document.getElementById('followersCount').textContent = followersCache.length;
     renderFollowBtn(user);
-  } catch(e){toast('خطأ في المتابعة.','error');}
+  } catch(e) { toast('خطأ في المتابعة: '+e.message,'error'); }
 }
 
 /* ─── OWNER MODE ─── */
@@ -2851,9 +3111,16 @@ function activateOwnerMode() {
   document.body.classList.add('owner-mode');
   document.getElementById('editBioBtn').style.display='inline-flex';
   document.getElementById('globalCreateBtn').classList.add('visible');
-  // Disable upload item in menu if not authorized
+  /* زر رفع PDF: مفعّل لو مصرح، رمادي معطل لو غير مصرح */
   const fi=document.getElementById('cmUploadFile');
-  if(!uploadAllowed) fi.classList.add('disabled');
+  if (!uploadAllowed) {
+    fi.classList.add('disabled');
+    fi.title = 'غير مصرح لك برفع الملفات حالياً';
+  } else {
+    fi.classList.remove('disabled');
+    fi.style.opacity='1';
+    fi.style.cursor='pointer';
+  }
 }
 
 /* ─── CONTACT LINKS ─── */
@@ -3285,7 +3552,7 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     card.appendChild(imgGrid);
   }
 
-  /* Hashtags (hidden by default if text truncated) */
+      /* Hashtags (hidden by default if text truncated) */
   const hashWrap=document.createElement('div'); hashWrap.className='article-hashtags';
   const hasTruncation=article.text&&article.text.length>300;
   if(hasTruncation) hashWrap.style.display='none';
@@ -3293,10 +3560,15 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     article.hashtags.forEach(ht=>{
       const chip=document.createElement('span'); chip.className='article-hashtag';
       chip.innerHTML=`#${escHtml(ht)} <span class="hashtag-follow-btn">+</span>`;
-      chip.querySelector('.hashtag-follow-btn').addEventListener('click',()=>{
-        chip.querySelector('.hashtag-follow-btn').textContent='✓';
-        chip.querySelector('.hashtag-follow-btn').classList.add('followed');
-        toast(`تمت متابعة #${ht}`,'success');
+      chip.querySelector('.hashtag-follow-btn').addEventListener('click', async () => {
+        if (!currentUser || !currentUsername) { toast('سجّل الدخول لمتابعة الهاشتاقات.','error'); return; }
+        try {
+          await setDoc(doc(db,"follows",currentUsername,"hashtags",ht),{tag:ht,addedAt:new Date().toISOString()});
+          if(!followingHashtagsCache.includes(ht)) followingHashtagsCache.push(ht);
+          chip.querySelector('.hashtag-follow-btn').textContent='✓';
+          chip.querySelector('.hashtag-follow-btn').classList.add('followed');
+          toast(`تمت متابعة #${ht}`,'success');
+        } catch(e){toast('خطأ: '+e.message,'error');}
       });
       hashWrap.appendChild(chip);
     });
@@ -3473,10 +3745,10 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
   const btn=document.getElementById('submitArticleBtn');
   btn.disabled=true; btn.textContent='جاري النشر...';
   try{
-    /* Upload images */
+    /* Upload images — مسار community_files/articles/ مسموح به في Firebase Rules */
     const uploadedUrls=[];
     for(const img of articleImages){
-      const storRef=ref(storage,`articles/${TARGET_USERNAME}/${Date.now()}_${Math.random().toString(36).slice(2)}`);
+      const storRef=ref(storage,`community_files/${TARGET_USERNAME}/articles/${Date.now()}_${Math.random().toString(36).slice(2)}`);
       const snap=await uploadBytes(storRef,img.file);
       uploadedUrls.push(await getDownloadURL(snap.ref));
     }
@@ -3592,7 +3864,312 @@ document.getElementById('saveInfoBtn').addEventListener('click',async()=>{
   }catch(e){toast('خطأ: '+e.message,'error');}
 });
 
-/* ─── NAV SEARCH ─── */
+/* ─── FOLLOW OVERLAY ─── */
+let currentFTab = 'following';
+
+document.getElementById('followersBtn').addEventListener('click', () => openFollowOverlay('followers'));
+document.getElementById('followingBtn').addEventListener('click', () => openFollowOverlay('following'));
+document.getElementById('followOverlayClose').addEventListener('click', () => document.getElementById('followOverlay').classList.remove('show'));
+document.getElementById('followOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) e.currentTarget.classList.remove('show'); });
+
+document.querySelectorAll('.follow-overlay-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.follow-overlay-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+    currentFTab = tab.dataset.ftab;
+    renderFollowOverlayContent(currentFTab);
+  });
+});
+
+async function openFollowOverlay(defaultTab) {
+  currentFTab = defaultTab;
+  document.querySelectorAll('.follow-overlay-tab').forEach(t=>{
+    t.classList.toggle('active', t.dataset.ftab===defaultTab);
+  });
+  document.getElementById('followOverlay').classList.add('show');
+  await renderFollowOverlayContent(defaultTab);
+}
+
+async function renderFollowOverlayContent(tab) {
+  const body = document.getElementById('followOverlayBody');
+  body.innerHTML = '<div class="follow-list-empty">جاري التحميل...</div>';
+
+  if (tab === 'followers') {
+    /* يتابعونه — مخفية للزوار، مرئية لصاحب الحساب فقط */
+    if (!isOwner) {
+      body.innerHTML = `<div class="follow-locked"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>قائمة المتابعين مخفية — لا يمكن الاطلاع عليها إلا من صاحب الحساب.</div>`;
+      return;
+    }
+    if (followersCache.length === 0) {
+      body.innerHTML = '<div class="follow-list-empty">لا يوجد متابعون بعد.</div>'; return;
+    }
+    body.innerHTML = '';
+    for (const f of followersCache) {
+      try {
+        const usnap = await getDoc(doc(db,"students",f.username));
+        const udata = usnap.exists() ? usnap.data() : {};
+        const item  = document.createElement('a');
+        item.className = 'follow-user-item';
+        item.href = `profile.html?u=${encodeURIComponent(f.username)}`;
+        item.innerHTML = `
+          <img class="follow-user-avatar" src="${escHtml(udata.avatarURL||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
+          <div><div class="follow-user-name">${escHtml("المهندس "+(udata.fullName||f.username))}</div>
+          <div class="follow-user-sub">@${escHtml(f.username)}</div></div>
+        `;
+        body.appendChild(item);
+      } catch(e) {}
+    }
+
+  } else {
+    /* يتابعهم — عامة */
+    body.innerHTML = '';
+    if (followingCache.length > 0) {
+      for (const f of followingCache) {
+        try {
+          const usnap = await getDoc(doc(db,"students",f.username));
+          const udata = usnap.exists() ? usnap.data() : {};
+          const item  = document.createElement('a');
+          item.className = 'follow-user-item';
+          item.href = `profile.html?u=${encodeURIComponent(f.username)}`;
+          item.innerHTML = `
+            <img class="follow-user-avatar" src="${escHtml(udata.avatarURL||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
+            <div><div class="follow-user-name">${escHtml("المهندس "+(udata.fullName||f.username))}</div>
+            <div class="follow-user-sub">@${escHtml(f.username)}</div></div>
+          `;
+          body.appendChild(item);
+        } catch(e) {}
+      }
+    }
+    /* الهاشتاقات التي يتابعها */
+    if (followingHashtagsCache.length > 0) {
+      const htDiv = document.createElement('div');
+      htDiv.innerHTML = `<div style="padding:12px 18px 6px;font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;border-top:1px solid rgba(0,0,0,0.05);">الهاشتاقات المتابَعة</div>`;
+      const htWrap = document.createElement('div'); htWrap.className = 'follow-hashtags-wrap';
+      followingHashtagsCache.forEach(tag => {
+        const chip = document.createElement('span'); chip.className = 'follow-hashtag-item';
+        chip.textContent = '#'+tag; htWrap.appendChild(chip);
+      });
+      htDiv.appendChild(htWrap); body.appendChild(htDiv);
+    }
+    if (followingCache.length === 0 && followingHashtagsCache.length === 0) {
+      body.innerHTML = '<div class="follow-list-empty">لا يتابع أحداً بعد.</div>';
+    }
+  }
+}
+
+/* ─── SHORTS ─── */
+let shortsData = [];
+let currentShortId = null;
+let selectedShortHashtags = [];
+
+async function loadShorts() {
+  const container = document.getElementById('shortsContainer');
+  try {
+    const q = query(collection(db,"shorts"), where("author","==",TARGET_USERNAME), orderBy("createdAt","desc"));
+    const snap = await getDocs(q);
+    if (snap.empty) {
+      container.innerHTML = `<div class="shorts-empty"><svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><p style="margin-top:12px">لم تُرفع أي مقاطع قصيرة بعد.</p></div>`;
+      return;
+    }
+    shortsData = snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderShortsGrid();
+  } catch(e) {
+    container.innerHTML = '<div class="shorts-empty"><p>تعذّر تحميل المقاطع.</p></div>';
+  }
+}
+
+function renderShortsGrid() {
+  const container = document.getElementById('shortsContainer');
+  if (shortsData.length === 0) {
+    container.innerHTML = `<div class="shorts-empty"><p>لم تُرفع أي مقاطع قصيرة بعد.</p></div>`;
+    return;
+  }
+  const grid = document.createElement('div'); grid.className = 'shorts-grid';
+  shortsData.forEach(sh => {
+    const card = document.createElement('div'); card.className = 'short-card';
+    card.dataset.id = sh.id;
+    const likes = sh.likes||[];
+    card.innerHTML = `
+      <video class="short-thumbnail" src="${escHtml(sh.url)}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video>
+      <div class="short-play-icon"><svg viewBox="0 0 24 24" fill="#0047AB"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+      <div class="short-overlay">
+        <div class="short-title">${escHtml(sh.desc||'')}</div>
+        <div class="short-meta">
+          <span>❤️ ${likes.length}</span>
+        </div>
+      </div>
+    `;
+    card.addEventListener('click', () => openShortPlayer(sh));
+    grid.appendChild(card);
+  });
+  container.innerHTML = ''; container.appendChild(grid);
+}
+
+function openShortPlayer(sh) {
+  currentShortId = sh.id;
+  const video = document.getElementById('shortPlayerVideo');
+  video.src = sh.url; video.load();
+  document.getElementById('shortPlayerDesc').textContent = sh.desc||'';
+  /* هاشتاقات */
+  const ht = document.getElementById('shortPlayerHashtags'); ht.innerHTML = '';
+  (sh.hashtags||[]).forEach(tag => {
+    const chip=document.createElement('span'); chip.className='article-hashtag';
+    chip.innerHTML=`#${escHtml(tag)} <span class="hashtag-follow-btn">+</span>`;
+    ht.appendChild(chip);
+  });
+  /* أزرار الأعجاب */
+  const likes = sh.likes||[];
+  const myLiked = currentUser && likes.includes(currentUser.uid);
+  const likeBtn = document.getElementById('shortLikeBtn');
+  document.getElementById('shortLikeCount').textContent = likes.length;
+  likeBtn.classList.toggle('liked', myLiked);
+  likeBtn.onclick = () => toggleShortLike(sh);
+  /* أزرار صاحب الحساب */
+  const editBtn = document.getElementById('shortEditDescBtn');
+  const delBtn  = document.getElementById('shortDeleteBtn');
+  editBtn.style.display = isOwner ? 'inline-flex' : 'none';
+  delBtn.style.display  = isOwner ? 'inline-flex' : 'none';
+  editBtn.onclick = () => { closeModal('shortPlayerModal'); openEditShortModal(sh); };
+  delBtn.onclick  = () => {
+    showConfirm('هل تريد حذف هذا المقطع نهائياً؟', async () => {
+      try {
+        await deleteDoc(doc(db,"shorts",sh.id));
+        try { await deleteObject(ref(storage, sh.storagePath||sh.url)); } catch(e){}
+        shortsData = shortsData.filter(x=>x.id!==sh.id);
+        renderShortsGrid(); closeModal('shortPlayerModal');
+        toast('تم حذف المقطع.','success');
+      } catch(e){toast('خطأ: '+e.message,'error');}
+    }, 'نعم، احذف المقطع');
+  };
+  document.getElementById('shortShareBtn').onclick = () => {
+    currentShareUrl = `${window.location.origin}${window.location.pathname}?u=${encodeURIComponent(TARGET_USERNAME)}`;
+    openModal('shareModal');
+  };
+  openModal('shortPlayerModal');
+  video.play().catch(()=>{});
+}
+
+/* وقف الفيديو عند إغلاق المودال */
+document.querySelector('[data-close="shortPlayerModal"]').addEventListener('click', () => {
+  document.getElementById('shortPlayerVideo').pause();
+  document.getElementById('shortPlayerVideo').src='';
+});
+
+async function toggleShortLike(sh) {
+  if (!currentUser) { toast('سجّل الدخول للتفاعل.','error'); return; }
+  const likeBtn = document.getElementById('shortLikeBtn');
+  const isLiked = likeBtn.classList.contains('liked');
+  const shRef = doc(db,"shorts",sh.id);
+  try {
+    if (isLiked) {
+      await updateDoc(shRef, {likes: arrayRemove(currentUser.uid)});
+      likeBtn.classList.remove('liked');
+      document.getElementById('shortLikeCount').textContent = parseInt(document.getElementById('shortLikeCount').textContent)-1;
+    } else {
+      await updateDoc(shRef, {likes: arrayUnion(currentUser.uid)});
+      likeBtn.classList.add('liked');
+      document.getElementById('shortLikeCount').textContent = parseInt(document.getElementById('shortLikeCount').textContent)+1;
+    }
+    /* تحديث المصفوفة المحلية */
+    const idx = shortsData.findIndex(x=>x.id===sh.id);
+    if (idx!==-1) { shortsData[idx].likes = isLiked ? (sh.likes||[]).filter(x=>x!==currentUser.uid) : [...(sh.likes||[]),currentUser.uid]; }
+  } catch(e){toast('خطأ.','error');}
+}
+
+/* نشر مقطع قصير */
+document.getElementById('cmPublishVideo').addEventListener('click', () => {
+  cMenu.classList.remove('show'); gcBtn.classList.remove('open');
+  if (!isOwner) { toast('يمكن النشر فقط من ملفك الشخصي.','error'); return; }
+  selectedShortHashtags=[];
+  document.getElementById('shortFileInput').value='';
+  document.getElementById('shortDescInput').value='';
+  document.getElementById('shortDescCounter').textContent='0 / 400';
+  document.getElementById('shortUploadProgress').classList.remove('active');
+  document.querySelectorAll('#shortHashtagChips .hashtag-chip').forEach(c=>c.classList.remove('selected'));
+  openModal('publishShortModal');
+});
+
+document.getElementById('shortDescInput').addEventListener('input',function(){
+  const l=this.value.length; document.getElementById('shortDescCounter').textContent=`${l} / 400`;
+  document.getElementById('shortDescCounter').classList.toggle('warn',l>360);
+});
+
+document.querySelectorAll('#shortHashtagChips .hashtag-chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    chip.classList.toggle('selected');
+    const tag=chip.dataset.tag;
+    if(chip.classList.contains('selected')) selectedShortHashtags.push(tag);
+    else selectedShortHashtags=selectedShortHashtags.filter(t=>t!==tag);
+  });
+});
+
+document.getElementById('submitShortBtn').addEventListener('click', async () => {
+  const file = document.getElementById('shortFileInput').files[0];
+  const desc = document.getElementById('shortDescInput').value.trim();
+  if (!file) { toast('اختر ملف فيديو.','error'); return; }
+  if (!file.type.startsWith('video/')) { toast('يُقبل ملفات فيديو فقط.','error'); return; }
+  if (file.size > 50*1024*1024) { toast('حجم الملف يتجاوز 50 ميجابايت.','error'); return; }
+  const btn=document.getElementById('submitShortBtn');
+  const prog=document.getElementById('shortUploadProgress');
+  const fill=document.getElementById('shortProgressFill');
+  const label=document.getElementById('shortProgressLabel');
+  btn.disabled=true; prog.classList.add('active');
+  fill.style.width='15%'; label.textContent='جاري رفع المقطع...';
+  try {
+    const storagePath=`community_files/${TARGET_USERNAME}/shorts/${Date.now()}_${file.name}`;
+    const storRef = ref(storage, storagePath);
+    fill.style.width='50%';
+    const snap = await uploadBytes(storRef, file); fill.style.width='80%';
+    const url  = await getDownloadURL(snap.ref); fill.style.width='95%';
+    /* Get author info */
+    const q2=query(collection(db,"students"),where("uid","==",currentUser.uid));
+    const s2=await getDocs(q2); let authorName=TARGET_USERNAME,authorAvatar='media/1nkown.png';
+    if(!s2.empty){const d2=s2.docs[0].data();authorName=d2.fullName||TARGET_USERNAME;authorAvatar=d2.avatarURL||'media/1nkown.png';}
+    await addDoc(collection(db,"shorts"),{
+      author:TARGET_USERNAME, authorName, authorAvatar, url, storagePath,
+      desc, hashtags:selectedShortHashtags, likes:[], createdAt:serverTimestamp()
+    });
+    fill.style.width='100%'; label.textContent='تم الرفع!';
+    setTimeout(()=>{ closeModal('publishShortModal'); toast('تم نشر المقطع ✓','success'); btn.disabled=false; prog.classList.remove('active'); loadShorts(); },700);
+  } catch(e) { label.textContent='فشل الرفع: '+e.message; fill.style.background='#dc2626'; btn.disabled=false; toast('فشل الرفع: '+e.message,'error'); }
+});
+
+/* تعديل وصف المقطع */
+function openEditShortModal(sh) {
+  document.getElementById('editShortDocId').value = sh.id;
+  document.getElementById('editShortDescInput').value = sh.desc||'';
+  document.getElementById('editShortCounter').textContent = `${(sh.desc||'').length} / 400`;
+  openModal('editShortModal');
+}
+document.getElementById('editShortDescInput').addEventListener('input',function(){
+  const l=this.value.length; document.getElementById('editShortCounter').textContent=`${l} / 400`;
+  document.getElementById('editShortCounter').classList.toggle('warn',l>360);
+});
+document.getElementById('saveEditShortBtn').addEventListener('click',async()=>{
+  const id  = document.getElementById('editShortDocId').value;
+  const desc= document.getElementById('editShortDescInput').value.trim();
+  try {
+    await updateDoc(doc(db,"shorts",id),{desc});
+    const idx=shortsData.findIndex(x=>x.id===id);
+    if(idx!==-1) shortsData[idx].desc=desc;
+    renderShortsGrid(); closeModal('editShortModal'); toast('تم حفظ التعديلات ✓','success');
+  } catch(e){toast('خطأ: '+e.message,'error');}
+});
+
+/* ─── متابعة الهاشتاق من صفحة الشورتس ─── */
+document.getElementById('shortPlayerHashtags').addEventListener('click', async (e)=>{
+  const fBtn = e.target.closest('.hashtag-follow-btn');
+  if (!fBtn || !currentUser || !currentUsername) return;
+  const chip = fBtn.closest('.article-hashtag');
+  const tag  = chip?.textContent.replace('#','').replace('+','').replace('✓','').trim();
+  if (!tag) return;
+  try {
+    await setDoc(doc(db,"follows",TARGET_USERNAME,"hashtags",tag),{tag,addedAt:new Date().toISOString()});
+    if(!followingHashtagsCache.includes(tag)) followingHashtagsCache.push(tag);
+    fBtn.textContent='✓'; fBtn.classList.add('followed');
+    toast(`تمت متابعة #${tag}`,'success');
+  } catch(e){toast('خطأ.','error');}
+});
 let navSearchTimer=null;
 const navSearchInput=document.getElementById('navSearchInput'), navSearchResults=document.getElementById('navSearchResults');
 navSearchInput.addEventListener('input',()=>{
