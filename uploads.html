@@ -252,32 +252,6 @@ main { flex: 1; }
   color: rgba(0,0,0,0.38); letter-spacing: 1.8px;
   text-transform: uppercase; margin-bottom: 14px; text-align: left;
 }
-/* Subject search inside sidebar */
-.subject-search-wrap {
-  position: relative; margin-bottom: 12px;
-}
-.subject-search-input {
-  width: 100%; height: 36px;
-  padding: 0 32px 0 10px;
-  border-radius: 8px; border: 1px solid rgba(0,0,0,0.12);
-  background: #f9fafb; outline: none;
-  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
-  color: var(--text-dark); direction: rtl; text-align: right;
-  transition: border-color 0.2s, background 0.2s;
-}
-.subject-search-input::placeholder { color: rgba(0,0,0,0.35); font-weight: 400; }
-.subject-search-input:focus { border-color: var(--blue); background: #fff; }
-.subject-search-icon {
-  position: absolute; right: 9px; top: 50%; transform: translateY(-50%);
-  pointer-events: none; opacity: 0.45; display: flex; align-items: center;
-}
-.subject-search-icon svg { width: 14px; height: 14px; }
-.subject-search-no-result {
-  display: none; padding: 10px 6px; text-align: center; direction: rtl;
-}
-.subject-search-no-result.show { display: block; }
-.subject-search-no-result img { width: 40px; height: 40px; object-fit: contain; margin-bottom: 4px; display: block; margin-left: auto; margin-right: auto; }
-.subject-search-no-result p { font-size: 11px; font-weight: 700; color: #dc2626; }
 
 .stage-group { margin-bottom: 4px; }
 .stage-btn {
@@ -345,38 +319,68 @@ main { flex: 1; }
 .uni-filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
 .uni-filter-btn img { width: 18px; height: 18px; object-fit: contain; border-radius: 3px; }
 
-/* Professor card */
-.professor-card {
-  display: none; margin-bottom: 14px;
-  background: linear-gradient(135deg, #e8f0fe 0%, #e0f2f1 100%);
-  border: 1.5px solid rgba(0,71,171,0.18);
-  border-radius: var(--card-radius); padding: 14px 18px;
-  direction: rtl; box-shadow: 0 2px 12px rgba(0,71,171,0.08);
-  align-items: center; gap: 14px;
+/* ===== SEARCH BAR (files search, under uni filter) ===== */
+.files-search-bar {
+  margin-bottom: 14px; padding: 12px 14px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--card-radius); box-shadow: var(--shadow);
+  direction: rtl;
 }
-.professor-card.show { display: flex; }
-.professor-avatar {
-  width: 56px; height: 56px; border-radius: 12px;
-  object-fit: cover; flex-shrink: 0;
-  border: 2px solid rgba(0,71,171,0.2);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+.files-search-label {
+  font-size: 11px; font-weight: 700; color: #888;
+  text-transform: uppercase; letter-spacing: 1px;
+  margin-bottom: 8px;
 }
-.professor-info { flex: 1; min-width: 0; direction: rtl; }
-.professor-name {
-  font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 2px;
+.files-search-wrap { position: relative; }
+.files-search-input {
+  width: 100%; height: 40px;
+  padding: 0 40px 0 14px;
+  border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
+  background: #f9fafb; outline: none;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  color: var(--text-dark); direction: rtl; text-align: right;
+  transition: border-color 0.2s, background 0.2s;
 }
-.professor-username {
-  font-size: 12px; color: var(--blue); font-weight: 700; margin-bottom: 5px; direction: ltr; text-align: right;
+.files-search-input::placeholder { color: rgba(0,0,0,0.35); font-weight: 400; }
+.files-search-input:focus { border-color: var(--blue); background: #fff; }
+.files-search-icon {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; opacity: 0.45; display: flex; align-items: center;
 }
-.professor-desc { font-size: 12px; color: var(--text-mid); line-height: 1.6; font-weight: 700; }
-.professor-goto {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 40px; height: 40px; border-radius: 10px;
-  background: rgba(0,71,171,0.1); border: 1.5px solid rgba(0,71,171,0.2);
-  color: var(--blue); text-decoration: none; font-size: 18px;
-  flex-shrink: 0; transition: background var(--transition);
+.files-search-icon svg { width: 16px; height: 16px; }
+
+/* ===== FILE TYPE FILTER (under search) ===== */
+.filetype-filter-bar {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 14px; padding: 12px 14px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: var(--card-radius); box-shadow: var(--shadow);
+  direction: rtl;
 }
-.professor-goto:hover { background: rgba(0,71,171,0.2); }
+.filetype-filter-label {
+  font-size: 11px; font-weight: 700; color: #888;
+  text-transform: uppercase; letter-spacing: 1px;
+  width: 100%; margin-bottom: 4px;
+}
+.filetype-filter-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border-radius: 20px;
+  border: 1.5px solid rgba(0,0,0,0.12);
+  background: #fff; color: var(--text-mid);
+  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
+  cursor: pointer; transition: all var(--transition); white-space: nowrap;
+}
+.filetype-filter-btn:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,128,128,0.05); }
+.filetype-filter-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+
+/* File-type badge inside file rows */
+.file-type-badge {
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 5px;
+  color: #fff;
+}
+.file-type-badge.summary  { background: var(--blue); }
+.file-type-badge.exams    { background: #b45309; }
+.file-type-badge.homework { background: var(--teal); }
 
 /* Loading */
 .loading-row {
@@ -538,6 +542,23 @@ select.form-control { cursor: pointer; }
 .modal-submit-btn:hover { background: #006666; }
 .modal-submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
 
+/* File type select cards (in upload modal) */
+.filetype-select-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.filetype-select-card {
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 12px; padding: 12px 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; transition: all 0.2s;
+  background: #fafafa; font-size: 12px; font-weight: 700; color: var(--text-mid);
+  text-align: center;
+}
+.filetype-select-card:hover { border-color: var(--teal); background: rgba(0,128,128,0.04); }
+.filetype-select-card.selected { border-color: var(--teal); background: rgba(0,128,128,0.08); color: var(--teal); }
+.filetype-select-card svg { width: 24px; height: 24px; }
+
 /* Toast */
 #toastContainer {
   position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
@@ -638,9 +659,9 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="news.html">آخر الأخبار</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -650,9 +671,9 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="news.html">آخر الأخبار</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -668,21 +689,18 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <span class="page-hero-tag">المكتبة العلمية</span>
     <h1>مرفوعات الطلاب</h1>
     <p>مستودع من ملخصات وكتب الأجيال الهندسية السابقة بين يديك.</p>
-    <button class="hero-upload-btn" id="heroUploadBtn">📤 رفع ملف جديد</button>
+    <button class="hero-upload-btn" id="heroUploadBtn" style="display:none;">📤 رفع ملف جديد</button>
   </div>
 </div>
 
 <!-- Department Tabs -->
 <div class="dept-bar" id="deptBar">
   <button class="dept-tab active" data-dept="civil"><span class="dot"></span> هندسة مدنية</button>
-  <button class="dept-tab" data-dept="electrical"><span class="dot"></span> هندسة كهرباء والكترونيك</button>
-  <button class="dept-tab" data-dept="mechanical"><span class="dot"></span> هندسة ميكانيك</button>
-  <button class="dept-tab" data-dept="electromech"><span class="dot"></span> هندسة كهروميكانيك</button>
-  <button class="dept-tab" data-dept="biomedical"><span class="dot"></span> هندسة طب حياتي</button>
-  <button class="dept-tab" data-dept="Prosthetics"><span class="dot"></span> هندسة أطراف ومساند</button>
-  <button class="dept-tab" data-dept="software"><span class="dot"></span> هندسة برمجيات</button>
-  <button class="dept-tab" data-dept="architecture"><span class="dot"></span> هندسة معمارية</button>
-  <button class="dept-tab" data-dept="chemical"><span class="dot"></span> هندسة كيميائية</button>
+  <button class="dept-tab" data-dept="electrical"><span class="dot"></span> هندسة كهرباء وإلكترونيك</button>
+  <button class="dept-tab" data-dept="petroleum"><span class="dot"></span> هندسة النفط</button>
+  <button class="dept-tab" data-dept="mechanical"><span class="dot"></span> هندسة الميكانيك</button>
+  <button class="dept-tab" data-dept="biomedical"><span class="dot"></span> هندسة الطب الحياتي</button>
+  <button class="dept-tab" data-dept="other"><span class="dot"></span> أخرى</button>
 </div>
 
 <main>
@@ -695,22 +713,6 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div class="layout">
       <aside id="filtersPanel" class="filters">
         <div class="filters-title">المرحلة الدراسية</div>
-
-        <!-- Subject search -->
-        <div class="subject-search-wrap">
-          <input type="search" class="subject-search-input" id="subjectSearchInput"
-                 placeholder="ابحث عن مادة..." autocomplete="off">
-          <span class="subject-search-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
-            </svg>
-          </span>
-        </div>
-        <div class="subject-search-no-result" id="subjectSearchNoResult">
-          <img src="media/ERROR.png" alt="خطأ" onerror="this.style.display='none'">
-          <p>لا توجد مادة بهذا الاسم</p>
-        </div>
-
         <div id="stageTree"></div>
       </aside>
 
@@ -720,15 +722,27 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           <span class="uni-filter-label">فلترة حسب الجامعة</span>
         </div>
 
-        <!-- Professor card -->
-        <div class="professor-card" id="professorCard">
-          <img class="professor-avatar" id="professorAvatar" src="media/1nkown.png" alt="صورة الأستاذ" onerror="this.src='media/1nkown.png'">
-          <div class="professor-info">
-            <div class="professor-name" id="professorName">—</div>
-            <div class="professor-username" id="professorUsername"></div>
-            <div class="professor-desc" id="professorDesc"></div>
+        <!-- Files search (moved here, searches within selected category) -->
+        <div class="files-search-bar">
+          <div class="files-search-label">البحث داخل الملفات</div>
+          <div class="files-search-wrap">
+            <input type="search" class="files-search-input" id="filesSearchInput"
+                   placeholder="ابحث عن اسم الملف أو المادة..." autocomplete="off">
+            <span class="files-search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+              </svg>
+            </span>
           </div>
-          <a class="professor-goto" id="professorGoto" href="#" title="الذهاب للبروفايل">↗</a>
+        </div>
+
+        <!-- File type filter -->
+        <div class="filetype-filter-bar" id="filetypeFilterBar">
+          <span class="filetype-filter-label">نوع الملف</span>
+          <button class="filetype-filter-btn active" data-type="">الكل</button>
+          <button class="filetype-filter-btn" data-type="summary">ملخص دراسي</button>
+          <button class="filetype-filter-btn" data-type="exams">اسئلة الامتحان والحلول</button>
+          <button class="filetype-filter-btn" data-type="homework">واجبات محلولة</button>
         </div>
 
         <div id="filesContainer">
@@ -760,8 +774,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     </div>
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
-      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      <p>هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -789,6 +803,23 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
                placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
       </div>
       <div class="form-group">
+        <label>نوع الملف</label>
+        <div class="filetype-select-grid">
+          <div class="filetype-select-card" data-filetype="summary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            ملخص دراسي
+          </div>
+          <div class="filetype-select-card" data-filetype="exams">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            اسئلة إمتحان وحلول
+          </div>
+          <div class="filetype-select-card" data-filetype="homework">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            واجبات محلولة
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
         <label>الجامعة</label>
         <select id="uploadUniSelect" class="form-control">
           <option value="">— اختر الجامعة —</option>
@@ -813,13 +844,9 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           <option value="">— اختر القسم —</option>
           <option value="civil">هندسة مدنية</option>
           <option value="electrical">هندسة كهرباء وإلكترونيك</option>
-          <option value="mechanical">هندسة ميكانيك</option>
-          <option value="electromech">هندسة كهروميكانيك</option>
-          <option value="Prosthetics">هندسة أطراف ومساند</option>
+          <option value="petroleum">هندسة النفط</option>
+          <option value="mechanical">هندسة الميكانيك</option>
           <option value="biomedical">هندسة الطب الحياتي</option>
-          <option value="architecture">هندسة معمارية</option>
-          <option value="chemical">هندسة كيميائية</option>
-          <option value="software">هندسة برمجيات</option>
           <option value="other">أخرى</option>
         </select>
       </div>
@@ -898,6 +925,17 @@ const UNIVERSITY_DICT = {
   "technology":    "الجامعة التكنولوجية"
 };
 
+const FILETYPE_LABELS = {
+  summary:  "ملخص دراسي",
+  exams:    "اسئلة وحلول",
+  homework: "واجبات محلولة"
+};
+const FILETYPE_CLASS = {
+  summary:  "summary",
+  exams:    "exams",
+  homework: "homework"
+};
+
 const SUBJECTS_CONFIG = {
   civil: {
     1: ["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"],
@@ -911,17 +949,17 @@ const SUBJECTS_CONFIG = {
     3: ["آلات كهربائية","إشارات وأنظمة","اتصالات","إلكترونيات قدرة"],
     4: ["محطات طاقة","نظم تحكم","حماية منظومات","مشروع تخرج"]
   },
+  petroleum: {
+    1: ["رياضيات","فيزياء","كيمياء عامة","جيولوجيا"],
+    2: ["ترموديناميك","ميكانيكا الموائع","رياضيات هندسية","جيولوجيا بترولية"],
+    3: ["خصائص المكامن","هندسة الحفر","عمليات الإنتاج","هندسة المكامن"],
+    4: ["تصميم آبار","معالجة النفط والغاز","اقتصاد نفطي","مشروع تخرج"]
+  },
   mechanical: {
     1: ["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"],
     2: ["ترموديناميك","ميكانيكا الموائع","مقاومة مواد","رياضيات هندسية"],
     3: ["آلات حرارية","تصميم آلي","تصنيع","ديناميكا"],
     4: ["محركات احتراق","تبريد وتكييف","تصميم منظومات","مشروع تخرج"]
-  },
-  electromech: {
-    1: ["رياضيات","فيزياء","مبادئ كهروميكانيك","رسم هندسي"],
-    2: ["دوائر كهربائية","ميكانيكا","رياضيات هندسية"],
-    3: ["محركات كهربائية","تحكم صناعي","آلات صناعية"],
-    4: ["تصميم منظومات","صيانة صناعية","مشروع تخرج"]
   },
   biomedical: {
     1: ["رياضيات","فيزياء","أحياء","كيمياء عضوية"],
@@ -929,29 +967,8 @@ const SUBJECTS_CONFIG = {
     3: ["أجهزة طبية","إشارات حيوية","تصوير طبي"],
     4: ["أجهزة طبية متقدمة","هندسة أنسجة","مشروع تخرج"]
   },
-  Prosthetics: {
-    1: ["رياضيات","فيزياء","أحياء","كيمياء"],
-    2: ["تشريح","مقاومة مواد","رياضيات هندسية"],
-    3: ["ميكانيكا أطراف","مواد صناعية","تأهيل حركي"],
-    4: ["تصميم أطراف متقدمة","مواد طبية","مشروع تخرج"]
-  },
-  software: {
-    1: ["رياضيات","مقدمة في البرمجة","منطق رقمي","إحصاء"],
-    2: ["هياكل بيانات","خوارزميات","قواعد بيانات","رياضيات هندسية"],
-    3: ["هندسة برمجيات","شبكات حاسوب","أنظمة تشغيل","قواعد بيانات متقدمة"],
-    4: ["ذكاء اصطناعي","أمن معلومات","مشروع تخرج","هندسة سحابية"]
-  },
-  architecture: {
-    1: ["رياضيات","فيزياء","رسم معماري","تاريخ العمارة"],
-    2: ["تصميم معماري 1","مواد بناء","إنشاءات معمارية","رياضيات هندسية"],
-    3: ["تصميم معماري 2","عمارة بيئية","تخطيط عمراني","تقنيات بناء"],
-    4: ["تصميم معماري متقدم","إدارة مشاريع","مشروع تخرج"]
-  },
-  chemical: {
-    1: ["رياضيات","فيزياء","كيمياء عامة","كيمياء عضوية"],
-    2: ["ترموديناميك كيميائي","عمليات انتقال","رياضيات هندسية","كيمياء تحليلية"],
-    3: ["تصميم مفاعلات","عمليات فصل","هندسة بيئية","سيطرة على العمليات"],
-    4: ["تصميم مصانع","هندسة بترول","مشروع تخرج"]
+  other: {
+    1: [], 2: [], 3: [], 4: []
   }
 };
 
@@ -962,11 +979,14 @@ let currentDept      = "civil";
 let currentStage     = 4;
 let currentSubject   = null;
 let currentUniFilter = null;
+let currentFileType  = null;
+let currentSearchQ   = "";
 let allDeptFiles     = [];
 let uploadsJsonData  = [];
 let allStudentsCache = null;
 let currentUserData  = null;
 let currentUsername  = null;
+let uploadAllowed    = false;
 
 /* ── HELPERS ── */
 function escHtml(str) {
@@ -981,11 +1001,24 @@ function toast(msg, type = '') {
 function openModal(id)  { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
+/* ── UPLOAD AUTH CHECK ── */
+async function checkUploadAuth(username) {
+  try {
+    const res = await fetch('jsonfiles/share-atho.json');
+    if (!res.ok) return false;
+    const data = await res.json();
+    const entry = data[0];
+    if (!entry || !entry.ath) return false;
+    return entry.ath.includes(username);
+  } catch(e) { return false; }
+}
+
 /* ── AUTH ── */
 onAuthStateChanged(auth, async (user) => {
   updateAuthButton(user);
   if (!user) {
     document.getElementById('authGate').classList.add('show');
+    document.getElementById('heroUploadBtn').style.display = 'none';
   } else {
     // Load current user data for upload
     try {
@@ -996,6 +1029,10 @@ onAuthStateChanged(auth, async (user) => {
         currentUserData = snap.docs[0].data();
       }
     } catch(e) {}
+
+    /* تحقق من تخويل رفع الملفات — الزر يظهر فقط للمخولين */
+    uploadAllowed = currentUsername ? await checkUploadAuth(currentUsername) : false;
+    document.getElementById('heroUploadBtn').style.display = uploadAllowed ? 'inline-flex' : 'none';
   }
 });
 
@@ -1032,33 +1069,12 @@ async function loadUploadsJson() {
   } catch(e) { uploadsJsonData = []; }
 }
 
-/* ── SUBJECT SEARCH ── */
-document.getElementById('subjectSearchInput').addEventListener('input', function() {
-  const q = this.value.trim().toLowerCase();
-  const noResult = document.getElementById('subjectSearchNoResult');
-  const allSubBtns = document.querySelectorAll('.sub-btn');
-  let anyVisible = false;
-  allSubBtns.forEach(btn => {
-    const match = !q || btn.textContent.toLowerCase().includes(q);
-    btn.classList.toggle('hidden-by-search', !match);
-    if (match) anyVisible = true;
-  });
-  noResult.classList.toggle('show', q && !anyVisible);
-  // Auto-expand all stage groups when searching
-  if (q) {
-    document.querySelectorAll('.stage-btn').forEach(b => { b.classList.add('open'); b.querySelector('.chev').textContent='▲'; });
-    document.querySelectorAll('.sub-list').forEach(sl => sl.classList.add('open'));
-  }
-});
-
 /* ── BUILD SIDEBAR TREE ── */
 function buildStageTree(dept) {
   const tree = document.getElementById('stageTree');
   const stageConf = SUBJECTS_CONFIG[dept] || {};
   const stageNums = [4,3,2,1];
   tree.innerHTML = '';
-  document.getElementById('subjectSearchInput').value = '';
-  document.getElementById('subjectSearchNoResult').classList.remove('show');
 
   stageNums.forEach((stageNum, idx) => {
     const subjects = stageConf[stageNum] || [];
@@ -1103,7 +1119,6 @@ function buildStageTree(dept) {
       tree.querySelectorAll('.stage-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       buildUniFilters();
-      showProfessorCard();
       renderFiltered();
     });
   });
@@ -1120,7 +1135,6 @@ function buildStageTree(dept) {
       currentSubject = sb.dataset.subject;
       currentUniFilter = null;
       buildUniFilters();
-      showProfessorCard();
       renderFiltered();
       if (window.innerWidth <= 768) closeFilters();
     });
@@ -1132,6 +1146,9 @@ function buildStageTree(dept) {
     firstSub.classList.add('active');
     currentStage   = 4;
     currentSubject = firstSub.dataset.subject;
+  } else {
+    currentStage   = 4;
+    currentSubject = null;
   }
 }
 
@@ -1184,44 +1201,9 @@ function buildUniFilters() {
       bar.querySelectorAll('.uni-filter-btn').forEach(x => x.classList.remove('active'));
       b.classList.add('active');
       currentUniFilter = b.dataset.uni || null;
-      showProfessorCard();
       renderFiltered();
     });
   });
-}
-
-/* ── SHOW PROFESSOR CARD ── */
-async function showProfessorCard() {
-  const card = document.getElementById('professorCard');
-  if (!currentSubject || !currentUniFilter) {
-    card.classList.remove('show');
-    return;
-  }
-  // Find matching entry in uploads.json
-  const entry = uploadsJsonData.find(u =>
-    u.work === currentUniFilter &&
-    u.dept === currentDept &&
-    String(u.stage) === String(currentStage) &&
-    u.subject === currentSubject
-  );
-  if (!entry || !entry.dr_username || !entry.dr_username.length) {
-    card.classList.remove('show');
-    return;
-  }
-  const drUsername = entry.dr_username[0];
-  // Fetch professor profile from Firestore
-  try {
-    const students = await getAllStudents();
-    const prof = students.find(s => s.id === drUsername);
-    if (!prof) { card.classList.remove('show'); return; }
-
-    document.getElementById('professorName').textContent  = "المهندس/الدكتور " + (prof.fullName || drUsername);
-    document.getElementById('professorUsername').textContent = '@' + drUsername;
-    document.getElementById('professorDesc').textContent  = entry.description1 || '';
-    document.getElementById('professorAvatar').src        = prof.avatarURL || 'media/1nkown.png';
-    document.getElementById('professorGoto').href         = `profile.html?u=${encodeURIComponent(drUsername)}`;
-    card.classList.add('show');
-  } catch(e) { card.classList.remove('show'); }
 }
 
 /* ── FETCH ALL FILES FOR DEPT ── */
@@ -1232,7 +1214,6 @@ async function fetchDeptFiles(dept) {
   document.getElementById('filesList').style.display  = 'none';
   document.getElementById('noResults').classList.remove('show');
   document.getElementById('uniFilterBar').classList.remove('show');
-  document.getElementById('professorCard').classList.remove('show');
 
   try {
     const q    = query(collection(db,"uploads"), where("dept","==", dept));
@@ -1258,6 +1239,16 @@ function renderFiltered() {
   if (currentUniFilter) {
     filtered = filtered.filter(f => f.uni === currentUniFilter);
   }
+  if (currentFileType) {
+    filtered = filtered.filter(f => f.fileType === currentFileType);
+  }
+  if (currentSearchQ) {
+    const sq = currentSearchQ.toLowerCase();
+    filtered = filtered.filter(f =>
+      (f.name||'').toLowerCase().includes(sq) ||
+      (f.subject||'').toLowerCase().includes(sq)
+    );
+  }
 
   if (filtered.length === 0) {
     noResults.classList.add('show');
@@ -1276,12 +1267,16 @@ function renderFiltered() {
     const uploaderHref = f.uploader
       ? `<a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader">@${escHtml(f.uploader)}</a>`
       : `<span class="file-uploader">مجهول</span>`;
+    const fileTypeBadge = (f.fileType && FILETYPE_LABELS[f.fileType])
+      ? `<span class="file-type-badge ${FILETYPE_CLASS[f.fileType]}">${escHtml(FILETYPE_LABELS[f.fileType])}</span>`
+      : '';
     item.innerHTML = `
       <div class="file-icon">PDF</div>
       <div class="file-main">
         <a href="${escHtml(f.url)}" target="_blank" class="file-name">${escHtml(f.name)}</a>
         <div class="file-meta">
           ${uploaderHref}
+          ${fileTypeBadge}
           ${uniLabel ? `<span class="file-tag">${escHtml(uniLabel)}</span>` : ''}
           ${f.subject ? `<span class="file-tag">${escHtml(f.subject)}</span>` : ''}
           ${f.stage   ? `<span class="file-tag">${STAGE_LABELS[f.stage]||('المرحلة '+f.stage)}</span>` : ''}
@@ -1305,6 +1300,27 @@ document.querySelectorAll('.dept-tab').forEach(tab => {
     buildStageTree(currentDept);
     fetchDeptFiles(currentDept);
   });
+});
+
+/* ── FILE TYPE FILTER ── */
+document.querySelectorAll('.filetype-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filetype-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFileType = btn.dataset.type || null;
+    renderFiltered();
+  });
+});
+
+/* ── FILES SEARCH ── */
+let filesSearchTimer = null;
+document.getElementById('filesSearchInput').addEventListener('input', function() {
+  clearTimeout(filesSearchTimer);
+  const val = this.value.trim();
+  filesSearchTimer = setTimeout(() => {
+    currentSearchQ = val;
+    renderFiltered();
+  }, 200);
 });
 
 /* ── GET ALL STUDENTS ── */
@@ -1369,11 +1385,14 @@ async function performNavSearch(q) {
 document.getElementById('heroUploadBtn').addEventListener('click', () => {
   const user = auth.currentUser;
   if (!user) { toast('يجب تسجيل الدخول أولاً.', 'error'); return; }
+  if (!uploadAllowed) { toast('غير مصرح لك برفع الملفات حالياً.', 'error'); return; }
   resetUploadModal();
   openModal('uploadModal');
 });
 document.getElementById('uploadModalClose').addEventListener('click', () => closeModal('uploadModal'));
 document.getElementById('uploadModal').addEventListener('click', e => { if(e.target===document.getElementById('uploadModal')) closeModal('uploadModal'); });
+
+let selectedFileType = '';
 
 function resetUploadModal() {
   document.getElementById('uploadFileInput').value     = '';
@@ -1391,7 +1410,18 @@ function resetUploadModal() {
   document.getElementById('copyrightCheck').checked = false;
   document.getElementById('copyrightWrap').classList.remove('shake');
   document.getElementById('copyrightWrap').style.borderColor = '';
+  selectedFileType = '';
+  document.querySelectorAll('.filetype-select-card').forEach(c => c.classList.remove('selected'));
 }
+
+/* File type selector */
+document.querySelectorAll('.filetype-select-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.filetype-select-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedFileType = card.dataset.filetype;
+  });
+});
 
 document.getElementById('uploadUniSelect').addEventListener('change', function() {
   document.getElementById('otherUniGroup').classList.toggle('active', this.value === 'other');
@@ -1410,6 +1440,7 @@ function updateSubjectSelect() {
   const csg   = document.getElementById('customSubjectGroup');
   if (!dept || dept === 'other' || !stage) { sg.classList.remove('active'); csg.classList.add('active'); return; }
   const subjects = (SUBJECTS_CONFIG[dept]||{})[stage] || [];
+  if (subjects.length === 0) { sg.classList.remove('active'); csg.classList.add('active'); return; }
   sel.innerHTML = '<option value="">— اختر المادة —</option>';
   subjects.forEach(s => { const o = document.createElement('option'); o.value=s; o.textContent=s; sel.appendChild(o); });
   const otherOpt = document.createElement('option'); otherOpt.value='__other__'; otherOpt.textContent='مادة أخرى...'; sel.appendChild(otherOpt);
@@ -1422,6 +1453,7 @@ document.getElementById('uploadSubjectSelect').addEventListener('change', functi
 document.getElementById('submitUploadBtn').addEventListener('click', async () => {
   const user = auth.currentUser;
   if (!user) { toast('يجب تسجيل الدخول أولاً.', 'error'); return; }
+  if (!uploadAllowed) { toast('غير مصرح لك برفع الملفات حالياً.', 'error'); return; }
   const uploaderUsername = currentUsername || 'unknown';
   const file      = document.getElementById('uploadFileInput').files[0];
   const name      = document.getElementById('uploadNameInput').value.trim();
@@ -1436,6 +1468,7 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
 
   if (!file)     { toast('اختر ملف PDF.', 'error'); return; }
   if (!name)     { toast('أدخل اسم الملف.', 'error'); return; }
+  if (!selectedFileType) { toast('اختر نوع الملف.', 'error'); return; }
   if (!uniVal)   { toast('اختر الجامعة.', 'error'); return; }
   if (!deptVal)  { toast('اختر القسم الهندسي.', 'error'); return; }
   if (!stageVal) { toast('اختر المرحلة الدراسية.', 'error'); return; }
@@ -1468,7 +1501,7 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
     progFill.style.width = '95%';
     await addDoc(collection(db,"uploads"), {
       name, url, uploader: uploaderUsername,
-      uni, dept, stage: stageVal, subject,
+      uni, dept, stage: stageVal, subject, fileType: selectedFileType,
       timestamp: new Date().toISOString()
     });
     progFill.style.width = '100%';
