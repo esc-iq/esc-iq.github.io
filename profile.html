@@ -1090,6 +1090,8 @@ body {
   width: 22px; height: 22px; border-radius: 6px;
   object-fit: cover; border: 1.5px solid rgba(0,71,171,0.3);
 }
+.repost-by-name { color: var(--blue); font-weight: 800; text-decoration: underline; text-underline-offset: 2px; }
+.repost-by-name:hover { color: #003a8c; }
 .article-card-header {
   display: flex; align-items: center; gap: 12px;
   padding: 16px 18px 10px;
@@ -1114,6 +1116,27 @@ body {
   border-radius: 8px; transition: background 0.15s;
 }
 .article-more-btn:hover { background: #f3f4f6; }
+.post-highlight { animation: postGlow 2.2s ease; }
+@keyframes postGlow { 0%,100% { box-shadow: 0 1px 3px rgba(0,0,0,0.06);} 25%,60% { box-shadow: 0 0 0 3px rgba(0,71,171,0.45);} }
+.post-menu-wrap { position: relative; }
+.edited-flag { color: var(--text-light); font-style: italic; }
+.post-menu-pop {
+  position: absolute; z-index: 4000; min-width: 168px;
+  background: #fff; border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.16);
+  padding: 6px; animation: pmFade .12s ease;
+}
+@keyframes pmFade { from { opacity:0; transform: translateY(-4px);} to { opacity:1; transform:none;} }
+.post-menu-item {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  padding: 10px 12px; background: none; border: none; cursor: pointer;
+  font-family: 'Ubuntu', sans-serif; font-size: 13.5px; font-weight: 700;
+  color: var(--text-dark); border-radius: 8px; text-align: right;
+}
+.post-menu-item:hover { background: #f3f4f6; }
+.post-menu-item.danger { color: #dc2626; }
+.post-menu-item.danger:hover { background: #fef2f2; }
+.post-menu-item .pm-ico { font-size: 15px; width: 18px; text-align: center; }
 
 /* Article body */
 .article-body { padding: 0 18px 12px; }
@@ -1201,7 +1224,78 @@ body {
 .article-action-btn:hover { background: #f3f4f6; }
 .article-action-btn svg { width: 18px; height: 18px; }
 .article-action-btn.liked { color: var(--blue); }
-.article-action-btn.liked svg { stroke: var(--blue); fill: rgba(0,71,171,0.12); }
+.article-action-btn.liked svg { stroke: var(--blue); fill: var(--blue); }
+.article-action-btn.reposted { color: var(--blue); }
+.article-action-btn.reposted svg { stroke: var(--blue); }
+
+/* ── نافذة التعليقات ── */
+.comments-modal-box { max-width: 520px; width: 94%; display: flex; flex-direction: column; max-height: 88vh; padding: 0; }
+.comments-head { display: flex; align-items: center; justify-content: center; position: relative; padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.07); background: #fff; }
+.comments-head h3 { font-size: 15px; font-weight: 800; color: var(--text-dark); }
+.comments-close-btn { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; border: none; color: var(--text-mid); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Ubuntu', sans-serif; transition: background .15s; }
+.comments-close-btn:hover { background: #e5e7eb; }
+.comments-scroll { flex: 1; overflow-y: auto; padding: 0 0 8px; }
+.comments-divider { display: flex; align-items: center; gap: 10px; padding: 10px 18px; }
+.comments-divider span { font-size: 12px; font-weight: 800; color: #6b7280; letter-spacing: .5px; }
+.comments-divider::after { content: ""; flex: 1; height: 1px; background: rgba(0,0,0,0.08); }
+.comments-post-preview { padding: 14px 18px 6px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.cpp-head { display: flex; align-items: center; gap: 10px; }
+.cpp-avatar { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+.cpp-name { font-size: 14px; font-weight: 800; color: var(--blue); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.cpp-name:hover { text-decoration: underline; }
+.cpp-badge { width: 15px; height: 15px; }
+.cpp-sub { font-size: 11px; color: #9ca3af; }
+.cpp-text { font-size: 14px; color: var(--text-dark); line-height: 1.8; margin-top: 10px; white-space: pre-wrap; word-wrap: break-word; }
+.cpp-video { width: 100%; max-height: 280px; border-radius: 12px; background: #000; margin-top: 10px; }
+.cpp-actions { display: flex; gap: 8px; padding: 10px 0 4px; }
+.cpp-act-btn { display: inline-flex; align-items: center; gap: 5px; background: #f3f4f6; border: none; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 700; color: var(--text-mid); cursor: pointer; font-family: inherit; }
+.cpp-act-btn svg { width: 16px; height: 16px; }
+.cpp-act-btn.liked { color: var(--blue); }
+.cpp-act-btn.liked svg { stroke: var(--blue); fill: var(--blue); }
+.cpp-act-btn.reposted { color: var(--blue); }
+.cpp-act-btn.reposted svg { stroke: var(--blue); }
+
+#commentsList { padding: 6px 14px 4px; }
+.comment-item { display: flex; gap: 8px; align-items: flex-start; background: #f3f4f6; border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
+.comment-votes { display: flex; flex-direction: column; align-items: center; gap: 1px; flex-shrink: 0; padding-top: 2px; }
+.comment-vote-btn { background: none; border: none; cursor: pointer; padding: 0; line-height: 1; color: #9ca3af; display: flex; }
+.comment-vote-btn svg { width: 18px; height: 18px; }
+.comment-vote-btn.up.active { color: var(--blue); }
+.comment-vote-btn.down.active { color: #f87171; }
+.comment-score { font-size: 12px; font-weight: 800; color: #6b7280; }
+.comment-main { flex: 1; min-width: 0; }
+.comment-avatar { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.comment-author-row { display: flex; align-items: center; gap: 6px; justify-content: space-between; }
+.comment-author-name { font-size: 12.5px; font-weight: 800; color: var(--blue); text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.comment-author-name:hover { text-decoration: underline; }
+.comment-badge { width: 13px; height: 13px; }
+.comment-text { font-size: 13px; color: var(--text-dark); line-height: 1.7; word-wrap: break-word; white-space: pre-wrap; margin-top: 2px; }
+.comment-time { font-size: 10.5px; color: #9ca3af; margin-top: 3px; }
+
+/* ── قائمة تعليقات المقاطع الجانبية (تنزلق من اليسار) ── */
+.sc-drawer { position: fixed; inset: 0; z-index: 6000; display: none; }
+.sc-drawer.show { display: block; }
+.sc-drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+.sc-drawer-panel {
+  position: absolute; top: 0; left: 0; height: 100%;
+  width: 380px; max-width: 88vw; background: #fff;
+  display: flex; flex-direction: column;
+  box-shadow: 4px 0 30px rgba(0,0,0,0.3);
+  transform: translateX(-100%); transition: transform .28s cubic-bezier(.4,0,.2,1);
+}
+.sc-drawer.show .sc-drawer-panel { transform: translateX(0); }
+.sc-drawer-head { display: flex; align-items: center; justify-content: center; position: relative; padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.07); }
+.sc-drawer-head h3 { font-size: 15px; font-weight: 800; color: var(--text-dark); }
+.sc-drawer-close { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; border: none; color: var(--text-mid); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Ubuntu', sans-serif; }
+.sc-drawer-close:hover { background: #e5e7eb; }
+.sc-drawer-list { flex: 1; overflow-y: auto; padding: 10px 12px; }
+.sc-drawer-input { display: flex; gap: 8px; align-items: center; padding: 12px 14px; border-top: 1px solid rgba(0,0,0,0.07); }
+.sc-drawer-input .form-control { flex: 1; margin: 0; }
+.sc-drawer-input .modal-submit-btn { width: auto; padding: 10px 18px; margin: 0; white-space: nowrap; }
+.comment-del-btn { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 13px; }
+.comments-input-bar { display: flex; gap: 8px; align-items: center; padding: 12px 16px; border-top: 1px solid rgba(0,0,0,0.07); background: #fff; }
+.comments-input-bar .form-control { flex: 1; margin: 0; }
+.comments-input-bar .modal-submit-btn { width: auto; padding: 10px 18px; margin: 0; white-space: nowrap; }
 .article-share-btn {
   margin-left: auto;
   display: inline-flex; align-items: center; gap: 5px;
@@ -1220,6 +1314,12 @@ body {
   font-size: 14px; color: #c0c0c0; font-weight: 700; font-style: italic;
 }
 .articles-empty p { margin-top: 10px; }
+
+/* مؤشر التحميل المشترك للموجزات */
+.feed-loading { text-align: center; padding: 50px 20px; color: #9ca3af; font-size: 14px; font-weight: 700; }
+.feed-loading p { margin-top: 12px; }
+.feed-spinner { display: inline-block; width: 30px; height: 30px; border: 3px solid rgba(0,71,171,0.15); border-top-color: var(--blue); border-radius: 50%; animation: feedSpin .8s linear infinite; }
+@keyframes feedSpin { to { transform: rotate(360deg); } }
 
 /* ============================================================
    SHORT VIDEOS — Tab 2
@@ -1243,6 +1343,48 @@ body {
 .short-thumbnail {
   width: 100%; height: 100%; object-fit: cover;
 }
+
+/* ── مشغّل المقاطع العمودي (Reels-style) ── */
+.shorts-viewer { position: fixed; inset: 0; z-index: 4000; background: #000; display: none; }
+.shorts-viewer.show { display: block; }
+.sv-track { height: 100%; width: 100%; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.sv-track::-webkit-scrollbar { display: none; }
+.sv-slide { height: 100%; width: 100%; scroll-snap-align: start; scroll-snap-stop: always; position: relative; display: flex; align-items: center; justify-content: center; background: #000; }
+.sv-video { height: 100%; width: 100%; object-fit: contain; background: #000; }
+.sv-close { position: fixed; top: 16px; right: 16px; z-index: 4030; width: 42px; height: 42px; border-radius: 50%; border: none; background: rgba(0,0,0,0.5); color: #fff; font-size: 18px; cursor: pointer; backdrop-filter: blur(6px); }
+.sv-close:hover { background: rgba(0,0,0,0.75); }
+.sv-nav { position: fixed; left: 50%; transform: translateX(-50%); z-index: 4020; width: 40px; height: 40px; border-radius: 50%; border: none; background: rgba(255,255,255,0.14); color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(6px); }
+.sv-nav:hover { background: rgba(255,255,255,0.28); }
+.sv-nav svg { width: 22px; height: 22px; }
+.sv-nav-up { top: 14px; }
+.sv-nav-down { bottom: 14px; }
+@media(min-width:700px){ .sv-slide .sv-video { max-width: 460px; } }
+
+/* لوحة المعلومات أسفل المقطع */
+.sv-info { position: absolute; right: 0; left: 70px; bottom: 0; padding: 18px 18px 26px; color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.25) 70%, transparent 100%); pointer-events: none; }
+.sv-info * { pointer-events: auto; }
+.sv-author { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; }
+.sv-author img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.5); }
+.sv-author-name { font-size: 14px; font-weight: 800; }
+.sv-desc { font-size: 13px; line-height: 1.7; margin-top: 8px; white-space: pre-wrap; word-wrap: break-word; max-height: 22vh; overflow-y: auto; }
+.sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.sv-tag { font-size: 11px; font-weight: 700; color: #bcd4ff; }
+
+/* شريط الأزرار الجانبي */
+.sv-rail { position: absolute; left: 10px; bottom: 70px; z-index: 4015; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+.sv-rail-btn { display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; color: #fff; cursor: pointer; font-family: inherit; }
+.sv-rail-btn .sv-ico { width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,0.16); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); transition: background .15s; }
+.sv-rail-btn:hover .sv-ico { background: rgba(255,255,255,0.3); }
+.sv-rail-btn svg { width: 24px; height: 24px; }
+.sv-rail-btn span { font-size: 11px; font-weight: 700; }
+.sv-rail-btn.liked .sv-ico { background: #0047AB; }
+.sv-rail-btn.liked svg { fill: #fff; stroke: #fff; }
+.sv-rail-btn.reposted .sv-ico { background: #0047AB; }
+/* مؤشر تشغيل/إيقاف عند النقر */
+.sv-playpause { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 76px; height: 76px; border-radius: 50%; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity .25s; pointer-events: none; }
+.sv-playpause svg { width: 36px; height: 36px; fill: #fff; }
+.sv-slide.paused .sv-playpause { opacity: 1; }
 .short-play-icon {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
   width: 44px; height: 44px; background: rgba(255,255,255,0.85); border-radius: 50%;
@@ -1563,6 +1705,20 @@ select.form-control { cursor: pointer; }
 }
 .upload-progress-label { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 6px; }
 
+/* نوع الملف (مطابق لصفحة المرفوعات) */
+.filetype-select-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.filetype-select-card {
+  border: 2px solid rgba(0,0,0,0.1);
+  border-radius: 12px; padding: 12px 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  cursor: pointer; transition: all 0.2s;
+  background: #fafafa; font-size: 12px; font-weight: 700; color: var(--text-mid);
+  text-align: center;
+}
+.filetype-select-card:hover { border-color: var(--teal); background: rgba(0,128,128,0.04); }
+.filetype-select-card.selected { border-color: var(--teal); background: rgba(0,128,128,0.08); color: var(--teal); }
+.filetype-select-card svg { width: 24px; height: 24px; }
+
 .copyright-check-wrap {
   display: flex; align-items: flex-start; gap: 10px;
   padding: 12px 14px;
@@ -1692,11 +1848,13 @@ footer {
    CONFIRM DIALOG
    ============================================================ */
 #confirmModal .modal-box { max-width: 380px; }
-#confirmModal .modal-head { background: #7f1d1d; }
-.confirm-btns { display: flex; gap: 10px; margin-top: 14px; }
-.confirm-yes { flex: 1; padding: 10px; background: #dc2626; color: #fff; border: none; border-radius: 10px; font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer; }
-.confirm-yes:hover { background: #b91c1c; }
-.confirm-no  { flex: 1; padding: 10px; background: #f3f4f6; color: var(--text-dark); border: 1px solid var(--border); border-radius: 10px; font-family: 'Ubuntu', sans-serif; font-weight: 700; cursor: pointer; }
+.confirm-box { max-width: 360px; }
+.confirm-body { padding: 22px 22px 16px; }
+.confirm-text { font-size: 14.5px; font-weight: 700; color: var(--text-dark); line-height: 1.7; margin: 0 0 18px; }
+.confirm-btns { display: flex; gap: 8px; justify-content: flex-start; }
+.confirm-yes { padding: 8px 18px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
+.confirm-yes:hover { background: #003a8c; }
+.confirm-no  { padding: 8px 16px; background: #f3f4f6; color: var(--text-dark); border: 1px solid var(--border); border-radius: 8px; font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
 .confirm-no:hover { background: #e5e7eb; }
 
 /* Auth button */
@@ -1801,7 +1959,7 @@ footer {
     <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/>
     </svg>
-    رفع بحث علمي
+    نشر دراسة علمية
   </div>
 </div>
 
@@ -1866,6 +2024,9 @@ footer {
         <small>تغيير الصورة</small>
       </div>
       <div class="avatar-context-menu" id="avatarContextMenu">
+        <div class="avatar-ctx-item" id="ctxViewAvatar">
+          <span>🔍</span> عرض الصورة
+        </div>
         <div class="avatar-ctx-item" id="ctxChangeAvatar">
           <span>📷</span> تغيير الصورة
         </div>
@@ -2039,10 +2200,7 @@ footer {
       </div>
       <!-- Articles feed -->
       <div id="articlesContainer">
-        <div class="articles-empty">
-          <svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          <p>لم تُنشَر أي مقالة بعد.</p>
-        </div>
+        <div class="feed-loading"><span class="feed-spinner"></span><p>يتم التحميل…</p></div>
       </div>
     </div>
 
@@ -2053,10 +2211,7 @@ footer {
       <div class="content-card">
         <div class="card-header"><h2>المقاطع القصيرة</h2></div>
         <div id="shortsContainer">
-          <div class="shorts-empty">
-            <svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-            <p style="margin-top:12px">لم تُرفع أي مقاطع قصيرة بعد.</p>
-          </div>
+          <div class="feed-loading"><span class="feed-spinner"></span><p>يتم التحميل…</p></div>
         </div>
       </div>
     </div>
@@ -2368,6 +2523,23 @@ footer {
                placeholder="مثلاً: ملخص ميكانيكا التربة - الفصل الأول">
       </div>
       <div class="form-group">
+        <label>نوع الملف</label>
+        <div class="filetype-select-grid">
+          <div class="filetype-select-card" data-filetype="summary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            ملخص دراسي
+          </div>
+          <div class="filetype-select-card" data-filetype="exams">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            اسئلة إمتحان وحلول
+          </div>
+          <div class="filetype-select-card" data-filetype="homework">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+            واجبات محلولة
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
         <label>الجامعة</label>
         <select id="uploadUniSelect" class="form-control">
           <option value="">— اختر الجامعة —</option>
@@ -2546,7 +2718,16 @@ footer {
           <span class="hashtag-chip" data-tag="هندسة_ميكانيك">#هندسة_ميكانيك</span>
           <span class="hashtag-chip" data-tag="هندسة_برمجيات">#هندسة_برمجيات</span>
           <span class="hashtag-chip" data-tag="هندسة_معمارية">#هندسة_معمارية</span>
+          <span class="hashtag-chip" data-tag="هندسة_جيوتقنية">#هندسة_جيوتقنية</span>
+          <span class="hashtag-chip" data-tag="الطرق_والجسور">#الطرق_والجسور</span>
+          <span class="hashtag-chip" data-tag="كونكريت_وخرسانة">#كونكريت_وخرسانة</span>
+          <span class="hashtag-chip" data-tag="سوفت_وير">#سوفت_وير</span>
         </div>
+      </div>
+
+      <div class="upload-progress-wrap" id="articleUploadProgress">
+        <div class="upload-progress-bar"><div class="upload-progress-fill" id="articleProgressFill"></div></div>
+        <div class="upload-progress-label" id="articleProgressLabel">جاري النشر...</div>
       </div>
 
       <button class="modal-submit-btn teal" id="submitArticleBtn">نشر المقالة ✓</button>
@@ -2556,16 +2737,12 @@ footer {
 
 <!-- CONFIRM MODAL -->
 <div id="confirmModal" class="modal-backdrop">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h3>⚠️ تأكيد</h3>
-      <button class="modal-close-btn" data-close="confirmModal">✕</button>
-    </div>
-    <div class="modal-body">
-      <p id="confirmMsg" style="font-size:14px;font-weight:700;color:var(--text-mid);line-height:1.7;">هل أنت متأكد؟</p>
+  <div class="modal-box confirm-box">
+    <div class="confirm-body">
+      <p id="confirmMsg" class="confirm-text">هل أنت متأكد؟</p>
       <div class="confirm-btns">
-        <button class="confirm-yes" id="confirmYesBtn">نعم، تأكيد</button>
         <button class="confirm-no"  id="confirmNoBtn">إلغاء</button>
+        <button class="confirm-yes" id="confirmYesBtn">تأكيد</button>
       </div>
     </div>
   </div>
@@ -2621,33 +2798,16 @@ footer {
   </div>
 </div>
 
-<!-- SHORT PLAYER MODAL -->
-<div id="shortPlayerModal" class="modal-backdrop">
-  <div class="modal-box" style="max-width:420px;background:#0a0a0f;border-radius:20px;">
-    <div class="modal-head" style="background:#0d1117;">
-      <h3 style="color:#fff;">▶ مشغّل المقطع</h3>
-      <button class="modal-close-btn" data-close="shortPlayerModal" style="background:rgba(255,255,255,0.1);">✕</button>
-    </div>
-    <div class="short-player-wrap">
-      <video id="shortPlayerVideo" controls playsinline style="width:100%;max-height:65vh;object-fit:contain;display:block;background:#000;"></video>
-    </div>
-    <div class="short-player-info">
-      <div class="short-player-desc" id="shortPlayerDesc"></div>
-      <div class="article-hashtags" id="shortPlayerHashtags" style="padding:6px 0 0;"></div>
-      <div class="short-player-actions">
-        <button class="short-player-btn" id="shortLikeBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          <span id="shortLikeCount">0</span>
-        </button>
-        <button class="short-player-btn" id="shortShareBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          مشاركة
-        </button>
-        <button class="short-player-btn short-edit-btn" id="shortEditDescBtn" style="display:none;">✏️ تعديل</button>
-        <button class="short-player-btn short-delete-btn" id="shortDeleteBtn" style="display:none;">🗑 حذف</button>
-      </div>
-    </div>
-  </div>
+<!-- SHORTS VIEWER (مشغّل عمودي احترافي مع تمرير) -->
+<div id="shortsViewer" class="shorts-viewer" aria-hidden="true">
+  <button class="sv-close" id="svClose" title="إغلاق">✕</button>
+  <button class="sv-nav sv-nav-up" id="svNavUp" title="السابق">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
+  <div class="sv-track" id="svTrack"></div>
+  <button class="sv-nav sv-nav-down" id="svNavDown" title="التالي">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </button>
 </div>
 
 <!-- PUBLISH SHORT MODAL -->
@@ -2679,6 +2839,10 @@ footer {
           <span class="hashtag-chip" data-tag="هندسة_ميكانيك">#هندسة_ميكانيك</span>
           <span class="hashtag-chip" data-tag="هندسة_برمجيات">#هندسة_برمجيات</span>
           <span class="hashtag-chip" data-tag="هندسة_معمارية">#هندسة_معمارية</span>
+          <span class="hashtag-chip" data-tag="هندسة_جيوتقنية">#هندسة_جيوتقنية</span>
+          <span class="hashtag-chip" data-tag="الطرق_والجسور">#الطرق_والجسور</span>
+          <span class="hashtag-chip" data-tag="كونكريت_وخرسانة">#كونكريت_وخرسانة</span>
+          <span class="hashtag-chip" data-tag="سوفت_وير">#سوفت_وير</span>
         </div>
       </div>
       <div class="upload-progress-wrap" id="shortUploadProgress">
@@ -2704,7 +2868,42 @@ footer {
         <textarea id="editShortDescInput" class="form-control" maxlength="400" rows="3"></textarea>
         <div class="char-counter" id="editShortCounter">0 / 400</div>
       </div>
-      <button class="modal-submit-btn teal" id="saveEditShortBtn">حفظ التعديلات</button>
+      <button class="modal-submit-btn teal" id="saveEditShortBtn">حفظ التعديلات ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMMENTS MODAL (shared for articles + shorts) -->
+<div id="commentsModal" class="modal-backdrop">
+  <div class="modal-box comments-modal-box">
+    <div class="comments-head">
+      <h3>التعليقات</h3>
+      <button class="comments-close-btn" data-close="commentsModal" title="إغلاق">✕</button>
+    </div>
+    <div class="comments-scroll" id="commentsScroll">
+      <div id="commentsPostPreview"></div>
+      <div class="comments-divider"><span>التعليقات</span></div>
+      <div id="commentsList"></div>
+    </div>
+    <div class="comments-input-bar">
+      <input type="text" id="commentInput" class="form-control" placeholder="اكتب تعليقاً..." maxlength="300">
+      <button id="submitCommentBtn" class="modal-submit-btn teal">إرسال</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHORTS COMMENTS DRAWER (قائمة جانبية تنزلق من اليسار — تعليقات فقط) -->
+<div id="shortsCommentsDrawer" class="sc-drawer" aria-hidden="true">
+  <div class="sc-drawer-backdrop" id="scDrawerBackdrop"></div>
+  <div class="sc-drawer-panel">
+    <div class="sc-drawer-head">
+      <h3>التعليقات</h3>
+      <button class="sc-drawer-close" id="scDrawerClose" title="إغلاق">✕</button>
+    </div>
+    <div class="sc-drawer-list" id="scDrawerList"></div>
+    <div class="sc-drawer-input">
+      <input type="text" id="scCommentInput" class="form-control" placeholder="اكتب تعليقاً..." maxlength="300">
+      <button id="scSubmitCommentBtn" class="modal-submit-btn teal">إرسال</button>
     </div>
   </div>
 </div>
@@ -2755,6 +2954,7 @@ const SUBJECTS_CONFIG = {
   software:{1:["رياضيات","مقدمة في البرمجة","منطق رقمي"],2:["هياكل بيانات","خوارزميات","قواعد بيانات"],3:["شبكات حاسوب","أنظمة تشغيل"],4:["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]}
 };
 const TAG_COLORS = ['color-0','color-1','color-2','color-3','color-4'];
+const FILETYPE_LABELS = { summary:"ملخص دراسي", exams:"اسئلة إمتحان وحلول", homework:"واجبات محلولة" };
 
 /* ─── GLOBALS ─── */
 const params          = new URLSearchParams(window.location.search);
@@ -2779,6 +2979,8 @@ let   selectedLinkType= '';
 let   followersCache  = [];   /* قائمة uid من يتابعون صاحب الملف */
 let   followingCache  = [];   /* قائمة username من يتابعهم صاحب الملف */
 let   followingHashtagsCache = []; /* هاشتاقات يتابعها صاحب الملف */
+let   myRepostsCache  = new Set(); /* أرقام المنشورات التي أعاد المستخدم الحالي نشرها */
+let   editingArticleId= null;      /* معرّف المقالة قيد التعديل (null = نشر جديد) */
 
 /* ─── AUTH ─── */
 onAuthStateChanged(auth, async (user) => {
@@ -2786,20 +2988,21 @@ onAuthStateChanged(auth, async (user) => {
   currentUsername = null;
   updateAuthButton(user);
   if (TARGET_USERNAME) {
-    loadProfile();
     if (user) {
-      /* احفظ اسم مستخدم الشخص المسجّل */
-      const qMe = query(collection(db,"students"), where("uid","==",user.uid));
-      const sMe = await getDocs(qMe);
-      if (!sMe.empty) currentUsername = sMe.docs[0].id;
-
-      const iv = setInterval(() => {
-        if (profileData.uid) {
-          clearInterval(iv);
-          if (user.uid === profileData.uid) activateOwnerMode();
-          else renderFollowBtn(user);
-        }
-      }, 100);
+      /* اسم المستخدم الحالي — من التخزين المؤقت فوراً لتسريع التحميل، ثم تحقق في الخلفية */
+      const cachedUname = localStorage.getItem('esc_uname_'+user.uid);
+      if (cachedUname) currentUsername = cachedUname;
+      /* المتصفح يعرف فوراً أنك صاحب الحساب — تفعيل وضع المالك تفاؤلياً دون انتظار الإنترنت */
+      if (cachedUname && cachedUname === TARGET_USERNAME) activateOwnerMode();
+      getDocs(query(collection(db,"students"), where("uid","==",user.uid)))
+        .then(sMe=>{ if(!sMe.empty){ currentUsername = sMe.docs[0].id; localStorage.setItem('esc_uname_'+user.uid, currentUsername); } })
+        .catch(()=>{});
+    }
+    /* انتظر تحميل الملف (بما فيه بيانات المتابعة) قبل تحديد المالك/زر المتابعة — يمنع سباق إظهار "متابعة" خطأً */
+    await loadProfile();
+    if (user && profileData.uid) {
+      if (user.uid === profileData.uid) activateOwnerMode();
+      else renderFollowBtn(user);
     }
   } else {
     if (!user) {
@@ -2854,10 +3057,34 @@ function showConfirm(msg,cb,yesTxt='نعم، تأكيد') {
 }
 document.getElementById('confirmYesBtn').addEventListener('click',()=>{closeModal('confirmModal');if(confirmCallback)confirmCallback();confirmCallback=null;});
 document.getElementById('confirmNoBtn').addEventListener('click',()=>{closeModal('confirmModal');confirmCallback=null;});
+
+/* ─── قائمة خيارات صغيرة (popover) للمنشورات ─── */
+function closePostMenu(){ const m=document.getElementById('postMenuPop'); if(m) m.remove(); }
+function openPostMenu(anchor, items){
+  closePostMenu();
+  const pop=document.createElement('div'); pop.id='postMenuPop'; pop.className='post-menu-pop';
+  items.forEach(it=>{
+    const b=document.createElement('button');
+    b.className='post-menu-item'+(it.danger?' danger':'');
+    b.innerHTML=`<span class="pm-ico">${it.icon||''}</span>${escHtml(it.label)}`;
+    b.addEventListener('click',(e)=>{ e.stopPropagation(); closePostMenu(); it.action(); });
+    pop.appendChild(b);
+  });
+  document.body.appendChild(pop);
+  const r=anchor.getBoundingClientRect();
+  /* محاذاة لليمين أسفل الزر (RTL) */
+  pop.style.top=(r.bottom+window.scrollY+6)+'px';
+  let left=r.right+window.scrollX-pop.offsetWidth;
+  if(left<8) left=8;
+  pop.style.left=left+'px';
+}
+document.addEventListener('click',(e)=>{ const m=document.getElementById('postMenuPop'); if(m && !m.contains(e.target)) closePostMenu(); });
+document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closePostMenu(); });
 function escHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 function fadeOutLoader() {
   const ov=document.getElementById('loadingOverlay');
-  ov.classList.add('fade-out'); setTimeout(()=>ov.remove(),400);
+  if(!ov) return;
+  ov.classList.add('fade-out'); setTimeout(()=>{ if(ov && ov.parentNode) ov.remove(); },400);
 }
 
 /* ─── TAB SWITCHING ─── */
@@ -2933,26 +3160,59 @@ async function checkUploadAuth(username) {
 
 /* ─── LOAD PROFILE ─── */
 async function loadProfile() {
+  /* عرض فوري من التخزين المؤقت (إن وُجد) لتقليل زمن "جاري التحميل" */
+  try {
+    const cached = JSON.parse(localStorage.getItem('esc_profile_'+TARGET_USERNAME)||'null');
+    if (cached && cached.p) {
+      profileData = cached.p; memberData = cached.m||null;
+      /* أعداد المتابعة المخزّنة مؤقتاً — تُعرض فوراً ثم تُحدّث من الإنترنت */
+      if (typeof cached.fc === 'number') followersCache = new Array(cached.fc).fill({});
+      if (typeof cached.gc === 'number') followingCache = new Array(cached.gc).fill({});
+      renderProfile();
+      renderSkills(profileData.skills||[]);
+      renderLinks(profileData.links||[]);
+      fadeOutLoader();
+    }
+  } catch(e) {}
+
   try {
     const snap = await getDoc(doc(db,"students",TARGET_USERNAME));
     if (!snap.exists()) { alert("هذا المستخدم غير موجود!"); window.location.href="index.html"; return; }
     profileData = snap.data();
-    memberData  = await loadMemberData(TARGET_USERNAME);
-    uploadAllowed = await checkUploadAuth(TARGET_USERNAME);
 
-    /* ── جلب بيانات المتابعة من مجلدات منفصلة ── */
-    await loadFollowData();
+    /* ── جلب بيانات المتابعة + بيانات العضوية معاً قبل الرسم لضمان صحة العدّادات ── */
+    const [, md, ua] = await Promise.all([
+      loadFollowData(),
+      loadMemberData(TARGET_USERNAME),
+      checkUploadAuth(TARGET_USERNAME)
+    ]);
+    memberData = md; uploadAllowed = ua;
 
+    /* تحديث العرض بالبيانات الطازجة (بما فيها العدّادات) + إخفاء شاشة التحميل مبكراً */
     renderProfile();
-    await loadFiles();
-    await loadCertificates();
-    await loadResearchFromGitHub();
-    await loadArticles();
-    await loadShorts();
     renderSkills(profileData.skills||[]);
     renderLinks(profileData.links||[]);
+    updateFollowCounts();
+    fadeOutLoader();
+
+    /* حفظ نسخة مؤقتة للزيارة القادمة (مع أعداد المتابعة) */
+    try { localStorage.setItem('esc_profile_'+TARGET_USERNAME, JSON.stringify({p:profileData, m:memberData, fc:followersCache.length, gc:followingCache.length})); } catch(e) {}
+
+    /* تحميل بقية المحتوى في الخلفية دون حجب الواجهة */
+    loadFiles();
+    loadCertificates();
+    loadResearchFromGitHub();
+    loadArticles();
+    loadShorts();
+    loadMyReposts();
   } catch(e) { toast("خطأ في تحميل البيانات: "+e.message,'error'); }
   finally { fadeOutLoader(); }
+}
+
+function updateFollowCounts(){
+  const fc=document.getElementById('followersCount'), gc=document.getElementById('followingCount');
+  if(fc) fc.textContent = followersCache.length;
+  if(gc) gc.textContent = followingCache.length;
 }
 
 /* ─── LOAD FOLLOW DATA ─── */
@@ -3279,6 +3539,7 @@ function renderFilesList(){
         <a href="${escHtml(f.url)}" target="_blank" class="file-title">${escHtml(f.name)}</a>
         <div class="file-sub">
           <a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader-tag">@${escHtml(f.uploader)}</a>
+          ${f.fileType?`<span class="file-badge">${escHtml(FILETYPE_LABELS[f.fileType]||f.fileType)}</span>`:''}
           ${uniLabel?`<span class="file-badge">${escHtml(uniLabel)}</span>`:''}
           ${f.subject?`<span class="file-badge">${escHtml(f.subject)}</span>`:''}
           ${f.stage?`<span class="file-badge">المرحلة ${escHtml(f.stage)}</span>`:''}
@@ -3334,11 +3595,21 @@ async function deleteFile(fileId,fileUrl){
 }
 
 /* ─── UPLOAD FILE ─── */
+let selectedFileType = '';
+/* اختيار نوع الملف (مطابق لصفحة المرفوعات) */
+document.querySelectorAll('.filetype-select-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.filetype-select-card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+    selectedFileType = card.dataset.filetype;
+  });
+});
 function openUploadModal(){
   document.getElementById('uploadFileInput').value=''; document.getElementById('uploadNameInput').value='';
   document.getElementById('uploadUniSelect').value=''; document.getElementById('uploadDeptSelect').value='';
   document.getElementById('uploadStageSelect').value=''; document.getElementById('uploadSubjectSelect').value='';
   document.getElementById('customSubjectInput').value='';
+  selectedFileType=''; document.querySelectorAll('.filetype-select-card').forEach(c=>c.classList.remove('selected'));
   ['otherUniGroup','otherDeptGroup','subjectGroup','customSubjectGroup'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('uploadProgressWrap').classList.remove('active');
   document.getElementById('copyrightCheck').checked=false;
@@ -3367,6 +3638,7 @@ document.getElementById('submitUploadBtn').addEventListener('click',async()=>{
   const otherDept=document.getElementById('otherDeptInput').value.trim(), otherUni=document.getElementById('otherUniInput').value.trim();
   const copyrightOk=document.getElementById('copyrightCheck').checked;
   if(!file){toast('اختر ملف PDF.','error');return;} if(!name){toast('أدخل اسم الملف.','error');return;}
+  if(!selectedFileType){toast('اختر نوع الملف.','error');return;}
   if(!uniVal){toast('اختر الجامعة.','error');return;} if(!deptVal){toast('اختر القسم.','error');return;}
   if(!stageVal){toast('اختر المرحلة.','error');return;}
   if(file.type!=='application/pdf'){toast('يُقبل ملفات PDF فقط.','error');return;}
@@ -3383,7 +3655,7 @@ document.getElementById('submitUploadBtn').addEventListener('click',async()=>{
     progFill.style.width='55%';
     const snap=await uploadBytes(storRef,file); progFill.style.width='80%';
     const url=await getDownloadURL(snap.ref); progFill.style.width='95%';
-    await addDoc(collection(db,"uploads"),{name,url,uploader:TARGET_USERNAME,uni,dept,stage:stageVal,subject,timestamp:new Date().toISOString()});
+    await addDoc(collection(db,"uploads"),{name,url,uploader:TARGET_USERNAME,uni,dept,stage:stageVal,subject,fileType:selectedFileType,timestamp:new Date().toISOString()});
     progFill.style.width='100%'; progLabel.textContent='تم الرفع بنجاح!';
     setTimeout(()=>{closeModal('uploadModal');toast('تم رفع الملف بنجاح ✓','success');btn.disabled=false;progWrap.classList.remove('active');loadFiles();},700);
   }catch(e){progLabel.textContent='فشل الرفع: '+e.message;progFill.style.background='#dc2626';btn.disabled=false;toast('فشل الرفع: '+e.message,'error');}
@@ -3458,22 +3730,67 @@ function requestResearch(){
   window.location.href=`mailto:info@esc-iq.net?subject=${encodeURIComponent("طلب مراجعة بحث علمي")}&body=${encodeURIComponent(body)}`;
 }
 
+/* ─── تحميل إعادات نشر المستخدم الحالي (لحالة الأزرار على كل البطاقات) ─── */
+async function loadMyReposts(){
+  myRepostsCache = new Set();
+  if(!currentUsername) return;
+  try{
+    const snap = await getDocs(query(collection(db,"reposts"),where("username","==",currentUsername)));
+    snap.forEach(d=>{ const r=d.data(); if(r.postId) myRepostsCache.add(r.postId); });
+  }catch(e){}
+}
+
 /* ─── ARTICLES ─── */
 async function loadArticles(){
   const container=document.getElementById('articlesContainer');
+  if(!container.querySelector('.article-card')) container.innerHTML='<div class="feed-loading"><span class="feed-spinner"></span><p>يتم التحميل…</p></div>';
   try{
-    const q=query(collection(db,"articles"),where("author","==",TARGET_USERNAME),orderBy("createdAt","desc"));
-    const snap=await getDocs(q);
-    if(snap.empty){
+    /* تأكد من تحميل إعادات نشر المستخدم الحالي أولاً لتلوين الأزرار بشكل صحيح */
+    if(currentUsername && myRepostsCache.size===0) await loadMyReposts();
+
+    /* (1) مقالات صاحب الملف نفسه */
+    const snap=await getDocs(query(collection(db,"articles"),where("author","==",TARGET_USERNAME)));
+    let items=snap.docs.map(d=>({ kind:'own', article:{id:d.id,...d.data()}, t:(d.data().createdAt&&d.data().createdAt.toMillis?d.data().createdAt.toMillis():0) }));
+
+    /* (2) المنشورات التي أعاد صاحب الملف نشرها */
+    try{
+      const rSnap=await getDocs(query(collection(db,"reposts"),where("username","==",TARGET_USERNAME)));
+      const reposts=rSnap.docs.map(d=>d.data()).filter(r=>r.postType==='articles'&&r.postId);
+      for(const r of reposts){
+        try{
+          const aDoc=await getDoc(doc(db,"articles",r.postId));
+          if(aDoc.exists()){
+            const rt=(r.createdAt&&r.createdAt.toMillis)?r.createdAt.toMillis():0;
+            items.push({ kind:'repost', article:{id:aDoc.id,...aDoc.data()}, t:rt });
+          }
+        }catch(e){}
+      }
+    }catch(e){}
+
+    if(items.length===0){
       container.innerHTML=`<div class="articles-empty"><svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><p>لم تُنشَر أي مقالة بعد.</p></div>`;
       return;
     }
+    /* الأحدث أولاً (وفق وقت النشر أو وقت إعادة النشر) */
+    items.sort((a,b)=>b.t-a.t);
     container.innerHTML='';
-    for(const d of snap.docs){
-      const a={id:d.id,...d.data()};
-      container.appendChild(buildArticleCard(a));
+    const repostByName = "المهندس "+((profileData&&profileData.fullName)||TARGET_USERNAME);
+    for(const it of items){
+      if(it.kind==='repost'){
+        const a={...it.article, repostByAvatar:(profileData&&profileData.avatarURL)||'media/1nkown.png', repostByUsername:TARGET_USERNAME};
+        container.appendChild(buildArticleCard(a, true, repostByName));
+      }else{
+        container.appendChild(buildArticleCard(it.article));
+      }
+    }
+    /* فتح/تمرير لمنشور محدد عند الوصول عبر رابط مباشر (?post=ID) */
+    const postId=params.get('post');
+    if(postId){
+      const target=container.querySelector(`.article-card[data-article-id="${CSS.escape(postId)}"]`);
+      if(target){ target.scrollIntoView({behavior:'smooth',block:'center'}); target.classList.add('post-highlight'); setTimeout(()=>target.classList.remove('post-highlight'),2400); }
     }
   }catch(e){
+    console.error('loadArticles error:',e);
     container.innerHTML=`<div class="articles-empty"><p>تعذّر تحميل المقالات.</p></div>`;
   }
 }
@@ -3485,7 +3802,8 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
   /* Repost header */
   if(isRepost&&repostBy){
     const rh=document.createElement('div'); rh.className='article-repost-header';
-    rh.innerHTML=`<img src="${escHtml(article.repostByAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt=""> قام المهندس ${escHtml(repostBy)} بإعادة نشر هذا المنشور`;
+    const rbUser = article.repostByUsername || TARGET_USERNAME;
+    rh.innerHTML=`<img src="${escHtml(article.repostByAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt=""> قام <a class="repost-by-name" href="profile.html?u=${encodeURIComponent(rbUser)}">${escHtml(repostBy)}</a> بإعادة نشر هذا المنشور`;
     card.appendChild(rh);
   }
 
@@ -3496,17 +3814,22 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     <img class="article-author-avatar" src="${escHtml(av)}" onerror="this.src='media/1nkown.png'" alt="">
     <div class="article-author-info">
       <a class="article-author-name" href="profile.html?u=${encodeURIComponent(article.author||'')}">${escHtml("المهندس "+(article.authorName||article.author||''))}</a>
-      <div class="article-author-sub">@${escHtml(article.author||'')} · ${formatTime(article.createdAt)}</div>
+      <div class="article-author-sub">@${escHtml(article.author||'')} · ${formatTime(article.createdAt)}${article.editedAt?' · <span class="edited-flag">مُعدَّل</span>':''}</div>
     </div>
-    ${(isOwner&&article.author===TARGET_USERNAME)?`<button class="article-more-btn" data-id="${escHtml(article.id)}">⋯</button>`:''}
+    ${(isOwner&&article.author===TARGET_USERNAME&&!isRepost)?`<div class="post-menu-wrap"><button class="article-more-btn" title="خيارات">⋯</button></div>`:''}
   `;
   card.appendChild(head);
-  if(isOwner&&article.author===TARGET_USERNAME){
-    head.querySelector('.article-more-btn').addEventListener('click',()=>{
-      showConfirm('هل تريد حذف هذه المقالة؟',async()=>{
-        try{await deleteDoc(doc(db,"articles",article.id));card.remove();toast('تم حذف المقالة.','success');}
-        catch(e){toast('خطأ: '+e.message,'error');}
-      },'نعم، احذف المقالة');
+  if(isOwner&&article.author===TARGET_USERNAME&&!isRepost){
+    const moreBtn=head.querySelector('.article-more-btn');
+    moreBtn.addEventListener('click',(e)=>{
+      e.stopPropagation();
+      openPostMenu(moreBtn, [
+        { label:'تعديل المنشور', icon:'✏️', action:()=>openEditArticleModal(article) },
+        { label:'حذف المنشور', icon:'🗑', danger:true, action:()=>showConfirm('سيُحذف هذا المنشور نهائياً.',async()=>{
+            try{await deleteDoc(doc(db,"articles",article.id));card.remove();toast('تم حذف المقالة.','success');}
+            catch(err){toast('خطأ: '+err.message,'error');}
+          },'حذف') }
+      ]);
     });
   }
 
@@ -3521,13 +3844,20 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     tp.innerHTML=shortText||rendered;
     body.appendChild(tp);
     if(shortText){
+      const wordCount=fullText.trim().split(/\s+/).length;
       const rm=document.createElement('button'); rm.className='article-read-more visible'; rm.textContent='عرض المزيد ▾';
-      let expanded=false;
-      rm.addEventListener('click',()=>{
-        expanded=!expanded; tp.innerHTML=expanded?rendered:shortText; rm.textContent=expanded?'عرض أقل ▴':'عرض المزيد ▾';
-        /* Show hashtags only when expanded */
-        hashWrap.style.display=expanded?'flex':'none';
-      });
+      if(wordCount>200){
+        /* المقالات الطويلة (>200 كلمة): "عرض المزيد" يفتح النافذة المنبثقة بالمنشور كاملاً + التعليقات */
+        rm.addEventListener('click',()=>{
+          openCommentsModal('articles', article.id, actions?actions.querySelector('.comment-count'):null, article);
+        });
+      }else{
+        let expanded=false;
+        rm.addEventListener('click',()=>{
+          expanded=!expanded; tp.innerHTML=expanded?rendered:shortText; rm.textContent=expanded?'عرض أقل ▴':'عرض المزيد ▾';
+          hashWrap.style.display=expanded?'flex':'none';
+        });
+      }
       body.appendChild(rm);
     }
     card.appendChild(body);
@@ -3582,12 +3912,12 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
   actions.innerHTML=`
     <div class="article-action-group">
       <button class="article-action-btn like-btn${myLiked?' liked':''}" data-id="${escHtml(article.id)}">
-        <svg viewBox="0 0 24 24" fill="${myLiked?'rgba(0,71,171,0.15)':'none'}" stroke="${myLiked?'#0047AB':'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-        <span class="like-count">${likes.length}</span>
+        <svg viewBox="0 0 24 24" fill="${myLiked?'#0047AB':'none'}" stroke="${myLiked?'#0047AB':'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <span class="like-count">${likes.length}</span> إعجاب
       </button>
       <button class="article-action-btn comment-btn" data-id="${escHtml(article.id)}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        تعليق
+        التعليقات <span class="comment-count"></span>
       </button>
       <button class="article-action-btn repost-btn" data-id="${escHtml(article.id)}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
@@ -3608,39 +3938,47 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     const isLiked=btn.classList.contains('liked');
     try{
       if(isLiked){await updateDoc(artRef,{likes:arrayRemove(currentUser.uid)});btn.classList.remove('liked');btn.querySelector('svg').setAttribute('fill','none');btn.querySelector('svg').setAttribute('stroke','currentColor');}
-      else{await updateDoc(artRef,{likes:arrayUnion(currentUser.uid)});btn.classList.add('liked');btn.querySelector('svg').setAttribute('fill','rgba(0,71,171,0.15)');btn.querySelector('svg').setAttribute('stroke','#0047AB');}
+      else{await updateDoc(artRef,{likes:arrayUnion(currentUser.uid)});btn.classList.add('liked');btn.querySelector('svg').setAttribute('fill','#0047AB');btn.querySelector('svg').setAttribute('stroke','#0047AB');}
       const newCount=parseInt(btn.querySelector('.like-count').textContent)+(isLiked?-1:1);
       btn.querySelector('.like-count').textContent=newCount;
     }catch(e){toast('خطأ.','error');}
   });
 
   /* Comment btn */
-  actions.querySelector('.comment-btn').addEventListener('click',()=>{toast('قسم التعليقات قادم قريباً!');});
-
-  /* Repost btn */
-  actions.querySelector('.repost-btn').addEventListener('click',async()=>{
-    if(!currentUser){toast('سجّل الدخول للتفاعل.','error');return;}
-    showConfirm('هل تريد إعادة نشر هذه المقالة في ملفك الشخصي؟',async()=>{
-      try{
-        const q2=query(collection(db,"students"),where("uid","==",currentUser.uid));
-        const s2=await getDocs(q2);
-        if(s2.empty){toast('لم يُعثر على حسابك.','error');return;}
-        const myUsername=s2.docs[0].id, myData=s2.docs[0].data();
-        await addDoc(collection(db,"articles"),{
-          ...article, author:myUsername, authorName:myData.fullName||myUsername,
-          authorAvatar:myData.avatarURL||'media/1nkown.png',
-          isRepost:true, originalAuthor:article.author, originalAuthorName:article.authorName||article.author,
-          repostByAvatar:myData.avatarURL||'media/1nkown.png',
-          createdAt:serverTimestamp()
-        });
-        toast('تمت إعادة النشر بنجاح ✓','success');
-      }catch(e){toast('خطأ: '+e.message,'error');}
-    },'نعم، أعد النشر');
+  const commentCountEl=actions.querySelector('.comment-count');
+  getCommentsCount('articles',article.id).then(c=>{commentCountEl.textContent=c>0?c:'';});
+  actions.querySelector('.comment-btn').addEventListener('click',()=>{
+    openCommentsModal('articles',article.id,commentCountEl,article);
   });
 
-  /* Share btn */
+  /* Repost btn — تبديل بسيط بدون تأكيد (رصاصي ↔ أزرق) */
+  const repostBtn=actions.querySelector('.repost-btn');
+  const setRepostState=(on)=>{
+    repostBtn.classList.toggle('reposted',on);
+    repostBtn.querySelector('svg').setAttribute('stroke', on?'#0047AB':'currentColor');
+  };
+  setRepostState(myRepostsCache.has(article.id));
+  repostBtn.addEventListener('click',async()=>{
+    if(!currentUser||!currentUsername){toast('سجّل الدخول للتفاعل.','error');return;}
+    const on=myRepostsCache.has(article.id);
+    const repostRef=doc(db,"reposts",currentUsername+'__'+article.id);
+    setRepostState(!on); /* تفاؤلي */
+    try{
+      if(on){
+        await deleteDoc(repostRef);
+        myRepostsCache.delete(article.id);
+        if(isRepost && TARGET_USERNAME===currentUsername) card.remove();
+      }else{
+        await setDoc(repostRef,{username:currentUsername,postId:article.id,postType:'articles',originalAuthor:article.author,originalAuthorName:article.authorName||article.author,createdAt:serverTimestamp()});
+        myRepostsCache.add(article.id);
+        toast('تمت إعادة النشر على ملفك ✓','success');
+      }
+    }catch(e){ setRepostState(on); toast('خطأ: '+e.message,'error'); }
+  });
+
+  /* Share btn — ينسخ رابط المنشور نفسه (وليس رابط المستخدم) */
   actions.querySelector('.article-share-btn').addEventListener('click',()=>{
-    currentShareUrl=`${window.location.origin}${window.location.pathname}?u=${encodeURIComponent(TARGET_USERNAME)}`;
+    currentShareUrl=postShareUrl('articles', article.id);
     openModal('shareModal');
   });
 
@@ -3654,6 +3992,14 @@ function renderArticleText(text){
   }).join('\n');
 }
 
+/* رابط مباشر لمنشور بعينه (لا رابط المستخدم فقط) — يحوي معرّف المنشور الداخلي */
+function postShareUrl(coll, id){
+  const base=`${window.location.origin}${window.location.pathname}?u=${encodeURIComponent(TARGET_USERNAME)}`;
+  if(!id) return base;
+  const param = coll==='shorts' ? 'short' : 'post';
+  return `${base}&${param}=${encodeURIComponent(id)}`;
+}
+
 function formatTime(ts){
   if(!ts) return '';
   try{
@@ -3662,14 +4008,360 @@ function formatTime(ts){
   }catch(e){return '';}
 }
 
+/* ─── COMMENTS (مشترك بين المقالات والمقاطع) ─── */
+/* البنية: {collectionName}/{docId}/comments/{commentId}
+   → {text, author, authorName, authorAvatar, authorBadge, upvotes:[uid], downvotes:[uid], createdAt} */
+let currentCommentTarget = { coll:null, id:null, countEl:null, post:null };
+let memberJsonCache = null;
+
+async function getMemberBadge(username){
+  try{
+    if(!memberJsonCache){ const res=await fetch('jsonfiles/member.json'); memberJsonCache = res.ok? await res.json() : []; }
+    const m = memberJsonCache.find(x=>x.member_username && x.member_username.includes(username));
+    return (m && m.verf) ? m.verf : null;
+  }catch(e){ return null; }
+}
+
+async function getCommentsCount(coll, id){
+  try{
+    const snap = await getDocs(collection(db, coll, id, "comments"));
+    return snap.size;
+  }catch(e){ return 0; }
+}
+
+async function openCommentsModal(coll, id, countEl, post){
+  currentCommentTarget = { coll, id, countEl: countEl||null, post: post||null };
+  document.getElementById('commentInput').value = '';          /* تفريغ المدخل دائماً عند فتح منشور جديد */
+  renderCommentsPostPreview();
+  openModal('commentsModal');
+  document.getElementById('commentsScroll').scrollTop = 0;
+  await renderCommentsList();
+}
+
+/* عرض المنشور في أعلى النافذة + أزرار تفاعل */
+function renderCommentsPostPreview(){
+  const box = document.getElementById('commentsPostPreview');
+  const { coll, post } = currentCommentTarget;
+  if(!post){ box.innerHTML=''; return; }
+  const name = "المهندس "+(post.authorName||post.author||'');
+  const badge = post.authorBadgeUrl ? `<img class="cpp-badge" src="${escHtml(post.authorBadgeUrl)}" alt="✔">` : '';
+  let media = '';
+  if(coll==='shorts' && post.url){
+    media = `<video class="cpp-video" src="${escHtml(post.url)}" controls playsinline preload="metadata"></video>`;
+  }else if(post.images && post.images.length){
+    media = `<img class="cpp-video" style="object-fit:cover" src="${escHtml(post.images[0])}" alt="">`;
+  }
+  const bodyText = coll==='shorts' ? (post.desc||'') : (post.text||'');
+  const likes = post.likes||[];
+  const myLiked = currentUser && likes.includes(currentUser.uid);
+  const reposted = myRepostsCache.has(post.id);
+  box.className = 'comments-post-preview';
+  box.innerHTML = `
+    <div class="cpp-head">
+      <img class="cpp-avatar" src="${escHtml(post.authorAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
+      <div>
+        <a class="cpp-name" href="profile.html?u=${encodeURIComponent(post.author||'')}">${escHtml(name)} ${badge}</a>
+        <div class="cpp-sub">@${escHtml(post.author||'')} · ${formatTime(post.createdAt)}</div>
+      </div>
+    </div>
+    ${bodyText?`<div class="cpp-text">${escHtml(bodyText)}</div>`:''}
+    ${media}
+    <div class="cpp-actions">
+      <button class="cpp-act-btn cpp-like${myLiked?' liked':''}">
+        <svg viewBox="0 0 24 24" fill="${myLiked?'#0047AB':'none'}" stroke="${myLiked?'#0047AB':'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        <span class="cpp-like-count">${likes.length}</span>
+      </button>
+      <button class="cpp-act-btn cpp-repost${reposted?' reposted':''}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="${reposted?'#0047AB':'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+        إعادة نشر
+      </button>
+      <button class="cpp-act-btn cpp-share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        مشاركة
+      </button>
+    </div>`;
+  /* إعجاب داخل النافذة */
+  box.querySelector('.cpp-like').addEventListener('click',async(e)=>{
+    if(!currentUser){toast('سجّل الدخول للتفاعل.','error');return;}
+    const btn=e.currentTarget, svg=btn.querySelector('svg'), cEl=btn.querySelector('.cpp-like-count');
+    const isLiked=btn.classList.contains('liked');
+    const ref2=doc(db, coll, post.id);
+    try{
+      if(isLiked){ await updateDoc(ref2,{likes:arrayRemove(currentUser.uid)}); btn.classList.remove('liked'); svg.setAttribute('fill','none'); svg.setAttribute('stroke','currentColor'); cEl.textContent=Math.max(0,parseInt(cEl.textContent||'0')-1); post.likes=(post.likes||[]).filter(u=>u!==currentUser.uid); }
+      else{ await updateDoc(ref2,{likes:arrayUnion(currentUser.uid)}); btn.classList.add('liked'); svg.setAttribute('fill','#0047AB'); svg.setAttribute('stroke','#0047AB'); cEl.textContent=parseInt(cEl.textContent||'0')+1; post.likes=[...(post.likes||[]),currentUser.uid]; }
+    }catch(err){toast('خطأ.','error');}
+  });
+  /* إعادة نشر داخل النافذة */
+  box.querySelector('.cpp-repost').addEventListener('click',async(e)=>{
+    if(!currentUser||!currentUsername){toast('سجّل الدخول للتفاعل.','error');return;}
+    const btn=e.currentTarget, on=myRepostsCache.has(post.id), svg=btn.querySelector('svg');
+    const rRef=doc(db,"reposts",currentUsername+'__'+post.id);
+    btn.classList.toggle('reposted',!on); svg.setAttribute('stroke',!on?'#0047AB':'currentColor');
+    try{
+      if(on){ await deleteDoc(rRef); myRepostsCache.delete(post.id); }
+      else{ await setDoc(rRef,{username:currentUsername,postId:post.id,postType:coll,originalAuthor:post.author,originalAuthorName:post.authorName||post.author,createdAt:serverTimestamp()}); myRepostsCache.add(post.id); toast('تمت إعادة النشر على ملفك ✓','success'); }
+    }catch(err){ btn.classList.toggle('reposted',on); svg.setAttribute('stroke',on?'#0047AB':'currentColor'); toast('خطأ: '+err.message,'error'); }
+  });
+  /* مشاركة */
+  box.querySelector('.cpp-share').addEventListener('click',()=>{
+    currentShareUrl=postShareUrl(coll, post.id);
+    openModal('shareModal');
+  });
+  /* جلب شارة التوثيق للناشر إن لم تكن محمّلة */
+  if(!post.authorBadgeUrl && post.author){
+    getMemberBadge(post.author).then(url=>{
+      if(url){ post.authorBadgeUrl=url; const a=box.querySelector('.cpp-name'); if(a && !a.querySelector('.cpp-badge')) a.insertAdjacentHTML('beforeend', ` <img class="cpp-badge" src="${escHtml(url)}" alt="✔">`); }
+    });
+  }
+}
+
+async function renderCommentsList(){
+  const list = document.getElementById('commentsList');
+  const { coll, id } = currentCommentTarget;
+  if(!coll||!id){ list.innerHTML=''; return; }
+  list.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:13px;padding:18px;">جاري التحميل...</div>';
+  try{
+    const snap = await getDocs(collection(db, coll, id, "comments"));
+    let arr = snap.docs.map(d=>({id:d.id,...d.data()}));
+    /* الترتيب: الأعلى تصويتاً أولاً (كريديت)، ثم الأحدث */
+    arr.sort((a,b)=>{
+      const sa=((a.upvotes||[]).length-(a.downvotes||[]).length), sb=((b.upvotes||[]).length-(b.downvotes||[]).length);
+      if(sb!==sa) return sb-sa;
+      const ta=a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0;
+      const tb=b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0;
+      return tb-ta;
+    });
+    if(currentCommentTarget.countEl) currentCommentTarget.countEl.textContent = arr.length>0?arr.length:'';
+    if(arr.length===0){
+      list.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:13px;padding:24px;">لا توجد تعليقات بعد. كن أول من يعلّق!</div>';
+      return;
+    }
+    list.innerHTML='';
+    const myUid = currentUser ? currentUser.uid : null;
+    arr.forEach(c=>{
+      const up=c.upvotes||[], down=c.downvotes||[];
+      const score=up.length-down.length;
+      const iUp = myUid && up.includes(myUid);
+      const iDown = myUid && down.includes(myUid);
+      const canDelete = (currentUsername && c.author===currentUsername) || isOwner;
+      const badge = c.authorBadge ? `<img class="comment-badge" src="${escHtml(c.authorBadge)}" alt="✔">` : '';
+      const row=document.createElement('div'); row.className='comment-item';
+      row.innerHTML=`
+        <div class="comment-votes">
+          <button class="comment-vote-btn up${iUp?' active':''}" title="دعم"><svg viewBox="0 0 24 24" fill="${iUp?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+          <span class="comment-score">${score}</span>
+          <button class="comment-vote-btn down${iDown?' active':''}" title="عدم دعم"><svg viewBox="0 0 24 24" fill="${iDown?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+        </div>
+        <img class="comment-avatar" src="${escHtml(c.authorAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
+        <div class="comment-main">
+          <div class="comment-author-row">
+            <a class="comment-author-name" href="profile.html?u=${encodeURIComponent(c.author||'')}">${escHtml("المهندس "+(c.authorName||c.author||''))} ${badge}</a>
+            ${canDelete?`<button class="comment-del-btn">🗑</button>`:''}
+          </div>
+          <div class="comment-text">${escHtml(c.text||'')}</div>
+          <div class="comment-time">${formatTime(c.createdAt)}</div>
+        </div>`;
+      /* حذف */
+      const delBtn=row.querySelector('.comment-del-btn');
+      if(delBtn){ delBtn.addEventListener('click',async()=>{
+        try{ await deleteDoc(doc(db, coll, id, "comments", c.id)); await renderCommentsList(); toast('تم حذف التعليق.','success'); }
+        catch(e){toast('خطأ: '+e.message,'error');}
+      }); }
+      /* تصويت */
+      row.querySelector('.comment-vote-btn.up').addEventListener('click',()=>voteComment(c, 'up'));
+      row.querySelector('.comment-vote-btn.down').addEventListener('click',()=>voteComment(c, 'down'));
+      list.appendChild(row);
+    });
+  }catch(e){
+    list.innerHTML = '<div style="text-align:center;color:#dc2626;font-size:13px;padding:18px;">تعذّر تحميل التعليقات.</div>';
+  }
+}
+
+/* تصويت على تعليق — اتجاه واحد فقط */
+async function voteComment(c, dir){
+  if(!currentUser){ toast('سجّل الدخول للتفاعل.','error'); return; }
+  const { coll, id } = currentCommentTarget;
+  const ref2 = doc(db, coll, id, "comments", c.id);
+  const uid = currentUser.uid;
+  const up=c.upvotes||[], down=c.downvotes||[];
+  const iUp=up.includes(uid), iDown=down.includes(uid);
+  try{
+    if(dir==='up'){
+      if(iUp){ await updateDoc(ref2,{upvotes:arrayRemove(uid)}); }
+      else { await updateDoc(ref2,{upvotes:arrayUnion(uid), downvotes:arrayRemove(uid)}); }
+    }else{
+      if(iDown){ await updateDoc(ref2,{downvotes:arrayRemove(uid)}); }
+      else { await updateDoc(ref2,{downvotes:arrayUnion(uid), upvotes:arrayRemove(uid)}); }
+    }
+    await renderCommentsList();
+  }catch(e){ toast('خطأ: '+e.message,'error'); }
+}
+
+async function submitComment(){
+  const input = document.getElementById('commentInput');
+  const text = input.value.trim();
+  const { coll, id } = currentCommentTarget;
+  if(!text) return;
+  if(!currentUser){ toast('سجّل الدخول للتعليق.','error'); return; }
+  if(!coll||!id) return;
+  const btn = document.getElementById('submitCommentBtn');
+  btn.disabled = true;
+  try{
+    let authorName = currentUsername||'', authorAvatar='media/1nkown.png';
+    const qMe = query(collection(db,"students"), where("uid","==",currentUser.uid));
+    const sMe = await getDocs(qMe);
+    if(!sMe.empty){ const dMe=sMe.docs[0].data(); authorName=dMe.fullName||currentUsername; authorAvatar=dMe.avatarURL||'media/1nkown.png'; }
+    const authorBadge = await getMemberBadge(currentUsername||'');
+    await addDoc(collection(db, coll, id, "comments"), {
+      text, author: currentUsername||'', authorName, authorAvatar,
+      authorBadge: authorBadge||null, upvotes:[], downvotes:[], createdAt: serverTimestamp()
+    });
+    input.value='';
+    await renderCommentsList();
+    document.getElementById('commentsScroll').scrollTop = document.getElementById('commentsScroll').scrollHeight;
+  }catch(e){ toast('خطأ: '+e.message,'error'); }
+  finally{ btn.disabled=false; }
+}
+
+document.getElementById('submitCommentBtn').addEventListener('click', submitComment);
+document.getElementById('commentInput').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); submitComment(); } });
+
+/* ════════════════════════════════════════════════
+   قائمة تعليقات المقاطع القصيرة الجانبية (تعليقات فقط)
+   ════════════════════════════════════════════════ */
+let scTarget = { coll:'shorts', id:null, countEl:null };
+
+function buildCommentRowEl(c, target){
+  const up=c.upvotes||[], down=c.downvotes||[];
+  const score=up.length-down.length;
+  const myUid = currentUser ? currentUser.uid : null;
+  const iUp = myUid && up.includes(myUid);
+  const iDown = myUid && down.includes(myUid);
+  const canDelete = (currentUsername && c.author===currentUsername) || isOwner;
+  const badge = c.authorBadge ? `<img class="comment-badge" src="${escHtml(c.authorBadge)}" alt="✔">` : '';
+  const row=document.createElement('div'); row.className='comment-item';
+  row.innerHTML=`
+    <div class="comment-votes">
+      <button class="comment-vote-btn up${iUp?' active':''}" title="دعم"><svg viewBox="0 0 24 24" fill="${iUp?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+      <span class="comment-score">${score}</span>
+      <button class="comment-vote-btn down${iDown?' active':''}" title="عدم دعم"><svg viewBox="0 0 24 24" fill="${iDown?'currentColor':'none'}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    </div>
+    <img class="comment-avatar" src="${escHtml(c.authorAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
+    <div class="comment-main">
+      <div class="comment-author-row">
+        <a class="comment-author-name" href="profile.html?u=${encodeURIComponent(c.author||'')}">${escHtml("المهندس "+(c.authorName||c.author||''))} ${badge}</a>
+        ${canDelete?`<button class="comment-del-btn">🗑</button>`:''}
+      </div>
+      <div class="comment-text">${escHtml(c.text||'')}</div>
+      <div class="comment-time">${formatTime(c.createdAt)}</div>
+    </div>`;
+  const delBtn=row.querySelector('.comment-del-btn');
+  if(delBtn){ delBtn.addEventListener('click',async()=>{
+    try{ await deleteDoc(doc(db, target.coll, target.id, "comments", c.id)); await renderScComments(); toast('تم حذف التعليق.','success'); }
+    catch(e){toast('خطأ: '+e.message,'error');}
+  }); }
+  row.querySelector('.comment-vote-btn.up').addEventListener('click',()=>voteScComment(c,'up'));
+  row.querySelector('.comment-vote-btn.down').addEventListener('click',()=>voteScComment(c,'down'));
+  return row;
+}
+
+async function openShortsCommentsDrawer(sh, countEl){
+  scTarget = { coll:'shorts', id:sh.id, countEl:countEl||null };
+  document.getElementById('scCommentInput').value='';
+  const d=document.getElementById('shortsCommentsDrawer');
+  d.classList.add('show'); d.setAttribute('aria-hidden','false');
+  await renderScComments();
+}
+function closeShortsCommentsDrawer(){
+  const d=document.getElementById('shortsCommentsDrawer');
+  d.classList.remove('show'); d.setAttribute('aria-hidden','true');
+}
+async function renderScComments(){
+  const list=document.getElementById('scDrawerList');
+  if(!scTarget.id){ list.innerHTML=''; return; }
+  list.innerHTML='<div style="text-align:center;color:#9ca3af;font-size:13px;padding:18px;">جاري التحميل...</div>';
+  try{
+    const snap=await getDocs(collection(db,'shorts',scTarget.id,'comments'));
+    let arr=snap.docs.map(d=>({id:d.id,...d.data()}));
+    arr.sort((a,b)=>{
+      const sa=((a.upvotes||[]).length-(a.downvotes||[]).length), sb=((b.upvotes||[]).length-(b.downvotes||[]).length);
+      if(sb!==sa) return sb-sa;
+      const ta=a.createdAt&&a.createdAt.toMillis?a.createdAt.toMillis():0;
+      const tb=b.createdAt&&b.createdAt.toMillis?b.createdAt.toMillis():0;
+      return tb-ta;
+    });
+    if(scTarget.countEl) scTarget.countEl.textContent = arr.length>0?arr.length:'';
+    if(arr.length===0){ list.innerHTML='<div style="text-align:center;color:#9ca3af;font-size:13px;padding:24px;">لا توجد تعليقات بعد. كن أول من يعلّق!</div>'; return; }
+    list.innerHTML='';
+    arr.forEach(c=>list.appendChild(buildCommentRowEl(c, scTarget)));
+  }catch(e){ list.innerHTML='<div style="text-align:center;color:#dc2626;font-size:13px;padding:18px;">تعذّر تحميل التعليقات.</div>'; }
+}
+async function voteScComment(c, dir){
+  if(!currentUser){ toast('سجّل الدخول للتفاعل.','error'); return; }
+  const ref2=doc(db,'shorts',scTarget.id,'comments',c.id), uid=currentUser.uid;
+  const iUp=(c.upvotes||[]).includes(uid), iDown=(c.downvotes||[]).includes(uid);
+  try{
+    if(dir==='up'){ if(iUp){ await updateDoc(ref2,{upvotes:arrayRemove(uid)}); } else { await updateDoc(ref2,{upvotes:arrayUnion(uid),downvotes:arrayRemove(uid)}); } }
+    else { if(iDown){ await updateDoc(ref2,{downvotes:arrayRemove(uid)}); } else { await updateDoc(ref2,{downvotes:arrayUnion(uid),upvotes:arrayRemove(uid)}); } }
+    await renderScComments();
+  }catch(e){ toast('خطأ: '+e.message,'error'); }
+}
+async function submitScComment(){
+  const input=document.getElementById('scCommentInput'), text=input.value.trim();
+  if(!text) return;
+  if(!currentUser){ toast('سجّل الدخول للتعليق.','error'); return; }
+  if(!scTarget.id) return;
+  const btn=document.getElementById('scSubmitCommentBtn'); btn.disabled=true;
+  try{
+    let authorName=currentUsername||'', authorAvatar='media/1nkown.png';
+    const sMe=await getDocs(query(collection(db,"students"),where("uid","==",currentUser.uid)));
+    if(!sMe.empty){ const dMe=sMe.docs[0].data(); authorName=dMe.fullName||currentUsername; authorAvatar=dMe.avatarURL||'media/1nkown.png'; }
+    const authorBadge=await getMemberBadge(currentUsername||'');
+    await addDoc(collection(db,'shorts',scTarget.id,'comments'),{ text, author:currentUsername||'', authorName, authorAvatar, authorBadge:authorBadge||null, upvotes:[], downvotes:[], createdAt:serverTimestamp() });
+    input.value='';
+    await renderScComments();
+    const l=document.getElementById('scDrawerList'); l.scrollTop=l.scrollHeight;
+  }catch(e){ toast('خطأ: '+e.message,'error'); }
+  finally{ btn.disabled=false; }
+}
+document.getElementById('scSubmitCommentBtn').addEventListener('click', submitScComment);
+document.getElementById('scCommentInput').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); submitScComment(); } });
+document.getElementById('scDrawerClose').addEventListener('click', closeShortsCommentsDrawer);
+document.getElementById('scDrawerBackdrop').addEventListener('click', closeShortsCommentsDrawer);
+
 /* ─── PUBLISH ARTICLE MODAL ─── */
 function openPublishModal(){
+  editingArticleId=null;
   document.getElementById('articleTextInput').value='';
   articleImages=[]; selectedHashtags=[];
   document.getElementById('articleCharCounter').textContent='0 / 2000';
-  document.getElementById('articleImagesPreview').innerHTML=`<div class="add-image-btn" id="addArticleImageBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>إضافة صورة</div>`;
-  document.getElementById('addArticleImageBtn').addEventListener('click',()=>document.getElementById('articleImageInput').click());
-  document.querySelectorAll('.hashtag-chip').forEach(c=>c.classList.remove('selected'));
+  refreshImagePreview();
+  document.querySelectorAll('#hashtagChips .hashtag-chip').forEach(c=>c.classList.remove('selected'));
+  const aProg=document.getElementById('articleUploadProgress'), aFill=document.getElementById('articleProgressFill');
+  aProg.classList.remove('active'); aFill.style.width='0%'; aFill.style.background='';
+  document.getElementById('articleProgressLabel').textContent='جاري النشر...';
+  document.querySelector('#publishArticleModal .modal-head h3').textContent='📝 نشر مقالة';
+  document.getElementById('submitArticleBtn').textContent='نشر المقالة ✓';
+  openModal('publishArticleModal');
+}
+
+/* فتح نافذة النشر بوضع التعديل — تعبئة النص والصور والهاشتاقات الحالية */
+function openEditArticleModal(article){
+  editingArticleId=article.id;
+  document.getElementById('articleTextInput').value=article.text||'';
+  /* الصور الحالية تُحفظ كروابط (existing) لا كملفات */
+  articleImages=(article.images||[]).map(u=>({url:u, existing:true}));
+  selectedHashtags=[...(article.hashtags||[])];
+  const l=(article.text||'').length;
+  document.getElementById('articleCharCounter').textContent=`${l} / 2000`;
+  refreshImagePreview();
+  document.querySelectorAll('#hashtagChips .hashtag-chip').forEach(c=>{
+    c.classList.toggle('selected', selectedHashtags.includes(c.dataset.tag));
+  });
+  const aProg=document.getElementById('articleUploadProgress'), aFill=document.getElementById('articleProgressFill');
+  aProg.classList.remove('active'); aFill.style.width='0%'; aFill.style.background='';
+  document.querySelector('#publishArticleModal .modal-head h3').textContent='✏️ تعديل المقالة';
+  document.getElementById('submitArticleBtn').textContent='حفظ التعديلات ✓';
   openModal('publishArticleModal');
 }
 document.getElementById('openPublishArticleModal').addEventListener('click',()=>{if(!isOwner)return;openPublishModal();});
@@ -3686,7 +4378,7 @@ document.getElementById('btnBoldHeading').addEventListener('click',()=>{
   const start=ta.selectionStart, end=ta.selectionEnd;
   const sel=ta.value.slice(start,end).trim();
   if(!sel){
-    const ins='[H] عنوان بارز\n';
+    const ins='[H] ';
     ta.value=ta.value.slice(0,start)+ins+ta.value.slice(end);
     ta.selectionStart=ta.selectionEnd=start+ins.length;
   } else {
@@ -3696,8 +4388,9 @@ document.getElementById('btnBoldHeading').addEventListener('click',()=>{
   ta.dispatchEvent(new Event('input')); ta.focus();
 });
 
-/* Hashtag chips */
-document.querySelectorAll('.hashtag-chip').forEach(chip=>{
+/* Hashtag chips — مُحدَّد بدقة لـ #hashtagChips فقط (نافذة المقالات)
+   لتفادي الارتباط المزدوج بنفس العناصر في نافذة المقاطع القصيرة التي تشارك نفس الـ class */
+document.querySelectorAll('#hashtagChips .hashtag-chip').forEach(chip=>{
   chip.addEventListener('click',()=>{
     chip.classList.toggle('selected');
     const tag=chip.dataset.tag;
@@ -3743,34 +4436,71 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
   if(!text&&articleImages.length===0){toast('اكتب شيئاً أو أضف صورة.','error');return;}
   if(!currentUser){toast('يجب تسجيل الدخول.','error');return;}
   const btn=document.getElementById('submitArticleBtn');
-  btn.disabled=true; btn.textContent='جاري النشر...';
+  const prog=document.getElementById('articleUploadProgress');
+  const fill=document.getElementById('articleProgressFill');
+  const label=document.getElementById('articleProgressLabel');
+  const isEdit=!!editingArticleId;
+  btn.disabled=true; btn.textContent=isEdit?'جاري الحفظ...':'جاري النشر...';
+  prog.classList.add('active'); fill.style.width='8%'; fill.style.background=''; label.textContent='جاري التحضير...';
   try{
-    /* Upload images — مسار community_files/articles/ مسموح به في Firebase Rules */
-    const uploadedUrls=[];
-    for(const img of articleImages){
+    /* Upload images — مسار community_files/articles/ مسموح به في Firebase Rules.
+       في وضع التعديل: نُبقي الروابط الموجودة كما هي ونرفع الجديدة فقط */
+    const finalUrls=[];
+    const newImgs=articleImages.filter(im=>!im.existing);
+    let uploadedCount=0;
+    for(let i=0;i<articleImages.length;i++){
+      const img=articleImages[i];
+      if(img.existing){ finalUrls.push(img.url); continue; }
+      uploadedCount++;
+      label.textContent=`جاري رفع الصور (${uploadedCount}/${newImgs.length})...`;
       const storRef=ref(storage,`community_files/${TARGET_USERNAME}/articles/${Date.now()}_${Math.random().toString(36).slice(2)}`);
       const snap=await uploadBytes(storRef,img.file);
-      uploadedUrls.push(await getDownloadURL(snap.ref));
+      finalUrls.push(await getDownloadURL(snap.ref));
+      fill.style.width=`${10+Math.round((uploadedCount/Math.max(newImgs.length,1))*70)}%`;
     }
-    /* Get author info */
-    const q2=query(collection(db,"students"),where("uid","==",currentUser.uid));
-    const s2=await getDocs(q2); let authorName=TARGET_USERNAME, authorAvatar='media/1nkown.png';
-    if(!s2.empty){const d2=s2.docs[0].data();authorName=d2.fullName||TARGET_USERNAME;authorAvatar=d2.avatarURL||'media/1nkown.png';}
-    await addDoc(collection(db,"articles"),{
-      author:TARGET_USERNAME, authorName, authorAvatar,
-      text, images:uploadedUrls, hashtags:selectedHashtags,
-      likes:[], createdAt:serverTimestamp()
-    });
-    closeModal('publishArticleModal'); toast('تم نشر المقالة ✓','success');
-    await loadArticles();
-  }catch(e){toast('فشل النشر: '+e.message,'error');}
-  finally{btn.disabled=false;btn.textContent='نشر المقالة ✓';}
+    const articleTags = Array.from(document.querySelectorAll('#hashtagChips .hashtag-chip.selected')).map(c=>c.dataset.tag);
+    if(isEdit){
+      label.textContent='جاري حفظ التعديلات...'; fill.style.width='90%';
+      await updateDoc(doc(db,"articles",editingArticleId),{ text, images:finalUrls, hashtags:articleTags, editedAt:serverTimestamp() });
+      fill.style.width='100%'; label.textContent='تم الحفظ بنجاح!';
+      setTimeout(async()=>{
+        closeModal('publishArticleModal'); toast('تم حفظ التعديلات ✓','success');
+        prog.classList.remove('active'); btn.disabled=false; btn.textContent='نشر المقالة ✓';
+        editingArticleId=null;
+        await loadArticles();
+      },500);
+    }else{
+      label.textContent='جاري نشر المقالة...'; fill.style.width='90%';
+      const q2=query(collection(db,"students"),where("uid","==",currentUser.uid));
+      const s2=await getDocs(q2); let authorName=TARGET_USERNAME, authorAvatar='media/1nkown.png';
+      if(!s2.empty){const d2=s2.docs[0].data();authorName=d2.fullName||TARGET_USERNAME;authorAvatar=d2.avatarURL||'media/1nkown.png';}
+      await addDoc(collection(db,"articles"),{
+        author:TARGET_USERNAME, authorName, authorAvatar,
+        text, images:finalUrls, hashtags:articleTags,
+        likes:[], createdAt:serverTimestamp()
+      });
+      fill.style.width='100%'; label.textContent='تم النشر بنجاح!';
+      setTimeout(async()=>{
+        closeModal('publishArticleModal'); toast('تم نشر المقالة ✓','success');
+        prog.classList.remove('active'); btn.disabled=false; btn.textContent='نشر المقالة ✓';
+        await loadArticles();
+      },500);
+    }
+  }catch(e){
+    label.textContent='فشل العملية: '+e.message; fill.style.background='#dc2626';
+    btn.disabled=false; btn.textContent=isEdit?'حفظ التعديلات ✓':'نشر المقالة ✓';
+    toast('فشل: '+e.message,'error');
+  }
 });
 
 /* ─── LIGHTBOX ─── */
 function openLightbox(images,idx){
   currentLbImages=images; currentLbIdx=idx;
   document.getElementById('lightboxImg').src=images[idx];
+  /* إخفاء أسهم التنقل عند وجود صورة واحدة فقط (مثل عرض الصورة الشخصية) */
+  const single = images.length<=1;
+  document.getElementById('lightboxPrev').style.display = single?'none':'';
+  document.getElementById('lightboxNext').style.display = single?'none':'';
   document.getElementById('imageLightbox').classList.add('show');
 }
 document.getElementById('lightboxClose').addEventListener('click',()=>document.getElementById('imageLightbox').classList.remove('show'));
@@ -3787,9 +4517,23 @@ document.getElementById('shareTelegram').addEventListener('click',()=>{window.op
 
 /* ─── AVATAR ─── */
 function closeAllContextMenus(){document.getElementById('avatarContextMenu').classList.remove('show');}
-document.getElementById('avatarClickZone').addEventListener('click',(e)=>{if(!isOwner)return;e.stopPropagation();document.getElementById('avatarContextMenu').classList.toggle('show');});
+function viewAvatarImage(){
+  const url = profileData.avatarURL || 'media/1nkown.png';
+  openLightbox([url], 0);
+}
+document.getElementById('avatarClickZone').addEventListener('click',(e)=>{
+  e.stopPropagation();
+  if(isOwner){
+    /* المالك: قائمة تحتوي عرض/تغيير/حذف */
+    document.getElementById('avatarContextMenu').classList.toggle('show');
+  }else{
+    /* الزائر: عرض الصورة فقط بطبقة فوق الصفحة مع زر إغلاق */
+    viewAvatarImage();
+  }
+});
 document.addEventListener('click',()=>closeAllContextMenus());
 document.getElementById('avatarContextMenu').addEventListener('click',e=>e.stopPropagation());
+document.getElementById('ctxViewAvatar').addEventListener('click',()=>{closeAllContextMenus();viewAvatarImage();});
 document.getElementById('ctxChangeAvatar').addEventListener('click',()=>{closeAllContextMenus();document.getElementById('avatarInput').click();});
 document.getElementById('ctxDeleteAvatar').addEventListener('click',()=>{closeAllContextMenus();showConfirm('هل تريد حذف صورتك والعودة إلى الصورة الافتراضية؟',deleteAvatar,'نعم، احذف الصورة');});
 async function deleteAvatar(){
@@ -3895,11 +4639,7 @@ async function renderFollowOverlayContent(tab) {
   body.innerHTML = '<div class="follow-list-empty">جاري التحميل...</div>';
 
   if (tab === 'followers') {
-    /* يتابعونه — مخفية للزوار، مرئية لصاحب الحساب فقط */
-    if (!isOwner) {
-      body.innerHTML = `<div class="follow-locked"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>قائمة المتابعين مخفية — لا يمكن الاطلاع عليها إلا من صاحب الحساب.</div>`;
-      return;
-    }
+    /* يتابعونه — عامة للجميع */
     if (followersCache.length === 0) {
       body.innerHTML = '<div class="follow-list-empty">لا يوجد متابعون بعد.</div>'; return;
     }
@@ -3921,7 +4661,11 @@ async function renderFollowOverlayContent(tab) {
     }
 
   } else {
-    /* يتابعهم — عامة */
+    /* يتابعهم — مخفية للزوار، مرئية لصاحب الحساب فقط */
+    if (!isOwner) {
+      body.innerHTML = `<div class="follow-locked"><svg viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>قائمة المتابعَين مخفية — لا يمكن الاطلاع عليها إلا من صاحب الحساب.</div>`;
+      return;
+    }
     body.innerHTML = '';
     if (followingCache.length > 0) {
       for (const f of followingCache) {
@@ -3940,7 +4684,7 @@ async function renderFollowOverlayContent(tab) {
         } catch(e) {}
       }
     }
-    /* الهاشتاقات التي يتابعها */
+    /* الهاشتاقات التي يتابعها — تظهر مع قائمة "يتابعهم" المخفية لصاحب الحساب فقط */
     if (followingHashtagsCache.length > 0) {
       const htDiv = document.createElement('div');
       htDiv.innerHTML = `<div style="padding:12px 18px 6px;font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;border-top:1px solid rgba(0,0,0,0.05);">الهاشتاقات المتابَعة</div>`;
@@ -3964,16 +4708,44 @@ let selectedShortHashtags = [];
 
 async function loadShorts() {
   const container = document.getElementById('shortsContainer');
+  if(!container.querySelector('.shorts-grid')) container.innerHTML='<div class="feed-loading"><span class="feed-spinner"></span><p>يتم التحميل…</p></div>';
   try {
-    const q = query(collection(db,"shorts"), where("author","==",TARGET_USERNAME), orderBy("createdAt","desc"));
-    const snap = await getDocs(q);
-    if (snap.empty) {
+    if(currentUsername && myRepostsCache.size===0) await loadMyReposts();
+
+    /* (1) مقاطع صاحب الملف نفسه */
+    const snap = await getDocs(query(collection(db,"shorts"), where("author","==",TARGET_USERNAME)));
+    let items = snap.docs.map(d=>{ const data=d.data(); return { sh:{id:d.id,...data}, t:(data.createdAt&&data.createdAt.toMillis?data.createdAt.toMillis():0), isRepost:false }; });
+
+    /* (2) المقاطع التي أعاد صاحب الملف نشرها */
+    try{
+      const rSnap=await getDocs(query(collection(db,"reposts"),where("username","==",TARGET_USERNAME)));
+      const reposts=rSnap.docs.map(d=>d.data()).filter(r=>r.postType==='shorts'&&r.postId);
+      for(const r of reposts){
+        try{
+          const sDoc=await getDoc(doc(db,"shorts",r.postId));
+          if(sDoc.exists()){
+            const rt=(r.createdAt&&r.createdAt.toMillis)?r.createdAt.toMillis():0;
+            items.push({ sh:{id:sDoc.id,...sDoc.data()}, t:rt, isRepost:true });
+          }
+        }catch(e){}
+      }
+    }catch(e){}
+
+    if (items.length===0) {
       container.innerHTML = `<div class="shorts-empty"><svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><p style="margin-top:12px">لم تُرفع أي مقاطع قصيرة بعد.</p></div>`;
-      return;
+      shortsData=[]; return;
     }
-    shortsData = snap.docs.map(d=>({id:d.id,...d.data()}));
+    items.sort((a,b)=>b.t-a.t);
+    shortsData = items.map(it=>({ ...it.sh, _isRepostHere: it.isRepost }));
     renderShortsGrid();
+    /* فتح مقطع محدد عند الوصول عبر رابط مباشر (?short=ID) */
+    const shortId=params.get('short');
+    if(shortId){
+      const idx=shortsData.findIndex(s=>s.id===shortId);
+      if(idx!==-1) openShortsViewer(idx);
+    }
   } catch(e) {
+    console.error('loadShorts error:',e);
     container.innerHTML = '<div class="shorts-empty"><p>تعذّر تحميل المقاطع.</p></div>';
   }
 }
@@ -3985,94 +4757,178 @@ function renderShortsGrid() {
     return;
   }
   const grid = document.createElement('div'); grid.className = 'shorts-grid';
-  shortsData.forEach(sh => {
+  shortsData.forEach((sh, idx) => {
     const card = document.createElement('div'); card.className = 'short-card';
     card.dataset.id = sh.id;
     const likes = sh.likes||[];
     card.innerHTML = `
-      <video class="short-thumbnail" src="${escHtml(sh.url)}" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video>
+      <video class="short-thumbnail" src="${escHtml(sh.url)}#t=0.1" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video>
       <div class="short-play-icon"><svg viewBox="0 0 24 24" fill="#0047AB"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
       <div class="short-overlay">
         <div class="short-title">${escHtml(sh.desc||'')}</div>
-        <div class="short-meta">
-          <span>❤️ ${likes.length}</span>
-        </div>
-      </div>
-    `;
-    card.addEventListener('click', () => openShortPlayer(sh));
+        <div class="short-meta"><span>❤️ ${likes.length}</span></div>
+      </div>`;
+    card.addEventListener('click', () => openShortsViewer(idx));
     grid.appendChild(card);
   });
   container.innerHTML = ''; container.appendChild(grid);
 }
 
-function openShortPlayer(sh) {
-  currentShortId = sh.id;
-  const video = document.getElementById('shortPlayerVideo');
-  video.src = sh.url; video.load();
-  document.getElementById('shortPlayerDesc').textContent = sh.desc||'';
-  /* هاشتاقات */
-  const ht = document.getElementById('shortPlayerHashtags'); ht.innerHTML = '';
-  (sh.hashtags||[]).forEach(tag => {
-    const chip=document.createElement('span'); chip.className='article-hashtag';
-    chip.innerHTML=`#${escHtml(tag)} <span class="hashtag-follow-btn">+</span>`;
-    ht.appendChild(chip);
+/* ════ مشغّل المقاطع العمودي ════ */
+let svObserver = null;
+
+function buildShortSlide(sh){
+  const slide=document.createElement('div'); slide.className='sv-slide'; slide.dataset.id=sh.id;
+  const likes=sh.likes||[]; const myLiked=currentUser&&likes.includes(currentUser.uid);
+  const reposted=myRepostsCache.has(sh.id);
+  const tags=(sh.hashtags||[]).map(t=>`<span class="sv-tag">#${escHtml(t)}</span>`).join('');
+  slide.innerHTML=`
+    <video class="sv-video" src="${escHtml(sh.url)}" playsinline loop preload="metadata"></video>
+    <div class="sv-playpause"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+    <div class="sv-rail">
+      <button class="sv-rail-btn sv-like${myLiked?' liked':''}">
+        <span class="sv-ico"><svg viewBox="0 0 24 24" fill="${myLiked?'#fff':'none'}" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span>
+        <span class="sv-like-count">${likes.length}</span>
+      </button>
+      <button class="sv-rail-btn sv-comment">
+        <span class="sv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>
+        <span class="sv-comment-count"></span>
+      </button>
+      <button class="sv-rail-btn sv-repost${reposted?' reposted':''}">
+        <span class="sv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg></span>
+        <span>نشر</span>
+      </button>
+      <button class="sv-rail-btn sv-share">
+        <span class="sv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span>
+        <span>مشاركة</span>
+      </button>
+      ${isOwner?`<button class="sv-rail-btn sv-edit"><span class="sv-ico">✏️</span><span>تعديل</span></button>
+      <button class="sv-rail-btn sv-delete"><span class="sv-ico">🗑</span><span>حذف</span></button>`:''}
+    </div>
+    <div class="sv-info">
+      <a class="sv-author" href="profile.html?u=${encodeURIComponent(sh.author||'')}">
+        <img src="${escHtml(sh.authorAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
+        <span class="sv-author-name">${escHtml("المهندس "+(sh.authorName||sh.author||''))}</span>
+      </a>
+      ${sh.desc?`<div class="sv-desc">${escHtml(sh.desc)}</div>`:''}
+      ${tags?`<div class="sv-tags">${tags}</div>`:''}
+    </div>`;
+
+  const video=slide.querySelector('.sv-video');
+  /* نقر للتشغيل/الإيقاف */
+  video.addEventListener('click',()=>{ if(video.paused){ video.play(); slide.classList.remove('paused'); } else { video.pause(); slide.classList.add('paused'); } });
+
+  /* إعجاب */
+  slide.querySelector('.sv-like').addEventListener('click',()=>toggleShortLike(sh, slide));
+  /* تعليقات */
+  const cCount=slide.querySelector('.sv-comment-count');
+  getCommentsCount('shorts',sh.id).then(c=>{ cCount.textContent=c>0?c:''; });
+  slide.querySelector('.sv-comment').addEventListener('click',()=>openShortsCommentsDrawer(sh, cCount));
+  /* إعادة نشر — تبديل بسيط */
+  slide.querySelector('.sv-repost').addEventListener('click',async(e)=>{
+    if(!currentUser||!currentUsername){toast('سجّل الدخول للتفاعل.','error');return;}
+    const btn=e.currentTarget, on=myRepostsCache.has(sh.id);
+    const rRef=doc(db,"reposts",currentUsername+'__'+sh.id);
+    btn.classList.toggle('reposted',!on);
+    try{
+      if(on){ await deleteDoc(rRef); myRepostsCache.delete(sh.id); }
+      else{ await setDoc(rRef,{username:currentUsername,postId:sh.id,postType:'shorts',originalAuthor:sh.author,originalAuthorName:sh.authorName||sh.author,createdAt:serverTimestamp()}); myRepostsCache.add(sh.id); toast('تمت إعادة النشر على ملفك ✓','success'); }
+    }catch(err){ btn.classList.toggle('reposted',on); toast('خطأ: '+err.message,'error'); }
   });
-  /* أزرار الأعجاب */
-  const likes = sh.likes||[];
-  const myLiked = currentUser && likes.includes(currentUser.uid);
-  const likeBtn = document.getElementById('shortLikeBtn');
-  document.getElementById('shortLikeCount').textContent = likes.length;
-  likeBtn.classList.toggle('liked', myLiked);
-  likeBtn.onclick = () => toggleShortLike(sh);
-  /* أزرار صاحب الحساب */
-  const editBtn = document.getElementById('shortEditDescBtn');
-  const delBtn  = document.getElementById('shortDeleteBtn');
-  editBtn.style.display = isOwner ? 'inline-flex' : 'none';
-  delBtn.style.display  = isOwner ? 'inline-flex' : 'none';
-  editBtn.onclick = () => { closeModal('shortPlayerModal'); openEditShortModal(sh); };
-  delBtn.onclick  = () => {
-    showConfirm('هل تريد حذف هذا المقطع نهائياً؟', async () => {
-      try {
-        await deleteDoc(doc(db,"shorts",sh.id));
-        try { await deleteObject(ref(storage, sh.storagePath||sh.url)); } catch(e){}
-        shortsData = shortsData.filter(x=>x.id!==sh.id);
-        renderShortsGrid(); closeModal('shortPlayerModal');
-        toast('تم حذف المقطع.','success');
-      } catch(e){toast('خطأ: '+e.message,'error');}
-    }, 'نعم، احذف المقطع');
-  };
-  document.getElementById('shortShareBtn').onclick = () => {
-    currentShareUrl = `${window.location.origin}${window.location.pathname}?u=${encodeURIComponent(TARGET_USERNAME)}`;
+  /* مشاركة */
+  slide.querySelector('.sv-share').addEventListener('click',()=>{
+    currentShareUrl=postShareUrl('shorts', sh.id);
     openModal('shareModal');
-  };
-  openModal('shortPlayerModal');
-  video.play().catch(()=>{});
+  });
+  /* أزرار المالك */
+  if(isOwner){
+    slide.querySelector('.sv-edit').addEventListener('click',()=>{ closeShortsViewer(); openEditShortModal(sh); });
+    slide.querySelector('.sv-delete').addEventListener('click',()=>{
+      showConfirm('هل تريد حذف هذا المقطع نهائياً؟', async()=>{
+        try{
+          await deleteDoc(doc(db,"shorts",sh.id));
+          if(!sh._isRepostHere && sh.storagePath){ try{ await deleteObject(ref(storage,sh.storagePath)); }catch(e){} }
+          shortsData=shortsData.filter(x=>x.id!==sh.id);
+          closeShortsViewer(); renderShortsGrid(); toast('تم حذف المقطع.','success');
+        }catch(e){toast('خطأ: '+e.message,'error');}
+      },'نعم، احذف المقطع');
+    });
+  }
+  return slide;
 }
 
-/* وقف الفيديو عند إغلاق المودال */
-document.querySelector('[data-close="shortPlayerModal"]').addEventListener('click', () => {
-  document.getElementById('shortPlayerVideo').pause();
-  document.getElementById('shortPlayerVideo').src='';
+function openShortsViewer(startIdx){
+  const viewer=document.getElementById('shortsViewer'), track=document.getElementById('svTrack');
+  track.innerHTML='';
+  shortsData.forEach(sh=>track.appendChild(buildShortSlide(sh)));
+  viewer.classList.add('show'); viewer.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+
+  /* تشغيل المقطع المرئي وإيقاف الباقي */
+  if(svObserver) svObserver.disconnect();
+  svObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{
+      const v=en.target.querySelector('.sv-video');
+      if(en.isIntersecting && en.intersectionRatio>0.6){
+        en.target.classList.remove('paused');
+        v.play().catch(()=>{});
+        currentShortId=en.target.dataset.id;
+      }else{ v.pause(); }
+    });
+  },{root:track, threshold:[0,0.6,1]});
+  track.querySelectorAll('.sv-slide').forEach(s=>svObserver.observe(s));
+
+  /* الانتقال للمقطع المختار */
+  const slides=track.querySelectorAll('.sv-slide');
+  if(slides[startIdx]) slides[startIdx].scrollIntoView({behavior:'instant',block:'start'});
+  setTimeout(()=>{ const v=slides[startIdx]&&slides[startIdx].querySelector('.sv-video'); if(v) v.play().catch(()=>{}); },120);
+}
+
+function closeShortsViewer(){
+  const viewer=document.getElementById('shortsViewer'), track=document.getElementById('svTrack');
+  if(svObserver) svObserver.disconnect();
+  track.querySelectorAll('.sv-video').forEach(v=>{ v.pause(); v.src=''; });
+  track.innerHTML='';
+  viewer.classList.remove('show'); viewer.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+
+function svScrollBy(dir){
+  const track=document.getElementById('svTrack');
+  track.scrollBy({top:dir*track.clientHeight, behavior:'smooth'});
+}
+document.getElementById('svClose').addEventListener('click', closeShortsViewer);
+document.getElementById('svNavUp').addEventListener('click', ()=>svScrollBy(-1));
+document.getElementById('svNavDown').addEventListener('click', ()=>svScrollBy(1));
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('shortsViewer').classList.contains('show')) return;
+  /* إذا كانت قائمة التعليقات الجانبية مفتوحة، اترك مفتاح Escape لها */
+  const drawerOpen=document.getElementById('shortsCommentsDrawer').classList.contains('show');
+  if(e.key==='Escape'){ if(drawerOpen){ closeShortsCommentsDrawer(); } else { closeShortsViewer(); } }
+  else if(drawerOpen) return;
+  else if(e.key==='ArrowDown'){ e.preventDefault(); svScrollBy(1); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); svScrollBy(-1); }
 });
 
-async function toggleShortLike(sh) {
+async function toggleShortLike(sh, slide) {
   if (!currentUser) { toast('سجّل الدخول للتفاعل.','error'); return; }
-  const likeBtn = document.getElementById('shortLikeBtn');
-  const isLiked = likeBtn.classList.contains('liked');
+  const btn = slide.querySelector('.sv-like');
+  const countEl = slide.querySelector('.sv-like-count');
+  const svg = btn.querySelector('svg');
+  const isLiked = btn.classList.contains('liked');
   const shRef = doc(db,"shorts",sh.id);
   try {
     if (isLiked) {
       await updateDoc(shRef, {likes: arrayRemove(currentUser.uid)});
-      likeBtn.classList.remove('liked');
-      document.getElementById('shortLikeCount').textContent = parseInt(document.getElementById('shortLikeCount').textContent)-1;
+      btn.classList.remove('liked'); svg.setAttribute('fill','none');
+      countEl.textContent = Math.max(0, parseInt(countEl.textContent||'0')-1);
     } else {
       await updateDoc(shRef, {likes: arrayUnion(currentUser.uid)});
-      likeBtn.classList.add('liked');
-      document.getElementById('shortLikeCount').textContent = parseInt(document.getElementById('shortLikeCount').textContent)+1;
+      btn.classList.add('liked'); svg.setAttribute('fill','#fff');
+      countEl.textContent = parseInt(countEl.textContent||'0')+1;
     }
-    /* تحديث المصفوفة المحلية */
     const idx = shortsData.findIndex(x=>x.id===sh.id);
-    if (idx!==-1) { shortsData[idx].likes = isLiked ? (sh.likes||[]).filter(x=>x!==currentUser.uid) : [...(sh.likes||[]),currentUser.uid]; }
+    if (idx!==-1) { shortsData[idx].likes = isLiked ? (sh.likes||[]).filter(x=>x!==currentUser.uid) : [...(sh.likes||[]),currentUser.uid]; sh.likes = shortsData[idx].likes; }
   } catch(e){toast('خطأ.','error');}
 }
 
@@ -4094,13 +4950,14 @@ document.getElementById('shortDescInput').addEventListener('input',function(){
   document.getElementById('shortDescCounter').classList.toggle('warn',l>360);
 });
 
-document.querySelectorAll('#shortHashtagChips .hashtag-chip').forEach(chip=>{
-  chip.addEventListener('click',()=>{
-    chip.classList.toggle('selected');
-    const tag=chip.dataset.tag;
-    if(chip.classList.contains('selected')) selectedShortHashtags.push(tag);
-    else selectedShortHashtags=selectedShortHashtags.filter(t=>t!==tag);
-  });
+/* اختيار هاشتاقات المقاطع القصيرة عبر التفويض (event delegation) — موثوق بغضّ النظر عن توقيت الربط */
+document.getElementById('shortHashtagChips').addEventListener('click', (e)=>{
+  const chip = e.target.closest('.hashtag-chip');
+  if(!chip) return;
+  chip.classList.toggle('selected');
+  const tag=chip.dataset.tag;
+  if(chip.classList.contains('selected')){ if(!selectedShortHashtags.includes(tag)) selectedShortHashtags.push(tag); }
+  else selectedShortHashtags=selectedShortHashtags.filter(t=>t!==tag);
 });
 
 document.getElementById('submitShortBtn').addEventListener('click', async () => {
@@ -4125,9 +4982,11 @@ document.getElementById('submitShortBtn').addEventListener('click', async () => 
     const q2=query(collection(db,"students"),where("uid","==",currentUser.uid));
     const s2=await getDocs(q2); let authorName=TARGET_USERNAME,authorAvatar='media/1nkown.png';
     if(!s2.empty){const d2=s2.docs[0].data();authorName=d2.fullName||TARGET_USERNAME;authorAvatar=d2.avatarURL||'media/1nkown.png';}
+    /* قراءة الهاشتاقات المحددة مباشرة من DOM لضمان عدم فقدان أي اختيار */
+    const shortTags = Array.from(document.querySelectorAll('#shortHashtagChips .hashtag-chip.selected')).map(c=>c.dataset.tag);
     await addDoc(collection(db,"shorts"),{
       author:TARGET_USERNAME, authorName, authorAvatar, url, storagePath,
-      desc, hashtags:selectedShortHashtags, likes:[], createdAt:serverTimestamp()
+      desc, hashtags:shortTags, likes:[], createdAt:serverTimestamp()
     });
     fill.style.width='100%'; label.textContent='تم الرفع!';
     setTimeout(()=>{ closeModal('publishShortModal'); toast('تم نشر المقطع ✓','success'); btn.disabled=false; prog.classList.remove('active'); loadShorts(); },700);
@@ -4156,20 +5015,6 @@ document.getElementById('saveEditShortBtn').addEventListener('click',async()=>{
   } catch(e){toast('خطأ: '+e.message,'error');}
 });
 
-/* ─── متابعة الهاشتاق من صفحة الشورتس ─── */
-document.getElementById('shortPlayerHashtags').addEventListener('click', async (e)=>{
-  const fBtn = e.target.closest('.hashtag-follow-btn');
-  if (!fBtn || !currentUser || !currentUsername) return;
-  const chip = fBtn.closest('.article-hashtag');
-  const tag  = chip?.textContent.replace('#','').replace('+','').replace('✓','').trim();
-  if (!tag) return;
-  try {
-    await setDoc(doc(db,"follows",TARGET_USERNAME,"hashtags",tag),{tag,addedAt:new Date().toISOString()});
-    if(!followingHashtagsCache.includes(tag)) followingHashtagsCache.push(tag);
-    fBtn.textContent='✓'; fBtn.classList.add('followed');
-    toast(`تمت متابعة #${tag}`,'success');
-  } catch(e){toast('خطأ.','error');}
-});
 let navSearchTimer=null;
 const navSearchInput=document.getElementById('navSearchInput'), navSearchResults=document.getElementById('navSearchResults');
 navSearchInput.addEventListener('input',()=>{
