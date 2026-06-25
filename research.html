@@ -4,7 +4,22 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="format-detection" content="telephone=no,date=no,address=no,email=no">
-<title>ESC — الأبحاث</title>
+<title>الأبحاث الهندسية — مجتمع طلبة الهندسة | ESC</title>
+<meta name="description" content="أبحاث ومساهمات علمية لطلاب الهندسة في العراق ضمن مجتمع طلبة الهندسة، لتثمين جهود المهندسين المتحمسين ونشر أعمالهم العلمية.">
+<link rel="canonical" href="https://esc-iq.net/research.html">
+<meta name="author" content="Mohammed Baqer A. Azeez">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ESC — مجتمع طلبة الهندسة">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:url" content="https://esc-iq.net/research.html">
+<meta property="og:title" content="الأبحاث الهندسية — مجتمع طلبة الهندسة | ESC">
+<meta property="og:description" content="أبحاث ومساهمات علمية لطلاب الهندسة في العراق ضمن مجتمع طلبة الهندسة.">
+<meta property="og:image" content="https://esc-iq.net/media/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="الأبحاث الهندسية — مجتمع طلبة الهندسة | ESC">
+<meta name="twitter:description" content="أبحاث ومساهمات علمية لطلاب الهندسة في العراق.">
+<meta name="twitter:image" content="https://esc-iq.net/media/icon-512.png">
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
@@ -204,26 +219,7 @@ main { flex: 1; }
   flex-wrap: wrap;
   margin: 10px 0 14px;
 }
-.top-row .verify-btn { width: 165px; }
 .top-row .search-wrap { flex: 1; }
-
-.verify-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 9px 16px;
-  border-radius: 8px;
-  background: var(--blue);
-  color: #fff;
-  text-decoration: none;
-  font-family: 'Ubuntu', sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  border: none;
-  transition: background var(--transition);
-  white-space: nowrap;
-}
-.verify-btn:hover { background: #0059d4; }
 
 .search-wrap {
   flex: 1; min-width: 260px;
@@ -252,6 +248,90 @@ main { flex: 1; }
   display: flex; align-items: center;
 }
 .search-icon svg { width: 18px; height: 18px; }
+
+/* search row inside research area (after removing verify button) */
+.search-row {
+  direction: ltr;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 14px;
+}
+.search-row .search-wrap { flex: 1; }
+
+/* clickable title (opens modal) */
+.research-title { cursor: pointer; background: none; border: none; padding: 0; font-family: 'Ubuntu', sans-serif; text-align: left; }
+
+/* ===== RESEARCH DETAIL MODAL ===== */
+.rm-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(6,16,31,0.55);
+  backdrop-filter: blur(3px);
+  z-index: 3000;
+  align-items: center; justify-content: center;
+  padding: 20px; direction: rtl;
+}
+.rm-overlay.show { display: flex; }
+.rm-dialog {
+  background: #fff; width: 100%; max-width: 600px;
+  max-height: 88vh; overflow-y: auto;
+  border-radius: 16px; padding: 26px 24px 24px;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.4);
+  position: relative; text-align: right;
+  animation: rmIn .2s ease;
+}
+@keyframes rmIn { from { transform: translateY(14px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.rm-close {
+  position: absolute; top: 12px; left: 14px;
+  width: 34px; height: 34px; border: none;
+  background: rgba(0,0,0,0.06); border-radius: 9px;
+  font-size: 22px; line-height: 1; color: #374151;
+  cursor: pointer; transition: background .2s;
+}
+.rm-close:hover { background: rgba(0,0,0,0.12); }
+.rm-site {
+  display: flex; align-items: center; gap: 9px;
+  margin-bottom: 14px;
+}
+.rm-site img { width: 30px; height: 30px; border-radius: 8px; object-fit: cover; }
+.rm-site span { font-size: 13px; font-weight: 700; color: var(--blue); }
+.rm-title {
+  font-size: 20px; font-weight: 700; color: #0d1b2a;
+  line-height: 1.4; margin-bottom: 8px; direction: ltr; text-align: left;
+}
+.rm-serial {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  color: #374151; background: rgba(0,0,0,0.05);
+  padding: 3px 9px; border-radius: 6px; margin-bottom: 10px;
+  direction: ltr;
+}
+.rm-authors { font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 4px; direction: ltr; text-align: left; }
+.rm-authors a { color: #188038; text-decoration: none; }
+.rm-authors a:hover { text-decoration: underline; }
+.rm-supervisor { font-size: 13px; font-weight: 700; margin-bottom: 12px; direction: ltr; text-align: left; }
+.rm-supervisor .sup-label { color: #374151; }
+.rm-supervisor a { color: #CC5500; text-decoration: none; }
+.rm-supervisor a:hover { text-decoration: underline; }
+.rm-desc {
+  font-size: 14px; line-height: 1.9; color: #374151;
+  margin-bottom: 20px; direction: ltr; text-align: left;
+}
+.rm-action { direction: ltr; display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+
+/* researchcase buttons */
+.rc-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif; font-weight: 700; font-size: 14px;
+  text-decoration: none; border: none; cursor: pointer;
+}
+.rc-download { background: var(--blue); color: #fff; }
+.rc-download:hover { background: #0059d4; }
+.rc-redirect { background: var(--teal); color: #fff; }
+.rc-redirect:hover { background: #00a0a0; }
+.rc-buy {
+  background: rgba(107,114,128,0.15); color: #6b7280;
+  cursor: not-allowed; pointer-events: none; opacity: 0.85;
+}
+.rc-price { font-weight: 700; font-size: 14px; color: #b45309; }
 
 .filter-toggle {
   display: none; width: 100%; height: 44px;
@@ -399,18 +479,6 @@ main { flex: 1; }
 .no-results img { width: 80px; opacity: 0.65; display: block; margin: 0 auto 12px; }
 .no-results .txt { color: #374151; font-weight: 700; line-height: 1.8; font-size: 14px; }
 
-/* ===================== VISION ===================== */
-.vision-section {
-  background: var(--blue);
-  padding: 20px 30px;
-  text-align: center;
-}
-.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-.vision-section p {
-  font-size: 14px; color: rgba(255,255,255,0.85);
-  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
-}
-
 /* ===================== FOOTER ===================== */
 footer {
   background: #06101f;
@@ -461,7 +529,6 @@ footer {
   #bar nav { display: none; }
   .menu-btn { display: inline-flex; }
   .top-row { flex-direction: column; align-items: stretch; }
-  .verify-btn { text-align: center; justify-content: center; }
   .search-wrap { min-width: 100%; }
   .filter-toggle { display: flex; }
   .filters { display: none; }
@@ -523,6 +590,12 @@ footer {
   #authBtn { display: none; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -549,9 +622,9 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -562,9 +635,9 @@ footer {
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -578,31 +651,6 @@ footer {
 <!-- MAIN -->
 <main>
   <div class="page">
-    <div class="top-row">
-      <a class="verify-btn" href="check_lic.html">التحقق من شهادات ESC</a>
-
-      <div class="search-wrap" aria-label="بحث الأبحاث">
-        <input id="searchInput" class="search-input" type="search"
-               placeholder="Search by title or ID..." autocomplete="off">
-        <span class="search-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
-            <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </span>
-      </div>
-
-      <button id="filterToggle" class="filter-toggle" type="button"
-              aria-expanded="false" aria-controls="filtersPanel">
-        <span>تصفية</span>
-        <span class="icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M4 6h16M7 12h10M10 18h4" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-        </span>
-      </button>
-    </div>
-
     <div class="layout">
       <aside id="filtersPanel" class="filters" aria-label="فلتر السنوات">
         <h3>YEAR</h3>
@@ -618,216 +666,58 @@ footer {
       </aside>
 
       <section class="research-area" aria-label="قائمة الأبحاث">
+        <div class="search-row">
+          <div class="search-wrap" aria-label="بحث الأبحاث">
+            <input id="searchInput" class="search-input" type="search"
+                   placeholder="Search by title or ID..." autocomplete="off">
+            <span class="search-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
+                <path d="M16.5 16.5L21 21" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </div>
+          <button id="filterToggle" class="filter-toggle" type="button"
+                  aria-expanded="false" aria-controls="filtersPanel">
+            <span>تصفية</span>
+            <span class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M4 6h16M7 12h10M10 18h4" stroke="#111827" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+        </div>
+
         <div id="noResults" class="no-results" aria-live="polite">
           <img src="media/ERROR.png" alt="Error">
           <div class="txt">تعذر العثور على الأطروحة أو البحث المطلوب.<br>تحقق من معرف البحث أو عنوانه.</div>
         </div>
 
         <div class="research-list" id="researchList">
-
-          <!-- ===== RESEARCH 1 — VISIBLE ===== -->
-          <article class="research-item" data-year="2026"
-                   data-title="Design shallow foundation based on Pressuremeter data"
-                   data-id="2026120601001">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Design_shallow_foundation_based_on_Pressuremeter_data.pdf" download>
-                Design Methods for Determining the bearing capacity of shallow footings based on pressuremeter test data
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="profile.html?u=mohammedbaqer">Mohammed Baqer A. Azeez</a>,
-                  <a href="profile.html?u=eng_jafer">Jaffer M. Mohammed Baqer</a>
-                </span>
-                <span class="research-serial">2026120601001</span>
-              </div>
-              <div class="research-supervisor">
-                <span class="sup-label">Supervisor: </span><a class="sup-link" href="profile/alaashaban.html">Alaa M. Shaban</a>
-              </div>
-              <div class="research-desc">
-                Practical design methods for shallow foundations using Pressuremeter test results, parameter selection, and application notes.<br>
-                Includes calculation workflow and interpretation guidance.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://www.researchgate.net/profile/Mohammed-Baqer-Azeez?ev=hdr_xprf" target="_blank" rel="noopener">GO TO ResearchGate</a>
-              </div>
-            </div>
-            <div class="research-year">2026</div>
-          </article>
-
-          <!-- ===== RESEARCH 2 — HIDDEN ===== -->
-          <article class="research-item" style="display:none" data-year="2026"
-                   data-title="Bearing capacity evaluation using pressuremeter limit pressure"
-                   data-id="2026111802002">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Bearing_capacity_evaluation_pressuremeter_limit_pressure.pdf" download>
-                Bearing capacity evaluation using pressuremeter limit pressure
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="RESEARCHERS/Steve.html">Steve</a>,
-                  <a href="RESEARCHERS/Alex.html">Alex</a>
-                </span>
-                <span class="research-serial">2026111802002</span>
-              </div>
-              <div class="research-desc">
-                A compact review of bearing capacity estimates derived from pressuremeter limit pressure and practical correction factors.<br>
-                Includes worked methodology outline and assumptions.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-              </div>
-            </div>
-            <div class="research-year">2026</div>
-          </article>
-
-          <!-- ===== RESEARCH 3 — HIDDEN ===== -->
-          <article class="research-item" style="display:none" data-year="2027"
-                   data-title="Shallow footing design workflow from pressuremeter modulus and pl"
-                   data-id="2027031401003">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Shallow_footing_design_workflow_pressuremeter_modulus_PL.pdf" download>
-                Shallow footing design workflow from pressuremeter modulus and PL
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="RESEARCHERS/Steve.html">Steve</a>,
-                  <a href="RESEARCHERS/Alex.html">Alex</a>
-                </span>
-                <span class="research-serial">2027031401003</span>
-              </div>
-              <div class="research-desc">
-                Step-by-step workflow connecting pressuremeter modulus and limit pressure to shallow footing sizing and serviceability checks.<br>
-                Notes on parameter selection and reporting.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-              </div>
-            </div>
-            <div class="research-year">2027</div>
-          </article>
-
-          <!-- ===== RESEARCH 4 — HIDDEN ===== -->
-          <article class="research-item" style="display:none" data-year="2028"
-                   data-title="Comparative study of k-factor charts in pressuremeter foundation design"
-                   data-id="2028072202004">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Comparative_study_K_factor_charts_pressuremeter_design.pdf" download>
-                Comparative study of K-factor charts in pressuremeter foundation design
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="RESEARCHERS/Steve.html">Steve</a>,
-                  <a href="RESEARCHERS/Alex.html">Alex</a>
-                </span>
-                <span class="research-serial">2028072202004</span>
-              </div>
-              <div class="research-desc">
-                Comparison between common K-factor chart interpretations, sensitivity to soil state, and implications for design outcomes.<br>
-                Structured summary and recommended documentation practice.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-              </div>
-            </div>
-            <div class="research-year">2028</div>
-          </article>
-
-          <!-- ===== RESEARCH 5 — HIDDEN ===== -->
-          <article class="research-item" style="display:none" data-year="2029"
-                   data-title="Serviceability settlement checks for shallow foundations using pressuremeter data"
-                   data-id="2029090501005">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Serviceability_settlement_checks_pressuremeter_data.pdf" download>
-                Serviceability settlement checks for shallow foundations using pressuremeter data
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="RESEARCHERS/Steve.html">Steve</a>,
-                  <a href="RESEARCHERS/Alex.html">Alex</a>
-                </span>
-                <span class="research-serial">2029090501005</span>
-              </div>
-              <div class="research-desc">
-                Settlement and serviceability verification approach built on pressuremeter modulus interpretation with practical limits and reporting.<br>
-                Includes notes for layered profiles.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-              </div>
-            </div>
-            <div class="research-year">2029</div>
-          </article>
-
-          <!-- ===== RESEARCH 6 — HIDDEN ===== -->
-          <article class="research-item" style="display:none" data-year="2030"
-                   data-title="Practical parameter selection in pressuremeter-based shallow foundation design"
-                   data-id="2030021102006">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Practical_parameter_selection_pressuremeter_foundation_design.pdf" download>
-                Practical parameter selection in pressuremeter-based shallow foundation design
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="RESEARCHERS/Steve.html">Steve</a>,
-                  <a href="RESEARCHERS/Alex.html">Alex</a>
-                </span>
-                <span class="research-serial">2030021102006</span>
-              </div>
-              <div class="research-desc">
-                Guidance on selecting representative parameters (PL, EM, OCR adjustments) for design and consistency in technical reporting.<br>
-                Includes checklist-style recommendations.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-              </div>
-            </div>
-            <div class="research-year">2030</div>
-          </article>
-
-          <!-- ===== RESEARCH 7 — HIDDEN ===== -->
-          <article class="research-item" style="display:none" data-year="2030"
-                   data-title="Unified reporting template for pressuremeter test results in foundation projects"
-                   data-id="2030103001007">
-            <div class="research-main">
-              <a class="research-title"
-                 href="research/Unified_reporting_template_pressuremeter_foundation_projects.pdf" download>
-                Unified reporting template for pressuremeter test results in foundation projects
-              </a>
-              <div class="research-authors">
-                <span class="authors">
-                  <a href="RESEARCHERS/Steve.html">Steve</a>,
-                  <a href="RESEARCHERS/Alex.html">Alex</a>
-                </span>
-                <span class="research-serial">2030103001007</span>
-              </div>
-              <div class="research-desc">
-                A clean template for presenting pressuremeter results, assumptions, derived parameters, and foundation design outputs.<br>
-                Designed for consistent project documentation.
-              </div>
-              <div class="research-actions">
-                <a class="scholar-btn" href="https://scholar.google.com/scholar?oi=bibs&hl=en&cites=4553518412711474643,349285866407766921,10406452690678927322" target="_blank" rel="noopener">GO TO SCHOLAR</a>
-              </div>
-            </div>
-            <div class="research-year">2030</div>
-          </article>
-
+          <!-- يُملأ ديناميكياً من research/research_list.json -->
         </div>
       </section>
     </div>
   </div>
 </main>
 
-<!-- VISION -->
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
+<!-- ===== RESEARCH DETAIL MODAL ===== -->
+<div id="researchModal" class="rm-overlay" aria-hidden="true">
+  <div class="rm-dialog" role="dialog" aria-modal="true" aria-labelledby="rmTitle">
+    <button id="rmClose" class="rm-close" type="button" aria-label="إغلاق">&times;</button>
+    <div class="rm-site">
+      <img src="media/icon-512-w.png" alt="ESC">
+      <span>مجتمع طلبة الهندسة — ESC</span>
+    </div>
+    <h2 id="rmTitle" class="rm-title"></h2>
+    <div id="rmSerial" class="rm-serial"></div>
+    <div id="rmAuthors" class="rm-authors"></div>
+    <div id="rmSupervisor" class="rm-supervisor"></div>
+    <p id="rmDesc" class="rm-desc"></p>
+    <div id="rmAction" class="rm-action"></div>
+  </div>
+</div>
+
 
 <!-- FOOTER -->
 <footer>
@@ -840,9 +730,9 @@ footer {
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>
-        هل لديك سؤال أو مقترح؟<br>
+        هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>
         يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -878,19 +768,64 @@ filterToggle.addEventListener('click', e => { e.stopPropagation(); filterToggle.
 filtersBd.addEventListener('click', closeFiltersPanel);
 window.addEventListener('resize', () => { if(!isMobile()) closeFiltersPanel(); });
 
-/* Search + Year Filter */
+/* ===== Search + Year Filter + JSON render + detail modal ===== */
 const searchInput = document.getElementById('searchInput');
 const yearBtns    = document.querySelectorAll('.year-btn');
-const items       = Array.from(document.querySelectorAll('.research-item'));
 const noResults   = document.getElementById('noResults');
 const listBox     = document.getElementById('researchList');
+let items = [];
 let activeYear = 'all', activeQuery = '';
+let RESEARCH = [];
+
+function rEsc(str){
+  return String(str==null?'':str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* مؤلفون: authors_names مفصولة بـ "،" تُطابَق بالتوازي مع authors_users */
+function buildAuthors(r){
+  const names = String(r.authors_names||'').split('،').map(s=>s.trim()).filter(Boolean);
+  const users = Array.isArray(r.authors_users) ? r.authors_users : [];
+  return names.map((nm,i) => users[i]
+    ? `<a href="profile.html?u=${encodeURIComponent(users[i])}">${rEsc(nm)}</a>`
+    : rEsc(nm)
+  ).join('، ');
+}
+
+/* مشرف: supervisor_page له الأولوية، وإلا profile.html?u=supervisor-users[0] */
+function buildSupervisor(r){
+  const nm = String(r.supervisors_names||'').trim();
+  if(!nm) return '';
+  const users = Array.isArray(r['supervisor-users']) ? r['supervisor-users'] : [];
+  const link  = r.supervisor_page || (users[0] ? `profile.html?u=${encodeURIComponent(users[0])}` : '');
+  const name  = link ? `<a class="sup-link" href="${rEsc(link)}">${rEsc(nm)}</a>` : rEsc(nm);
+  return `<span class="sup-label">Supervisor: </span>${name}`;
+}
+
+function renderList(){
+  listBox.innerHTML = RESEARCH.map((r,i) => `
+    <article class="research-item" data-idx="${i}" data-year="${rEsc(r.year)}"
+             data-title="${rEsc(r.title)}" data-id="${rEsc(r.id)}"${r.hidden ? ' data-hidden="1"' : ''}>
+      <div class="research-main">
+        <button type="button" class="research-title" data-open="${i}">${rEsc(r.title)}</button>
+        <div class="research-authors">
+          <span class="authors">${buildAuthors(r)}</span>
+          <span class="research-serial">${rEsc(r.id)}</span>
+        </div>
+        ${String(r.supervisors_names||'').trim() ? `<div class="research-supervisor">${buildSupervisor(r)}</div>` : ''}
+        <div class="research-desc">${rEsc(r.description)}</div>
+      </div>
+      <div class="research-year">${rEsc(r.year)}</div>
+    </article>`).join('');
+  items = Array.from(document.querySelectorAll('.research-item'));
+}
 
 function applyFilters() {
   const q = activeQuery.trim().toLowerCase();
   let count = 0;
   items.forEach(item => {
-    if (item.style.display === 'none' && !item.classList.contains('hidden')) return;
+    if (item.dataset.hidden === '1') { item.classList.add('hidden'); return; }
     const yearOk  = activeYear === 'all' || item.dataset.year === activeYear;
     const queryOk = !q || (item.dataset.title||'').toLowerCase().includes(q) || (item.dataset.id||'').toLowerCase().includes(q);
     const show    = yearOk && queryOk;
@@ -915,10 +850,77 @@ searchInput.addEventListener('input', () => {
   t = setTimeout(() => { activeQuery = searchInput.value || ''; applyFilters(); }, 120);
 });
 
-applyFilters();
+/* ---- النافذة المنبثقة ---- */
+const modal   = document.getElementById('researchModal');
+const mClose  = document.getElementById('rmClose');
+const mTitle  = document.getElementById('rmTitle');
+const mSerial = document.getElementById('rmSerial');
+const mAuth   = document.getElementById('rmAuthors');
+const mSup    = document.getElementById('rmSupervisor');
+const mDesc   = document.getElementById('rmDesc');
+const mAction = document.getElementById('rmAction');
+
+/* زر مختلف لكل حالة researchcase */
+function buildAction(r){
+  switch(r.researchcase){
+    case 'freepublish':
+      return `<a class="rc-btn rc-download" href="${rEsc(r.link)}" download>⬇ Download</a>`;
+    case 'published':
+      return `<a class="rc-btn rc-redirect" href="${rEsc(r.link)}" target="_blank" rel="noopener">↗ ReDirect to it</a>`;
+    case 'paidresearch':
+      return `<button class="rc-btn rc-buy" type="button" disabled>🛒 Buy a Research</button>`
+           + (r.price ? `<span class="rc-price">${rEsc(r.price)}</span>` : '');
+    default:
+      return '';
+  }
+}
+
+function openModal(i){
+  const r = RESEARCH[i];
+  if(!r) return;
+  mTitle.textContent  = r.title || '';
+  mSerial.textContent = r.id || '';
+  mAuth.innerHTML     = buildAuthors(r);
+  const hasSup = !!String(r.supervisors_names||'').trim();
+  mSup.innerHTML      = hasSup ? buildSupervisor(r) : '';
+  mSup.style.display  = hasSup ? '' : 'none';
+  mDesc.textContent   = r.descriptionLong || r.description || '';
+  mAction.innerHTML   = buildAction(r);
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+mClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+listBox.addEventListener('click', e => {
+  const a = e.target.closest('[data-open]');
+  if(a) openModal(parseInt(a.dataset.open,10));
+});
+
+/* ---- تحميل البحوث من JSON ---- */
+fetch('research/research_list.json')
+  .then(r => r.json())
+  .then(data => {
+    RESEARCH = Array.isArray(data) ? data : [];
+    renderList();
+    applyFilters();
+  })
+  .catch(() => {
+    listBox.innerHTML = '';
+    noResults.classList.add('show');
+    listBox.style.display = 'none';
+  });
 </script>
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged }
                              from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs }
@@ -934,6 +936,9 @@ const firebaseConfig = {
 };
 
 const app       = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth      = getAuth(app);
 const db        = getFirestore(app);
 const btn       = document.getElementById('authBtn');
@@ -1066,6 +1071,12 @@ onAuthStateChanged(auth, async (user) => {
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
 </script>
 </body>
 </html>

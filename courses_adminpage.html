@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — إدارة الكورسات</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--nav-height:58px;--blue:#0047AB;--teal:#008080;--cream:#FAF9F6;--card-radius:14px;--transition:.25s ease;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Ubuntu',sans-serif;background:var(--cream);color:#111827;direction:rtl;text-align:right;min-height:100vh;overflow-x:hidden;}
+/* gate: hide everything until authorized */
+body.gated{visibility:hidden;}
+
+#bar{height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:var(--blue);position:sticky;top:0;z-index:1000;direction:ltr;box-shadow:0 2px 20px rgba(0,0,0,.25);}
+#bar nav{display:flex;gap:4px;align-items:center;}
+#bar nav a{color:var(--cream);text-decoration:none;font-weight:700;font-size:14px;padding:7px 13px;border-radius:8px;transition:background-color var(--transition);}
+#bar nav a:hover{background:rgba(255,255,255,.18);}
+
+.wrap{max-width:980px;margin:28px auto 80px;padding:0 20px;}
+.page-head{margin-bottom:24px;}
+.page-head h1{font-size:26px;color:#0d1b2a;margin-bottom:6px;}
+.page-head p{font-size:14px;color:#6b7280;}
+
+.tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap;}
+.tab-btn{padding:10px 20px;border:2px solid rgba(0,71,171,.18);border-radius:12px;background:#fff;color:var(--blue);font-family:'Ubuntu',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all var(--transition);}
+.tab-btn:hover{background:#f3f7ff;}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+.panel{display:none;}
+.panel.active{display:block;}
+
+.card{background:#fff;border-radius:var(--card-radius);border:1px solid rgba(0,0,0,.08);box-shadow:0 2px 14px rgba(0,0,0,.06);padding:26px;margin-bottom:20px;}
+.card h2{font-size:18px;color:#0d1b2a;margin-bottom:18px;position:relative;padding-right:14px;}
+.card h2::before{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:4px;height:20px;background:var(--teal);border-radius:3px;}
+
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:13px;font-weight:700;color:#374151;margin-bottom:7px;}
+.field .hint{font-size:12px;color:#9ca3af;font-weight:400;margin-top:5px;line-height:1.6;}
+.field input[type=text],.field input[type=number],.field select,.field textarea{
+  width:100%;height:46px;padding:0 14px;border:2px solid rgba(0,71,171,.16);border-radius:11px;background:#fff;
+  color:#0d1b2a;font-family:'Ubuntu',sans-serif;font-size:14px;font-weight:700;outline:none;direction:rtl;text-align:right;
+  transition:border-color var(--transition);}
+.field textarea{height:auto;min-height:80px;padding:12px 14px;resize:vertical;direction:ltr;text-align:left;font-weight:400;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);}
+.field input[dir=ltr]{direction:ltr;text-align:left;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:640px){.row2{grid-template-columns:1fr;}}
+
+.toggle-row{display:flex;align-items:center;gap:12px;padding:12px 0;}
+.toggle-row label{margin:0;cursor:pointer;}
+.chk{width:22px;height:22px;accent-color:var(--blue);cursor:pointer;}
+
+.lecture-block{border:1.5px dashed rgba(0,71,171,.25);border-radius:12px;padding:16px;margin-bottom:14px;background:#fafbff;}
+.lecture-block .lh{font-size:13px;font-weight:700;color:var(--blue);margin-bottom:12px;}
+.fileinfo{font-size:12px;font-weight:700;margin-top:6px;}
+.fileinfo.ok{color:#007a50;}
+.fileinfo.err{color:#c53030;}
+
+.q-block{border:1.5px solid rgba(0,0,0,.1);border-radius:12px;padding:16px;margin-bottom:14px;background:#fff;}
+.q-block .qh{font-size:13px;font-weight:700;color:#0d1b2a;margin-bottom:10px;}
+.opt-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.opt-row input[type=radio]{accent-color:var(--teal);width:20px;height:20px;flex-shrink:0;cursor:pointer;}
+.opt-row input[type=text]{flex:1;height:40px;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 26px;border:none;border-radius:12px;
+  font-family:'Ubuntu',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:opacity var(--transition),transform var(--transition);}
+.btn-primary{background:linear-gradient(90deg,var(--blue),var(--teal));color:#fff;}
+.btn-primary:hover{opacity:.9;}
+.btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+.btn-ghost{background:transparent;border:2px solid rgba(0,0,0,.15);color:#555;}
+.btn-ghost:hover{background:#f3f4f6;}
+.btn-danger{background:#fdeaea;color:#c53030;border:1.5px solid rgba(197,48,48,.2);}
+.btn-danger:hover{background:#fbd5d5;}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;}
+
+.stage{display:none;}
+.stage.active{display:block;}
+.stage-indicator{display:flex;gap:10px;margin-bottom:20px;font-size:13px;font-weight:700;}
+.stage-indicator span{padding:6px 14px;border-radius:20px;background:#eef2ff;color:#9ca3af;}
+.stage-indicator span.on{background:var(--blue);color:#fff;}
+
+.status-msg{padding:12px 16px;border-radius:10px;font-size:14px;font-weight:700;margin-top:16px;display:none;}
+.status-msg.show{display:block;}
+.status-msg.ok{background:#e6f7f1;color:#007a50;}
+.status-msg.err{background:#fdeaea;color:#c53030;}
+.status-msg.info{background:#eef2ff;color:var(--blue);}
+
+/* available courses list */
+.course-row{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid rgba(0,0,0,.08);border-radius:12px;margin-bottom:12px;background:#fff;}
+.course-row img{width:64px;height:48px;object-fit:cover;border-radius:8px;background:#e5e7eb;flex-shrink:0;}
+.course-row .ci{flex:1;min-width:0;}
+.course-row .ct{font-size:14px;font-weight:700;color:#0d1b2a;}
+.course-row .cm{font-size:12px;color:#6b7280;margin-top:3px;}
+.course-row .cu{font-size:11px;color:var(--blue);font-weight:700;margin-top:2px;direction:ltr;text-align:right;}
+.course-row .cact{display:flex;gap:8px;flex-shrink:0;}
+.mini-btn{padding:8px 14px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;font-family:'Ubuntu',sans-serif;}
+.mini-edit{background:#eef2ff;color:var(--blue);}
+.mini-del{background:#fdeaea;color:#c53030;}
+.empty{text-align:center;padding:40px 20px;color:#9ca3af;font-weight:700;}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-left:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body class="gated">
+
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الرئيسية"><img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;"></a>
+  <nav><a href="course.html">الدورات</a><a href="index.html">الرئيسية</a></nav>
+</header>
+
+<div class="wrap">
+  <div class="page-head">
+    <h1>إدارة الكورسات</h1>
+    <p>إضافة وتعديل دورات مجتمع طلبة الهندسة — لوحة المسؤولين</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="add">➕ رفع كورس جديد</button>
+    <button class="tab-btn" data-tab="manage">📚 الكورسات المتوفرة</button>
+  </div>
+
+  <!-- ========== TAB: ADD / EDIT ========== -->
+  <div class="panel active" id="panel-add">
+    <div class="stage-indicator">
+      <span id="si1" class="on">١ — بيانات الكورس والمحاضرات</span>
+      <span id="si2">٢ — الاختبار النهائي</span>
+    </div>
+
+    <!-- STAGE 1 -->
+    <div class="stage active" id="stage1">
+      <div class="card">
+        <h2>بيانات الكورس</h2>
+        <div class="field">
+          <label>اسم الكورس الظاهر</label>
+          <input type="text" id="f_title" placeholder="مثال: تحليل وتصميم الأسس عبر PLAXIS 2D">
+        </div>
+        <div class="field">
+          <label>معرّف الكورس (course username)</label>
+          <input type="text" id="f_username" dir="ltr" placeholder="plaxis2d_foundations">
+          <div class="hint">معرّف إنجليزي فريد بدون مسافات. هو ما يفتحه المشغّل عبر <b>coursplay.html?u=المعرّف</b>. لا يمكن تكراره.</div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>القسم الهندسي</label>
+            <select id="f_department">
+              <option value="general">عام لجميع التخصصات</option>
+              <option value="civil">هندسة مدنية</option>
+              <option value="electrical">هندسة كهرباء وإلكترونيك</option>
+              <option value="mechanical">هندسة الميكانيك</option>
+              <option value="petroleum">هندسة النفط</option>
+              <option value="biomedical">هندسة الطب الحياتي</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>صعوبة الكورس</label>
+            <select id="f_level">
+              <option value="beginner">مبتدئ — Beginner</option>
+              <option value="intermediate">متوسط — Intermediate</option>
+              <option value="advanced">متقدم — Advanced</option>
+            </select>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>وسم العرض على البطاقة (category)</label>
+            <input type="text" id="f_category" placeholder="مثال: هندسة مدنية">
+          </div>
+          <div class="field">
+            <label>اسم ناشر الكورس</label>
+            <input type="text" id="f_instructor" placeholder="مثال: المهندس محمد الجبوري">
+          </div>
+        </div>
+        <div class="field">
+          <label>معرّف صورة العرض (داخل مجلد media)</label>
+          <input type="text" id="f_image" dir="ltr" placeholder="office.png">
+          <div class="hint">اكتب اسم ملف الصورة الموجود داخل مجلد <b>media</b> فقط. مثال: <b>office.png</b> → يقرأها النظام كـ media/office.png.</div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label>نوع الكورس</label>
+            <select id="f_type">
+              <option value="free">مجاني</option>
+              <option value="paid">مدفوع</option>
+            </select>
+          </div>
+          <div class="field" id="priceField" style="display:none;">
+            <label>السعر (دينار عراقي)</label>
+            <input type="number" id="f_price" placeholder="66750" min="0">
+          </div>
+        </div>
+        <div class="field">
+          <label>عنوان مجموعة العرض (group)</label>
+          <input type="text" id="f_group" placeholder="مثال: كورسات الهندسة المدنية">
+          <div class="hint">الكورسات ذات نفس المجموعة تظهر معاً في صف واحد بصفحة الدورات.</div>
+        </div>
+        <div class="toggle-row">
+          <input type="checkbox" id="f_certificate" class="chk" checked>
+          <label for="f_certificate">يمنح هذا الكورس شهادة إتمام</label>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>المحاضرات</h2>
+        <div class="field">
+          <label>عدد المحاضرات</label>
+          <input type="number" id="f_lectureCount" min="1" max="60" placeholder="مثال: 16">
+          <div class="hint">حدّد العدد ثم اضغط "توليد خانات المحاضرات".</div>
+        </div>
+        <button class="btn btn-ghost" id="genLecturesBtn" type="button">توليد خانات المحاضرات</button>
+        <div id="lecturesContainer" style="margin-top:18px;"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="toStage2Btn" type="button">التالي ←</button>
+      </div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="stage" id="stage2">
+      <div class="card">
+        <h2>الاختبار النهائي</h2>
+        <div class="toggle-row">
+          <input type="checkbox" id="f_hasExam" class="chk">
+          <label for="f_hasExam">هل يوجد اختبار في نهاية هذا الكورس؟</label>
+        </div>
+        <div class="hint" style="margin-bottom:8px;">عند التفعيل يجب إدخال 30 سؤالاً متعدد الخيارات (4 خيارات لكل سؤال) وتحديد الإجابة الصحيحة. بعد إتمام الكورس ينقر الطالب على الاختبار النهائي ثم يرسل طلب الشهادة.</div>
+        <div id="questionsContainer" style="margin-top:14px;display:none;"></div>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="backStage1Btn" type="button">→ رجوع</button>
+        <button class="btn btn-primary" id="publishBtn" type="button">نشر الكورس</button>
+      </div>
+      <div class="status-msg" id="addStatus"></div>
+    </div>
+  </div>
+
+  <!-- ========== TAB: MANAGE ========== -->
+  <div class="panel" id="panel-manage">
+    <div class="card">
+      <h2>الكورسات المتوفرة</h2>
+      <div id="coursesList"><div class="empty">جارٍ التحميل...</div></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs, doc, getDoc, setDoc, deleteDoc }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL, deleteObject }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey:"AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:"engineering-students-community.firebaseapp.com",
+  projectId:"engineering-students-community",
+  storageBucket:"engineering-students-community.firebasestorage.app",
+  messagingSenderId:"371432549665",
+  appId:"1:371432549665:web:4d3b9617243731fb06e260"
+};
+const app=initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
+const auth=getAuth(app);
+const db=getFirestore(app);
+const storage=getStorage(app);
+
+const QCOUNT=30, OPTS=4;
+let MY_USERNAME=null, MY_UID=null;
+let EDIT_ID=null; // معرّف الكورس عند التعديل، null عند الإضافة
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ====== GATE: التحقق من الصلاحية ====== */
+function redirect(){ location.replace('course.html'); }
+
+onAuthStateChanged(auth, async(user)=>{
+  if(!user){ redirect(); return; }
+  try{
+    const snap=await getDocs(query(collection(db,"students"),where("uid","==",user.uid)));
+    if(snap.empty){ redirect(); return; }
+    const username=snap.docs[0].id;
+    const res=await fetch('jsonfiles/courses_adminpage.json',{cache:'no-store'});
+    const data=await res.json();
+    const allowed=Array.isArray(data.authorized)?data.authorized:[];
+    if(!allowed.includes(username)){ redirect(); return; }
+    MY_USERNAME=username; MY_UID=user.uid;
+    document.body.classList.remove('gated');
+    initUI();
+  }catch(e){ redirect(); }
+});
+
+/* ====== TABS ====== */
+function initUI(){
+  document.querySelectorAll('.tab-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.getElementById('panel-'+b.dataset.tab).classList.add('active');
+      if(b.dataset.tab==='manage') loadCoursesList();
+    });
+  });
+
+  document.getElementById('f_type').addEventListener('change',e=>{
+    document.getElementById('priceField').style.display = e.target.value==='paid'?'':'none';
+  });
+
+  document.getElementById('genLecturesBtn').addEventListener('click',genLectures);
+  document.getElementById('toStage2Btn').addEventListener('click',()=>{ if(validateStage1()) gotoStage(2); });
+  document.getElementById('backStage1Btn').addEventListener('click',()=>gotoStage(1));
+  document.getElementById('f_hasExam').addEventListener('change',e=>{
+    const c=document.getElementById('questionsContainer');
+    if(e.target.checked){ if(!c.dataset.built){ buildQuestions(); c.dataset.built='1'; } c.style.display=''; }
+    else c.style.display='none';
+  });
+  document.getElementById('publishBtn').addEventListener('click',publishCourse);
+}
+
+/* ====== STAGE NAV ====== */
+function gotoStage(n){
+  document.getElementById('stage1').classList.toggle('active',n===1);
+  document.getElementById('stage2').classList.toggle('active',n===2);
+  document.getElementById('si1').classList.toggle('on',n===1);
+  document.getElementById('si2').classList.toggle('on',n===2);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ====== LECTURES ====== */
+function genLectures(){
+  const n=parseInt(document.getElementById('f_lectureCount').value)||0;
+  if(n<1||n>60){ alert('أدخل عدد محاضرات بين 1 و 60.'); return; }
+  const cont=document.getElementById('lecturesContainer');
+  // الحفاظ على القيم الموجودة عند إعادة التوليد
+  const prev=collectLectures();
+  let html='';
+  for(let i=0;i<n;i++){
+    const p=prev[i]||{};
+    html+=`<div class="lecture-block" data-li="${i}">
+      <div class="lh">المحاضرة ${i+1}</div>
+      <div class="field"><label>اسم المحاضرة</label>
+        <input type="text" class="lec-name" placeholder="مثال: المحاضرة ${i+1} — مقدمة" value="${escHtml(p.name||'')}"></div>
+      <div class="field"><label>معرّف/رابط فيديو يوتيوب (Unlisted)</label>
+        <input type="text" class="lec-video" dir="ltr" placeholder="https://www.youtube.com/watch?v=XXXX أو معرّف الفيديو" value="${escHtml(p.video||'')}"></div>
+      <div class="field"><label>ملف المحاضرة PDF (اختياري)</label>
+        <input type="file" class="lec-file" accept="application/pdf">
+        <div class="fileinfo ${p.fileURL?'ok':''}" data-existing="${escHtml(p.fileURL||'')}">${p.fileURL?'ملف مرفوع مسبقاً ✓ (اترك فارغاً للإبقاء عليه)':''}</div></div>
+    </div>`;
+  }
+  cont.innerHTML=html;
+}
+
+function collectLectures(){
+  const out=[];
+  document.querySelectorAll('#lecturesContainer .lecture-block').forEach(b=>{
+    const fi=b.querySelector('.fileinfo');
+    out.push({
+      name:b.querySelector('.lec-name').value.trim(),
+      video:b.querySelector('.lec-video').value.trim(),
+      fileEl:b.querySelector('.lec-file'),
+      fileURL:fi?(fi.dataset.existing||''):''
+    });
+  });
+  return out;
+}
+
+/* تحويل أي رابط/معرّف يوتيوب إلى رابط embed محمي قدر الإمكان */
+function toEmbed(raw){
+  if(!raw) return '';
+  let id='';
+  const r=raw.trim();
+  let m=r.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/|youtube\.com\/shorts\/)([\w-]{11})/);
+  if(m) id=m[1];
+  else if(/^[\w-]{11}$/.test(r)) id=r;
+  else return r; // غير معروف — احفظه كما هو
+  // معاملات إخفاء عناصر تحكم يوتيوب قدر الإمكان
+  return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&controls=1&showinfo=0&iv_load_policy=3&disablekb=1&fs=0`;
+}
+
+/* ====== QUESTIONS ====== */
+function buildQuestions(prefill){
+  const cont=document.getElementById('questionsContainer');
+  let html='';
+  for(let i=0;i<QCOUNT;i++){
+    const p=(prefill&&prefill[i])||{};
+    let opts='';
+    for(let o=0;o<OPTS;o++){
+      const checked=(p.answer===o)?'checked':'';
+      opts+=`<div class="opt-row">
+        <input type="radio" name="ans_${i}" value="${o}" ${checked} title="الإجابة الصحيحة">
+        <input type="text" class="q-opt" data-q="${i}" data-o="${o}" placeholder="الخيار ${o+1}" value="${escHtml((p.options&&p.options[o])||'')}">
+      </div>`;
+    }
+    html+=`<div class="q-block" data-qi="${i}">
+      <div class="qh">السؤال ${i+1}</div>
+      <div class="field"><input type="text" class="q-text" placeholder="نص السؤال" value="${escHtml(p.q||'')}"></div>
+      ${opts}
+    </div>`;
+  }
+  cont.innerHTML=html;
+  cont.dataset.built='1';
+}
+
+function collectQuestions(){
+  const out=[];
+  document.querySelectorAll('#questionsContainer .q-block').forEach((b,i)=>{
+    const q=b.querySelector('.q-text').value.trim();
+    const options=[...b.querySelectorAll('.q-opt')].map(x=>x.value.trim());
+    const ansEl=b.querySelector(`input[name="ans_${i}"]:checked`);
+    const answer=ansEl?parseInt(ansEl.value):-1;
+    out.push({q,options,answer});
+  });
+  return out;
+}
+
+/* ====== VALIDATION ====== */
+function validateStage1(){
+  const v=id=>document.getElementById(id).value.trim();
+  if(!v('f_title')){ alert('أدخل اسم الكورس.'); return false; }
+  const u=v('f_username');
+  if(!u||!/^[a-z0-9_]+$/i.test(u)){ alert('معرّف الكورس يجب أن يكون إنجليزياً بدون مسافات (حروف/أرقام/شرطة سفلية).'); return false; }
+  if(!v('f_image')){ alert('أدخل معرّف صورة العرض.'); return false; }
+  if(!v('f_instructor')){ alert('أدخل اسم ناشر الكورس.'); return false; }
+  const lecs=collectLectures();
+  if(!lecs.length){ alert('أضف محاضرة واحدة على الأقل (ولّد الخانات أولاً).'); return false; }
+  for(let i=0;i<lecs.length;i++){
+    if(!lecs[i].name){ alert(`أدخل اسم المحاضرة ${i+1}.`); return false; }
+  }
+  return true;
+}
+
+/* ====== PUBLISH ====== */
+async function publishCourse(){
+  const status=document.getElementById('addStatus');
+  const btn=document.getElementById('publishBtn');
+  const show=(t,c)=>{ status.textContent=t; status.className='status-msg show '+c; };
+
+  const username=document.getElementById('f_username').value.trim();
+  const hasExam=document.getElementById('f_hasExam').checked;
+
+  let questions=[];
+  if(hasExam){
+    questions=collectQuestions();
+    for(let i=0;i<questions.length;i++){
+      const q=questions[i];
+      if(!q.q){ show(`السؤال ${i+1}: النص فارغ.`,'err'); return; }
+      if(q.options.some(o=>!o)){ show(`السؤال ${i+1}: أكمل الخيارات الأربعة.`,'err'); return; }
+      if(q.answer<0){ show(`السؤال ${i+1}: حدّد الإجابة الصحيحة.`,'err'); return; }
+    }
+  }
+
+  btn.disabled=true;
+  show('<span class="spinner"></span> جارٍ التحقق والرفع...','info');
+  status.innerHTML=status.textContent='';
+  status.innerHTML='<span class="spinner"></span> جارٍ التحقق والرفع...'; status.className='status-msg show info';
+
+  try{
+    // منع تكرار المعرّف عند الإضافة (أو عند تغييره في التعديل)
+    if(EDIT_ID!==username){
+      const exist=await getDoc(doc(db,"courses",username));
+      if(exist.exists()){ show('معرّف الكورس مستخدم مسبقاً. اختر معرّفاً آخر.','err'); btn.disabled=false; return; }
+    }
+
+    // رفع ملفات المحاضرات
+    const lecBlocks=document.querySelectorAll('#lecturesContainer .lecture-block');
+    const lectures=[];
+    for(let i=0;i<lecBlocks.length;i++){
+      const b=lecBlocks[i];
+      const name=b.querySelector('.lec-name').value.trim();
+      const video=toEmbed(b.querySelector('.lec-video').value.trim());
+      const fileEl=b.querySelector('.lec-file');
+      const fi=b.querySelector('.fileinfo');
+      let fileURL=fi.dataset.existing||'';
+      if(fileEl.files&&fileEl.files[0]){
+        const f=fileEl.files[0];
+        if(f.type!=='application/pdf'){ show(`ملف المحاضرة ${i+1} يجب أن يكون PDF.`,'err'); btn.disabled=false; return; }
+        if(f.size>55*1024*1024){ show(`ملف المحاضرة ${i+1} يتجاوز 55MB.`,'err'); btn.disabled=false; return; }
+        status.innerHTML=`<span class="spinner"></span> رفع ملف المحاضرة ${i+1}...`;
+        const path=`community_files/${MY_UID}/courses/${username}/lec${i+1}_${Date.now()}.pdf`;
+        const r=sRef(storage,path);
+        await uploadBytes(r,f);
+        fileURL=await getDownloadURL(r);
+      }
+      lectures.push({name,video,fileURL});
+    }
+
+    const courseData={
+      title:document.getElementById('f_title').value.trim(),
+      username,
+      department:document.getElementById('f_department').value,
+      level:document.getElementById('f_level').value,
+      category:document.getElementById('f_category').value.trim(),
+      instructor:document.getElementById('f_instructor').value.trim(),
+      image:document.getElementById('f_image').value.trim(),
+      course_type:document.getElementById('f_type').value,
+      price:document.getElementById('f_type').value==='paid'?(parseInt(document.getElementById('f_price').value)||0):0,
+      currency:"دينار عراقي",
+      group:document.getElementById('f_group').value.trim()||'دورات',
+      certificate:document.getElementById('f_certificate').checked,
+      lectures,
+      hasExam,
+      questions:hasExam?questions:[],
+      link:`coursplay.html?u=${encodeURIComponent(username)}`,
+      uploadedBy:MY_USERNAME,
+      updatedAt:Date.now()
+    };
+
+    // عند تغيير المعرّف في التعديل: احذف الوثيقة القديمة
+    if(EDIT_ID&&EDIT_ID!==username){ await deleteDoc(doc(db,"courses",EDIT_ID)); }
+    await setDoc(doc(db,"courses",username),courseData);
+
+    show(EDIT_ID?'تم تحديث الكورس بنجاح ✓':'تم نشر الكورس بنجاح ✓','ok');
+    EDIT_ID=null;
+    setTimeout(()=>{ resetForm(); },1500);
+  }catch(e){
+    show('تعذّر النشر: '+(e.code||e.message||e),'err');
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+function resetForm(){
+  ['f_title','f_username','f_category','f_instructor','f_image','f_price','f_group','f_lectureCount'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f_department').value='general';
+  document.getElementById('f_level').value='beginner';
+  document.getElementById('f_type').value='free';
+  document.getElementById('priceField').style.display='none';
+  document.getElementById('f_certificate').checked=true;
+  document.getElementById('f_hasExam').checked=false;
+  document.getElementById('lecturesContainer').innerHTML='';
+  const qc=document.getElementById('questionsContainer'); qc.innerHTML=''; qc.style.display='none'; qc.dataset.built='';
+  document.getElementById('addStatus').className='status-msg';
+  gotoStage(1);
+}
+
+/* ====== MANAGE LIST ====== */
+async function loadCoursesList(){
+  const wrap=document.getElementById('coursesList');
+  wrap.innerHTML='<div class="empty">جارٍ التحميل...</div>';
+  try{
+    const snap=await getDocs(collection(db,"courses"));
+    if(snap.empty){ wrap.innerHTML='<div class="empty">لا توجد كورسات بعد.</div>'; return; }
+    let html='';
+    snap.forEach(d=>{
+      const c=d.data();
+      html+=`<div class="course-row">
+        <img src="media/${escHtml(c.image||'')}" onerror="this.style.visibility='hidden'" alt="">
+        <div class="ci">
+          <div class="ct">${escHtml(c.title||'')}</div>
+          <div class="cm">${escHtml(c.instructor||'')} • ${c.course_type==='paid'?'مدفوع':'مجاني'} • ${(c.lectures||[]).length} محاضرة${c.hasExam?' • اختبار':''}</div>
+          <div class="cu">${escHtml(d.id)}</div>
+        </div>
+        <div class="cact">
+          <button class="mini-btn mini-edit" data-edit="${escHtml(d.id)}">تعديل</button>
+          <button class="mini-btn mini-del" data-del="${escHtml(d.id)}">حذف</button>
+        </div>
+      </div>`;
+    });
+    wrap.innerHTML=html;
+    wrap.querySelectorAll('[data-edit]').forEach(b=>b.addEventListener('click',()=>editCourse(b.dataset.edit)));
+    wrap.querySelectorAll('[data-del]').forEach(b=>b.addEventListener('click',()=>delCourse(b.dataset.del)));
+  }catch(e){
+    wrap.innerHTML='<div class="empty">تعذّر التحميل: '+escHtml(e.code||e.message||'')+'</div>';
+  }
+}
+
+async function editCourse(id){
+  try{
+    const d=await getDoc(doc(db,"courses",id));
+    if(!d.exists()){ alert('الكورس غير موجود.'); return; }
+    const c=d.data();
+    EDIT_ID=id;
+    document.getElementById('f_title').value=c.title||'';
+    document.getElementById('f_username').value=c.username||id;
+    document.getElementById('f_department').value=c.department||'general';
+    document.getElementById('f_level').value=c.level||'beginner';
+    document.getElementById('f_category').value=c.category||'';
+    document.getElementById('f_instructor').value=c.instructor||'';
+    document.getElementById('f_image').value=c.image||'';
+    document.getElementById('f_type').value=c.course_type||'free';
+    document.getElementById('priceField').style.display=c.course_type==='paid'?'':'none';
+    document.getElementById('f_price').value=c.price||'';
+    document.getElementById('f_group').value=c.group||'';
+    document.getElementById('f_certificate').checked=!!c.certificate;
+
+    // محاضرات
+    const lecs=c.lectures||[];
+    document.getElementById('f_lectureCount').value=lecs.length;
+    const cont=document.getElementById('lecturesContainer');
+    let html='';
+    lecs.forEach((l,i)=>{
+      html+=`<div class="lecture-block" data-li="${i}">
+        <div class="lh">المحاضرة ${i+1}</div>
+        <div class="field"><label>اسم المحاضرة</label>
+          <input type="text" class="lec-name" value="${escHtml(l.name||'')}"></div>
+        <div class="field"><label>معرّف/رابط فيديو يوتيوب (Unlisted)</label>
+          <input type="text" class="lec-video" dir="ltr" value="${escHtml(l.video||'')}"></div>
+        <div class="field"><label>ملف المحاضرة PDF (اختياري)</label>
+          <input type="file" class="lec-file" accept="application/pdf">
+          <div class="fileinfo ${l.fileURL?'ok':''}" data-existing="${escHtml(l.fileURL||'')}">${l.fileURL?'ملف مرفوع مسبقاً ✓ (اترك فارغاً للإبقاء عليه)':''}</div></div>
+      </div>`;
+    });
+    cont.innerHTML=html;
+
+    // أسئلة
+    document.getElementById('f_hasExam').checked=!!c.hasExam;
+    const qc=document.getElementById('questionsContainer');
+    if(c.hasExam){ buildQuestions(c.questions||[]); qc.style.display=''; }
+    else { qc.innerHTML=''; qc.style.display='none'; qc.dataset.built=''; }
+
+    // انتقل لتبويب الإضافة/التعديل
+    document.querySelectorAll('.tab-btn').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    document.querySelector('[data-tab="add"]').classList.add('active');
+    document.getElementById('panel-add').classList.add('active');
+    gotoStage(1);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){ alert('تعذّر فتح الكورس: '+(e.code||e.message||e)); }
+}
+
+async function delCourse(id){
+  if(!confirm('حذف هذا الكورس نهائياً؟ لا يمكن التراجع.')) return;
+  try{
+    await deleteDoc(doc(db,"courses",id));
+    loadCoursesList();
+  }catch(e){ alert('تعذّر الحذف: '+(e.code||e.message||e)); }
+}
+</script>
+</body>
+</html>

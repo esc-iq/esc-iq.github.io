@@ -1,0 +1,218 @@
+/* ════════════════════════════════════════════════════════════════
+   ESC — قواعد Firebase المُحصّنة (Hardened)
+   انسخ كل قسم إلى المكان المناسب في Firebase Console ثم اضغط "نشر" (Publish)
+   آخر تحديث أمني: 2026-06-24
+   ════════════════════════════════════════════════════════════════ */
+
+
+/* ───────────────────────────────────────────────
+   1) FIRESTORE RULES
+   Firestore Database ▸ Rules
+   ─────────────────────────────────────────────── */
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* ── دوال مساعدة ── */
+    function signedIn() { return request.auth != null; }
+
+    /* هل الـ username يخص المستخدم الحالي؟ (يربط author → uid عبر students) */
+    function ownsUser(username) {
+      return signedIn()
+        && exists(/databases/$(database)/documents/students/$(username))
+        && get(/databases/$(database)/documents/students/$(username)).data.uid == request.auth.uid;
+    }
+
+    /* تعديل لا يمسّ إلا حقول التفاعل (إعجاب/تصويت) — مسموح لأي مسجّل */
+    function onlyInteractionFields() {
+      return request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['likes','upvotes','downvotes']);
+    }
+
+    /* ── المستخدمون ── */
+    match /students/{username} {
+      allow read: if true;
+      /* الإنشاء: لا بد أن يحمل المستند uid صاحب الجلسة (يمنع انتحال uid غيره) */
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      /* التعديل/الحذف: المالك فقط */
+      allow update, delete: if signedIn() && resource.data.uid == request.auth.uid;
+
+      match /reposts/{postId} {
+        allow read: if true;
+        allow write: if ownsUser(username);
+      }
+    }
+
+    /* ── ملفات PDF ── */
+    match /uploads/{docId} {
+      allow read: if true;
+      /* الإنشاء: لا بد أن يكون المُنشئ هو صاحب حقل uploader */
+      allow create: if ownsUser(request.resource.data.uploader);
+      /* التعديل/الحذف: مالك الرفع فقط */
+      allow update, delete: if ownsUser(resource.data.uploader);
+    }
+
+    /* ── المقالات + التعليقات ── */
+    match /articles/{docId} {
+      allow read: if true;
+      allow create: if ownsUser(request.resource.data.author);
+      /* المالك يعدّل أي حقل؛ غير المالك يعدّل likes فقط (للإعجاب) */
+      allow update: if ownsUser(resource.data.author)
+                    || (signedIn() && onlyInteractionFields());
+      allow delete: if ownsUser(resource.data.author);
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if ownsUser(request.resource.data.author);
+        /* المالق يعدّل تعليقه؛ غير المالك يصوّت فقط (upvotes/downvotes) */
+        allow update: if ownsUser(resource.data.author)
+                      || (signedIn() && onlyInteractionFields());
+        allow delete: if ownsUser(resource.data.author);
+      }
+    }
+
+    /* ── المقاطع القصيرة + التعليقات ── */
+    match /shorts/{docId} {
+      allow read: if true;
+      allow create: if ownsUser(request.resource.data.author);
+      allow update: if ownsUser(resource.data.author)
+                    || (signedIn() && onlyInteractionFields());
+      allow delete: if ownsUser(resource.data.author);
+
+      match /comments/{commentId} {
+        allow read: if true;
+        allow create: if ownsUser(request.resource.data.author);
+        allow update: if ownsUser(resource.data.author)
+                      || (signedIn() && onlyInteractionFields());
+        allow delete: if ownsUser(resource.data.author);
+      }
+    }
+
+    /* ── إعادة النشر (مجموعة عُليا) — Doc ID = username__postId ── */
+    match /reposts/{repostId} {
+      allow read: if true;
+      /* المالك فقط: حقل username لا بد أن يخصّ المستخدم الحالي */
+      allow create: if ownsUser(request.resource.data.username);
+      allow update, delete: if ownsUser(resource.data.username);
+    }
+
+    /* ── المتابعة ──
+       followers/{uid}: يكتب المتابِع نفسه فقط (uid == auth.uid)
+       following/{target}: يكتبه صاحب القائمة فقط (ownsUser(username)) */
+    match /follows/{username}/followers/{uid} {
+      allow read: if true;
+      allow write, delete: if signedIn() && uid == request.auth.uid;
+    }
+    match /follows/{username}/following/{target} {
+      allow read: if ownsUser(username);   /* قائمة المتابَعين مخفية لغير المالك */
+      allow write, delete: if ownsUser(username);
+    }
+    match /follows/{username}/hashtags/{tag} {
+      allow read: if ownsUser(username);
+      allow write, delete: if ownsUser(username);
+    }
+
+    /* ── طلبات المنح الدراسية ──
+       القراءة محصورة بالمشرف (mohammedbaqer)؛ مقدّم الطلب يقرأ طلبه فقط.
+       حدّث uid المشرف أدناه إن تغيّر. */
+    match /scholarship_applications/{appId} {
+      function isAdmin() {
+        return signedIn()
+          && exists(/databases/$(database)/documents/students/mohammedbaqer)
+          && get(/databases/$(database)/documents/students/mohammedbaqer).data.uid == request.auth.uid;
+      }
+      allow read: if isAdmin()
+                  || (signedIn() && resource.data.uid == request.auth.uid);
+      allow create: if signedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if isAdmin();    /* المشرف فقط يعلّم مقروء/غير مقروء */
+      allow delete: if isAdmin();
+    }
+
+    /* الكورسات: تُرفع/تُعدَّل من courses_adminpage.html. القراءة عامة
+       (course.html / coursplay.html / index.html / search.html تقرؤها).
+       الكتابة محصورة بالمشرفين فقط — التخويل بالواجهة (courses_adminpage.json)
+       كان يُتجاوَز من console فيعبث أي مسجّل بكل الكورسات. حدّث أسماء المشرفين
+       أدناه إن تغيّروا. معرّف الوثيقة = course username. */
+    match /courses/{courseId} {
+      function isCourseAdmin() {
+        return signedIn() && (
+          (exists(/databases/$(database)/documents/students/mohammedbaqer)
+            && get(/databases/$(database)/documents/students/mohammedbaqer).data.uid == request.auth.uid)
+          || (exists(/databases/$(database)/documents/students/eng_ali)
+            && get(/databases/$(database)/documents/students/eng_ali).data.uid == request.auth.uid)
+        );
+      }
+      allow read: if true;
+      allow create, update, delete: if isCourseAdmin();
+    }
+  }
+}
+
+
+/* ───────────────────────────────────────────────
+   2) STORAGE RULES
+   Storage ▸ Rules
+   ─────────────────────────────────────────────── */
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    /* مالك المسار = المستخدم الذي اسم مجلده يطابق سجل students مع uid الجلسة.
+       Storage rules لا يمكنها قراءة Firestore، لذا نقيّد بالحجم + المصادقة،
+       والملكية الحقيقية تُفرَض عبر Firestore (روابط الملفات تُخزَّن هناك). */
+
+    /* الأفتار: المسار الجديد avatars/{uid}/... مربوط بصاحب الجلسة فيمنع
+       استبدال صورة مستخدم آخر. المسار القديم avatars/{username} يبقى مقروءاً
+       (روابط قديمة) لكن لا يُكتب إليه. */
+    match /avatars/{uid}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null && uid == request.auth.uid
+                   && request.resource.size < 5 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+    }
+    match /avatars/{username} {
+      allow read: if true;          /* قراءة فقط للروابط القديمة — لا كتابة */
+    }
+
+    /* ملفات المجتمع: المسار الجديد يحمل uid صاحب الجلسة كبادئة فيمنع
+       الكتابة/الحذف على مجلد مستخدم آخر. المسار القديم
+       community_files/{username}/... يبقى مقروءاً (روابط قائمة) دون كتابة/حذف. */
+    match /community_files/{uid}/{allPaths=**} {
+      allow read: if true;
+      allow write:  if request.auth != null && uid == request.auth.uid
+                    && request.resource.size < 55 * 1024 * 1024;
+      allow delete: if request.auth != null && uid == request.auth.uid;
+    }
+    match /scholarship_applications/{username}/{allPaths=**} {
+      /* مرفقات الهوية: لا تُقرأ علناً — مصادقة مطلوبة للقراءة */
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.resource.size < 10 * 1024 * 1024;
+      allow delete: if request.auth != null;
+    }
+  }
+}
+
+
+/* ───────────────────────────────────────────────
+   ملاحظات أمنية مهمّة
+   ─────────────────────────────────────────────────
+   • apiKey في الكود ليس سراً — هذا طبيعي في Firebase. الحماية الحقيقية = هذه القواعد.
+   • App Check (reCAPTCHA v3): كود التفعيل مزروع في كل صفحات Firebase (22 صفحة) عبر
+     initializeAppCheck + ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'). لإكماله:
+       1) Console ▸ App Check ▸ Apps ▸ سجّل تطبيق الويب بمزوّد reCAPTCHA v3.
+       2) أنشئ مفتاح reCAPTCHA v3 (google.com/recaptcha) لنطاق esc-iq.net، وانسخ Site Key.
+       3) استبدل النص RECAPTCHA_V3_SITE_KEY في كل الصفحات بالمفتاح (إنه مفتاح عام، آمن في الكود).
+       4) فعّل Enforcement لـ Firestore + Storage + Authentication بعد التأكد أن الموقع يعمل
+          (ابدأ بوضع Monitor قبل Enforce حتى لا تحجب مستخدمين حقيقيين).
+     النتيجة: أي طلب Firebase لا يحمل توكن App Check صالحاً (بوت/سكربت/طلب من خارج الموقع) يُرفض
+     على الخادم — هذه الحماية الجذرية ضد البوتات والإغراق وتجاوز rate-limit وإساءة الـ API.
+   • [أُصلح 2026-06-25] avatars + community_files: المسارات الجديدة تحمل {uid} والقاعدة
+     تشترط uid==request.auth.uid، فلا يكتب/يحذف مستخدم على مجلد آخر. المسارات القديمة
+     ({username}) بقيت للقراءة فقط حتى لا تنكسر الروابط القائمة. الواجهة تكتب بالـ uid.
+   • قائمة allow-list للرفع (share-atho.json) تُفحَص في الواجهة فقط؛ القاعدة أعلاه تمنع
+     الانتحال (uploader مزوّر) لكنها لا تطبّق allow-list — أضف الأسماء داخل القاعدة إن لزم.
+
+   3) SAFESEARCH MODERATION  (Cloud Functions) — كما هو، انظر functions/index.js
+   ─────────────────────────────────────────────── */

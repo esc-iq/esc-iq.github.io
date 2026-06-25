@@ -1,4 +1,4 @@
-\<!DOCTYPE html>
+﻿\<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -219,9 +219,6 @@ body {
 .no-results-inline { display: none; padding: 28px 18px; text-align: center; color: #6b7280; font-weight: 700; font-size: 14px; direction: rtl; }
 .no-results-inline.show { display: block; }
 
-.vision-section { background: var(--blue); padding: 20px 30px; text-align: center; }
-.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-.vision-section p { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.85; max-width: 680px; margin: 0 auto 10px; }
 
 footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 26px; direction: rtl; }
 .footer-inner {
@@ -252,19 +249,58 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
+/* ===== AUTH BTN + NAV SEARCH (موحّد مع index) ===== */
+#authBtn { display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:6px 13px; border-radius:9px; min-width:185px; max-width:185px; height:38px; box-sizing:border-box; overflow:hidden; font-family:'Ubuntu',sans-serif; font-size:13px; font-weight:700; text-decoration:none; white-space:nowrap; flex-shrink:0; transition:background 0.25s ease; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#authBtn.state-loading { background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.35); border:1.5px solid rgba(255,255,255,0.1); pointer-events:none; }
+#authBtn.state-guest { background:rgba(255,255,255,0.14); color:#fff; border:1.5px solid rgba(255,255,255,0.32); }
+#authBtn.state-guest:hover { background:rgba(255,255,255,0.26); }
+#authBtn.state-user { background:rgba(255,255,255,0.14); color:#fff; border:1.5px solid rgba(255,255,255,0.28); }
+#authBtn.state-user:hover { background:rgba(255,255,255,0.24); }
+.auth-avatar { width:26px; height:26px; border-radius:6px; object-fit:cover; border:1.5px solid rgba(255,255,255,0.35); display:block; flex-shrink:0; }
+@media (max-width:768px) { #authBtn { display:none; } }
+.nav-search-wrap { position:relative; display:flex; align-items:center; }
+.nav-search-input { width:280px; height:38px; padding:0 36px 0 12px; border-radius:9px; box-sizing:border-box; border:1.5px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.12); outline:none; color:#fff; font-weight:700; font-family:'Ubuntu',sans-serif; font-size:13px; direction:rtl; text-align:right; transition:background 0.2s,border-color 0.2s; backdrop-filter:blur(4px); }
+.nav-search-input::placeholder { color:rgba(255,255,255,0.55); font-weight:400; }
+.nav-search-input:focus { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.6); }
+.nav-search-icon { position:absolute; left:11px; pointer-events:none; display:flex; align-items:center; opacity:0.7; }
+.nav-search-icon svg { width:16px; height:16px; }
+.nav-search-results { display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:300px; background:#fff; border-radius:14px; box-shadow:0 14px 40px rgba(0,0,0,0.2); border:1px solid rgba(0,0,0,0.08); overflow:hidden; z-index:2000; direction:rtl; text-align:right; }
+.nav-search-results.show { display:block; }
+.search-result-item { display:flex; align-items:center; gap:12px; padding:11px 14px; text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.05); transition:background 0.15s; cursor:pointer; }
+.search-result-item:last-child { border-bottom:none; }
+.search-result-item:hover { background:#f3f7ff; }
+.search-result-avatar { width:40px; height:40px; border-radius:10px; object-fit:cover; flex-shrink:0; border:1px solid rgba(0,0,0,0.08); background:#e5e7eb; }
+.search-result-info { flex:1; min-width:0; }
+.search-result-name { font-size:14px; font-weight:700; color:#0d1b2a; }
+.search-result-username { font-size:12px; color:#0047AB; font-weight:700; margin-top:1px; }
+.search-result-uni { font-size:11px; color:#6b7280; font-weight:700; margin-top:1px; }
+.search-no-result { padding:20px 16px; text-align:center; font-size:13px; font-weight:700; color:#9ca3af; }
+.search-loading { padding:16px; text-align:center; font-size:13px; font-weight:700; color:#9ca3af; }
+@media (max-width:768px) { .nav-search-wrap { display:none; } }
 </style>
 </head>
 <body>
 
 <!-- NAVBAR -->
 <header id="bar">
-  <a class="logo" href="../index.html" aria-label="الصفحة الرئيسية">
+  <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;"><a class="logo" href="../index.html" aria-label="الصفحة الرئيسية">
     <img src="../media/icon-512-w.png" alt="ESC" style="height:38px; width:auto; display:block;">
   </a>
+  
+    <a id="authBtn" class="state-loading" href="../login.html">&#x23F3;</a>
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <input type="search" class="nav-search-input" id="navSearchInput" placeholder="البحث عن مستخدم..." autocomplete="off">
+      <span class="nav-search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      </span>
+      <div class="nav-search-results" id="navSearchResults"></div>
+    </div>
+  </div>
   <nav aria-label="روابط الموقع">
-    <a href="../faq.html">الأسئلة الشائعة</a>
+    <a href="../training.html">التدريب والتطوير</a>
     <a href="../course.html">الدروس الأكاديمية</a>
-    <a href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="../Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="../research.html">الأبحاث</a>
     <a href="../volunteer.html">برامج التطوع</a>
   </nav>
@@ -272,11 +308,14 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="../faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="../training.html">التدريب والتطوير</a>
     <a role="menuitem" href="../course.html">الدروس الأكاديمية</a>
-    <a role="menuitem" href="../Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="../Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="../research.html">الأبحاث</a>
     <a role="menuitem" href="../volunteer.html">برامج التطوع</a>
+    <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
+      <a role="menuitem" id="authBtnMobile" href="../login.html">تسجيل الدخول</a>
+    </div>
   </div>
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
@@ -298,8 +337,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
       باحث في مجتمع طلبة الهندسة · خريج بكالوريوس — جامعة كربلاء — قسم الهندسة المدنية
     </div>
     <div class="profile-tags">
-      <span class="profile-tag">🏗️ هندسة مدنية</span>
-      <span class="profile-tag teal">🔬 باحث — ESC</span>
+      <span class="profile-tag">هندسة مدنية</span>
+      <span class="profile-tag teal">باحث — ESC</span>
     </div>
   </div>
 </div>
@@ -312,38 +351,38 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div class="sidebar-card">
       <h3>معلومات</h3>
       <div class="info-row">
-        <span class="info-icon">🎓</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
         <div>
           <div class="info-label">التعليم</div>
           <div class="info-value">بكالوريوس — جامعة كربلاء</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">🏛️</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 2 7 22 7"/></svg></span>
         <div>
           <div class="info-label">القسم</div>
           <div class="info-value">هندسة مدنية</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">📍</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <div>
           <div class="info-label">الموقع</div>
           <div class="info-value">كربلاء، العراق</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">🔬</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h8M3 22h18M14 22a7 7 0 01-7-7h0V8l3-3 4 4-3 3h0v2a4 4 0 004 4z"/></svg></span>
         <div>
           <div class="info-label">الدور</div>
           <div class="info-value">باحث — مجتمع طلبة الهندسة</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">✉️</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
         <div>
           <div class="info-label">التواصل</div>
-          <div class="info-value"><a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a></div>
+          <div class="info-value"><a href="mailto:info@esc-iq.net">info@esc-iq.net</a></div>
         </div>
       </div>
     </div>
@@ -351,21 +390,21 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div class="sidebar-card">
       <h3>المنظمة</h3>
       <div class="info-row">
-        <span class="info-icon">🏢</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></span>
         <div>
           <div class="info-label">الاسم</div>
           <div class="info-value">مجتمع طلبة الهندسة — ESC</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">📌</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
         <div>
           <div class="info-label">الدور</div>
           <div class="info-value">باحث وعضو الفريق</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">🌐</span>
+        <span class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></span>
         <div>
           <div class="info-label">الموقع</div>
           <div class="info-value"><a href="../index.html">esc-iq.github.io/esc</a></div>
@@ -437,12 +476,6 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   </div>
 </div>
 
-<!-- VISION -->
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -454,9 +487,9 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>
-        هل لديك سؤال أو مقترح؟<br>
+        هل لديك سؤال أو مقترح؟ <a href="../faq.html">الأسئلة الشائعة</a><br>
         يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -501,5 +534,58 @@ var t = null;
 searchInput.addEventListener('input', function() { clearTimeout(t); t = setTimeout(applySearch, 120); });
 </script>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey:"AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:"engineering-students-community.firebaseapp.com",
+  projectId:"engineering-students-community",
+  storageBucket:"engineering-students-community.firebasestorage.app",
+  messagingSenderId:"371432549665",
+  appId:"1:371432549665:web:4d3b9617243731fb06e260"
+};
+const app=initializeApp(firebaseConfig); const auth=getAuth(app); const db=getFirestore(app);
+const btn=document.getElementById('authBtn'); const btnMobile=document.getElementById('authBtnMobile');
+const UNIVERSITY_DICT={karbala:"جامعة كربلاء المقدسة",baghdad:"جامعة بغداد",basra:"جامعة البصرة",mosul:"جامعة الموصل",kufa:"جامعة الكوفة",najaf:"جامعة النجف الأشرف التقنية",mustansiriyah:"الجامعة المستنصرية",technology:"الجامعة التكنولوجية"};
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+/* ---- nav search ---- */
+let allStudentsCache=null, navSearchTimer=null;
+async function getAllStudents(){ if(allStudentsCache) return allStudentsCache; const snap=await getDocs(collection(db,"students")); allStudentsCache=[]; snap.forEach(d=>allStudentsCache.push({id:d.id,...d.data()})); return allStudentsCache; }
+async function performNavSearch(q){
+  const resultsEl=document.getElementById('navSearchResults');
+  try{
+    const students=await getAllStudents(); const lq=q.toLowerCase();
+    const results=students.filter(s=>(s.id||'').toLowerCase().includes(lq)||(s.fullName||'').toLowerCase().includes(lq)).slice(0,6);
+    if(!results.length){ resultsEl.innerHTML='<div class="search-no-result">لا توجد نتائج.</div>'; return; }
+    resultsEl.innerHTML=results.map(s=>{
+      const uniName=UNIVERSITY_DICT[s.university]||s.university||'';
+      const avatar=s.avatarURL?escHtml(s.avatarURL):'../media/1nkown.png';
+      return `<a class="search-result-item" href="../profile.html?u=${encodeURIComponent(s.id)}"><img class="search-result-avatar" src="${avatar}" onerror="this.src='../media/1nkown.png'" alt="${escHtml(s.fullName||s.id)}"><div class="search-result-info"><div class="search-result-name">${escHtml("المهندس "+(s.fullName||s.id))}</div><div class="search-result-username">@${escHtml(s.id)}</div>${uniName?`<div class="search-result-uni">${escHtml(uniName)}</div>`:''}</div></a>`;
+    }).join('');
+  }catch(e){ resultsEl.innerHTML='<div class="search-no-result">خطأ في البحث.</div>'; }
+}
+const navSearchInput=document.getElementById('navSearchInput'); const navSearchResults=document.getElementById('navSearchResults');
+if(navSearchInput){
+  navSearchInput.addEventListener('input',()=>{ clearTimeout(navSearchTimer); const q=navSearchInput.value.trim(); if(!q){ navSearchResults.classList.remove('show'); navSearchResults.innerHTML=''; return; } navSearchResults.innerHTML='<div class="search-loading">جاري البحث...</div>'; navSearchResults.classList.add('show'); navSearchTimer=setTimeout(()=>performNavSearch(q),300); });
+  navSearchInput.addEventListener('keydown',e=>{ if(e.key==='Escape'){ navSearchResults.classList.remove('show'); navSearchInput.blur(); } else if(e.key==='Enter'){ const q=navSearchInput.value.trim(); if(q) location.href='../search.html?u='+encodeURIComponent(q); } });
+  document.addEventListener('click',e=>{ if(!document.getElementById('navSearchWrap').contains(e.target)) navSearchResults.classList.remove('show'); });
+}
+/* ---- auth button ---- */
+onAuthStateChanged(auth, async (user)=>{
+  if(!user){ btn.className='state-guest'; btn.href='../login.html'; btn.innerHTML='تسجيل الدخول'; if(btnMobile){ btnMobile.href='../login.html'; btnMobile.innerHTML='تسجيل الدخول'; } return; }
+  try{
+    const qSnap=await getDocs(query(collection(db,'students'),where('uid','==',user.uid)));
+    if(!qSnap.empty){
+      const uname=qSnap.docs[0].id, data=qSnap.docs[0].data();
+      const avatarSrc=data.avatarURL||'../media/1nkown.png', profileUrl=`../profile.html?u=${encodeURIComponent(uname)}`;
+      btn.className='state-user'; btn.href=profileUrl;
+      btn.innerHTML=`<img class="auth-avatar" src="${avatarSrc}" onerror="this.src='../media/1nkown.png'" alt=""><span>@${uname}</span>`;
+      if(btnMobile){ btnMobile.href=profileUrl; btnMobile.innerHTML='👤 @'+uname; }
+    }else{ btn.className='state-guest'; btn.href='../login.html'; btn.innerHTML='تسجيل الدخول'; }
+  }catch(e){ btn.className='state-guest'; btn.href='../login.html'; btn.innerHTML='تسجيل الدخول'; }
+});
+</script>
 </body>
 </html>

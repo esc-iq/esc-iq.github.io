@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — إعدادات الحساب</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
+<link rel="apple-touch-icon" href="media/icon-512-w.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px;
+  --blue: #0047AB;
+  --teal: #008080;
+  --cream: #FAF9F6;
+  --dark: #0a0a0f;
+  --card-radius: 14px;
+  --transition: 0.3s ease;
+  --text-dark: #0d1b2a;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: rgba(0,0,0,0.08);
+  --shadow: 0 2px 14px rgba(0,0,0,0.07);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  direction: rtl; text-align: right;
+  overflow-x: hidden; min-height: 100vh;
+}
+
+/* ── LOADING ── */
+#loadingOverlay {
+  position: fixed; inset: 0; background: var(--cream); z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px; transition: opacity 0.4s ease;
+}
+#loadingOverlay.fade-out { opacity: 0; pointer-events: none; }
+.loader-logo { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.95)} }
+.loader-text { font-size: 14px; font-weight: 700; color: var(--text-light); }
+
+/* ── AUTH GATE ── */
+#authGate {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.72); backdrop-filter: blur(8px);
+  z-index: 8000; align-items: center; justify-content: center; padding: 20px;
+}
+#authGate.show { display: flex; }
+.auth-gate-box {
+  background: #fff; border-radius: 20px; padding: 36px 32px;
+  max-width: 400px; width: 100%; text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+}
+.auth-gate-icon { font-size: 52px; margin-bottom: 14px; display: block; }
+.auth-gate-title { font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 10px; }
+.auth-gate-msg { font-size: 14px; color: var(--text-light); line-height: 1.75; margin-bottom: 24px; }
+.auth-gate-btn {
+  display: block; width: 100%; padding: 12px; border-radius: 12px;
+  font-size: 14px; font-weight: 700; text-decoration: none; margin-bottom: 10px;
+}
+.auth-gate-btn.primary { background: var(--blue); color: #fff; }
+.auth-gate-btn.secondary { background: #f3f4f6; color: var(--text-dark); border: 1px solid rgba(0,0,0,0.10); }
+
+/* ── NAVBAR ── */
+#bar {
+  height: var(--nav-height);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; background: var(--blue);
+  position: sticky; top: 0; z-index: 1000; direction: ltr;
+  box-shadow: 0 2px 20px rgba(0,0,0,0.25);
+}
+.bar-left { display: flex; align-items: center; gap: 10px; }
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a {
+  color: var(--cream); text-decoration: none; font-weight: 700; font-size: 14px;
+  padding: 7px 13px; border-radius: 8px; transition: background var(--transition);
+}
+#bar nav a:hover { background: rgba(255,255,255,0.18); }
+.menu-btn { display: none; height: 42px; width: 42px; border: 0; background: transparent; cursor: pointer; border-radius: 10px; align-items: center; justify-content: center; }
+.menu-btn:hover { background: rgba(255,255,255,0.18); }
+.menu-icon { width: 24px; height: 2px; background: #fff; display: block; position: relative; margin: auto; }
+.menu-icon::before, .menu-icon::after { content: ""; position: absolute; left: 0; width: 24px; height: 2px; background: #fff; transition: transform .18s ease, top .18s ease; }
+.menu-icon::before { top: -7px; } .menu-icon::after { top: 7px; }
+.menu-btn[aria-expanded="true"] .menu-icon { background: transparent; }
+.menu-btn[aria-expanded="true"] .menu-icon::before { top: 0; transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .menu-icon::after  { top: 0; transform: rotate(-45deg); }
+#menuBackdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 999; }
+#menuBackdrop.show { display: block; }
+.mobile-menu {
+  display: none; position: absolute;
+  right: 16px; top: calc(var(--nav-height) + 8px);
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+  border: 1px solid var(--border);
+  z-index: 1001; direction: rtl;
+  transform-origin: top right;
+  transform: translateY(-6px) scale(0.98); opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.mobile-menu.open { display: block; opacity: 1; transform: translateY(0) scale(1); }
+.mobile-menu a { display: block; padding: 11px 12px; border-radius: 10px; color: var(--text-dark); text-decoration: none; font-weight: 700; }
+.mobile-menu a:hover { background: #f3f4f6; }
+
+/* ── AUTH BUTTON (classic user-account display) ── */
+#authBtn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px 13px; border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  text-decoration: none; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+#authBtn.state-loading { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.35); border: 1.5px solid rgba(255,255,255,0.1); pointer-events: none; }
+#authBtn.state-guest   { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.32); }
+#authBtn.state-guest:hover { background: rgba(255,255,255,0.26); }
+#authBtn.state-user    { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
+#authBtn.state-user:hover { background: rgba(255,255,255,0.24); }
+.auth-avatar { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.35); display: block; flex-shrink: 0; }
+
+/* ── NAV SEARCH (search engine) ── */
+.nav-search-wrap { position: relative; display: flex; align-items: center; }
+.nav-search-input {
+  width: 240px; height: 36px; padding: 0 36px 0 12px; border-radius: 9px;
+  border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.12);
+  outline: none; color: #fff; font-weight: 700; font-family: 'Ubuntu', sans-serif;
+  font-size: 13px; direction: rtl; text-align: right;
+  transition: background 0.2s, border-color 0.2s, width 0.3s; backdrop-filter: blur(4px);
+}
+.nav-search-input::placeholder { color: rgba(255,255,255,0.55); font-weight: 400; }
+.nav-search-input:focus { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.6); width: 260px; }
+.nav-search-icon { position: absolute; left: 11px; pointer-events: none; display: flex; align-items: center; opacity: 0.7; }
+.nav-search-icon svg { width: 16px; height: 16px; }
+.nav-search-results {
+  display: none; position: absolute; top: calc(100% + 8px); right: 0;
+  min-width: 300px; background: #fff; border-radius: 14px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.2); border: 1px solid rgba(0,0,0,0.08);
+  overflow: hidden; z-index: 2000; direction: rtl; text-align: right;
+}
+.nav-search-results.show { display: block; }
+.search-result-item { display: flex; align-items: center; gap: 12px; padding: 11px 14px; text-decoration: none; border-bottom: 1px solid rgba(0,0,0,0.05); transition: background 0.15s; cursor: pointer; }
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: #f3f7ff; }
+.search-result-avatar { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex-shrink: 0; border: 1px solid rgba(0,0,0,0.08); background: #e5e7eb; }
+.search-result-info { flex: 1; min-width: 0; }
+.search-result-name { font-size: 14px; font-weight: 700; color: #0d1b2a; display: flex; align-items: center; gap: 5px; }
+.search-result-username { font-size: 12px; color: var(--blue); font-weight: 700; margin-top: 1px; }
+.search-result-uni { font-size: 11px; color: var(--text-light); font-weight: 700; margin-top: 1px; }
+.search-no-result { padding: 20px 16px; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af; }
+.search-loading { padding: 16px; text-align: center; font-size: 13px; font-weight: 700; color: #9ca3af; }
+
+/* ── FOOTER ── */
+footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 26px; direction: rtl; }
+.footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; padding-bottom: 38px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.footer-brand img { width: 54px; height: 54px; border-radius: 12px; margin-bottom: 14px; object-fit: cover; }
+.footer-brand h3 { font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 13px; line-height: 1.75; color: rgba(255,255,255,0.45); }
+.footer-col h4 { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1.8px; text-transform: uppercase; margin-bottom: 18px; }
+.footer-contact p { font-size: 13px; line-height: 2; color: rgba(255,255,255,0.5); }
+.footer-contact a { color: rgba(100,180,255,0.8); text-decoration: none; }
+.footer-contact a:hover { color: #fff; }
+.footer-bottom { max-width: 1100px; margin: 26px auto 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.1); letter-spacing: 4px; }
+
+/* ── PAGE HEADER ── */
+.settings-hero {
+  background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%);
+  padding: 38px 24px 30px; position: relative; overflow: hidden;
+}
+.settings-hero::before {
+  content: ''; position: absolute; top: -90px; left: -70px;
+  width: 360px; height: 360px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,207,255,0.12), transparent 70%);
+}
+.settings-hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+.settings-hero h1 { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.settings-hero p { font-size: 14px; color: rgba(255,255,255,0.7); font-weight: 700; }
+
+/* ── BODY ── */
+.settings-body { max-width: 760px; margin: -16px auto 80px; padding: 0 24px; position: relative; z-index: 2; }
+
+.settings-card {
+  background: #fff; border-radius: var(--card-radius);
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+  padding: 26px 24px; margin-bottom: 20px;
+}
+.settings-card-head {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 22px; padding-bottom: 14px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.settings-card-head .sc-icon {
+  width: 40px; height: 40px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,71,171,0.08); flex-shrink: 0;
+}
+.settings-card-head .sc-icon svg { width: 22px; height: 22px; }
+.settings-card-head h2 { font-size: 17px; font-weight: 700; color: var(--text-dark); }
+.settings-card-head p { font-size: 12px; font-weight: 700; color: var(--text-light); margin-top: 2px; }
+
+/* ── AVATAR ── */
+.avatar-edit-zone { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.avatar-preview-wrap { position: relative; flex-shrink: 0; }
+.avatar-preview {
+  width: 96px; height: 96px; border-radius: 18px;
+  object-fit: cover; border: 3px solid #fff;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.14); display: block; background: #e5e7eb;
+}
+.avatar-edit-actions { flex: 1; min-width: 200px; }
+.avatar-hint { font-size: 12px; font-weight: 700; color: var(--text-light); line-height: 1.7; margin-bottom: 12px; }
+.avatar-btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  background: rgba(0,71,171,0.07); color: var(--blue);
+  border: 1px solid rgba(0,71,171,0.18); cursor: pointer;
+  transition: background var(--transition);
+}
+.btn-secondary:hover { background: rgba(0,71,171,0.14); }
+.btn-danger-soft {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 9px 16px; border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  background: rgba(220,38,38,0.07); color: #dc2626;
+  border: 1px solid rgba(220,38,38,0.18); cursor: pointer;
+  transition: background var(--transition);
+}
+.btn-danger-soft:hover { background: rgba(220,38,38,0.14); }
+#avatarFileInput { display: none; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 18px; }
+.form-group:last-child { margin-bottom: 0; }
+.form-group label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: var(--text-mid); margin-bottom: 6px; letter-spacing: 0.3px;
+}
+.form-control {
+  width: 100%; padding: 11px 14px;
+  border: 1px solid rgba(0,0,0,0.14); border-radius: 10px; outline: none;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; color: var(--text-dark);
+  background: #fafafa; transition: border-color var(--transition), box-shadow var(--transition);
+  direction: rtl;
+}
+.form-control:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,71,171,0.1); background: #fff; }
+.form-control.ltr-input { direction: ltr; text-align: left; }
+.form-control:disabled { background: #f0f0f0; color: #9ca3af; cursor: not-allowed; }
+.field-hint { font-size: 11px; font-weight: 700; color: #9ca3af; margin-top: 5px; line-height: 1.6; }
+.field-hint.warn { color: #b45309; }
+
+/* Email row with verification badge */
+.email-status-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.email-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+}
+.email-badge.verified { background: rgba(5,95,70,0.1); color: #065f46; }
+.email-badge.unverified { background: rgba(180,83,9,0.1); color: #b45309; }
+.email-badge svg { width: 13px; height: 13px; }
+.resend-link {
+  font-size: 12px; font-weight: 700; color: var(--blue);
+  background: none; border: none; cursor: pointer; text-decoration: underline;
+  text-underline-offset: 3px; font-family: 'Ubuntu', sans-serif; padding: 0;
+}
+.resend-link:hover { color: #0059d4; }
+
+/* phone split */
+.phone-input-wrap { display: flex; gap: 8px; }
+.phone-cc {
+  width: 92px; flex-shrink: 0; padding: 11px 10px;
+  border: 1px solid rgba(0,0,0,0.14); border-radius: 10px;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700;
+  background: #fafafa; color: var(--text-dark); cursor: pointer; outline: none;
+  direction: ltr; text-align: center;
+}
+.phone-cc:focus { border-color: var(--blue); }
+
+/* Save bar */
+.save-row { display: flex; align-items: center; gap: 12px; margin-top: 4px; flex-wrap: wrap; }
+.btn-save {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 11px;
+  font-family: 'Ubuntu', sans-serif; font-size: 15px; font-weight: 700;
+  background: var(--blue); color: #fff; border: none; cursor: pointer;
+  transition: background var(--transition);
+}
+.btn-save:hover { background: #0059d4; }
+.btn-save:disabled { background: #9ca3af; cursor: not-allowed; }
+.btn-save.teal { background: var(--teal); }
+.btn-save.teal:hover { background: #006666; }
+.save-note { font-size: 12px; font-weight: 700; color: var(--text-light); }
+
+/* Verification notice banner */
+.verify-banner {
+  display: none;
+  position: relative; z-index: 3;
+  scroll-margin-top: 74px;
+  background: #eef3fb;
+  border: 1px solid rgba(0,71,171,0.18); border-radius: 12px;
+  padding: 16px 18px; margin-top: 30px; margin-bottom: 15px;
+  align-items: flex-start; gap: 12px;
+  box-shadow: 0 6px 20px rgba(0,71,171,0.10);
+}
+.verify-banner.show { display: flex; }
+.verify-banner .vb-icon { font-size: 22px; flex-shrink: 0; }
+.verify-banner .vb-text { flex: 1; }
+.verify-banner .vb-text h4 { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.verify-banner .vb-text p { font-size: 13px; font-weight: 700; color: var(--text-mid); line-height: 1.7; }
+.verify-banner .vb-text strong { color: var(--blue); }
+
+/* ── TOAST ── */
+#toastContainer {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+  z-index: 9990; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none; align-items: center;
+}
+.toast {
+  background: #1f2937; color: #fff; padding: 10px 20px; border-radius: 24px;
+  font-size: 14px; font-weight: 700; box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  animation: toastIn 0.25s ease, toastOut 0.25s ease 3.2s forwards; pointer-events: auto;
+}
+.toast.success { background: #065f46; }
+.toast.error { background: #991b1b; }
+@keyframes toastIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes toastOut { to{opacity:0;transform:translateY(12px)} }
+
+/* ── REAUTH MODAL ── */
+.modal-backdrop {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(6px);
+  z-index: 5000; align-items: center; justify-content: center; padding: 20px;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: #fff; border-radius: 18px; width: 100%; max-width: 420px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.28); overflow: hidden;
+  animation: slideUp 0.22s ease;
+}
+@keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 20px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px 16px 0 0;
+  position: sticky; top: 0; z-index: 1;
+}
+.modal-head h3 {
+  font-size: 15px; font-weight: 800; color: var(--text-dark);
+  display: flex; align-items: center; gap: 8px;
+}
+.modal-head h3::before {
+  content: '';
+  display: inline-block;
+  width: 3px; height: 16px;
+  background: var(--blue);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.modal-close-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #f3f4f6; border: none;
+  color: var(--text-mid); font-size: 15px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, color .15s; font-family: 'Ubuntu', sans-serif; flex-shrink: 0;
+}
+.modal-close-btn:hover { background: #e5e7eb; color: var(--text-dark); }
+.modal-body { padding: 22px; }
+.modal-body p.modal-intro { font-size: 13px; font-weight: 700; color: var(--text-mid); line-height: 1.7; margin-bottom: 16px; }
+
+/* ── CONFIRM ── */
+#confirmModal .modal-head h3::before { background: #dc2626; }
+.confirm-btns { display: flex; gap: 10px; margin-top: 18px; justify-content: flex-end; flex-direction: row-reverse; }
+.confirm-yes {
+  padding: 9px 22px; background: #dc2626; color: #fff;
+  border: none; border-radius: 9px; font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .15s;
+}
+.confirm-yes:hover { background: #b91c1c; }
+.confirm-no {
+  padding: 9px 18px; background: transparent; color: var(--text-mid);
+  border: 1px solid var(--border); border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .15s, color .15s;
+}
+.confirm-no:hover { background: #f3f4f6; color: var(--text-dark); }
+
+/* ── AVATAR VIEWER ── */
+#avatarViewerOverlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+  z-index: 8600; align-items: center; justify-content: center; padding: 24px;
+}
+#avatarViewerOverlay.show { display: flex; }
+.avatar-viewer-img { max-width: 86vw; max-height: 86vh; border-radius: 20px; object-fit: contain; box-shadow: 0 24px 70px rgba(0,0,0,0.5); }
+.avatar-viewer-close {
+  position: absolute; top: 22px; left: 22px; width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.25);
+  cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  #bar nav { display: none; }
+  .menu-btn { display: inline-flex; }
+  .nav-search-wrap { display: none; }
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+  .footer-bottom { flex-direction: column; align-items: flex-start; }
+  .settings-hero h1 { font-size: 22px; }
+  .avatar-edit-zone { gap: 14px; }
+}
+</style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loadingOverlay">
+  <img src="media/icon-512.png" alt="ESC" class="loader-logo">
+  <span class="loader-text">جاري تحميل الإعدادات...</span>
+</div>
+
+<!-- AUTH GATE -->
+<div id="authGate">
+  <div class="auth-gate-box">
+    <span class="auth-gate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+    <div class="auth-gate-title">تسجيل الدخول مطلوب</div>
+    <p class="auth-gate-msg">يجب تسجيل الدخول للوصول إلى إعدادات حسابك.</p>
+    <a href="login.html" class="auth-gate-btn primary">تسجيل الدخول</a>
+    <a href="index.html" class="auth-gate-btn secondary">العودة للرئيسية</a>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<!-- AVATAR VIEWER -->
+<div id="avatarViewerOverlay">
+  <button class="avatar-viewer-close" id="avatarViewerClose">✕</button>
+  <img class="avatar-viewer-img" id="avatarViewerImg" src="" alt="صورة المستخدم">
+</div>
+
+<!-- NAVBAR -->
+<header id="bar">
+  <div class="bar-left">
+    <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+      <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
+    </a>
+    <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <input type="search" class="nav-search-input" id="navSearchInput"
+             placeholder="البحث عن مستخدم..." autocomplete="off">
+      <span class="nav-search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+        </svg>
+      </span>
+      <div class="nav-search-results" id="navSearchResults"></div>
+    </div>
+  </div>
+
+  <nav aria-label="روابط الموقع">
+    <a href="training.html">التدريب والتطوير</a>
+    <a href="course.html">الدورات</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
+    <a href="research.html">الأبحاث</a>
+    <a href="uploads.html">الملفات المرفوعة</a>
+  </nav>
+
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu">
+    <span class="menu-icon" aria-hidden="true"></span>
+  </button>
+
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
+    <a role="menuitem" href="course.html">الدورات</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
+    <a role="menuitem" href="research.html">الأبحاث</a>
+    <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
+    <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
+      <a role="menuitem" id="authBtnMobile" href="login.html">تسجيل الدخول</a>
+    </div>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<!-- HERO -->
+<div class="settings-hero">
+  <div class="settings-hero-inner">
+    <h1>إعدادات الحساب</h1>
+    <p>عدّل اسمك الظاهر، صورتك، ومعلومات التواصل الخاصة بك.</p>
+  </div>
+</div>
+
+<!-- BODY -->
+<div class="settings-body">
+
+  <!-- Verification banner -->
+  <div class="verify-banner" id="verifyBanner">
+    <span class="vb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+    <div class="vb-text">
+      <h4>تحقّق من بريدك الإلكتروني</h4>
+      <p>أرسلنا رابط تحقّق إلى <strong id="vbEmail"></strong>. افتح الرابط لتأكيد بريدك. إن لم تجد الرسالة خلال دقائق، راجع مجلد <strong>الرسائل المزعجة (Spam)</strong> أو <strong>المهملات</strong>.</p>
+    </div>
+  </div>
+
+  <!-- PROFILE INFO CARD -->
+  <div class="settings-card">
+    <div class="settings-card-head">
+      <div class="sc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#0047AB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div>
+        <h2>الملف الشخصي</h2>
+        <p>الاسم الظاهر والصورة الشخصية</p>
+      </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="form-group">
+      <label>الصورة الشخصية</label>
+      <div class="avatar-edit-zone">
+        <div class="avatar-preview-wrap">
+          <img id="avatarPreview" class="avatar-preview" src="media/1nkown.png" alt="صورتك">
+        </div>
+        <div class="avatar-edit-actions">
+          <div class="avatar-hint">يُفضّل صورة مربعة (1:1) بحجم أقل من 5 ميجابايت بصيغة JPG أو PNG.</div>
+          <div class="avatar-btn-row">
+            <button class="btn-secondary" id="viewAvatarBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> عرض</button>
+            <button class="btn-secondary" id="changeAvatarBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg> تغيير الصورة</button>
+            <button class="btn-danger-soft" id="deleteAvatarBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg> حذف</button>
+          </div>
+        </div>
+      </div>
+      <input type="file" id="avatarFileInput" accept="image/*">
+    </div>
+
+    <!-- Display name -->
+    <div class="form-group">
+      <label for="displayNameInput">الاسم الظاهر</label>
+      <input type="text" id="displayNameInput" class="form-control" maxlength="60" placeholder="مثلاً: محمد باقر علي">
+      <div class="field-hint">هذا الاسم يظهر في ملفك الشخصي ومنشوراتك (يُعرض مسبوقاً بكلمة «المهندس»).</div>
+    </div>
+
+    <div class="save-row">
+      <button class="btn-save teal" id="saveProfileBtn">حفظ الملف الشخصي</button>
+      <span class="save-note"></span>
+    </div>
+  </div>
+
+  <!-- CONTACT CARD -->
+  <div class="settings-card">
+    <div class="settings-card-head">
+      <div class="sc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#008080" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      </div>
+      <div>
+        <h2>معلومات التواصل</h2>
+        <p>البريد الإلكتروني ورقم الهاتف</p>
+      </div>
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label for="emailInput">البريد الإلكتروني للحساب</label>
+      <input type="email" id="emailInput" class="form-control ltr-input" placeholder="you@example.com" autocomplete="email">
+      <div class="email-status-row" id="emailStatusRow"></div>
+      <div class="field-hint">تغيير البريد يتطلب تأكيد كلمة المرور، وسيُرسَل رابط تحقّق إلى البريد الجديد.</div>
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label for="phoneInput">رقم الهاتف</label>
+      <div class="phone-input-wrap">
+        <select class="phone-cc" id="phoneCC">
+          <option value="+964">🇮🇶 +964</option>
+          <option value="+962">🇯🇴 +962</option>
+          <option value="+966">🇸🇦 +966</option>
+          <option value="+971">🇦🇪 +971</option>
+          <option value="+965">🇰🇼 +965</option>
+          <option value="+974">🇶🇦 +974</option>
+          <option value="+973">🇧🇭 +973</option>
+          <option value="+968">🇴🇲 +968</option>
+          <option value="+20">🇪🇬 +20</option>
+          <option value="+90">🇹🇷 +90</option>
+          <option value="+44">🇬🇧 +44</option>
+          <option value="+1">🇺🇸 +1</option>
+        </select>
+        <input type="tel" id="phoneInput" class="form-control ltr-input" placeholder="7XX XXX XXXX" autocomplete="tel">
+      </div>
+      <div class="field-hint">رقم الهاتف يُحفظ في ملفك ولا يظهر للعامة إلا إذا اخترت ذلك.</div>
+    </div>
+
+    <div class="save-row">
+      <button class="btn-save" id="saveContactBtn">حفظ معلومات التواصل</button>
+      <span class="save-note">كلمة المرور مطلوبة.</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- REAUTH MODAL -->
+<div id="reauthModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>تأكيد كلمة المرور</h3>
+      <button class="modal-close-btn" data-close="reauthModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-intro">لأمان حسابك، أدخل كلمة المرور الحالية لتأكيد تغيير البريد الإلكتروني.</p>
+      <div class="form-group">
+        <label for="reauthPassword">كلمة المرور الحالية</label>
+        <input type="password" id="reauthPassword" class="form-control ltr-input" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-save" id="reauthConfirmBtn" style="width:100%;">تأكيد ومتابعة</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div id="confirmModal" class="modal-backdrop">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3>تأكيد الإجراء</h3>
+      <button class="modal-close-btn" data-close="confirmModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="confirmMsg" style="font-size:14px;font-weight:700;color:var(--text-mid);line-height:1.7;">هل أنت متأكد؟</p>
+      <div class="confirm-btns">
+        <button class="confirm-yes" id="confirmYesBtn">نعم، تأكيد</button>
+        <button class="confirm-no" id="confirmNoBtn">إلغاء</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="media/icon-512-w.png" alt="شعار ESC">
+      <h3>مجتمع طلبة الهندسة</h3>
+      <p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p>
+    </div>
+    <div class="footer-col footer-contact">
+      <h4>تواصل معنا</h4>
+      <p>هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
+import { getAuth, onAuthStateChanged, updateProfile, verifyBeforeUpdateEmail,
+         sendEmailVerification, EmailAuthProvider, reauthenticateWithCredential }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, collection, query, where, getDocs }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:        "engineering-students-community.firebaseapp.com",
+  projectId:         "engineering-students-community",
+  storageBucket:     "engineering-students-community.firebasestorage.app",
+  messagingSenderId: "371432549665",
+  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
+};
+const app     = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
+const auth    = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
+
+/* ── STATE ── */
+let currentUser = null;
+let myUsername  = null;
+let myData      = {};
+let confirmCallback = null;
+let pendingNewEmail = null;
+
+/* ── UTIL ── */
+function toast(msg, type='') {
+  const t=document.createElement('div'); t.className='toast '+type; t.textContent=msg;
+  document.getElementById('toastContainer').appendChild(t);
+  setTimeout(()=>t.remove(),3600);
+}
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function fadeOutLoader(){ const o=document.getElementById('loadingOverlay'); o.classList.add('fade-out'); setTimeout(()=>o.remove(),400); }
+function showConfirm(msg,cb,yesTxt='نعم، تأكيد'){
+  document.getElementById('confirmMsg').textContent=msg;
+  document.getElementById('confirmYesBtn').textContent=yesTxt;
+  confirmCallback=cb; openModal('confirmModal');
+}
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+document.querySelectorAll('.modal-backdrop').forEach(bd=>bd.addEventListener('click',e=>{if(e.target===bd)closeModal(bd.id);}));
+document.getElementById('confirmYesBtn').addEventListener('click',()=>{closeModal('confirmModal');if(confirmCallback)confirmCallback();confirmCallback=null;});
+document.getElementById('confirmNoBtn').addEventListener('click',()=>{closeModal('confirmModal');confirmCallback=null;});
+
+/* ── AUTH ── */
+/* ── AUTH BUTTON (classic user-account display) ── */
+function setAuthGuest() {
+  const btn=document.getElementById('authBtn'), mob=document.getElementById('authBtnMobile');
+  btn.className='state-guest'; btn.href='login.html'; btn.innerHTML='تسجيل الدخول';
+  if(mob){ mob.href='login.html'; mob.innerHTML='تسجيل الدخول'; }
+}
+function setAuthUser(uname, data) {
+  const btn=document.getElementById('authBtn'), mob=document.getElementById('authBtnMobile');
+  const av=(data && data.avatarURL) || 'media/1nkown.png';
+  const pUrl=`profile.html?u=${encodeURIComponent(uname)}`;
+  btn.className='state-user'; btn.href=pUrl;
+  btn.innerHTML=`<img class="auth-avatar" src="${av}" onerror="this.src='media/1nkown.png'" alt="صورة"><span>@${uname}</span>`;
+  if(mob){ mob.href=pUrl; mob.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @'+uname; }
+}
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    setAuthGuest();
+    document.getElementById('authGate').classList.add('show');
+    fadeOutLoader();
+    return;
+  }
+  currentUser = user;
+  try {
+    const q = query(collection(db,"students"), where("uid","==",user.uid));
+    const snap = await getDocs(q);
+    if (snap.empty) { setAuthGuest(); toast('لم يُعثر على بيانات حسابك.','error'); fadeOutLoader(); return; }
+    myUsername = snap.docs[0].id;
+    myData = snap.docs[0].data();
+    setAuthUser(myUsername, myData);
+    populateForm();
+  } catch(e) { toast('خطأ في التحميل: '+e.message,'error'); }
+  finally { fadeOutLoader(); }
+});
+
+/* ── POPULATE ── */
+function populateForm() {
+  document.getElementById('displayNameInput').value = myData.fullName || '';
+  document.getElementById('avatarPreview').src = myData.avatarURL || 'media/1nkown.png';
+  /* Email */
+  document.getElementById('emailInput').value = currentUser.email || '';
+  renderEmailStatus();
+  /* Phone — stored as {phoneCC, phone} */
+  if (myData.phoneCC) document.getElementById('phoneCC').value = myData.phoneCC;
+  document.getElementById('phoneInput').value = myData.phone || '';
+}
+
+function renderEmailStatus() {
+  const row = document.getElementById('emailStatusRow');
+  row.innerHTML = '';
+  if (!currentUser.email) return;
+  if (currentUser.emailVerified) {
+    row.innerHTML = `<span class="email-badge verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>بريد مُوثّق</span>`;
+  } else {
+    row.innerHTML = `<span class="email-badge unverified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>غير مُوثّق</span>
+    <button class="resend-link" id="resendVerifyBtn">إعادة إرسال رابط التحقّق</button>`;
+    document.getElementById('resendVerifyBtn').addEventListener('click', resendVerification);
+  }
+}
+
+async function resendVerification() {
+  try {
+    await sendEmailVerification(currentUser);
+    showVerifyBanner(currentUser.email);
+    toast('تم إرسال رابط التحقّق ✓','success');
+  } catch(e) {
+    if (e.code === 'auth/too-many-requests') toast('حاولت كثيراً، انتظر قليلاً ثم أعد المحاولة.','error');
+    else toast('خطأ: '+e.message,'error');
+  }
+}
+
+function showVerifyBanner(email) {
+  document.getElementById('vbEmail').textContent = email;
+  const banner = document.getElementById('verifyBanner');
+  banner.classList.add('show');
+  /* اعرض التنويه كاملاً في منتصف الشاشة بعيداً عن الشريط العلوي والهيدر المتدرّج */
+  requestAnimationFrame(()=> banner.scrollIntoView({ behavior:'smooth', block:'center' }));
+}
+
+/* ── AVATAR ── */
+document.getElementById('changeAvatarBtn').addEventListener('click', ()=>document.getElementById('avatarFileInput').click());
+document.getElementById('viewAvatarBtn').addEventListener('click', ()=>{
+  const src = document.getElementById('avatarPreview').src;
+  document.getElementById('avatarViewerImg').src = src;
+  document.getElementById('avatarViewerOverlay').classList.add('show');
+});
+document.getElementById('avatarViewerClose').addEventListener('click', ()=>document.getElementById('avatarViewerOverlay').classList.remove('show'));
+document.getElementById('avatarViewerOverlay').addEventListener('click', e=>{ if(e.target===e.currentTarget) e.currentTarget.classList.remove('show'); });
+
+document.getElementById('avatarFileInput').addEventListener('change', async (e)=>{
+  const file = e.target.files[0]; if(!file) return;
+  if(!file.type.startsWith('image/')){ toast('يُقبل صور فقط.','error'); return; }
+  if(file.size > 5*1024*1024){ toast('حجم الصورة يجب أن يكون أقل من 5 ميجابايت.','error'); return; }
+  const isSquare = await new Promise(res=>{const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(u);res(img.naturalWidth===img.naturalHeight);};img.onerror=()=>{URL.revokeObjectURL(u);res(false);};img.src=u;});
+  if(!isSquare){ toast('يجب أن تكون الصورة مربعة (1:1).','error'); return; }
+  try {
+    toast('جاري رفع الصورة...');
+    const r = ref(storage, `avatars/${myData.uid}/avatar`);
+    const snap = await uploadBytes(r, file);
+    const url = await getDownloadURL(snap.ref);
+    await updateDoc(doc(db,"students",myUsername), {avatarURL:url});
+    myData.avatarURL = url;
+    document.getElementById('avatarPreview').src = url;
+    setAuthUser(myUsername, myData);
+    toast('تم تحديث الصورة ✓','success');
+  } catch(err){ toast('فشل رفع الصورة: '+err.message,'error'); }
+});
+
+document.getElementById('deleteAvatarBtn').addEventListener('click', ()=>{
+  showConfirm('هل تريد حذف صورتك والعودة إلى الصورة الافتراضية؟', async ()=>{
+    try {
+      if (myData.avatarURL) { try{ await deleteObject(ref(storage,`avatars/${myData.uid}/avatar`)); }catch(e){} try{ await deleteObject(ref(storage,`avatars/${myUsername}`)); }catch(e){} }
+      await updateDoc(doc(db,"students",myUsername), {avatarURL:null});
+      myData.avatarURL = null;
+      document.getElementById('avatarPreview').src = 'media/1nkown.png';
+      setAuthUser(myUsername, myData);
+      toast('تم حذف الصورة.','success');
+    } catch(e){ toast('خطأ: '+e.message,'error'); }
+  }, 'نعم، احذف الصورة');
+});
+
+/* ── SAVE PROFILE (name) ── */
+document.getElementById('saveProfileBtn').addEventListener('click', async ()=>{
+  const name = document.getElementById('displayNameInput').value.trim();
+  if (!name) { toast('أدخل الاسم الظاهر.','error'); return; }
+  const btn = document.getElementById('saveProfileBtn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  try {
+    await updateDoc(doc(db,"students",myUsername), {fullName:name});
+    try { await updateProfile(currentUser, {displayName:name}); } catch(e){}
+    myData.fullName = name;
+    toast('تم حفظ الملف الشخصي ✓','success');
+  } catch(e){ toast('خطأ: '+e.message,'error'); }
+  finally { btn.disabled=false; btn.textContent='حفظ الملف الشخصي'; }
+});
+
+/* ── SAVE CONTACT (email + phone) ── */
+document.getElementById('saveContactBtn').addEventListener('click', async ()=>{
+  const newEmail = document.getElementById('emailInput').value.trim();
+  const phoneCC  = document.getElementById('phoneCC').value;
+  const phone    = document.getElementById('phoneInput').value.trim().replace(/\s+/g,'');
+  if (newEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail)) { toast('أدخل بريداً إلكترونياً صحيحاً.','error'); return; }
+  if (phone && !/^[0-9]{6,15}$/.test(phone)) { toast('أدخل رقم هاتف صحيحاً (أرقام فقط).','error'); return; }
+
+  const btn = document.getElementById('saveContactBtn');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+
+  /* 1) حفظ الهاتف في Firestore دائماً */
+  try {
+    await updateDoc(doc(db,"students",myUsername), {phone, phoneCC});
+    myData.phone = phone; myData.phoneCC = phoneCC;
+  } catch(e){ toast('خطأ في حفظ الهاتف: '+e.message,'error'); btn.disabled=false; btn.textContent='حفظ معلومات التواصل'; return; }
+
+  /* 2) البريد: إذا تغيّر، يتطلب إعادة مصادقة ثم إرسال تحقّق للبريد الجديد */
+  if (newEmail && newEmail !== currentUser.email) {
+    pendingNewEmail = newEmail;
+    btn.disabled = false; btn.textContent = 'حفظ معلومات التواصل';
+    openModal('reauthModal');
+    return;
+  }
+
+  toast('تم حفظ معلومات التواصل ✓','success');
+  btn.disabled = false; btn.textContent = 'حفظ معلومات التواصل';
+});
+
+/* ── REAUTH + EMAIL CHANGE ── */
+document.getElementById('reauthConfirmBtn').addEventListener('click', async ()=>{
+  const pw = document.getElementById('reauthPassword').value;
+  if (!pw) { toast('أدخل كلمة المرور.','error'); return; }
+  const btn = document.getElementById('reauthConfirmBtn');
+  btn.disabled = true; btn.textContent = 'جاري التأكيد...';
+  try {
+    const cred = EmailAuthProvider.credential(currentUser.email, pw);
+    await reauthenticateWithCredential(currentUser, cred);
+    /* verifyBeforeUpdateEmail: يُرسل رابطاً للبريد الجديد ولا يُفعّل التغيير إلا بعد الضغط عليه */
+    await verifyBeforeUpdateEmail(currentUser, pendingNewEmail);
+    /* خزّن البريد الجديد في Firestore كـ pending (الفعلي يتحدّث بعد التحقّق) */
+    try { await updateDoc(doc(db,"students",myUsername), {pendingEmail: pendingNewEmail}); } catch(e){}
+    closeModal('reauthModal');
+    document.getElementById('reauthPassword').value = '';
+    showVerifyBanner(pendingNewEmail);
+    toast('أُرسل رابط التحقّق إلى بريدك الجديد ✓','success');
+  } catch(e){
+    if (e.code === 'auth/wrong-password' || e.code === 'auth/invalid-credential') toast('كلمة المرور غير صحيحة.','error');
+    else if (e.code === 'auth/email-already-in-use') toast('هذا البريد مستخدم بحساب آخر.','error');
+    else if (e.code === 'auth/too-many-requests') toast('محاولات كثيرة، انتظر ثم أعد المحاولة.','error');
+    else toast('خطأ: '+e.message,'error');
+  } finally { btn.disabled=false; btn.textContent='تأكيد ومتابعة'; }
+});
+
+/* ── MOBILE MENU ── */
+const menuBtn=document.getElementById('menuBtn'), mobileMenu=document.getElementById('mobileMenu'), navBd=document.getElementById('menuBackdrop');
+const openNav =()=>{ mobileMenu.classList.add('open'); navBd.classList.add('show'); menuBtn.setAttribute('aria-expanded','true'); };
+const closeNav=()=>{ mobileMenu.classList.remove('open'); navBd.classList.remove('show'); menuBtn.setAttribute('aria-expanded','false'); };
+menuBtn.addEventListener('click', e=>{ e.stopPropagation(); menuBtn.getAttribute('aria-expanded')==='true' ? closeNav() : openNav(); });
+navBd.addEventListener('click', closeNav);
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNav));
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeNav(); });
+window.addEventListener('resize', ()=>{ if(window.innerWidth>768) closeNav(); });
+
+/* ── NAV SEARCH (search engine) ── */
+function escHtml(s){ return String(s==null?'':s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+let allStudentsCache=null, navSearchTimer=null;
+const navSearchInput=document.getElementById('navSearchInput'), navSearchResults=document.getElementById('navSearchResults');
+navSearchInput.addEventListener('input', ()=>{
+  clearTimeout(navSearchTimer);
+  const q=navSearchInput.value.trim();
+  if(!q){ navSearchResults.classList.remove('show'); navSearchResults.innerHTML=''; return; }
+  navSearchResults.innerHTML='<div class="search-loading">جاري البحث...</div>';
+  navSearchResults.classList.add('show');
+  navSearchTimer=setTimeout(()=>performNavSearch(q),300);
+});
+navSearchInput.addEventListener('keydown', e=>{ if(e.key==='Escape'){ navSearchResults.classList.remove('show'); navSearchInput.blur(); } });
+document.addEventListener('click', e=>{ if(!document.getElementById('navSearchWrap').contains(e.target)) navSearchResults.classList.remove('show'); });
+async function getAllStudents(){
+  if(allStudentsCache) return allStudentsCache;
+  const snap=await getDocs(collection(db,"students"));
+  allStudentsCache=[];
+  snap.forEach(d=>allStudentsCache.push({id:d.id, ...d.data()}));
+  return allStudentsCache;
+}
+async function performNavSearch(q){
+  try{
+    const students=await getAllStudents(), lq=q.toLowerCase();
+    const results=students.filter(s=>(s.id||'').toLowerCase().includes(lq)||(s.fullName||'').toLowerCase().includes(lq)).slice(0,6);
+    if(results.length===0){ navSearchResults.innerHTML='<div class="search-no-result">لا توجد نتائج.</div>'; return; }
+    navSearchResults.innerHTML=results.map(s=>{
+      const uni=s.university?escHtml(s.university):'';
+      const avatar=s.avatarURL?escHtml(s.avatarURL):'media/1nkown.png';
+      return `<a class="search-result-item" href="profile.html?u=${encodeURIComponent(s.id)}"><img class="search-result-avatar" src="${avatar}" onerror="this.src='media/1nkown.png'" alt="${escHtml(s.fullName||s.id)}"><div class="search-result-info"><div class="search-result-name">${escHtml("المهندس "+(s.fullName||s.id))}</div><div class="search-result-username">@${escHtml(s.id)}</div>${uni?`<div class="search-result-uni">${uni}</div>`:''}</div></a>`;
+    }).join('');
+  }catch(e){ navSearchResults.innerHTML='<div class="search-no-result">خطأ في البحث.</div>'; }
+}
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
+</script>
+</body>
+</html>

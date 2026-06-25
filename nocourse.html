@@ -342,6 +342,12 @@ footer {
   #authBtn { display: none; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -356,9 +362,9 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -369,9 +375,9 @@ footer {
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -386,10 +392,10 @@ footer {
 <main>
   <div class="unavail-wrap">
 
-    <span class="unavail-icon">📚</span>
+    <span class="unavail-icon"><svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></span>
 
     <div class="summer-badge">
-      ☀️ قريباً — عطلة الصيف الكبرى
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> قريباً — عطلة الصيف الكبرى
     </div>
 
     <div class="unavail-title">الدورات غير متاحة حالياً</div>
@@ -402,17 +408,17 @@ footer {
     <!-- Info cards -->
     <div class="info-cards">
       <div class="info-card">
-        <span class="ic-icon">🎓</span>
+        <span class="ic-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
         <span class="ic-label">دورات مجانية</span>
         <span class="ic-value">متاحة للجميع</span>
       </div>
       <div class="info-card">
-        <span class="ic-icon">🏆</span>
+        <span class="ic-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></span>
         <span class="ic-label">دورات مجانية</span>
         <span class="ic-value">شهادة معتمدة</span>
       </div>
       <div class="info-card">
-        <span class="ic-icon">📅</span>
+        <span class="ic-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
         <span class="ic-label">موعد الإطلاق</span>
         <span class="ic-value">عطلة الصيف 2026</span>
       </div>
@@ -420,7 +426,7 @@ footer {
 
     <!-- Summer highlight box -->
     <div class="summer-note">
-      <div class="sn-tag">⏳ انتظرونا</div>
+      <div class="sn-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> انتظرونا</div>
       <div class="sn-title">الإطلاق الرسمي في عطلة الصيف الكبرى</div>
       <div class="sn-sub">
         يعمل فريق ESC على إعداد منظومة متكاملة من الدورات الهندسية المجانية والمدفوعة.
@@ -430,8 +436,8 @@ footer {
 
     <!-- Action buttons -->
     <div class="unavail-actions">
-      <a href="https://esc-iq.net/" class="btn-primary">🏠 العودة للرئيسية</a>
-      <a href="mailto:esc.irq@gmail.com" class="btn-secondary">✉ تواصل معنا</a>
+      <a href="https://esc-iq.net/" class="btn-primary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> العودة للرئيسية</a>
+      <a href="mailto:info@esc-iq.net" class="btn-secondary"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> تواصل معنا</a>
     </div>
 
     <div class="divider-line"></div>
@@ -457,8 +463,8 @@ footer {
     </div>
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
-      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      <p>هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -482,6 +488,7 @@ window.addEventListener('resize', function() { if(window.innerWidth > 768) close
 </script>
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged }
                              from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs }
@@ -497,6 +504,9 @@ const firebaseConfig = {
 };
 
 const app       = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth      = getAuth(app);
 const db        = getFirestore(app);
 const btn       = document.getElementById('authBtn');
@@ -536,7 +546,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (btnMobile) {
       btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
+      btnMobile.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @' + username;
     }
   } catch (e) {
     btn.className = 'state-guest';
@@ -544,6 +554,12 @@ onAuthStateChanged(auth, async (user) => {
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
 </script>
 </body>
 </html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — مشغّل الكورس</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--nav-height:58px;--blue:#0047AB;--teal:#008080;--cream:#FAF9F6;--card-radius:12px;--transition:.25s ease;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Ubuntu',sans-serif;background:var(--cream);color:#111827;direction:rtl;text-align:right;min-height:100vh;overflow-x:hidden;}
+
+#bar{height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:var(--blue);position:sticky;top:0;z-index:1000;direction:ltr;box-shadow:0 2px 20px rgba(0,0,0,.25);}
+#bar nav{display:flex;gap:4px;align-items:center;}
+#bar nav a{color:var(--cream);text-decoration:none;font-weight:700;font-size:14px;padding:7px 13px;border-radius:8px;transition:background-color var(--transition);}
+#bar nav a:hover{background:rgba(255,255,255,.18);}
+.menu-btn{display:none;height:42px;width:42px;border:0;background:transparent;cursor:pointer;border-radius:10px;align-items:center;justify-content:center;}
+.menu-btn:hover{background:rgba(255,255,255,.18);}
+.menu-icon{width:24px;height:2px;background:#fff;display:block;position:relative;margin:auto;}
+.menu-icon::before,.menu-icon::after{content:"";position:absolute;left:0;width:24px;height:2px;background:#fff;transition:transform .18s ease,top .18s ease;}
+.menu-icon::before{top:-7px;}.menu-icon::after{top:7px;}
+.menu-btn[aria-expanded="true"] .menu-icon{background:transparent;}
+.menu-btn[aria-expanded="true"] .menu-icon::before{top:0;transform:rotate(45deg);}
+.menu-btn[aria-expanded="true"] .menu-icon::after{top:0;transform:rotate(-45deg);}
+#menuBackdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:999;}
+#menuBackdrop.show{display:block;}
+.mobile-menu{display:none;position:absolute;right:16px;top:calc(var(--nav-height) + 8px);min-width:240px;background:#fff;border-radius:14px;padding:8px;box-shadow:0 14px 35px rgba(0,0,0,.22);border:1px solid rgba(0,0,0,.06);z-index:1001;direction:rtl;text-align:right;transform-origin:top right;transform:translateY(-6px) scale(.98);opacity:0;transition:opacity .14s ease,transform .14s ease;}
+.mobile-menu.open{display:block;opacity:1;transform:translateY(0) scale(1);}
+.mobile-menu a{display:block;padding:11px 12px;border-radius:10px;color:#111827;text-decoration:none;font-weight:700;}
+.mobile-menu a:hover{background:#f3f4f6;}
+
+.course-head{background:linear-gradient(135deg,#003080,#006060 60%,#001a40);padding:24px 30px;color:#fff;}
+.course-head h1{font-size:clamp(20px,3vw,28px);line-height:1.4;margin-bottom:8px;}
+.course-head .ch-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:13px;color:rgba(255,255,255,.85);}
+.ch-tag{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:3px 12px;border-radius:20px;font-weight:700;}
+
+.container{display:flex;max-width:1280px;margin:24px auto 60px;gap:20px;padding:0 20px;align-items:flex-start;}
+.player-section{flex:3;display:flex;flex-direction:column;gap:14px;min-width:0;}
+
+.video-wrap{width:100%;position:relative;padding-top:56.25%;background:#000;border-radius:var(--card-radius);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+.video-wrap .no-video{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#001a40,#003060);color:rgba(255,255,255,.5);font-size:15px;gap:12px;}
+.video-wrap .no-video span{font-size:40px;}
+/* علامة مائية باسم المستخدم تردع التسريب */
+.wm{position:absolute;z-index:5;pointer-events:none;color:rgba(255,255,255,.20);font-size:13px;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.4);top:14px;left:14px;direction:ltr;}
+.wm.b{top:auto;bottom:14px;left:auto;right:14px;}
+
+.video-title{font-size:20px;font-weight:700;color:#0d1b2a;line-height:1.4;}
+.download-box{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:var(--card-radius);padding:12px 16px;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.dl-icon{flex-shrink:0;color:var(--blue);}
+.dl-meta{flex:1;min-width:0;}
+.dl-title{font-weight:700;font-size:14px;color:#0d1b2a;margin-bottom:3px;}
+.dl-note{font-size:12px;color:#888;direction:ltr;text-align:left;}
+.dl-btn{text-decoration:none;font-weight:700;padding:10px 20px;border-radius:10px;background:linear-gradient(90deg,var(--teal),var(--blue));color:#fff;white-space:nowrap;font-size:14px;transition:opacity var(--transition);}
+.dl-btn:hover{opacity:.88;}
+.dl-btn.disabled{opacity:.4;pointer-events:none;}
+
+.playlist-section{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;}
+.quote-box{background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;padding:14px 16px;border-radius:var(--card-radius);text-align:center;}
+.quote-box .quote-text{font-size:14px;font-weight:700;line-height:1.6;margin-bottom:6px;}
+.quote-box .quote-attr{font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.5px;}
+.playlist-card{background:#fff;border-radius:var(--card-radius);border:1px solid rgba(0,0,0,.07);overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.05);}
+.playlist-card h3{font-size:15px;font-weight:700;color:#0d1b2a;padding:14px 16px 10px;border-bottom:1px solid rgba(0,0,0,.06);}
+.playlist-scroll{max-height:calc(100vh - 260px);overflow-y:auto;}
+.playlist-scroll::-webkit-scrollbar{width:4px;}
+.playlist-scroll::-webkit-scrollbar-thumb{background:#ddd;border-radius:3px;}
+.video-item{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid rgba(0,0,0,.05);transition:background var(--transition);}
+.video-item:last-child{border-bottom:none;}
+.video-item:hover{background:#f8f9ff;}
+.video-item.active{background:linear-gradient(90deg,rgba(0,71,171,.1),rgba(0,128,128,.08));border-right:3px solid var(--teal);}
+.video-item.exam-item{background:rgba(0,71,171,.04);border-top:1px solid rgba(0,71,171,.15);}
+.video-item.exam-item.active{background:linear-gradient(90deg,rgba(0,71,171,.15),rgba(0,128,128,.1));}
+.item-num{width:28px;height:28px;border-radius:50%;background:rgba(0,71,171,.08);color:var(--blue);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.video-item.active .item-num{background:var(--teal);color:#fff;}
+.video-item.exam-item .item-num{background:var(--blue);color:#fff;}
+.item-title{font-size:13px;font-weight:700;color:#0d1b2a;line-height:1.4;}
+.video-item.active .item-title{color:var(--blue);}
+
+#quizOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;overflow-y:auto;padding:30px 16px;}
+.quiz-modal{background:#fff;border-radius:16px;max-width:720px;margin:0 auto;padding:32px;box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.quiz-modal h2{font-size:22px;font-weight:700;color:var(--blue);margin-bottom:8px;text-align:center;}
+.quiz-modal .quiz-sub{font-size:14px;color:#666;text-align:center;margin-bottom:28px;}
+.question-block{margin-bottom:28px;}
+.question-text{font-size:15px;font-weight:700;color:#0d1b2a;margin-bottom:12px;line-height:1.5;}
+.option-label{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:10px;border:1.5px solid rgba(0,0,0,.1);cursor:pointer;margin-bottom:8px;transition:border-color var(--transition),background var(--transition);font-size:14px;color:#374151;}
+.option-label:hover{border-color:var(--blue);background:rgba(0,71,171,.04);}
+.option-label input{accent-color:var(--blue);}
+.option-label.correct{border-color:var(--teal);background:rgba(0,128,128,.07);color:#005050;}
+.option-label.wrong{border-color:#e53e3e;background:rgba(229,62,62,.06);color:#c53030;}
+.quiz-divider{height:1px;background:rgba(0,0,0,.07);margin:20px 0;}
+.quiz-submit-btn{display:block;width:100%;padding:14px;border:none;background:linear-gradient(90deg,var(--blue),var(--teal));color:#fff;font-family:'Ubuntu',sans-serif;font-size:16px;font-weight:700;border-radius:12px;cursor:pointer;transition:opacity var(--transition);}
+.quiz-submit-btn:hover{opacity:.88;}
+.quiz-close-btn{display:block;width:100%;padding:12px;border:1.5px solid rgba(0,0,0,.15);background:transparent;color:#555;font-family:'Ubuntu',sans-serif;font-size:14px;font-weight:700;border-radius:12px;cursor:pointer;margin-top:10px;transition:background var(--transition);}
+.quiz-close-btn:hover{background:#f3f4f6;}
+.result-panel{display:none;text-align:center;padding:20px 0;}
+.result-score{font-size:52px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:8px;}
+.result-msg{font-size:16px;color:#555;margin-bottom:24px;}
+.result-msg.pass{color:var(--teal);font-weight:700;}
+.result-msg.fail{color:#c53030;font-weight:700;}
+.cert-form{display:none;}
+.cert-form h3{font-size:18px;font-weight:700;color:#0d1b2a;margin-bottom:16px;text-align:center;}
+.cert-input{width:100%;padding:12px 16px;font-family:'Ubuntu',sans-serif;font-size:14px;border-radius:10px;border:1.5px solid rgba(0,0,0,.15);outline:none;margin-bottom:12px;transition:border-color var(--transition);direction:ltr;text-align:left;}
+.cert-input:focus{border-color:var(--blue);}
+.cert-send-btn{display:block;width:100%;padding:13px;border:none;background:linear-gradient(90deg,var(--teal),var(--blue));color:#fff;font-family:'Ubuntu',sans-serif;font-size:15px;font-weight:700;border-radius:12px;cursor:pointer;transition:opacity var(--transition);}
+.cert-send-btn:hover{opacity:.88;}
+
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px;color:#9ca3af;font-weight:700;gap:14px;}
+.spinner{width:36px;height:36px;border:3px solid rgba(0,71,171,.2);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+footer{background:#06101f;color:rgba(255,255,255,.6);padding:52px 30px 26px;direction:rtl;}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr;gap:48px;padding-bottom:38px;border-bottom:1px solid rgba(255,255,255,.07);}
+.footer-brand img{width:54px;height:54px;border-radius:12px;margin-bottom:14px;object-fit:cover;}
+.footer-brand h3{font-size:17px;font-weight:700;color:#fff;margin-bottom:10px;}
+.footer-brand p{font-size:13px;line-height:1.75;color:rgba(255,255,255,.45);}
+.footer-col h4{font-size:11px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:18px;}
+.footer-contact p{font-size:13px;line-height:2;color:rgba(255,255,255,.5);}
+.footer-contact a{color:rgba(100,180,255,.8);text-decoration:none;}
+.footer-contact a:hover{color:#fff;}
+.footer-bottom{max-width:1100px;margin:26px auto 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.footer-bottom .copy{font-size:12px;color:rgba(255,255,255,.3);}
+.footer-bottom .esc-mark{font-size:24px;font-weight:700;color:rgba(255,255,255,.1);letter-spacing:4px;}
+
+@media(max-width:900px){.container{flex-direction:column;}.playlist-scroll{max-height:320px;}}
+@media(max-width:768px){#bar nav{display:none;}.menu-btn{display:inline-flex;}.container{padding:0 12px;margin-top:16px;}.footer-inner{grid-template-columns:1fr;gap:28px;}.footer-bottom{flex-direction:column;align-items:flex-start;}.quiz-modal{padding:20px 16px;}}
+</style>
+</head>
+<body>
+
+<header id="bar">
+  <a class="logo" href="index.html" aria-label="الرئيسية"><img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;"></a>
+  <nav><a href="training.html">التدريب والتطوير</a><a href="course.html">الدورات</a><a href="Scientific_contributions.html">أخبار المؤسسة</a><a href="research.html">الأبحاث</a><a href="uploads.html">الملفات المرفوعة</a></nav>
+  <button id="menuBtn" class="menu-btn" aria-label="خيارات" aria-expanded="false" aria-controls="mobileMenu"><span class="menu-icon" aria-hidden="true"></span></button>
+  <div id="mobileMenu" class="mobile-menu" role="menu">
+    <a role="menuitem" href="training.html">التدريب والتطوير</a><a role="menuitem" href="course.html">الدورات</a><a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a><a role="menuitem" href="research.html">الأبحاث</a><a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
+  </div>
+</header>
+<div id="menuBackdrop" aria-hidden="true"></div>
+
+<div class="course-head" id="courseHead" style="display:none;">
+  <h1 id="chTitle"></h1>
+  <div class="ch-meta" id="chMeta"></div>
+</div>
+
+<div id="loadingScreen" class="loading-screen"><div class="spinner"></div><div>جارٍ تحميل الكورس...</div></div>
+
+<div class="container" id="mainContainer" style="display:none;">
+  <div class="player-section">
+    <div class="video-wrap" id="videoWrap" oncontextmenu="return false;">
+      <iframe id="ytPlayer" src="" title="Lecture" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div class="no-video" id="noVideo">
+        <span><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span>
+        اختر محاضرة من القائمة للبدء
+      </div>
+      <div class="wm" id="wmTop"></div>
+      <div class="wm b" id="wmBot"></div>
+    </div>
+    <div id="videoTitle" class="video-title">اختر محاضرة من القائمة</div>
+    <div class="download-box">
+      <div class="dl-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="dl-meta"><div class="dl-title" id="dlTitle">ملف المحاضرة</div><div class="dl-note" id="dlNote">اختر محاضرة لعرض ملفها</div></div>
+      <a id="downloadLink" class="dl-btn disabled" href="#" target="_blank" rel="noopener">⬇ تحميل</a>
+    </div>
+  </div>
+  <div class="playlist-section">
+    <div class="quote-box">
+      <div class="quote-text">ليس الفتى من قال كان أبي،<br>بل من قال ها أنا ذا</div>
+      <div class="quote-attr">— الإمام علي بن أبي طالب (ع)</div>
+    </div>
+    <div class="playlist-card">
+      <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:5px"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg> محاضرات الكورس</h3>
+      <div class="playlist-scroll"><div id="playlistItems"></div></div>
+    </div>
+  </div>
+</div>
+
+<div id="quizOverlay">
+  <div class="quiz-modal">
+    <h2><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:6px"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> الاختبار النهائي</h2>
+    <p class="quiz-sub">أجب على الأسئلة التالية. تحتاج إلى 60% للنجاح والحصول على شهادتك.</p>
+    <div id="questionsContainer"></div>
+    <div id="submitArea">
+      <button class="quiz-submit-btn" onclick="submitQuiz()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:6px"><polyline points="20 6 9 17 4 12"/></svg> أكملت إجاباتي</button>
+      <button class="quiz-close-btn" onclick="closeQuiz()">إغلاق</button>
+    </div>
+    <div class="result-panel" id="resultPanel">
+      <div class="result-score" id="resultScore">--</div>
+      <div class="result-msg" id="resultMsg"></div>
+    </div>
+    <div class="cert-form" id="certForm">
+      <div class="quiz-divider"></div>
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:5px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> احصل على شهادتك</h3>
+      <input type="text" id="certName" class="cert-input" placeholder="اسمك الكامل بالإنجليزية (مثال: Mohammed Baqir)">
+      <input type="email" id="certEmail" class="cert-input" placeholder="بريدك الإلكتروني">
+      <button class="cert-send-btn" onclick="sendCertificate()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:6px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> إرسال طلب الشهادة</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><img src="media/icon-512-w.png" alt="شعار ESC"><h3>مجتمع طلبة الهندسة</h3><p>منصة تعليمية وأكاديمية وثقافية مخصصة لطلاب الهندسة في العراق.</p></div>
+    <div class="footer-col footer-contact"><h4>تواصل معنا</h4><p>هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>يسعدنا التواصل معك.<br><br><a href="mailto:info@esc-iq.net">info@esc-iq.net</a></p></div>
+  </div>
+  <div class="footer-bottom"><p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p><span class="esc-mark">ESC</span></div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, query, where, getDocs }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig={apiKey:"AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",authDomain:"engineering-students-community.firebaseapp.com",projectId:"engineering-students-community",storageBucket:"engineering-students-community.firebasestorage.app",messagingSenderId:"371432549665",appId:"1:371432549665:web:4d3b9617243731fb06e260"};
+const app=initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
+const auth=getAuth(app);
+const db=getFirestore(app);
+
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function qp(k){return new URLSearchParams(location.search).get(k);}
+
+let COURSE=null, lectures=[], quizQuestions=[], currentIndex=-1;
+
+const DEPT_LABELS={civil:'هندسة مدنية',electrical:'هندسة كهرباء وإلكترونيك',mechanical:'هندسة الميكانيك',petroleum:'هندسة النفط',biomedical:'هندسة الطب الحياتي',general:'عام'};
+const LEVEL_LABELS={beginner:'مبتدئ',intermediate:'متوسط',advanced:'متقدم'};
+
+async function loadCourse(){
+  const u=qp('u');
+  if(!u){ failLoad('لم يُحدّد كورس.'); return; }
+  try{
+    const d=await getDoc(doc(db,"courses",u));
+    if(!d.exists()){ failLoad('الكورس غير موجود.'); return; }
+    COURSE=d.data();
+    lectures=Array.isArray(COURSE.lectures)?COURSE.lectures:[];
+    quizQuestions=COURSE.hasExam&&Array.isArray(COURSE.questions)?COURSE.questions:[];
+    renderHead();
+    buildPlaylist();
+    document.getElementById('loadingScreen').style.display='none';
+    document.getElementById('mainContainer').style.display='';
+    document.title='ESC — '+(COURSE.title||'الكورس');
+  }catch(e){ failLoad('تعذّر تحميل الكورس.'); }
+}
+function failLoad(msg){
+  document.getElementById('loadingScreen').innerHTML=`<div style="font-size:34px">⚠️</div><div>${escHtml(msg)}</div><a href="course.html" style="color:var(--blue);text-decoration:none;margin-top:6px">→ العودة إلى الدورات</a>`;
+}
+function renderHead(){
+  document.getElementById('courseHead').style.display='';
+  document.getElementById('chTitle').textContent=COURSE.title||'';
+  const m=document.getElementById('chMeta');
+  const parts=[];
+  if(COURSE.instructor) parts.push(`<span class="ch-tag">👤 ${escHtml(COURSE.instructor)}</span>`);
+  if(COURSE.department) parts.push(`<span class="ch-tag">${escHtml(DEPT_LABELS[COURSE.department]||COURSE.department)}</span>`);
+  if(COURSE.level) parts.push(`<span class="ch-tag">${escHtml(LEVEL_LABELS[COURSE.level]||COURSE.level)}</span>`);
+  parts.push(`<span class="ch-tag">${COURSE.course_type==='paid'?'مدفوع':'مجاني'}</span>`);
+  if(COURSE.certificate) parts.push(`<span class="ch-tag">🏅 شهادة</span>`);
+  m.innerHTML=parts.join('');
+}
+
+function buildPlaylist(){
+  const c=document.getElementById('playlistItems'); c.innerHTML='';
+  lectures.forEach((lec,i)=>{
+    const it=document.createElement('div');
+    it.className='video-item'; it.dataset.index=i;
+    it.innerHTML=`<div class="item-num">${i+1}</div><div class="item-title">${escHtml(lec.name||('المحاضرة '+(i+1)))}</div>`;
+    it.addEventListener('click',()=>loadLecture(i));
+    c.appendChild(it);
+  });
+  if(COURSE.hasExam&&quizQuestions.length){
+    const ex=document.createElement('div');
+    ex.className='video-item exam-item'; ex.dataset.index='exam';
+    ex.innerHTML=`<div class="item-num"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div><div class="item-title" style="color:var(--blue);">الاختبار النهائي</div>`;
+    ex.addEventListener('click',openQuiz);
+    c.appendChild(ex);
+  }
+}
+
+function loadLecture(index){
+  currentIndex=index;
+  const lec=lectures[index];
+  document.querySelectorAll('.video-item').forEach(el=>el.classList.toggle('active',String(el.dataset.index)===String(index)));
+  const player=document.getElementById('ytPlayer'), noVideo=document.getElementById('noVideo');
+  if(lec.video){ player.src=lec.video; player.style.display='block'; noVideo.style.display='none'; }
+  else { player.src=''; player.style.display='none'; noVideo.style.display='flex'; }
+  document.getElementById('videoTitle').textContent=lec.name||('المحاضرة '+(index+1));
+  document.getElementById('dlTitle').textContent=lec.name||'ملف المحاضرة';
+  const dl=document.getElementById('downloadLink');
+  if(lec.fileURL){
+    document.getElementById('dlNote').textContent='ملف PDF متاح للتحميل';
+    dl.href=lec.fileURL; dl.classList.remove('disabled');
+  }else{
+    document.getElementById('dlNote').textContent='لا يوجد ملف لهذه المحاضرة';
+    dl.href='#'; dl.classList.add('disabled');
+  }
+}
+
+/* ===== QUIZ ===== */
+function buildQuiz(){
+  const c=document.getElementById('questionsContainer'); c.innerHTML='';
+  quizQuestions.forEach((q,qi)=>{
+    const block=document.createElement('div'); block.className='question-block';
+    const opts=(q.options||[]).map((opt,oi)=>`<label class="option-label" id="lbl_${qi}_${oi}"><input type="radio" name="q${qi}" value="${oi}"> ${escHtml(opt)}</label>`).join('');
+    block.innerHTML=`<div class="question-text">س${qi+1}. ${escHtml(q.q)}</div>${opts}`;
+    c.appendChild(block);
+    if(qi<quizQuestions.length-1){ const d=document.createElement('div'); d.className='quiz-divider'; c.appendChild(d); }
+  });
+}
+function openQuiz(){
+  buildQuiz();
+  document.getElementById('quizOverlay').style.display='block';
+  document.getElementById('submitArea').style.display='block';
+  document.getElementById('resultPanel').style.display='none';
+  document.getElementById('certForm').style.display='none';
+  document.body.style.overflow='hidden';
+  document.querySelectorAll('.video-item').forEach(el=>el.classList.remove('active'));
+}
+window.closeQuiz=function(){ document.getElementById('quizOverlay').style.display='none'; document.body.style.overflow=''; };
+
+function encodeScore(score){
+  const fakeA=String(Math.floor(Math.random()*9)+1),fakeB=String(Math.floor(Math.random()*9)+1),fakeC=String(Math.floor(Math.random()*9)+1);
+  const s=String(score).padStart(2,'0');
+  return `JHv${fakeA}${fakeB}${fakeC}${s}nOik5-vwq2v3`;
+}
+window.submitQuiz=function(){
+  let correct=0;
+  quizQuestions.forEach((q,qi)=>{
+    const sel=document.querySelector(`input[name="q${qi}"]:checked`);
+    const val=sel?parseInt(sel.value):-1;
+    (q.options||[]).forEach((_,oi)=>{
+      const lbl=document.getElementById(`lbl_${qi}_${oi}`);
+      if(lbl){ if(oi===q.answer) lbl.classList.add('correct'); else if(oi===val&&val!==q.answer) lbl.classList.add('wrong'); const inp=lbl.querySelector('input'); if(inp) inp.disabled=true; }
+    });
+    if(val===q.answer) correct++;
+  });
+  const pct=Math.round((correct/quizQuestions.length)*100);
+  document.getElementById('submitArea').style.display='none';
+  const rp=document.getElementById('resultPanel'); rp.style.display='block';
+  document.getElementById('resultScore').textContent=`${pct}%`;
+  const msg=document.getElementById('resultMsg');
+  if(pct>=60){
+    msg.textContent=`🎉 مبروك! اجتزت الاختبار بنجاح (${correct}/${quizQuestions.length} إجابة صحيحة)`;
+    msg.className='result-msg pass';
+    setTimeout(()=>{ document.getElementById('certForm').style.display='block'; },600);
+  }else{
+    msg.textContent=`لم تصل إلى حد النجاح (${correct}/${quizQuestions.length}). راجع المحاضرات وأعد المحاولة.`;
+    msg.className='result-msg fail';
+    setTimeout(()=>{ const r=document.createElement('button'); r.className='quiz-close-btn'; r.textContent='🔄 إعادة الاختبار'; r.style.marginTop='14px'; r.onclick=openQuiz; rp.appendChild(r); },400);
+  }
+  window._quizScore=pct;
+};
+window.sendCertificate=function(){
+  const name=document.getElementById('certName').value.trim(), email=document.getElementById('certEmail').value.trim();
+  if(!name||!email){ alert('الرجاء إدخال الاسم والبريد الإلكتروني.'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){ alert('الرجاء إدخال بريد إلكتروني صحيح.'); return; }
+  const encoded=encodeScore(window._quizScore||0);
+  const subject=encodeURIComponent(`Certificate Request — ${COURSE.title||'Course'}`);
+  const body=encodeURIComponent(`Course: ${COURSE.title||''}\nCourse ID: ${COURSE.username||''}\nStudent Name: ${name}\nEmail: ${email}\n\n--- Verification ---\nID No. : ${encoded}\n`);
+  window.location.href=`mailto:info@esc-iq.net?subject=${subject}&body=${body}`;
+};
+
+/* ===== WATERMARK باسم المستخدم ===== */
+onAuthStateChanged(auth, async(user)=>{
+  let label='ESC • esc-iq.net';
+  if(user){
+    try{
+      const snap=await getDocs(query(collection(db,"students"),where("uid","==",user.uid)));
+      if(!snap.empty) label='@'+snap.docs[0].id+' • ESC';
+    }catch(e){}
+  }
+  document.getElementById('wmTop').textContent=label;
+  document.getElementById('wmBot').textContent=label;
+});
+
+/* ===== MOBILE MENU ===== */
+const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu'),backdrop=document.getElementById('menuBackdrop');
+const openMenu=()=>{mobileMenu.classList.add('open');backdrop.classList.add('show');menuBtn.setAttribute('aria-expanded','true');};
+const closeMenu=()=>{mobileMenu.classList.remove('open');backdrop.classList.remove('show');menuBtn.setAttribute('aria-expanded','false');};
+menuBtn.addEventListener('click',e=>{e.stopPropagation();menuBtn.getAttribute('aria-expanded')==='true'?closeMenu():openMenu();});
+backdrop.addEventListener('click',closeMenu);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeMenu();window.closeQuiz();}});
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+window.addEventListener('resize',()=>{if(window.innerWidth>768)closeMenu();});
+
+loadCourse();
+</script>
+</body>
+</html>

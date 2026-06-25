@@ -406,18 +406,6 @@ body {
 }
 .error-body a:hover { color: #003080; }
 
-/* ===================== VISION ===================== */
-.vision-section {
-  background: var(--blue);
-  padding: 20px 30px;
-  text-align: center;
-}
-.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-.vision-section p {
-  font-size: 14px; color: rgba(255,255,255,0.85);
-  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
-}
-
 /* ===================== FOOTER ===================== */
 footer {
   background: #06101f;
@@ -509,6 +497,12 @@ footer {
   #authBtn { display: none; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -535,9 +529,9 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -548,9 +542,9 @@ footer {
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -563,7 +557,7 @@ footer {
 
 <!-- PAGE HERO -->
 <div class="page-hero">
-  <span class="page-hero-tag">🏅 التحقق من الشهادات</span>
+  <span class="page-hero-tag"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> التحقق من الشهادات</span>
   <h1>تحقق من شهادتك الأكاديمية</h1>
   <p>أدخل الرقم التسلسلي للشهادة للتحقق من صحتها وعرضها.</p>
 </div>
@@ -582,23 +576,17 @@ footer {
       autocomplete="off"
     >
     <button class="search-btn" onclick="searchCert()">
-      🔍 انطلق
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> انطلق
     </button>
   </div>
 
   <!-- RESULT BOX -->
   <div class="result-box" id="resultBox">
-    <div class="placeholder-icon">🎓</div>
+    <div class="placeholder-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div>
     <div class="placeholder-text">قم بإدخال معرف الشهادة الخاصة بك وسيتحقق مجتمع طلبة الهندسة منها</div>
   </div>
 
 </div>
-
-<!-- VISION -->
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -611,9 +599,9 @@ footer {
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>
-        هل لديك سؤال أو مقترح؟<br>
+        هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>
         يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -643,14 +631,14 @@ document.getElementById('certInput').addEventListener('keydown', e => {
 });
 
 /* Certificate Search */
-function searchCert() {
+async function searchCert() {
   const input = document.getElementById('certInput').value.trim();
   const box   = document.getElementById('resultBox');
 
   if (!input) {
     box.className = 'result-box has-error';
     box.innerHTML = `
-      <div class="error-icon">⚠️</div>
+      <div class="error-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
       <div class="error-title">الرجاء إدخال الرقم التسلسلي</div>
       <div class="error-body">أدخل رقم الشهادة في الحقل أعلاه ثم اضغط انطلق.</div>
     `;
@@ -666,17 +654,27 @@ function searchCert() {
     </div>
   `;
 
-  /* Try loading the image */
-  const imgPath = `media/cert/${input}.png`;
-  const img = new Image();
+  const showError = () => {
+    box.className = 'result-box has-error';
+    box.innerHTML = `
+      <div class="error-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+      <div class="error-title">تعذّر العثور على الشهادة المطلوبة!</div>
+      <div class="error-body">
+        تحقق من الرقم المدخل وحاول مجدداً.<br><br>
+        لو كانت الشهادة حديثة الإصدار انتظر بضعة أيام حتى تتم معالجتها،
+        أو <a href="mailto:info@esc-iq.net">اتصل بالدعم</a> إذا استمرت المشكلة.
+      </div>
+    `;
+  };
 
-  img.onload = () => {
+  const showResult = (imgPath) => {
+    const ext = (imgPath.split('.').pop() || 'png');
     box.className = 'result-box has-result';
     box.innerHTML = `
       <img src="${imgPath}" alt="شهادة ${input}" class="cert-img">
       <div class="cert-footer">
         <span class="cert-id-label">Serial: ${input}</span>
-        <a href="${imgPath}" download="ESC-Certificate-${input}.png" class="cert-download">
+        <a href="${imgPath}" download="ESC-Certificate-${input}.${ext}" class="cert-download">
           ⬇️ تحميل الشهادة
         </a>
       </div>
@@ -684,24 +682,49 @@ function searchCert() {
     box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
-  img.onerror = () => {
-    box.className = 'result-box has-error';
-    box.innerHTML = `
-      <div class="error-icon">❌</div>
-      <div class="error-title">تعذّر العثور على الشهادة المطلوبة!</div>
-      <div class="error-body">
-        تحقق من الرقم المدخل وحاول مجدداً.<br><br>
-        لو كانت الشهادة حديثة الإصدار انتظر بضعة أيام حتى تتم معالجتها،
-        أو <a href="mailto:esc.irq@gmail.com">اتصل بالدعم</a> إذا استمرت المشكلة.
-      </div>
-    `;
+  /* ─── البحث عن الشهادة بأي امتداد ───
+     لا تقييد بصيغة/ترميز معيّن: نبحث في نفس المسار الكلاسيكي media/cert/
+     عن ملف يحمل اسم الشهادة مهما كان امتداده. نتحقق من وجود الملف عبر
+     طلب fetch (يقبل أي نوع ملف وأي حالة أحرف) بدل الاعتماد على فك ترميز صورة معيّنة. */
+  const safe  = encodeURIComponent(input);
+  const bases = [`cert/${safe}`, `media/cert/${safe}`];
+  const exts = [
+    'png','jpg','jpeg','jfif','pjpeg','pjp','webp','gif','bmp','dib',
+    'svg','svgz','avif','apng','ico','tif','tiff','heic','heif'
+  ];
+
+  // كل المسارات × كل الامتدادات بحالتيها (حروف صغيرة وكبيرة) — والاسم المجرّد بلا امتداد
+  const candidates = [];
+  bases.forEach(base => {
+    candidates.push(base);
+    exts.forEach(e => {
+      candidates.push(`${base}.${e}`);
+      candidates.push(`${base}.${e.toUpperCase()}`);
+    });
+  });
+
+  // التحقق من وجود الملف (HEAD أولاً، ثم GET كاحتياط للخوادم التي لا تدعم HEAD)
+  const exists = async (url) => {
+    try {
+      let r = await fetch(url, { method: 'HEAD', cache: 'no-store' });
+      if (r.status === 405 || r.status === 501) {
+        r = await fetch(url, { method: 'GET', cache: 'no-store' });
+      }
+      return r.ok ? url : null;
+    } catch (_) {
+      return null;
+    }
   };
 
-  img.src = imgPath;
+  const found = (await Promise.all(candidates.map(exists))).find(Boolean);
+
+  if (found) showResult(found);
+  else       showError();
 }
 </script>
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged }
                              from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs }
@@ -717,6 +740,9 @@ const firebaseConfig = {
 };
 
 const app       = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth      = getAuth(app);
 const db        = getFirestore(app);
 const btn       = document.getElementById('authBtn');
@@ -841,7 +867,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (btnMobile) {
       btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
+      btnMobile.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @' + username;
     }
   } catch (e) {
     btn.className = 'state-guest';
@@ -849,6 +875,12 @@ onAuthStateChanged(auth, async (user) => {
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
 </script>
 </body>
 </html>

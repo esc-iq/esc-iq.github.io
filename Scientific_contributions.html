@@ -3,7 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المساهمات العلمية - ESC</title>
+<title>المساهمات العلمية — مجتمع طلبة الهندسة | ESC</title>
+<meta name="description" content="المساهمات العلمية وأخبار فعاليات مجتمع طلبة الهندسة (ESC): مبادرات ومشاركات طلاب الهندسة في العراق وآخر التطورات.">
+<link rel="canonical" href="https://esc-iq.net/Scientific_contributions.html">
+<meta name="author" content="Mohammed Baqer A. Azeez">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ESC — مجتمع طلبة الهندسة">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:url" content="https://esc-iq.net/Scientific_contributions.html">
+<meta property="og:title" content="المساهمات العلمية — مجتمع طلبة الهندسة | ESC">
+<meta property="og:description" content="المساهمات العلمية وأخبار فعاليات مجتمع طلبة الهندسة في العراق.">
+<meta property="og:image" content="https://esc-iq.net/media/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="المساهمات العلمية — مجتمع طلبة الهندسة | ESC">
+<meta name="twitter:description" content="المساهمات العلمية وأخبار فعاليات مجتمع طلبة الهندسة.">
+<meta name="twitter:image" content="https://esc-iq.net/media/icon-512.png">
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
@@ -334,18 +349,6 @@ main { flex-grow: 1; }
   margin: 0 24px 60px;
 }
 
-/* ===================== VISION ===================== */
-.vision-section {
-  background: var(--blue);
-  padding: 20px 30px;
-  text-align: center;
-}
-.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-.vision-section p {
-  font-size: 14px; color: rgba(255,255,255,0.85);
-  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
-}
-
 /* ===================== FOOTER ===================== */
 footer {
   background: #06101f;
@@ -445,6 +448,12 @@ footer {
   #authBtn { display: none; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -471,9 +480,9 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -484,9 +493,9 @@ footer {
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -519,12 +528,6 @@ footer {
   </div>
 </main>
 
-<!-- VISION -->
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
@@ -536,9 +539,9 @@ footer {
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
       <p>
-        هل لديك سؤال أو مقترح؟<br>
+        هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>
         يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -562,35 +565,7 @@ document.addEventListener('keydown', e => { if(e.key==='Escape') closeMenu(); })
 mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(); });
 
-const newsData = [
-      {
-    id: "20260428",
-    title: "المشاركون في فعالية الطلاب النخبة يحصلون على الجوائز التقديرية",
-    summary: "بعد مرور 20 يوم على إطلاق فعالية الطلبة النخبة التجريبية الأولى في المجتمع, المتميزون يحصلون على شهاداتهم."
-  },
-    {
-    id: "20260416",
-    title: "ضمن الإستمرار في إطلاع الزملاء المهندسين على المجتمع، المهندس محمد باقر الجبوري يشارك الرؤية مع طلبة بقية الشُعب",
-    summary: "قام المهندس محمد باقر علاء الجبوري بتقديم مجتمع طلبة الهندسة على عدد من طلبة المرحلة الرابعة من شعبة ب في كلية الهندسة - قسم الهندسة المدنية.."
-  },
-  {
-    id: "20260412",
-    title: "المؤسس محمد باقر الجبوري يشارك مجتمع طلبة الهندسة مع الطلبة",
-    summary: "قام المهندس محمد باقر علاء الجبوري بتقديم مجتمع طلبة الهندسة على عدد من طلبة المرحلة الرابعة من كلية الهندسة / الهندسة المدنية.."
-  },
-   {
-    id: "20260312",
-    title: "إطلاق الكورسات الهندسية المجانية",
-    summary: "في خطوة جديدة لدعم المجتمع الهندسي، سيبدأ مجتمع طلاب الهندسة بتقديم سلسلة من الكورسات المجانية إبتداءًا من الصيف المقبل."
-  },
-
-  {
-    id: "20260328",
-    title: "إطلاق النسخة التجريبية لموقع مجتمع طلبة الهندسة",
-    summary: "فريقنا يعمل بشكل مستمر ودؤوب لتحديث واجهة المستخدم وإضافة المزيد من المحتوى، الدورات، والمصادر الهندسية في المستقبل القريب."
-  }
-];
-
+let newsData = [];
 const newsGrid    = document.getElementById('newsGrid');
 const searchInput = document.getElementById('searchInput');
 const noResults   = document.getElementById('noResults');
@@ -603,19 +578,16 @@ function renderNews(arr) {
   }
   noResults.style.display = 'none';
   arr.forEach(news => {
-    const y = news.id.substring(0,4);
-    const m = news.id.substring(4,6);
-    const d = news.id.substring(6,8);
     const card = document.createElement('a');
-    card.href = `news/${news.id}.html`;
+    card.href = news.link || `news/${news.id}.html`;
     card.className = 'news-card';
     card.innerHTML = `
       <div class="news-image-wrapper">
-        <img src="news/${news.id}.jpg" alt="${news.title}" class="news-image"
+        <img src="${news.image || 'media/news/' + news.id + '.jpg'}" alt="${news.title}" class="news-image"
              onerror="this.src='media/icons/news.png';">
       </div>
       <div class="news-content">
-        <span class="news-date">${y}/${m}/${d}</span>
+        <span class="news-date">${news.date || news.id.substring(0,4)+'/'+news.id.substring(4,6)+'/'+news.id.substring(6,8)}</span>
         <div class="news-title">${news.title}</div>
         <div class="news-summary">${news.summary}</div>
         <span class="news-readmore">اقرأ المزيد ←</span>
@@ -625,7 +597,13 @@ function renderNews(arr) {
   });
 }
 
-renderNews(newsData);
+fetch('jsonfiles/news.json')
+  .then(r => r.json())
+  .then(data => {
+    newsData = data.news || [];
+    renderNews(newsData);
+  })
+  .catch(() => { noResults.style.display = 'block'; });
 
 let t = null;
 searchInput.addEventListener('input', () => {
@@ -641,6 +619,7 @@ searchInput.addEventListener('input', () => {
 </script>
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged }
                              from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs }
@@ -656,6 +635,9 @@ const firebaseConfig = {
 };
 
 const app       = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth      = getAuth(app);
 const db        = getFirestore(app);
 const btn       = document.getElementById('authBtn');
@@ -780,7 +762,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (btnMobile) {
       btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
+      btnMobile.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @' + username;
     }
   } catch (e) {
     btn.className = 'state-guest';
@@ -788,6 +770,12 @@ onAuthStateChanged(auth, async (user) => {
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
 </script>
 </body>
 </html>

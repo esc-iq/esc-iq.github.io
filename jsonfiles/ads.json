@@ -1,0 +1,7 @@
+{
+  "ads": [
+    { "id": "ad1", "image": "media/ad/1.png", "link": "https://forat.esc-iq.net", "alt": "إعلان 1" },
+    { "id": "ad2", "image": "media/ad/2.png", "link": "https://forat.esc-iq.net", "alt": "إعلان 2" },
+    { "id": "ad3", "image": "media/ad/3.png", "link": "https://forat.esc-iq.net", "alt": "إعلان 3" }
+  ]
+}

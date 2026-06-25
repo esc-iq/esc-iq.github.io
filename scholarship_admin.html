@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ESC — طلبات المنح الدراسية</title>
+<link rel="icon" href="media/favicon.png" type="image/png">
+<link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
+<link rel="apple-touch-icon" href="media/icon-512-w.png">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --nav-height: 58px; --blue: #0047AB; --teal: #008080; --cream: #FAF9F6;
+  --card-radius: 14px; --transition: 0.3s ease;
+  --text-dark: #0d1b2a; --text-mid: #374151; --text-light: #6b7280;
+  --border: rgba(0,0,0,0.08); --shadow: 0 2px 14px rgba(0,0,0,0.07);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Ubuntu', sans-serif; background: var(--cream); color: var(--text-dark); direction: rtl; text-align: right; overflow-x: hidden; min-height: 100vh; }
+
+#loadingOverlay { position: fixed; inset: 0; background: var(--cream); z-index: 9999; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; transition: opacity 0.4s ease; }
+#loadingOverlay.fade-out { opacity: 0; pointer-events: none; }
+.loader-logo { width: 60px; height: 60px; border-radius: 14px; object-fit: cover; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.95)} }
+.loader-text { font-size: 14px; font-weight: 700; color: var(--text-light); }
+
+#accessDenied { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(10px); z-index: 8000; align-items: center; justify-content: center; padding: 20px; }
+#accessDenied.show { display: flex; }
+.denied-box { background: #fff; border-radius: 20px; padding: 40px 36px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.35); animation: slideUp 0.25s ease; }
+@keyframes slideUp { from{transform:translateY(16px);opacity:0} to{transform:translateY(0);opacity:1} }
+.denied-icon { font-size: 56px; margin-bottom: 16px; display: block; }
+.denied-title { font-size: 20px; font-weight: 700; color: #7f1d1d; margin-bottom: 10px; }
+.denied-msg { font-size: 14px; color: var(--text-light); line-height: 1.75; margin-bottom: 24px; }
+.denied-btn { display: inline-block; padding: 12px 28px; border-radius: 12px; background: var(--blue); color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; }
+.denied-btn:hover { background: #0059d4; }
+
+#bar { height: var(--nav-height); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: var(--blue); position: sticky; top: 0; z-index: 1000; direction: ltr; box-shadow: 0 2px 20px rgba(0,0,0,0.25); }
+#bar nav { display: flex; gap: 4px; align-items: center; }
+#bar nav a { color: var(--cream); text-decoration: none; font-weight: 700; font-size: 14px; padding: 7px 13px; border-radius: 8px; transition: background var(--transition); }
+#bar nav a:hover { background: rgba(255,255,255,0.18); }
+.bar-left { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+#authBtn { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 9px; font-size: 13px; font-weight: 700; text-decoration: none; white-space: nowrap; flex-shrink: 0; background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
+#authBtn:hover { background: rgba(255,255,255,0.24); }
+.auth-avatar { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.35); display: block; }
+
+.page-header { background: linear-gradient(135deg, #003080 0%, #006060 60%, #001a40 100%); padding: 32px 28px 28px; position: relative; overflow: hidden; }
+.page-header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.page-header-title { font-size: 22px; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 10px; }
+.page-header-sub { font-size: 13px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+.users-count-chip { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 30px; padding: 8px 18px; color: #fff; font-size: 14px; font-weight: 700; backdrop-filter: blur(4px); white-space: nowrap; }
+.users-count-chip span { font-size: 22px; font-weight: 700; color: #7dd3fc; }
+
+.controls-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 24px 0; }
+.controls-bar { background: #fff; border: 1px solid var(--border); border-radius: var(--card-radius); padding: 16px 20px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.search-wrap { flex: 1; min-width: 220px; position: relative; display: flex; align-items: center; }
+.search-input { width: 100%; height: 40px; padding: 0 44px 0 14px; border-radius: 10px; border: 1.5px solid rgba(0,0,0,0.12); background: #f9fafb; outline: none; color: var(--text-dark); font-weight: 700; font-size: 13px; direction: rtl; text-align: right; }
+.search-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,71,171,0.08); background: #fff; }
+.search-icon { position: absolute; left: 13px; pointer-events: none; opacity: 0.45; display: flex; }
+.search-icon svg { width: 17px; height: 17px; }
+.filter-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; cursor: pointer; border: 1.5px solid var(--border); background: #f9fafb; color: var(--text-mid); transition: all var(--transition); white-space: nowrap; }
+.filter-chip:hover { border-color: var(--blue); color: var(--blue); }
+.filter-chip.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+.table-wrap { max-width: 1100px; margin: 16px auto 60px; padding: 0 24px; }
+.table-card { background: #fff; border: 1px solid var(--border); border-radius: var(--card-radius); box-shadow: var(--shadow); overflow: hidden; }
+.users-table { width: 100%; border-collapse: collapse; direction: rtl; }
+.users-table thead { background: linear-gradient(90deg, rgba(0,71,171,0.06), rgba(0,128,128,0.04)); border-bottom: 2px solid rgba(0,0,0,0.07); }
+.users-table th { padding: 13px 16px; text-align: right; font-size: 11px; font-weight: 700; color: #888; letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap; }
+.users-table tbody tr { border-bottom: 1px solid rgba(0,0,0,0.05); transition: background var(--transition); }
+.users-table tbody tr:hover { background: #f3f7ff; }
+.users-table tbody tr.unread { background: #fffbeb; }
+.users-table tbody tr.unread:hover { background: #fef3c7; }
+.users-table td { padding: 13px 16px; font-size: 13px; font-weight: 700; vertical-align: middle; color: var(--text-dark); }
+.col-num { width: 44px; text-align: center; color: var(--text-light); font-size: 12px; }
+.username-link { color: var(--blue); font-weight: 700; text-decoration: none; font-size: 13px; padding: 3px 8px; border-radius: 6px; background: rgba(0,71,171,0.06); border: 1px solid rgba(0,71,171,0.12); direction: ltr; cursor: pointer; display: inline-block; }
+.username-link:hover { background: rgba(0,71,171,0.14); }
+.date-val { font-size: 12px; color: var(--text-light); font-weight: 400; direction: ltr; }
+.status-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; border: 1px solid; }
+.status-pill.unread { background: #fef3c7; color: #92400e; border-color: #fcd34d; }
+.status-pill.read { background: #d1fae5; color: #065f46; border-color: #6ee7b7; }
+.table-empty { padding: 60px 20px; text-align: center; }
+.table-empty-icon { font-size: 40px; display: block; margin-bottom: 12px; }
+.table-empty-text { font-size: 14px; font-weight: 700; color: #c0c0c0; }
+
+/* ── DETAIL MODAL ── */
+.ov { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); z-index: 5000; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+.ov.show { display: flex; }
+.dmodal { background: #fff; border-radius: 18px; max-width: 720px; width: 100%; padding: 30px; position: relative; box-shadow: 0 24px 70px rgba(0,0,0,0.4); }
+.dclose { position: absolute; top: 14px; left: 16px; width: 34px; height: 34px; border: none; border-radius: 50%; background: #f3f4f6; color: #374151; font-size: 22px; cursor: pointer; }
+.dclose:hover { background: #e5e7eb; }
+.dtitle { font-size: 20px; font-weight: 700; color: var(--text-dark); padding-left: 30px; }
+.dsub { font-size: 13px; color: var(--teal); font-weight: 700; margin-top: 6px; }
+.dfield { margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(0,0,0,0.07); }
+.dfield-label { font-size: 12px; font-weight: 700; color: var(--text-light); letter-spacing: 0.5px; margin-bottom: 6px; }
+.dfield-val { font-size: 14px; line-height: 1.7; color: var(--text-dark); white-space: pre-wrap; }
+.dgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.dthumbs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.dthumb { width: 110px; height: 110px; border-radius: 10px; object-fit: cover; border: 1.5px solid var(--border); cursor: pointer; background: #f3f4f6; }
+.dfile-link { display: inline-block; padding: 8px 16px; border-radius: 10px; background: rgba(0,71,171,0.08); color: var(--blue); font-size: 13px; font-weight: 700; text-decoration: none; border: 1px solid rgba(0,71,171,0.15); }
+.dfile-link:hover { background: rgba(0,71,171,0.16); }
+
+#toastContainer { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); z-index: 9990; display: flex; flex-direction: column; gap: 8px; pointer-events: none; align-items: center; }
+.toast { background: #1f2937; color: #fff; padding: 10px 20px; border-radius: 24px; font-size: 14px; font-weight: 700; box-shadow: 0 6px 20px rgba(0,0,0,0.3); animation: toastIn 0.25s ease, toastOut 0.25s ease 2.5s forwards; }
+.toast.success { background: #065f46; } .toast.error { background: #991b1b; }
+@keyframes toastIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+@keyframes toastOut { to{opacity:0;transform:translateY(12px)} }
+
+footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 34px 30px 22px; direction: rtl; text-align: center; }
+.footer-bottom { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.footer-bottom .copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-bottom .esc-mark { font-size: 24px; font-weight: 700; color: rgba(255,255,255,0.08); letter-spacing: 4px; }
+@media (max-width: 680px) { .dgrid { grid-template-columns: 1fr; } .users-table th:nth-child(4), .users-table td:nth-child(4) { display: none; } }
+</style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
+</head>
+<body>
+
+<div id="loadingOverlay">
+  <img src="media/icon-512.png" alt="ESC" class="loader-logo">
+  <span class="loader-text">جاري التحقق من الصلاحيات...</span>
+</div>
+
+<div id="accessDenied">
+  <div class="denied-box">
+    <span class="denied-icon"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span>
+    <div class="denied-title">غير مصرح بالوصول</div>
+    <p class="denied-msg">هذه الصفحة مخصصة للمشرفين فقط.<br>لا تملك الصلاحية اللازمة للوصول إليها.</p>
+    <a href="index.html" class="denied-btn">العودة للرئيسية</a>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
+
+<header id="bar">
+  <div class="bar-left">
+    <a class="logo" href="index.html" aria-label="الصفحة الرئيسية">
+      <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
+    </a>
+    <a id="authBtn" href="profile.html">⏳</a>
+  </div>
+  <nav aria-label="روابط الموقع">
+    <a href="Scholarships.html">المنح</a>
+    <a href="course.html">الدورات</a>
+    <a href="uploads.html">الملفات المرفوعة</a>
+  </nav>
+</header>
+
+<div class="page-header" id="pageHeader" style="display:none;">
+  <div class="page-header-inner">
+    <div>
+      <div class="page-header-title"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> طلبات المنح الدراسية</div>
+      <div class="page-header-sub">مرتبة من الأقدم إلى الأحدث — حدّد كل طلب كمقروء لتجنب مراجعته مرتين</div>
+    </div>
+    <div class="users-count-chip">عدد الطلبات: <span id="totalCountChip">—</span></div>
+  </div>
+</div>
+
+<div class="controls-wrap" id="controlsWrap" style="display:none;">
+  <div class="controls-bar">
+    <div class="search-wrap">
+      <input type="search" class="search-input" id="searchInput" placeholder="ابحث بالاسم، اليوزر، الجامعة..." autocomplete="off">
+      <span class="search-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg></span>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="filter-chip active" data-filter="all"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><circle cx="12" cy="12" r="10"/></svg> الكل</button>
+      <button class="filter-chip" data-filter="unread"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> غير مقروء</button>
+      <button class="filter-chip" data-filter="read"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><polyline points="20 6 9 17 4 12"/></svg> مقروء</button>
+    </div>
+  </div>
+</div>
+
+<div class="table-wrap" id="tableWrap" style="display:none;">
+  <div class="table-card">
+    <table class="users-table" id="usersTable">
+      <thead>
+        <tr>
+          <th class="col-num">#</th>
+          <th>اليوزر</th>
+          <th>الاسم الجامعي</th>
+          <th>المنحة</th>
+          <th>تاريخ التقديم</th>
+          <th>الحالة</th>
+        </tr>
+      </thead>
+      <tbody id="appsTableBody"></tbody>
+    </table>
+    <div class="table-empty" id="tableEmpty" style="display:none;">
+      <span class="table-empty-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+      <p class="table-empty-text">لا توجد طلبات مطابقة.</p>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="appModal" class="ov">
+  <div class="dmodal">
+    <button class="dclose" id="appClose">×</button>
+    <h2 class="dtitle" id="appTitle"></h2>
+    <div class="dsub" id="appSub"></div>
+    <div id="appBody"></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-bottom">
+    <p class="copy">© 2026 Engineering Student Community — جميع الحقوق محفوظة</p>
+    <span class="esc-mark">ESC</span>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getFirestore, collection, getDocs, query, where, orderBy, doc, updateDoc }
+  from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
+  authDomain:        "engineering-students-community.firebaseapp.com",
+  projectId:         "engineering-students-community",
+  storageBucket:     "engineering-students-community.firebasestorage.app",
+  messagingSenderId: "371432549665",
+  appId:             "1:371432549665:web:4d3b9617243731fb06e260"
+};
+const app  = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+const UNIVERSITY_DICT = { karbala:"جامعة كربلاء المقدسة", baghdad:"جامعة بغداد", basra:"جامعة البصرة", mosul:"جامعة الموصل", kufa:"جامعة الكوفة", najaf:"جامعة النجف الأشرف التقنية", mustansiriyah:"الجامعة المستنصرية", technology:"الجامعة التكنولوجية", zahra4girls:"جامعة الزهراء للبنات" };
+
+let allApps = [], filtered = [], activeFilter = 'all';
+
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function toast(msg, type=''){ const t=document.createElement('div'); t.className='toast '+type; t.textContent=msg; document.getElementById('toastContainer').appendChild(t); setTimeout(()=>t.remove(),2800); }
+function hideLoading(){ const o=document.getElementById('loadingOverlay'); o.classList.add('fade-out'); setTimeout(()=>o.remove(),400); }
+function denyAccess(){ hideLoading(); document.getElementById('accessDenied').classList.add('show'); }
+function fmtDate(iso){ if(!iso) return '—'; try{ return new Date(iso).toLocaleDateString('ar-EG',{year:'numeric',month:'short',day:'numeric'}); }catch{ return iso; } }
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { denyAccess(); return; }
+  let username = null;
+  try {
+    const snap = await getDocs(query(collection(db,"students"), where("uid","==",user.uid)));
+    if (snap.empty) { denyAccess(); return; }
+    username = snap.docs[0].id;
+    const data = snap.docs[0].data();
+    const authBtn = document.getElementById('authBtn');
+    authBtn.href = `profile.html?u=${encodeURIComponent(username)}`;
+    authBtn.innerHTML = `<img class="auth-avatar" src="${esc(data.avatarURL||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="x"><span>@${esc(username)}</span>`;
+  } catch(e) { denyAccess(); return; }
+
+  // auth check via scholarship_auth.json
+  try {
+    const res = await fetch('jsonfiles/scholarship_auth.json?_=' + Date.now());
+    if (!res.ok) { denyAccess(); return; }
+    const list = await res.json();
+    let ok = false;
+    for (const e of list) { if (Array.isArray(e.ath) && e.ath.includes(username)) { ok = true; break; } }
+    if (!ok) { denyAccess(); return; }
+    await loadApps();
+  } catch(e) { denyAccess(); }
+});
+
+async function loadApps() {
+  try {
+    let snap;
+    try {
+      snap = await getDocs(query(collection(db,"scholarship_applications"), orderBy("createdAt","asc")));
+    } catch(e) {
+      snap = await getDocs(collection(db,"scholarship_applications")); // fallback لو لا يوجد index
+    }
+    allApps = [];
+    snap.forEach(d => allApps.push({ id: d.id, ...d.data() }));
+    // oldest → newest
+    allApps.sort((a,b) => (a.createdAtISO||'').localeCompare(b.createdAtISO||''));
+
+    document.getElementById('pageHeader').style.display = '';
+    document.getElementById('controlsWrap').style.display = '';
+    document.getElementById('tableWrap').style.display = '';
+    document.getElementById('totalCountChip').textContent = allApps.length;
+    applyFilters();
+    hideLoading();
+  } catch(e) {
+    toast('خطأ في تحميل الطلبات: ' + e.message, 'error');
+    hideLoading();
+  }
+}
+
+let searchTimer = null;
+document.getElementById('searchInput').addEventListener('input', () => { clearTimeout(searchTimer); searchTimer = setTimeout(applyFilters, 180); });
+document.querySelectorAll('.filter-chip').forEach(c => c.addEventListener('click', () => {
+  activeFilter = c.dataset.filter;
+  document.querySelectorAll('.filter-chip').forEach(x => x.classList.toggle('active', x === c));
+  applyFilters();
+}));
+
+function applyFilters() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  filtered = allApps.filter(a => {
+    if (activeFilter === 'unread' && a.read) return false;
+    if (activeFilter === 'read' && !a.read) return false;
+    if (!q) return true;
+    return (a.username||'').toLowerCase().includes(q) ||
+           (a.fullName||'').toLowerCase().includes(q) ||
+           (a.university||'').toLowerCase().includes(q) ||
+           (a.scholarshipTitle||'').toLowerCase().includes(q);
+  });
+  renderTable();
+}
+
+function renderTable() {
+  const tbody = document.getElementById('appsTableBody');
+  const empty = document.getElementById('tableEmpty');
+  tbody.innerHTML = '';
+  if (filtered.length === 0) { empty.style.display=''; return; }
+  empty.style.display = 'none';
+  filtered.forEach((a, i) => {
+    const tr = document.createElement('tr');
+    if (!a.read) tr.classList.add('unread');
+    tr.innerHTML = `
+      <td class="col-num">${i+1}</td>
+      <td><span class="username-link" data-id="${esc(a.id)}">@${esc(a.username||'')}</span></td>
+      <td>${esc(a.fullName||'—')}</td>
+      <td>${esc(a.scholarshipTitle||'—')}</td>
+      <td><span class="date-val">${fmtDate(a.createdAtISO)}</span></td>
+      <td><span class="status-pill ${a.read?'read':'unread'}" data-toggle="${esc(a.id)}">${a.read?'✓ مقروء':'● غير مقروء'}</span></td>`;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll('.username-link').forEach(el => el.addEventListener('click', () => openApp(el.dataset.id)));
+  tbody.querySelectorAll('.status-pill').forEach(el => el.addEventListener('click', (e) => { e.stopPropagation(); toggleRead(el.dataset.toggle); }));
+}
+
+async function toggleRead(id) {
+  const a = allApps.find(x => x.id === id);
+  if (!a) return;
+  const newVal = !a.read;
+  try {
+    await updateDoc(doc(db,"scholarship_applications", id), { read: newVal });
+    a.read = newVal;
+    applyFilters();
+    toast(newVal ? 'تم التحديد كمقروء' : 'تم التحديد كغير مقروء', 'success');
+  } catch(e) { toast('تعذر التحديث: ' + e.message, 'error'); }
+}
+
+async function openApp(id) {
+  const a = allApps.find(x => x.id === id);
+  if (!a) return;
+  document.getElementById('appTitle').textContent = a.fullName || a.username;
+  document.getElementById('appSub').textContent = '@' + (a.username||'') + ' • ' + (a.scholarshipTitle||'');
+  const proofs = (a.proofURLs||[]).map(u => `<img class="dthumb" src="${esc(u)}" onclick="window.open('${esc(u)}','_blank')" onerror="this.style.display='none'">`).join('');
+  document.getElementById('appBody').innerHTML = `
+    <div class="dfield"><div class="dgrid">
+      <div><div class="dfield-label">الجامعة</div><div class="dfield-val">${esc(a.university||'—')}</div></div>
+      <div><div class="dfield-label">المرحلة</div><div class="dfield-val">${esc(a.stage||'—')}</div></div>
+    </div></div>
+    <div class="dfield"><div class="dfield-label">الهوية الجامعية</div><div class="dfield-val">${a.idCardURL?`<a class="dfile-link" href="${esc(a.idCardURL)}" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> عرض الهوية الجامعية</a>`:'—'}</div></div>
+    <div class="dfield"><div class="dfield-label">إثباتات التفوق الأكاديمي</div><div class="dthumbs">${proofs||'—'}</div></div>
+    <div class="dfield"><div class="dfield-label">لماذا نعطيك منحة؟</div><div class="dfield-val">${esc(a.q1||'—')}</div></div>
+    <div class="dfield"><div class="dfield-label">هل سبق وحصلت على منحة؟</div><div class="dfield-val">${esc(a.q2||'—')}</div></div>
+    <div class="dfield"><div class="dfield-label">تأثيرك في مجتمعك وزملائك</div><div class="dfield-val">${esc(a.q3||'—')}</div></div>
+    <div class="dfield"><div class="dfield-label">قدرتك على إكمال الكورسات بانتظام</div><div class="dfield-val">${esc(a.q4||'—')}</div></div>`;
+  document.getElementById('appModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  if (!a.read) toggleRead(id); // فتح الطلب يحدّده تلقائياً كمقروء
+}
+function closeApp(){ document.getElementById('appModal').classList.remove('show'); document.body.style.overflow=''; }
+document.getElementById('appClose').addEventListener('click', closeApp);
+document.getElementById('appModal').addEventListener('click', e => { if(e.target.id==='appModal') closeApp(); });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
+</script>
+</body>
+</html>

@@ -1,10 +1,11 @@
 [
   {
-    "ath": ["mohammedbaqer"],
-    "ath": ["eng_jafer"],
-    "ath": ["krmus56"],
-    "ath": ["eng_montaz"],
-    "ath": ["eng_ali"],
-    "ath": ["ali_salam"]
+    "ath": [
+      "mohammedbaqer",
+      "eng_jafer",
+      "eng_montaz",
+      "eng_ali",
+      "ali_salam"
+    ]
   }
 ]

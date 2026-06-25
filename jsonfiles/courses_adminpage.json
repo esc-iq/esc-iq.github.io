@@ -1,0 +1,7 @@
+{
+  "_comment": "قائمة المستخدمين المخوّلين بفتح صفحة إدارة الكورسات courses_adminpage.html. التحقق بالـ username (معرّف وثيقة students). أي مستخدم خارج هذه القائمة أو غير مسجّل يُحوَّل بصمت إلى course.html.",
+  "authorized": [
+    "mohammedbaqer",
+    "eng_ali"
+  ]
+}

@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# منع أرشفة الصفحات الخاصة بالحساب فقط (لا قيمة لها في البحث)
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /settings.html
+Disallow: /check_lic.html
+Disallow: /scholarship_admin.html
+Disallow: /courses_adminpage.html
+
+Sitemap: https://esc-iq.net/sitemap.xml

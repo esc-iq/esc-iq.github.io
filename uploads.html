@@ -3,7 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESC — المكتبة العلمية</title>
+<title>المكتبة العلمية — ملخصات وأسئلة هندسية | ESC</title>
+<meta name="description" content="المكتبة العلمية في مجتمع طلبة الهندسة: ملخصات، أسئلة امتحانية، وواجبات بصيغة PDF لطلاب الهندسة في العراق، مرتبة حسب الجامعة والقسم والمرحلة.">
+<link rel="canonical" href="https://esc-iq.net/uploads.html">
+<meta name="author" content="Mohammed Baqer A. Azeez">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ESC — مجتمع طلبة الهندسة">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:url" content="https://esc-iq.net/uploads.html">
+<meta property="og:title" content="المكتبة العلمية — ملخصات وأسئلة هندسية | ESC">
+<meta property="og:description" content="ملخصات وأسئلة امتحانية وواجبات هندسية بصيغة PDF لطلاب الهندسة في العراق.">
+<meta property="og:image" content="https://esc-iq.net/media/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="المكتبة العلمية — ملخصات وأسئلة هندسية | ESC">
+<meta name="twitter:description" content="ملخصات وأسئلة امتحانية وواجبات هندسية لطلاب الهندسة في العراق.">
+<meta name="twitter:image" content="https://esc-iq.net/media/icon-512.png">
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
 <link rel="apple-touch-icon" href="media/icon-512-w.png">
@@ -293,85 +308,91 @@ main { flex: 1; }
 /* ===== FILES AREA ===== */
 .files-area { flex: 1; min-width: 0; }
 
-/* University filters bar */
-.uni-filter-bar {
-  display: none; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 14px; padding: 12px 14px;
-  background: #fff; border: 1px solid var(--border);
-  border-radius: var(--card-radius); box-shadow: var(--shadow);
-  direction: rtl;
+/* ===== SEARCH + FILTER BAR ===== */
+.search-filter-row {
+  display: flex; gap: 10px; align-items: center;
+  margin-bottom: 14px; direction: rtl;
 }
-.uni-filter-bar.show { display: flex; }
-.uni-filter-label {
-  font-size: 11px; font-weight: 700; color: #888;
-  text-transform: uppercase; letter-spacing: 1px;
-  width: 100%; margin-bottom: 4px;
+.files-search-wrap {
+  flex: 1; position: relative;
 }
-.uni-filter-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 20px;
-  border: 1.5px solid rgba(0,0,0,0.12);
-  background: #fff; color: var(--text-mid);
-  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all var(--transition); white-space: nowrap;
-}
-.uni-filter-btn:hover { border-color: var(--blue); color: var(--blue); background: rgba(0,71,171,0.05); }
-.uni-filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
-.uni-filter-btn img { width: 18px; height: 18px; object-fit: contain; border-radius: 3px; }
-
-/* ===== SEARCH BAR (files search, under uni filter) ===== */
-.files-search-bar {
-  margin-bottom: 14px; padding: 12px 14px;
-  background: #fff; border: 1px solid var(--border);
-  border-radius: var(--card-radius); box-shadow: var(--shadow);
-  direction: rtl;
-}
-.files-search-label {
-  font-size: 11px; font-weight: 700; color: #888;
-  text-transform: uppercase; letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-.files-search-wrap { position: relative; }
 .files-search-input {
-  width: 100%; height: 40px;
-  padding: 0 40px 0 14px;
+  width: 100%; height: 42px;
+  padding: 0 42px 0 14px;
   border-radius: 10px; border: 1px solid rgba(0,0,0,0.12);
-  background: #f9fafb; outline: none;
+  background: #fff; outline: none;
   font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
   color: var(--text-dark); direction: rtl; text-align: right;
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: var(--shadow);
 }
 .files-search-input::placeholder { color: rgba(0,0,0,0.35); font-weight: 400; }
-.files-search-input:focus { border-color: var(--blue); background: #fff; }
+.files-search-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,71,171,0.1); }
 .files-search-icon {
-  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  position: absolute; right: 13px; top: 50%; transform: translateY(-50%);
   pointer-events: none; opacity: 0.45; display: flex; align-items: center;
 }
 .files-search-icon svg { width: 16px; height: 16px; }
 
-/* ===== FILE TYPE FILTER (under search) ===== */
-.filetype-filter-bar {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 14px; padding: 12px 14px;
-  background: #fff; border: 1px solid var(--border);
-  border-radius: var(--card-radius); box-shadow: var(--shadow);
-  direction: rtl;
+/* Filter popover button */
+.filter-pop-btn {
+  flex-shrink: 0; width: 42px; height: 42px; border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.12); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all var(--transition); position: relative;
+  box-shadow: var(--shadow);
 }
-.filetype-filter-label {
-  font-size: 11px; font-weight: 700; color: #888;
-  text-transform: uppercase; letter-spacing: 1px;
-  width: 100%; margin-bottom: 4px;
+.filter-pop-btn:hover { border-color: var(--blue); background: rgba(0,71,171,0.05); }
+.filter-pop-btn.has-filter { border-color: var(--blue); background: rgba(0,71,171,0.08); }
+.filter-pop-btn svg { width: 18px; height: 18px; color: var(--text-mid); }
+.filter-pop-btn.has-filter svg { color: var(--blue); }
+.filter-dot {
+  display: none; position: absolute; top: 6px; right: 6px;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--blue);
+  border: 2px solid #fff;
 }
-.filetype-filter-btn {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 20px;
+.filter-pop-btn.has-filter .filter-dot { display: block; }
+
+/* Filter popover panel */
+.filter-popover {
+  display: none; position: absolute;
+  top: calc(100% + 8px); left: 0;
+  min-width: 280px; background: #fff;
+  border-radius: 14px; box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,0,0,0.08); overflow: hidden;
+  z-index: 2000; direction: rtl; text-align: right;
+  animation: popIn 0.15s ease;
+}
+@keyframes popIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.filter-popover.show { display: block; }
+.filter-pop-section {
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.filter-pop-section:last-child { border-bottom: none; }
+.filter-pop-label {
+  font-size: 10px; font-weight: 700; color: rgba(0,0,0,0.38);
+  text-transform: uppercase; letter-spacing: 1.6px; margin-bottom: 10px;
+}
+.filter-chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.filter-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 20px;
   border: 1.5px solid rgba(0,0,0,0.12);
   background: #fff; color: var(--text-mid);
   font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
-  cursor: pointer; transition: all var(--transition); white-space: nowrap;
+  cursor: pointer; transition: all 0.15s; white-space: nowrap;
 }
-.filetype-filter-btn:hover { border-color: var(--teal); color: var(--teal); background: rgba(0,128,128,0.05); }
-.filetype-filter-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+.filter-chip:hover { border-color: var(--blue); color: var(--blue); background: rgba(0,71,171,0.05); }
+.filter-chip.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.filter-chip img { width: 16px; height: 16px; object-fit: contain; border-radius: 2px; }
+.filter-pop-reset {
+  width: 100%; padding: 10px; border: none; background: none;
+  font-family: 'Ubuntu', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--text-light); cursor: pointer; text-align: center;
+  transition: color 0.15s;
+}
+.filter-pop-reset:hover { color: #dc2626; }
 
 /* File-type badge inside file rows */
 .file-type-badge {
@@ -484,18 +505,29 @@ main { flex: 1; }
 @keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
 .modal-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 22px; background: var(--teal); color: #fff;
+  padding: 15px 20px; background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-radius: 18px 18px 0 0;
   position: sticky; top: 0; z-index: 1;
 }
-.modal-head h3 { font-size: 16px; font-weight: 700; }
-.modal-close-btn {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.18); border: 1px solid rgba(255,255,255,0.28);
-  color: #fff; font-size: 17px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background var(--transition); font-family: 'Ubuntu', sans-serif;
+.modal-head h3 {
+  font-size: 15px; font-weight: 800; color: var(--text-dark);
+  display: flex; align-items: center; gap: 8px;
 }
-.modal-close-btn:hover { background: rgba(255,255,255,0.32); }
+.modal-head h3::before {
+  content: ''; display: inline-block;
+  width: 3px; height: 16px; background: var(--blue);
+  border-radius: 2px; flex-shrink: 0;
+}
+.modal-close-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #f3f4f6; border: none;
+  color: var(--text-mid); font-size: 15px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition), color var(--transition);
+  font-family: 'Ubuntu', sans-serif; flex-shrink: 0;
+}
+.modal-close-btn:hover { background: #e5e7eb; color: var(--text-dark); }
 .modal-body { padding: 22px; }
 .form-group { margin-bottom: 16px; }
 .form-group label {
@@ -509,7 +541,7 @@ main { flex: 1; }
   background: #fafafa; transition: border-color var(--transition), box-shadow var(--transition);
   direction: rtl;
 }
-.form-control:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,128,128,0.1); background: #fff; }
+.form-control:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,71,171,0.1); background: #fff; }
 textarea.form-control { resize: vertical; min-height: 90px; }
 select.form-control { cursor: pointer; }
 .form-control.ltr-input { direction: ltr; text-align: left; }
@@ -531,16 +563,17 @@ select.form-control { cursor: pointer; }
 }
 .copyright-check-wrap.shake { animation: shakeAnim 0.4s ease; border-color: #dc2626; background: #fef2f2; }
 @keyframes shakeAnim { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-6px)} 40%{transform:translateX(6px)} 60%{transform:translateX(-4px)} 80%{transform:translateX(4px)} }
-.copyright-check-wrap input[type="checkbox"] { width: 16px; height: 16px; margin-top: 2px; cursor: pointer; flex-shrink: 0; accent-color: var(--teal); }
+.copyright-check-wrap input[type="checkbox"] { width: 16px; height: 16px; margin-top: 2px; cursor: pointer; flex-shrink: 0; accent-color: var(--blue); }
 .copyright-check-wrap label { font-size: 12px; font-weight: 700; color: var(--text-mid); cursor: pointer; line-height: 1.5; }
 .modal-submit-btn {
-  width: 100%; padding: 12px; background: var(--teal); color: #fff;
-  border: none; border-radius: 10px;
-  font-family: 'Ubuntu', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: background var(--transition); margin-top: 4px;
+  width: 100%; padding: 11px 18px; background: var(--blue); color: #fff;
+  border: none; border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background var(--transition), opacity var(--transition); margin-top: 4px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
 }
-.modal-submit-btn:hover { background: #006666; }
-.modal-submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+.modal-submit-btn:hover { background: #003a8c; }
+.modal-submit-btn:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
 
 /* File type select cards (in upload modal) */
 .filetype-select-grid {
@@ -575,11 +608,6 @@ select.form-control { cursor: pointer; }
 .toast.error   { background: #991b1b; }
 @keyframes toastIn  { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
 @keyframes toastOut { to{opacity:0;transform:translateY(12px)} }
-
-/* ===== VISION ===== */
-.vision-section { background: var(--blue); padding: 24px 30px; text-align: center; }
-.vision-section h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 10px; }
-.vision-section p { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.8; max-width: 660px; margin: 0 auto; }
 
 /* ===== FOOTER ===== */
 footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 26px; direction: rtl; }
@@ -621,6 +649,12 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   #authBtn { display: none; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -629,7 +663,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
 <!-- AUTH GATE OVERLAY -->
 <div id="authGate">
   <div class="auth-gate-box">
-    <span class="auth-gate-icon">🔒</span>
+    <span class="auth-gate-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
     <div class="auth-gate-title">تسجيل الدخول مطلوب</div>
     <p class="auth-gate-msg">يجب أن تكون عضواً مسجلاً للوصول إلى المكتبة العلمية والاطلاع على مرفوعات الطلاب.</p>
     <div class="auth-gate-btns">
@@ -661,7 +695,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   <nav aria-label="روابط الموقع">
     <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="news.html">آخر الأخبار</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -673,7 +707,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   <div id="mobileMenu" class="mobile-menu" role="menu">
     <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="news.html">آخر الأخبار</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -689,7 +723,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     <span class="page-hero-tag">المكتبة العلمية</span>
     <h1>مرفوعات الطلاب</h1>
     <p>مستودع من ملخصات وكتب الأجيال الهندسية السابقة بين يديك.</p>
-    <button class="hero-upload-btn" id="heroUploadBtn" style="display:none;">📤 رفع ملف جديد</button>
+    <button class="hero-upload-btn" id="heroUploadBtn" style="display:none;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> رفع ملف جديد</button>
   </div>
 </div>
 
@@ -700,7 +734,6 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
   <button class="dept-tab" data-dept="petroleum"><span class="dot"></span> هندسة النفط</button>
   <button class="dept-tab" data-dept="mechanical"><span class="dot"></span> هندسة الميكانيك</button>
   <button class="dept-tab" data-dept="biomedical"><span class="dot"></span> هندسة الطب الحياتي</button>
-  <button class="dept-tab" data-dept="other"><span class="dot"></span> أخرى</button>
 </div>
 
 <main>
@@ -717,14 +750,8 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
       </aside>
 
       <section class="files-area">
-        <!-- University filters -->
-        <div class="uni-filter-bar" id="uniFilterBar">
-          <span class="uni-filter-label">فلترة حسب الجامعة</span>
-        </div>
-
-        <!-- Files search (moved here, searches within selected category) -->
-        <div class="files-search-bar">
-          <div class="files-search-label">البحث داخل الملفات</div>
+        <!-- Search + Filter Row -->
+        <div class="search-filter-row">
           <div class="files-search-wrap">
             <input type="search" class="files-search-input" id="filesSearchInput"
                    placeholder="ابحث عن اسم الملف أو المادة..." autocomplete="off">
@@ -734,15 +761,30 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
               </svg>
             </span>
           </div>
-        </div>
-
-        <!-- File type filter -->
-        <div class="filetype-filter-bar" id="filetypeFilterBar">
-          <span class="filetype-filter-label">نوع الملف</span>
-          <button class="filetype-filter-btn active" data-type="">الكل</button>
-          <button class="filetype-filter-btn" data-type="summary">ملخص دراسي</button>
-          <button class="filetype-filter-btn" data-type="exams">اسئلة الامتحان والحلول</button>
-          <button class="filetype-filter-btn" data-type="homework">واجبات محلولة</button>
+          <div style="position:relative;">
+            <button class="filter-pop-btn" id="filterPopBtn" title="الفلاتر">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/>
+              </svg>
+              <span class="filter-dot"></span>
+            </button>
+            <div class="filter-popover" id="filterPopover">
+              <div class="filter-pop-section">
+                <div class="filter-pop-label">نوع الملف</div>
+                <div class="filter-chip-row" id="filetypeChips">
+                  <button class="filter-chip active" data-type="">الكل</button>
+                  <button class="filter-chip" data-type="summary">ملخص دراسي</button>
+                  <button class="filter-chip" data-type="exams">اسئلة وحلول</button>
+                  <button class="filter-chip" data-type="homework">واجبات محلولة</button>
+                </div>
+              </div>
+              <div class="filter-pop-section" id="uniFilterSection" style="display:none;">
+                <div class="filter-pop-label">الجامعة</div>
+                <div class="filter-chip-row" id="uniFilterBar"></div>
+              </div>
+              <button class="filter-pop-reset" id="filterResetBtn">إعادة تعيين الفلاتر</button>
+            </div>
+          </div>
         </div>
 
         <div id="filesContainer">
@@ -759,11 +801,6 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
     </div>
   </div>
 </main>
-
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
 
 <footer>
   <div class="footer-inner">
@@ -789,7 +826,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
 <div id="uploadModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>📤 رفع ملف للمجتمع</h3>
+      <h3>رفع ملف للمجتمع</h3>
       <button class="modal-close-btn" id="uploadModalClose">✕</button>
     </div>
     <div class="modal-body">
@@ -831,12 +868,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           <option value="najaf">جامعة النجف الأشرف التقنية</option>
           <option value="mustansiriyah">الجامعة المستنصرية</option>
           <option value="technology">الجامعة التكنولوجية</option>
-          <option value="other">جامعة أخرى</option>
         </select>
-      </div>
-      <div class="form-group upload-sub-select" id="otherUniGroup">
-        <label>اسم الجامعة</label>
-        <input type="text" id="otherUniInput" class="form-control" maxlength="60" placeholder="أدخل اسم الجامعة">
       </div>
       <div class="form-group">
         <label>القسم الهندسي</label>
@@ -847,12 +879,7 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
           <option value="petroleum">هندسة النفط</option>
           <option value="mechanical">هندسة الميكانيك</option>
           <option value="biomedical">هندسة الطب الحياتي</option>
-          <option value="other">أخرى</option>
         </select>
-      </div>
-      <div class="form-group upload-sub-select" id="otherDeptGroup">
-        <label>اسم القسم</label>
-        <input type="text" id="otherDeptInput" class="form-control" maxlength="50" placeholder="أدخل اسم قسمك الهندسي">
       </div>
       <div class="form-group">
         <label>المرحلة الدراسية</label>
@@ -893,11 +920,13 @@ footer { background: #06101f; color: rgba(255,255,255,0.6); padding: 52px 30px 2
 
 <script type="module">
 import { initializeApp }   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs, addDoc }
                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL }
                             from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+import { checkText, rateLimit, fmtWait } from "./js/moderation.js";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
@@ -909,6 +938,9 @@ const firebaseConfig = {
 };
 
 const app     = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth    = getAuth(app);
 const db      = getFirestore(app);
 const storage = getStorage(app);
@@ -967,9 +999,6 @@ const SUBJECTS_CONFIG = {
     3: ["أجهزة طبية","إشارات حيوية","تصوير طبي"],
     4: ["أجهزة طبية متقدمة","هندسة أنسجة","مشروع تخرج"]
   },
-  other: {
-    1: [], 2: [], 3: [], 4: []
-  }
 };
 
 const STAGE_LABELS = { 1:"المرحلة الأولى", 2:"المرحلة الثانية", 3:"المرحلة الثالثة", 4:"المرحلة الرابعة" };
@@ -986,12 +1015,14 @@ let uploadsJsonData  = [];
 let allStudentsCache = null;
 let currentUserData  = null;
 let currentUsername  = null;
+let currentUid       = null;
 let uploadAllowed    = false;
 
 /* ── HELPERS ── */
 function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+function safeUrl(u){const s=String(u||'').trim();return /^(https?:|mailto:|tel:|\/|#)/i.test(s)?s:'#';}
 function toast(msg, type = '') {
   const t = document.createElement('div');
   t.className = 'toast ' + type; t.textContent = msg;
@@ -1020,6 +1051,7 @@ onAuthStateChanged(auth, async (user) => {
     document.getElementById('authGate').classList.add('show');
     document.getElementById('heroUploadBtn').style.display = 'none';
   } else {
+    currentUid = user.uid;
     // Load current user data for upload
     try {
       const q = query(collection(db,"students"), where("uid","==",user.uid));
@@ -1054,7 +1086,7 @@ async function updateAuthButton(user) {
     const pUrl      = `profile.html?u=${encodeURIComponent(username)}`;
     btn.className   = 'state-user'; btn.href = pUrl;
     btn.innerHTML   = `<img class="auth-avatar" src="${avatarSrc}" onerror="this.src='media/1nkown.png'" alt="صورة"><span>@${username}</span>`;
-    if (btnMobile) { btnMobile.href = pUrl; btnMobile.innerHTML = '👤 @' + username; }
+    if (btnMobile) { btnMobile.href = pUrl; btnMobile.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @' + username; }
   } catch(e) {
     btn.className = 'state-guest'; btn.href = 'login.html'; btn.innerHTML = 'تسجيل الدخول';
   }
@@ -1154,56 +1186,48 @@ function buildStageTree(dept) {
 
 /* ── BUILD UNIVERSITY FILTERS ── */
 function buildUniFilters() {
-  if (!currentSubject) {
-    document.getElementById('uniFilterBar').classList.remove('show');
-    return;
-  }
-  // Find unique universities from allDeptFiles filtered by stage+subject
+  const section = document.getElementById('uniFilterSection');
+  const bar = document.getElementById('uniFilterBar');
+  if (!currentSubject) { section.style.display = 'none'; return; }
   const relevant = allDeptFiles.filter(f =>
     String(f.stage) === String(currentStage) &&
     (f.subject||'').trim() === (currentSubject||'').trim()
   );
   const unis = [...new Set(relevant.map(f => f.uni).filter(Boolean))];
-  if (unis.length === 0) {
-    document.getElementById('uniFilterBar').classList.remove('show');
-    return;
-  }
+  if (unis.length === 0) { section.style.display = 'none'; return; }
 
-  const bar = document.getElementById('uniFilterBar');
-  bar.innerHTML = '<span class="uni-filter-label">فلترة حسب الجامعة</span>';
-
-  // "الكل" button
+  bar.innerHTML = '';
   const allBtn = document.createElement('button');
-  allBtn.className = 'uni-filter-btn active';
-  allBtn.textContent = 'الكل';
-  allBtn.dataset.uni = '';
+  allBtn.className = 'filter-chip active';
+  allBtn.textContent = 'الكل'; allBtn.dataset.uni = '';
   bar.appendChild(allBtn);
 
   unis.forEach(uni => {
     const label = UNIVERSITY_DICT[uni] || uni;
-    // Check if there's a unitag in uploadsJsonData
     const jsonEntry = uploadsJsonData.find(u => u.work === uni && u.dept === currentDept && String(u.stage) === String(currentStage) && u.subject === currentSubject);
     const btn = document.createElement('button');
-    btn.className = 'uni-filter-btn';
-    btn.dataset.uni = uni;
+    btn.className = 'filter-chip'; btn.dataset.uni = uni;
     if (jsonEntry && jsonEntry.unitag) {
       btn.innerHTML = `<img src="${escHtml(jsonEntry.unitag)}" alt="${escHtml(label)}" onerror="this.style.display='none'"> ${escHtml(label)}`;
-    } else {
-      btn.textContent = label;
-    }
+    } else { btn.textContent = label; }
     bar.appendChild(btn);
   });
 
-  bar.classList.add('show');
-
-  bar.querySelectorAll('.uni-filter-btn').forEach(b => {
+  section.style.display = 'block';
+  bar.querySelectorAll('.filter-chip').forEach(b => {
     b.addEventListener('click', () => {
-      bar.querySelectorAll('.uni-filter-btn').forEach(x => x.classList.remove('active'));
+      bar.querySelectorAll('.filter-chip').forEach(x => x.classList.remove('active'));
       b.classList.add('active');
       currentUniFilter = b.dataset.uni || null;
-      renderFiltered();
+      updateFilterDot(); renderFiltered();
     });
   });
+}
+
+function updateFilterDot() {
+  const btn = document.getElementById('filterPopBtn');
+  const hasFilter = currentFileType || currentUniFilter;
+  btn.classList.toggle('has-filter', !!hasFilter);
 }
 
 /* ── FETCH ALL FILES FOR DEPT ── */
@@ -1213,7 +1237,7 @@ async function fetchDeptFiles(dept) {
     '<div class="loading-row"><span class="spin"></span>جاري تحميل الملفات...</div>';
   document.getElementById('filesList').style.display  = 'none';
   document.getElementById('noResults').classList.remove('show');
-  document.getElementById('uniFilterBar').classList.remove('show');
+  document.getElementById('uniFilterSection').style.display = 'none';
 
   try {
     const q    = query(collection(db,"uploads"), where("dept","==", dept));
@@ -1273,7 +1297,7 @@ function renderFiltered() {
     item.innerHTML = `
       <div class="file-icon">PDF</div>
       <div class="file-main">
-        <a href="${escHtml(f.url)}" target="_blank" class="file-name">${escHtml(f.name)}</a>
+        <a href="${escHtml(safeUrl(f.url))}" target="_blank" class="file-name">${escHtml(f.name)}</a>
         <div class="file-meta">
           ${uploaderHref}
           ${fileTypeBadge}
@@ -1282,7 +1306,7 @@ function renderFiltered() {
           ${f.stage   ? `<span class="file-tag">${STAGE_LABELS[f.stage]||('المرحلة '+f.stage)}</span>` : ''}
         </div>
       </div>
-      <a href="${escHtml(f.url)}" download class="dl-btn">⬇ تحميل</a>
+      <a href="${escHtml(safeUrl(f.url))}" download class="dl-btn">⬇ تحميل</a>
     `;
     filesList.appendChild(item);
   });
@@ -1302,13 +1326,29 @@ document.querySelectorAll('.dept-tab').forEach(tab => {
   });
 });
 
-/* ── FILE TYPE FILTER ── */
-document.querySelectorAll('.filetype-filter-btn').forEach(btn => {
+/* ── FILTER POPOVER ── */
+const filterPopBtn = document.getElementById('filterPopBtn');
+const filterPopover = document.getElementById('filterPopover');
+filterPopBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  filterPopover.classList.toggle('show');
+});
+document.addEventListener('click', e => {
+  if (!filterPopBtn.contains(e.target) && !filterPopover.contains(e.target))
+    filterPopover.classList.remove('show');
+});
+document.getElementById('filterResetBtn').addEventListener('click', () => {
+  currentFileType = null; currentUniFilter = null;
+  document.querySelectorAll('#filetypeChips .filter-chip').forEach((b,i) => b.classList.toggle('active', i===0));
+  document.querySelectorAll('#uniFilterBar .filter-chip').forEach((b,i) => b.classList.toggle('active', i===0));
+  updateFilterDot(); renderFiltered();
+});
+document.querySelectorAll('#filetypeChips .filter-chip').forEach(btn => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.filetype-filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#filetypeChips .filter-chip').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     currentFileType = btn.dataset.type || null;
-    renderFiltered();
+    updateFilterDot(); renderFiltered();
   });
 });
 
@@ -1402,9 +1442,7 @@ function resetUploadModal() {
   document.getElementById('uploadStageSelect').value   = '';
   document.getElementById('uploadSubjectSelect').value = '';
   document.getElementById('customSubjectInput').value  = '';
-  document.getElementById('otherUniInput').value       = '';
-  document.getElementById('otherDeptInput').value      = '';
-  ['otherUniGroup','otherDeptGroup','subjectGroup','customSubjectGroup'].forEach(id =>
+  ['subjectGroup','customSubjectGroup'].forEach(id =>
     document.getElementById(id).classList.remove('active'));
   document.getElementById('uploadProgressWrap').classList.remove('active');
   document.getElementById('copyrightCheck').checked = false;
@@ -1423,13 +1461,7 @@ document.querySelectorAll('.filetype-select-card').forEach(card => {
   });
 });
 
-document.getElementById('uploadUniSelect').addEventListener('change', function() {
-  document.getElementById('otherUniGroup').classList.toggle('active', this.value === 'other');
-});
-document.getElementById('uploadDeptSelect').addEventListener('change', function() {
-  document.getElementById('otherDeptGroup').classList.toggle('active', this.value === 'other');
-  updateSubjectSelect();
-});
+document.getElementById('uploadDeptSelect').addEventListener('change', updateSubjectSelect);
 document.getElementById('uploadStageSelect').addEventListener('change', updateSubjectSelect);
 
 function updateSubjectSelect() {
@@ -1438,7 +1470,7 @@ function updateSubjectSelect() {
   const sel   = document.getElementById('uploadSubjectSelect');
   const sg    = document.getElementById('subjectGroup');
   const csg   = document.getElementById('customSubjectGroup');
-  if (!dept || dept === 'other' || !stage) { sg.classList.remove('active'); csg.classList.add('active'); return; }
+  if (!dept || !stage) { sg.classList.remove('active'); csg.classList.add('active'); return; }
   const subjects = (SUBJECTS_CONFIG[dept]||{})[stage] || [];
   if (subjects.length === 0) { sg.classList.remove('active'); csg.classList.add('active'); return; }
   sel.innerHTML = '<option value="">— اختر المادة —</option>';
@@ -1462,8 +1494,6 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
   const stageVal  = document.getElementById('uploadStageSelect').value;
   const subjectEl = document.getElementById('uploadSubjectSelect').value;
   const customSub = document.getElementById('customSubjectInput').value.trim();
-  const otherDept = document.getElementById('otherDeptInput').value.trim();
-  const otherUni  = document.getElementById('otherUniInput').value.trim();
   const copyrightOk = document.getElementById('copyrightCheck').checked;
 
   if (!file)     { toast('اختر ملف PDF.', 'error'); return; }
@@ -1482,9 +1512,14 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
     return;
   }
 
-  const uni     = uniVal === 'other' ? (otherUni || 'أخرى') : uniVal;
-  const dept    = deptVal === 'other' ? (otherDept || 'أخرى') : deptVal;
+  const uni     = uniVal;
+  const dept    = deptVal;
   const subject = (subjectEl && subjectEl !== '__other__') ? subjectEl : (customSub || 'عام');
+
+  const _rl = rateLimit('upload', 8, 10*60*1000);
+  if(!_rl.ok){ toast('ترفع بسرعة كبيرة. انتظر '+fmtWait(_rl.waitMs)+'.','error'); return; }
+  const _tx = checkText(name + ' ' + subject);
+  if(!_tx.ok){ toast('الاسم/المادة مرفوض: '+_tx.reason,'error'); return; }
 
   const progWrap  = document.getElementById('uploadProgressWrap');
   const progFill  = document.getElementById('uploadProgressFill');
@@ -1493,7 +1528,7 @@ document.getElementById('submitUploadBtn').addEventListener('click', async () =>
   progWrap.classList.add('active'); btn.disabled = true;
   progFill.style.width = '20%'; progLabel.textContent = 'جاري الرفع...';
   try {
-    const storRef = ref(storage, `community_files/${uploaderUsername}/${Date.now()}_${file.name}`);
+    const storRef = ref(storage, `community_files/${currentUid}/${Date.now()}_${file.name}`);
     progFill.style.width = '55%';
     const snap = await uploadBytes(storRef, file);
     progFill.style.width = '80%';
@@ -1546,6 +1581,12 @@ window.addEventListener('resize', () => { if(window.innerWidth>900) closeFilters
   await loadUploadsJson();
   buildStageTree(currentDept);
   fetchDeptFiles(currentDept);
+})();
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
 })();
 </script>
 </body>

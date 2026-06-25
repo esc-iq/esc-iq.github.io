@@ -3,9 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESC — الدورات</title>
-  <meta name="description" content="مجتمع طلبة الهندسة بُني لغرض واحد, ألا يضيع شغف المهندسين المتحمسين وجهودهم من خلال تقدير وتثمين أبحاثهم وتوفير بيئة تعليمية مستمرة خارج الصرح الأكاديمي.">
-<link rel="canonical" href="https://esc-iq.net/">
+<title>الدورات الهندسية المجانية — مجتمع طلبة الهندسة | ESC</title>
+<meta name="description" content="دورات هندسية مجانية متخصصة لطلاب الهندسة في العراق عبر مجتمع طلبة الهندسة (ESC): محاضرات فيديو واختبارات وشهادات إتمام.">
+<link rel="canonical" href="https://esc-iq.net/course.html">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ESC — مجتمع طلبة الهندسة">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:url" content="https://esc-iq.net/course.html">
+<meta property="og:title" content="الدورات الهندسية المجانية — مجتمع طلبة الهندسة | ESC">
+<meta property="og:description" content="دورات هندسية مجانية لطلاب الهندسة في العراق: محاضرات فيديو واختبارات وشهادات.">
+<meta property="og:image" content="https://esc-iq.net/media/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="الدورات الهندسية المجانية — مجتمع طلبة الهندسة | ESC">
+<meta name="twitter:description" content="دورات هندسية مجانية لطلاب الهندسة في العراق.">
+<meta name="twitter:image" content="https://esc-iq.net/media/icon-512.png">
 <meta name="keywords" content="هندسة مدنية, جامعة كربلاء, مجتمع طلبة الهندسة, ESC, دورات هندسية, جامعة كربلاء كلية الهندسة , جامعة بغداد كلية الهندسة , مجتمع طلاب الهندسة , محمد باقر الجبوري , الهندسة المدنية , أبحاث هندسية">
 <meta name="author" content="Mohammed Baqer A. Azeez">
 
@@ -344,6 +356,112 @@ body {
   font-size: 11px; font-weight: 700;
   padding: 3px 10px; border-radius: 20px;
 }
+.badge-advanced {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #ede9fe; color: #6d28d9;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+/* شارة "مجاني بالكامل" — أزرق نيلي يتناسب مع ألوان الموقع */
+.badge-free-full {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #3730a3; color: #fff;
+  font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+
+/* ===================== TOOLBAR: بحث + تصفية ===================== */
+.course-toolbar {
+  display: flex; align-items: center; gap: 12px;
+  padding: 22px 30px 6px;
+  max-width: 100%;
+  position: relative;
+  flex-wrap: wrap;
+}
+.course-search-wrap {
+  position: relative; flex: 1; min-width: 220px;
+  display: flex; align-items: center;
+}
+.course-search-wrap .cs-search-icon {
+  position: absolute; right: 14px;
+  display: flex; align-items: center; pointer-events: none;
+  opacity: 0.5;
+}
+.course-search-wrap .cs-search-icon svg { width: 18px; height: 18px; }
+#courseSearch {
+  width: 100%; height: 46px;
+  padding: 0 44px 0 16px;
+  border: 2px solid rgba(0,71,171,0.18);
+  border-radius: 12px;
+  background: #fff; color: #0d1b2a;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700;
+  outline: none; direction: rtl; text-align: right;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+#courseSearch::placeholder { color: #aaa; font-weight: 400; }
+#courseSearch:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(0,71,171,0.1); }
+
+.filter-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 46px; padding: 0 18px;
+  border: 2px solid rgba(0,71,171,0.18);
+  border-radius: 12px; background: #fff;
+  color: var(--blue); cursor: pointer;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
+  white-space: nowrap; flex-shrink: 0;
+}
+.filter-btn:hover { background: #f3f7ff; border-color: var(--blue); transform: translateY(-1px); }
+.filter-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+.filter-btn svg { width: 18px; height: 18px; }
+.filter-count {
+  background: var(--teal); color: #fff;
+  font-size: 11px; font-weight: 700;
+  border-radius: 20px; padding: 1px 8px; margin-right: 2px;
+}
+
+.filter-menu {
+  display: none; position: absolute;
+  top: calc(100% + 6px); left: 30px;
+  min-width: 240px; background: #fff;
+  border-radius: 14px; padding: 8px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+  border: 1px solid rgba(0,0,0,0.08);
+  z-index: 1200; direction: rtl; text-align: right;
+}
+.filter-menu.open { display: block; }
+.filter-menu .fm-title {
+  font-size: 12px; font-weight: 700; color: #6b7280;
+  padding: 6px 10px 8px; letter-spacing: 0.5px;
+}
+.filter-opt {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; text-align: right;
+  padding: 10px 12px; border: none; background: transparent;
+  border-radius: 10px; cursor: pointer;
+  font-family: 'Ubuntu', sans-serif; font-size: 14px; font-weight: 700; color: #111827;
+  transition: background 0.15s;
+}
+.filter-opt:hover { background: #f3f4f6; }
+.filter-opt.selected { background: #eef2ff; color: var(--blue); }
+.filter-opt .fo-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--teal); opacity: 0.4; flex-shrink: 0; }
+.filter-opt.selected .fo-dot { opacity: 1; }
+
+/* شبكة نتائج البحث/التصفية */
+.search-results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px; padding-top: 8px;
+}
+.search-results-grid .course-card { min-width: 0; max-width: none; }
+.courses-empty {
+  text-align: center; padding: 48px 20px;
+  color: #9ca3af; font-weight: 700; font-size: 15px;
+}
+.courses-empty .ce-icon { font-size: 42px; opacity: 0.4; display: block; margin-bottom: 12px; }
+
+/* شريط تقسيم "كورسات تناسبك" */
+.section-divider.recommend { background: linear-gradient(90deg, #113592 0%, #006060 100%); }
 
 /* ===================== SECTION DIVIDER ===================== */
 .section-divider {
@@ -351,7 +469,7 @@ body {
   padding: 28px 40px;
   display: flex; align-items: center; gap: 18px;
 }
-.section-divider .divider-icon { font-size: 32px; flex-shrink: 0; }
+.section-divider .divider-icon { font-size: 32px; flex-shrink: 0; color: #fff; }
 .section-divider h2 { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 4px; }
 .section-divider p { font-size: 13px; color: rgba(255,255,255,0.7); }
 
@@ -374,16 +492,6 @@ body {
 }
 .coming-soon-box .cs-sub {
   font-size: 13px; color: #bbb; font-weight: 400;
-}
-
-/* ===================== VISION ===================== */
-.vision-section {
-  background: var(--blue); padding: 20px 30px; text-align: center;
-}
-.vision-section h2 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 12px; }
-.vision-section p {
-  font-size: 14px; color: rgba(255,255,255,0.85);
-  line-height: 1.85; max-width: 680px; margin: 0 auto 10px;
 }
 
 /* ===================== FOOTER ===================== */
@@ -478,6 +586,12 @@ footer {
   #authBtn { display: none; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -504,9 +618,9 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -517,9 +631,9 @@ footer {
   </button>
 
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -532,7 +646,7 @@ footer {
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-inner">
-    <span class="page-hero-tag">🎓 الدورات</span>
+    <span class="page-hero-tag"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> الدورات</span>
     <h1>تعلّم مع مجتمع طلبة الهندسة</h1>
     <p>دورات مجانية ومدفوعة مصممة خصيصاً لطلاب الهندسة في العراق — من الأساسيات حتى المستوى المتقدم.</p>
     <a href="check_lic.html" style="
@@ -550,244 +664,96 @@ footer {
 </div>
 
 <!-- [تعديل 2] ALERT STRIP — السعر المحدّث -->
-<div class="alert-strip">🏆 سعر الدورة المدفوعة الواحدة: 66,750 دينار عراقي — شهادة معتمدة + امتحان إلكتروني</div>
+<div class="alert-strip"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:5px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> سعر الدورة المدفوعة الواحدة: 66,750 دينار عراقي — شهادة معتمدة + امتحان إلكتروني</div>
 
 <!-- ================================================
-     القسم الأول: الدورات المجانية
+     شريط البحث + التصفية  (قالب يُغذّى من jsonfiles/courses.json)
      ================================================ -->
-<div class="section-divider" style="margin-top: 20px;">
-  <div class="divider-icon">🆓</div>
-  <div>
-    <h2>الدورات المجانية</h2>
-    <p>تشمل شهادة إتمام دورة — متاحة للجميع بدون أي رسوم</p>
+<div class="course-toolbar">
+  <div class="course-search-wrap">
+    <span class="cs-search-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#0047AB" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/>
+      </svg>
+    </span>
+    <input type="search" id="courseSearch" placeholder="ابحث عن دورة بالاسم أو المُقدّم..." autocomplete="off">
+  </div>
+  <button id="filterBtn" class="filter-btn" aria-haspopup="true" aria-expanded="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round">
+      <line x1="4" y1="6" x2="20" y2="6"/><circle cx="9" cy="6" r="2.4" fill="#fff"/>
+      <line x1="4" y1="12" x2="20" y2="12"/><circle cx="15" cy="12" r="2.4" fill="#fff"/>
+      <line x1="4" y1="18" x2="20" y2="18"/><circle cx="8" cy="18" r="2.4" fill="#fff"/>
+    </svg>
+    <span>تصفية حسب التخصص</span>
+    <span class="filter-count" id="filterCount" style="display:none;"></span>
+  </button>
+  <div class="filter-menu" id="filterMenu" role="menu">
+    <div class="fm-title">اختر تخصصك الهندسي</div>
+    <button class="filter-opt selected" data-dept="all" role="menuitem"><span class="fo-dot"></span> كل التخصصات</button>
+    <button class="filter-opt" data-dept="civil" role="menuitem"><span class="fo-dot"></span> هندسة مدنية</button>
+    <button class="filter-opt" data-dept="electrical" role="menuitem"><span class="fo-dot"></span> هندسة كهرباء وإلكترونيك</button>
+    <button class="filter-opt" data-dept="mechanical" role="menuitem"><span class="fo-dot"></span> هندسة الميكانيك</button>
+    <button class="filter-opt" data-dept="petroleum" role="menuitem"><span class="fo-dot"></span> هندسة النفط</button>
+    <button class="filter-opt" data-dept="biomedical" role="menuitem"><span class="fo-dot"></span> هندسة الطب الحياتي</button>
   </div>
 </div>
 
-<!-- كورسات عامة -->
-<div class="category-block">
-  <div class="section-header"><div><h2>كورسات عامة</h2></div></div>
-  <div class="courses-grid-wrapper">
-    <div class="courses-grid">
-<!-- اكسل -->
-      <a href="nocourse.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/excelcourse.png" alt="Excel" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">📊</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">تقنية</div>
-          <div class="card-title">دورة Excel للمبتدئين</div>
-          <div class="card-instructor">👤 محمد باقر علاء</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-<!-- وورد -->
-
-      <a href="nocourse.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/wordcourse.png" alt="Word" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">📚</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">تقنية</div>
-          <div class="card-title">أساسيات برنامج الوورد</div>
-          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-<!-- باوربوينت -->
-
-      <a href="nocourse.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/powerpointcourse.png" alt="PowerPoint" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">💡</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">تقنية</div>
-          <div class="card-title">إعداد العرض التقديمي عبر PowerPoint للمبتدئين</div>
-          <div class="card-instructor">👤 المهندس جعفر الحلفي</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-
+<!-- ================================================
+     كورسات تناسبك (تظهر للمستخدم المسجّل حسب تخصصه)
+     ================================================ -->
+<div id="recommendSection" style="display:none;">
+  <div class="section-divider recommend">
+    <div class="divider-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+    <div>
+      <h2>كورسات تناسبك</h2>
+      <p id="recommendSub">مقترحة لك بناءً على تخصصك الهندسي  </p>
     </div>
   </div>
-</div>
-
-<!-- كورسات الهندسة المدنية -->
-<div class="category-block">
-  <div class="section-header"><div><h2>كورسات الهندسة المدنية</h2></div></div>
-  <div class="courses-grid-wrapper">
-    <div class="courses-grid">
-
- <!--     <a href="courses/civil.soilmechanics.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/mainsoil.png" alt="ميكانيك التربة" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🏗️</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">هندسة مدنية</div>
-          <div class="card-title">ميكانيك التربة</div>
-          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-        -->
-
-      <!-- اوتوكاد -->
-
-      <a href="nocourse.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/autocadcourse.png" alt="أوتوكاد" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">📐</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">هندسة مدنية</div>
-          <div class="card-title">دورة أوتوكاد للمبتدئين للمهندس المدني</div>
-          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-<!-- بلكياس -->
-
-      <a href="nocourse.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/plaxis2dcourse.png" alt="PLAXIS" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🔩</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">هندسة مدنية</div>
-          <div class="card-title">تحليل وتصميم الأسس عبر PLAXIS 2D</div>
-          <div class="card-instructor">👤 المهندس محمد الجبوري</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</div>
-
-<!-- كورسات الهندسة الكهربائية -->
-
-  
-
-<div class="category-block">
-  <div class="section-header"><div><h2>كورسات الهندسة الكهربائية</h2></div></div>
-  <div class="courses-grid-wrapper">
-    <div class="courses-grid">
-<!-- بايثون -->
-      <a href="nocourse.html" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/pythoncourse.png" alt="Python" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">⚡</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">هندسة كهربائية</div>
-          <div class="card-title">أساسيات البرمجة عبر بايثون</div>
-          <div class="card-instructor">👤 المهندس محمد الشيباني</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-            <span class="badge-beginner">مبتدئين</span>
-          </div>
-        </div>
-      </a>
-<!--
-
-      <a href="#" class="course-card">
-        <div class="card-thumb-wrap">
-          <img src="media/electricalcourse2.png" alt="دورة كهربائية" class="thumb"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-          <div class="thumb-placeholder">🔌</div>
-        </div>
-        <div class="card-body">
-          <div class="card-tag">هندسة كهربائية</div>
-          <div class="card-title">أهمية C++ في عالم الإلكترونيك</div>
-          <div class="card-instructor">👤 غير متوفر</div>
-          <div class="card-meta">
-            <span class="badge-free">🆓 مجاني</span>
-            <span class="badge-cert">🏅 شهادة</span>
-          </div>
-        </div>
-       اكسل -->
-      </a>
-
+  <div class="category-block" style="padding-top: 24px;">
+    <div class="courses-grid-wrapper">
+      <div class="courses-grid" id="recommendGrid"></div>
     </div>
   </div>
 </div>
 
 <!-- ================================================
-     القسم الثاني: الدورات المدفوعة
+     نتائج البحث / التصفية (تظهر فقط عند وجود بحث أو فلتر)
      ================================================ -->
-<div id="section-paid" class="section-divider" style="background: linear-gradient(90deg, #003080, #0047AB);">
-  <div class="divider-icon">🏆</div>
-  <div>
-    <h2>الدورات المدفوعة</h2>
-    <!-- [تعديل 2] السعر المحدّث -->
-    <p>امتحان إلكتروني + شهادة معتمدة — 66,750 دينار عراقي للدورة الواحدة</p>
+<div id="searchResults" style="display:none;">
+  <div class="section-header" style="margin-top: 26px;"><div><h2 id="searchResultsTitle">نتائج البحث</h2></div></div>
+  <div class="courses-grid-wrapper">
+    <div class="search-results-grid" id="searchGrid"></div>
   </div>
 </div>
 
-<!-- [تعديل 1] كورسات المدنية المتقدمة — تتوفر قريباً -->
-<div class="category-block">
-  <div class="section-header"><div><h2>كورسات الهندسة المدنية المتقدمة</h2></div></div>
-  <div class="courses-grid-wrapper">
-    <div class="coming-soon-box">
-      <div class="cs-icon">🚧</div>
-      <div class="cs-text">تتوفر قريباً</div>
-      <div class="cs-sub">نعمل على إطلاق هذه الدورات — ترقّبوا التحديثات</div>
+<!-- ================================================
+     العرض الكامل المصنّف (مجاني فوق / مدفوع أسفل)
+     ================================================ -->
+<div id="coursesMain">
+  <!-- القسم الأول: الدورات المجانية -->
+  <div class="section-divider" style="margin-top: 20px;">
+    <div class="divider-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+    <div>
+      <h2>الدورات المجانية</h2>
+      <p>تشمل شهادة إتمام دورة — متاحة للجميع بدون أي رسوم</p>
     </div>
   </div>
-</div>
+  <div id="freeGroups">
+    <div class="courses-empty" id="freeLoading"><span class="ce-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> جارٍ تحميل الدورات...</div>
+  </div>
 
-<!-- [تعديل 1] كورسات الكهربائية والإلكترونيك — تتوفر قريباً -->
-<div class="category-block">
-  <div class="section-header"><div><h2>كورسات الهندسة الكهربائية والإلكترونيك</h2></div></div>
-  <div class="courses-grid-wrapper">
-    <div class="coming-soon-box">
-      <div class="cs-icon">🚧</div>
-      <div class="cs-text">تتوفر قريباً</div>
-      <div class="cs-sub">نعمل على إطلاق هذه الدورات — ترقّبوا التحديثات</div>
+  <!-- القسم الثاني: الدورات المدفوعة -->
+  <div id="section-paid" class="section-divider" style="background: linear-gradient(90deg, #003080, #0047AB);">
+    <div class="divider-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+    <div>
+      <h2>الدورات المدفوعة</h2>
+      <p>امتحان إلكتروني + شهادة معتمدة — 66,750 دينار عراقي للدورة الواحدة</p>
     </div>
   </div>
+  <div id="paidGroups"></div>
 </div>
-
-<!-- VISION -->
-<section class="vision-section">
-  <h2>رؤيتنا</h2>
-  <p>نؤمن بأن الطريق الوحيد للإنسان حتى يحيا من جديد هو من خلال التعليم.</p>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -799,8 +765,8 @@ footer {
     </div>
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
-      <p>هل لديك سؤال أو مقترح؟<br>يسعدنا التواصل معك.<br><br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      <p>هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>يسعدنا التواصل معك.<br><br>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -842,7 +808,7 @@ window.addEventListener('resize', () => { if(window.innerWidth > 768) closeMenu(
   display: flex; align-items: center; gap: 10px;
   transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.3s;
   animation: floatPulse 2.5s ease-in-out infinite;">
-  🏆 اكتشف الدورات المدفوعة
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:6px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> اكتشف الدورات المدفوعة
   <span style="font-size:18px;">↓</span>
 </div>
 
@@ -864,6 +830,7 @@ window.addEventListener('scroll', () => {
 </script>
   <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged }
                              from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, query, where, getDocs }
@@ -879,6 +846,9 @@ const firebaseConfig = {
 };
 
 const app       = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth      = getAuth(app);
 const db        = getFirestore(app);
 const btn       = document.getElementById('authBtn');
@@ -969,6 +939,256 @@ document.addEventListener('click', e => {
   if (!document.getElementById('navSearchWrap').contains(e.target))
     navSearchResults.classList.remove('show');
 });
+/* ════════════════════════════════════════════════
+   عرض الدورات من jsonfiles/courses.json (قالب ديناميكي)
+   ════════════════════════════════════════════════ */
+let ALL_COURSES   = [];
+let COMING_SOON   = { free: [], paid: [] };
+let DEPT_LABELS   = {};
+let currentDeptFilter = 'all';
+let currentSearchQuery = '';
+let userDept      = null;
+
+function fmtPrice(n) {
+  return Number(n || 0).toLocaleString('en-US');
+}
+
+function courseCardHTML(c) {
+  const paid    = c.course_type === 'paid';
+  const img     = escHtml(c.image || '');
+  const ph      = escHtml(c.placeholder || '');
+  const link    = escHtml(c.link || '#');
+  const title   = escHtml(c.title || '');
+  const tag     = escHtml(c.category || '');
+  const inst    = escHtml(c.instructor || 'غير متوفر');
+  const priceTag = paid
+    ? `<span class="badge-paid"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> ${fmtPrice(c.price)} ${escHtml(c.currency || 'دينار عراقي')}</span>`
+    : `<span class="badge-free-full">مجاني بالكامل</span>`;
+  const certTag  = c.certificate ? `<span class="badge-cert"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> شهادة</span>` : '';
+  const levelTag = c.level === 'advanced'
+    ? `<span class="badge-advanced">متقدم</span>`
+    : `<span class="badge-beginner">مبتدئين</span>`;
+  return `<a href="${link}" class="course-card${paid ? ' paid' : ''}">
+    <div class="card-thumb-wrap">
+      ${paid ? '<span class="paid-ribbon">مدفوع</span>' : ''}
+      <img src="${img}" alt="${title}" class="thumb"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="thumb-placeholder">${ph}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-tag">${tag}</div>
+      <div class="card-title">${title}</div>
+      <div class="card-instructor"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${inst}</div>
+      <div class="card-meta">
+        ${priceTag}
+        ${certTag}
+        ${levelTag}
+      </div>
+    </div>
+  </a>`;
+}
+
+// تجميع الدورات حسب الـ group مع الحفاظ على ترتيب الظهور
+function renderGroups(containerId, courses, comingSoonGroups) {
+  const wrap = document.getElementById(containerId);
+  const order = [];
+  const byGroup = {};
+  courses.forEach(c => {
+    const g = c.group || 'دورات';
+    if (!byGroup[g]) { byGroup[g] = []; order.push(g); }
+    byGroup[g].push(c);
+  });
+
+  let html = '';
+  order.forEach(g => {
+    html += `<div class="category-block">
+      <div class="section-header"><div><h2>${escHtml(g)}</h2></div></div>
+      <div class="courses-grid-wrapper">
+        <div class="courses-grid">${byGroup[g].map(courseCardHTML).join('')}</div>
+      </div>
+    </div>`;
+  });
+
+  (comingSoonGroups || []).forEach(g => {
+    html += `<div class="category-block">
+      <div class="section-header"><div><h2>${escHtml(g)}</h2></div></div>
+      <div class="courses-grid-wrapper">
+        <div class="coming-soon-box">
+          <div class="cs-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="M6 20V10l6-6 6 6v10"/><path d="M10 20v-6h4v6"/></svg></div>
+          <div class="cs-text">تتوفر قريباً</div>
+          <div class="cs-sub">نعمل على إطلاق هذه الدورات — ترقّبوا التحديثات</div>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  if (!html) {
+    html = `<div class="courses-empty"><span class="ce-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 002 2h16a2 2 0 002-2v-6l-3.45-6.89A2 2 0 0016.76 4H7.24a2 2 0 00-1.79 1.11z"/></svg></span> لا توجد دورات في هذا القسم حالياً.</div>`;
+  }
+  wrap.innerHTML = html;
+}
+
+function renderMain() {
+  const free = ALL_COURSES.filter(c => c.course_type !== 'paid');
+  const paid = ALL_COURSES.filter(c => c.course_type === 'paid');
+  renderGroups('freeGroups', free, COMING_SOON.free);
+  renderGroups('paidGroups', paid, COMING_SOON.paid);
+}
+
+// تطبيق البحث/التصفية
+function applyFilter() {
+  const q       = currentSearchQuery.toLowerCase();
+  const dept    = currentDeptFilter;
+  const active  = q !== '' || dept !== 'all';
+
+  const main    = document.getElementById('coursesMain');
+  const recEl   = document.getElementById('recommendSection');
+  const resEl   = document.getElementById('searchResults');
+
+  if (!active) {
+    main.style.display = '';
+    resEl.style.display = 'none';
+    if (userDept) recEl.style.display = '';
+    return;
+  }
+
+  // عند التصفية: أظهر شبكة النتائج المسطّحة وأخفِ العرض المصنّف والمقترحات
+  main.style.display  = 'none';
+  recEl.style.display = 'none';
+  resEl.style.display = '';
+
+  const results = ALL_COURSES.filter(c => {
+    const matchDept = dept === 'all' || c.department === dept || c.department === 'general';
+    const matchQ    = !q ||
+      (c.title || '').toLowerCase().includes(q) ||
+      (c.instructor || '').toLowerCase().includes(q) ||
+      (c.category || '').toLowerCase().includes(q);
+    return matchDept && matchQ;
+  });
+
+  const titleEl = document.getElementById('searchResultsTitle');
+  const deptLabel = dept !== 'all' ? (DEPT_LABELS[dept] || '') : '';
+  titleEl.textContent = deptLabel
+    ? `نتائج: ${deptLabel}${q ? ` — "${currentSearchQuery}"` : ''} (${results.length})`
+    : `نتائج البحث (${results.length})`;
+
+  const grid = document.getElementById('searchGrid');
+  grid.innerHTML = results.length
+    ? results.map(courseCardHTML).join('')
+    : `<div class="courses-empty" style="grid-column:1/-1;"><span class="ce-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span> لا توجد دورات مطابقة. جرّب كلمة أخرى أو تخصصاً مختلفاً.</div>`;
+}
+
+// كورسات تناسبك حسب تخصص المستخدم
+function buildRecommendations(dept) {
+  if (!dept) return;
+  userDept = dept;
+  const recEl  = document.getElementById('recommendSection');
+  const grid   = document.getElementById('recommendGrid');
+  const subEl  = document.getElementById('recommendSub');
+
+  // مزيج: دورات القسم نفسه أولاً ثم الدورات العامة (مجاني + مدفوع)
+  const matched = ALL_COURSES.filter(c => c.department === dept);
+  const general = ALL_COURSES.filter(c => c.department === 'general');
+  // ترتيب يضمن مزيجاً متفاوتاً من المجاني والمدفوع
+  const pool = [...matched, ...general];
+  const seen = new Set();
+  const picks = [];
+  for (const c of pool) {
+    const key = (c.title || '') + (c.link || '');
+    if (seen.has(key)) continue;
+    seen.add(key);
+    picks.push(c);
+    if (picks.length >= 10) break;
+  }
+
+  if (!picks.length) { recEl.style.display = 'none'; return; }
+
+  const label = DEPT_LABELS[dept] || '';
+  if (label) subEl.textContent = `مقترحة لك بناءً على تخصصك (${label})  `;
+  grid.innerHTML = picks.map(courseCardHTML).join('');
+
+  // لا تُظهر المقترحات إن كان فلتر/بحث مفعّل
+  if (currentSearchQuery === '' && currentDeptFilter === 'all') recEl.style.display = '';
+}
+
+async function loadCourses() {
+  try {
+    const res  = await fetch('jsonfiles/courses.json');
+    const data = await res.json();
+    const jsonCourses = Array.isArray(data.courses) ? data.courses : [];
+    COMING_SOON = data.comingSoon || { free: [], paid: [] };
+    DEPT_LABELS = data.departments || {};
+
+    // دمج كورسات Firestore (المرفوعة من لوحة المسؤولين) مع كورسات JSON الثابتة
+    let dbCourses = [];
+    try {
+      const snap = await getDocs(collection(db, "courses"));
+      snap.forEach(d => {
+        const c = d.data();
+        dbCourses.push({
+          title: c.title, instructor: c.instructor, level: c.level,
+          category: c.category, department: c.department, group: c.group || 'دورات',
+          image: c.image ? ('media/' + c.image) : '', placeholder: '📘',
+          link: `coursplay.html?u=${encodeURIComponent(d.id)}`,
+          certificate: !!c.certificate, course_type: c.course_type || 'free',
+          price: c.price || 0, currency: c.currency || 'دينار عراقي'
+        });
+      });
+    } catch (e) { /* قواعد courses غير منشورة بعد — نعرض JSON فقط */ }
+
+    ALL_COURSES = [...dbCourses, ...jsonCourses];
+    renderMain();
+    applyFilter();
+    if (userDept) buildRecommendations(userDept);
+  } catch (e) {
+    document.getElementById('freeGroups').innerHTML =
+      `<div class="courses-empty"><span class="ce-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> تعذّر تحميل الدورات. حدّث الصفحة وحاول مجدداً.</div>`;
+  }
+}
+
+// ── ربط شريط الأدوات ──
+const courseSearchEl = document.getElementById('courseSearch');
+const filterBtn      = document.getElementById('filterBtn');
+const filterMenu     = document.getElementById('filterMenu');
+const filterCount    = document.getElementById('filterCount');
+
+courseSearchEl.addEventListener('input', () => {
+  currentSearchQuery = courseSearchEl.value.trim();
+  applyFilter();
+});
+
+filterBtn.addEventListener('click', e => {
+  e.stopPropagation();
+  const open = filterMenu.classList.toggle('open');
+  filterBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+document.querySelectorAll('.filter-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    currentDeptFilter = opt.dataset.dept;
+    document.querySelectorAll('.filter-opt').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    if (currentDeptFilter === 'all') {
+      filterBtn.classList.remove('active');
+      filterCount.style.display = 'none';
+    } else {
+      filterBtn.classList.add('active');
+      filterCount.style.display = '';
+      filterCount.textContent = DEPT_LABELS[currentDeptFilter] || '1';
+    }
+    filterMenu.classList.remove('open');
+    filterBtn.setAttribute('aria-expanded', 'false');
+    applyFilter();
+  });
+});
+
+document.addEventListener('click', e => {
+  if (!filterMenu.contains(e.target) && !filterBtn.contains(e.target))
+    filterMenu.classList.remove('open');
+});
+
+loadCourses();
+
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     btn.className = 'state-guest';
@@ -994,6 +1214,25 @@ onAuthStateChanged(auth, async (user) => {
     const avatarSrc  = data.avatarURL || 'media/1nkown.png';
     const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
 
+    // كورسات تناسبك حسب تخصص المستخدم
+    if (data.department) buildRecommendations(data.department);
+
+    // زر لوحة إدارة الكورسات — يظهر فقط للمستخدمين المخوّلين
+    try {
+      const adminRes = await fetch('jsonfiles/courses_adminpage.json', { cache: 'no-store' });
+      const adminData = await adminRes.json();
+      if (Array.isArray(adminData.authorized) && adminData.authorized.includes(username)) {
+        const fb = document.getElementById('floatingBtn');
+        if (fb) {
+          const adminBtn = document.createElement('a');
+          adminBtn.href = 'courses_adminpage.html';
+          adminBtn.textContent = '⚙ إدارة الكورسات';
+          adminBtn.style.cssText = 'position:fixed;bottom:28px;right:28px;background:#0047AB;color:#fff;font-family:Ubuntu,sans-serif;font-size:14px;font-weight:700;padding:12px 22px;border-radius:14px;text-decoration:none;z-index:800;box-shadow:0 8px 32px rgba(0,71,171,0.3);';
+          document.body.appendChild(adminBtn);
+        }
+      }
+    } catch (e) {}
+
     btn.className = 'state-user';
     btn.href      = profileUrl;
     btn.innerHTML =
@@ -1003,7 +1242,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (btnMobile) {
       btnMobile.href      = profileUrl;
-      btnMobile.innerHTML = '👤 @' + username;
+      btnMobile.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @' + username;
     }
   } catch (e) {
     btn.className = 'state-guest';
@@ -1011,6 +1250,12 @@ onAuthStateChanged(auth, async (user) => {
     btn.innerHTML = ' تسجيل الدخول';
   }
 });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
 </script>
 </body>
 </html>

@@ -124,6 +124,14 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
 /* phone tab hidden when non-Iraq */
 .method-tab.hidden-tab { display:none; }
 
+/* ===== METHOD SWITCH LINK ===== */
+.phone-switch-link {
+  display:inline-block;margin-top:8px;font-size:12.5px;font-weight:700;
+  color:var(--blue);cursor:pointer;text-decoration:none;
+  border-bottom:1.5px solid rgba(0,71,171,0.3);padding-bottom:1px;transition:color var(--transition);
+}
+.phone-switch-link:hover { color:#003a8c; }
+
 /* ===== PASS TOGGLE ===== */
 .pass-toggle {
   position:absolute;top:50%;left:14px;transform:translateY(-50%);
@@ -258,59 +266,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
 
     <div class="card-body">
 
-      <!-- ===== STEP 1: LOCATION ===== -->
-      <div id="locationStep" class="location-step">
-        <div class="field-group" style="margin-bottom:0;">
-          <label class="field-label">📍 أين تدرس حالياً؟</label>
-          <div class="two-col-row">
-            <div class="field-group">
-              <div class="field-wrap">
-                <select id="lContinent" class="field-input" onchange="loadLoginCountries()">
-                  <option value="" disabled selected>— القارة —</option>
-                  <option value="asia">آسيا</option>
-                  <option value="africa">أفريقيا</option>
-                  <option value="europe">أوروبا</option>
-                  <option value="north_america">أمريكا الشمالية</option>
-                  <option value="south_america">أمريكا الجنوبية</option>
-                  <option value="oceania">أوقيانوسيا</option>
-                </select>
-                <span class="field-icon">🌍</span>
-                <span class="select-arrow">▾</span>
-              </div>
-              <div class="field-error" id="err-lcontinent">اختر القارة</div>
-            </div>
-            <div class="field-group">
-              <div class="field-wrap">
-                <select id="lCountry" class="field-input" disabled onchange="onCountryChange()">
-                  <option value="" disabled selected>— الدولة —</option>
-                </select>
-                <span class="field-icon">🏳️</span>
-                <span class="select-arrow">▾</span>
-              </div>
-              <div class="field-error" id="err-lcountry">اختر الدولة</div>
-            </div>
-          </div>
-        </div>
-        <p class="step-note">يُستخدم هذا لتحديد خيارات تسجيل الدخول المتاحة لك</p>
-      </div>
-
-      <form id="loginForm" novalidate style="margin-top:20px;">
-
-        <!-- ===== NON-IRAQ NOTICE ===== -->
-        <div class="info-badge" id="nonIraqBadge">
-          ℹ️ تسجيل الدخول عبر رقم الهاتف متاح حصريًا للمستخدمين داخل العراق.
-          يُرجى تسجيل الدخول باستخدام بريدك الإلكتروني.
-        </div>
-
-        <!-- ===== METHOD TABS ===== -->
-        <div class="method-tabs" id="methodTabs">
-          <button type="button" class="method-tab active" id="tabEmail" onclick="switchMethod('email')">
-            ✉️ البريد الإلكتروني
-          </button>
-          <button type="button" class="method-tab" id="tabPhone" onclick="switchMethod('phone')">
-            ☎ رقم الهاتف
-          </button>
-        </div>
+      <form id="loginForm" novalidate>
 
         <!-- ===== EMAIL FIELD ===== -->
         <div class="field-group" id="emailGroup">
@@ -318,20 +274,22 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <div class="field-wrap">
             <input type="email" id="email" class="field-input" placeholder="example@gmail.com"
                    autocomplete="email" style="direction:ltr;text-align:right;">
-            <span class="field-icon">✉️</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
           </div>
           <div class="field-error" id="err-email">الرجاء إدخال بريد إلكتروني صحيح</div>
+          <a class="phone-switch-link" id="switchToPhone" onclick="switchMethod('phone')">تسجيل الدخول عبر رقم الهاتف</a>
         </div>
 
         <!-- ===== PHONE FIELD ===== -->
         <div class="field-group" id="phoneGroup" style="display:none;">
           <label class="field-label" for="phone">رقم الهاتف</label>
           <div class="field-wrap">
-            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx"
-                   autocomplete="tel" maxlength="13" style="direction:ltr;text-align:right;">
-            <span class="field-icon">☎</span>
+            <input type="tel" id="phone" class="field-input" placeholder="+9647801112222 أو 07801112222"
+                   autocomplete="tel" maxlength="20" style="direction:ltr;text-align:right;">
+            <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.4 2.18 2 2 0 012.38 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14a2 2 0 012 2.92z"/></svg></span>
           </div>
           <div class="field-error" id="err-phone">الرجاء إدخال رقم هاتف صحيح (07xxxxxxxxx)</div>
+          <a class="phone-switch-link" id="switchToEmail" onclick="switchMethod('email')">تسجيل الدخول عبر البريد الإلكتروني</a>
         </div>
 
         <!-- ===== PASSWORD ===== -->
@@ -340,9 +298,9 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <div class="field-wrap">
             <input type="password" id="password" class="field-input"
                    placeholder="أدخل كلمة المرور الخاصة بك" autocomplete="current-password">
-            <span class="field-icon">⚿</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
             <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء">
-              <span id="eyeIcon">👁</span>
+              <span id="eyeIcon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
             </button>
           </div>
           <div class="field-error" id="err-password">الرجاء إدخال كلمة المرور</div>
@@ -355,8 +313,8 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
         <div class="forgot-box" id="forgotBox">
           <p>أدخل البريد الإلكتروني أو رقم الهاتف المرتبط بحسابك وسنرسل لك رابط إعادة التعيين.</p>
           <div class="forgot-tabs">
-            <button type="button" class="forgot-tab active" id="ftabEmail" onclick="switchForgot('email')">✉️ البريد الإلكتروني</button>
-            <button type="button" class="forgot-tab" id="ftabPhone" onclick="switchForgot('phone')">☎ رقم الهاتف</button>
+            <button type="button" class="forgot-tab active" id="ftabEmail" onclick="switchForgot('email')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> البريد الإلكتروني</button>
+            <button type="button" class="forgot-tab" id="ftabPhone" onclick="switchForgot('phone')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.4 2.18 2 2 0 012.38 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14a2 2 0 012 2.92z"/></svg> رقم الهاتف</button>
           </div>
 
           <!-- forgot email -->
@@ -364,7 +322,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
             <div class="field-wrap" style="margin-bottom:10px;">
               <input type="email" id="forgotEmail" class="field-input"
                      placeholder="example@gmail.com" style="direction:ltr;text-align:right;">
-              <span class="field-icon">✉️</span>
+              <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
             </div>
             <div class="field-error" id="err-forgot-email">أدخل بريدًا إلكترونيًا صحيحًا</div>
           </div>
@@ -373,8 +331,8 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <div id="forgotPhoneWrap" style="display:none;">
             <div class="field-wrap" style="margin-bottom:10px;">
               <input type="tel" id="forgotPhone" class="field-input"
-                     placeholder="07xxxxxxxxx" maxlength="13" style="direction:ltr;text-align:right;">
-              <span class="field-icon">☎</span>
+                     placeholder="+9647801112222 أو 07801112222" maxlength="20" style="direction:ltr;text-align:right;">
+              <span class="field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.4 2.18 2 2 0 012.38 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14a2 2 0 012 2.92z"/></svg></span>
             </div>
             <div class="field-error" id="err-forgot-phone">أدخل رقم هاتف صحيح</div>
             <p style="font-size:11.5px;color:#6b7280;margin-bottom:8px;line-height:1.7;">
@@ -383,7 +341,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           </div>
 
           <button type="button" class="btn-send-reset" id="resetBtn" onclick="sendReset()">
-            <span>📨</span><span>إرسال رابط الاستعادة</span>
+            <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><span>إرسال رابط الاستعادة</span>
           </button>
           <p class="reset-note" id="resetNote"></p>
         </div>
@@ -414,106 +372,14 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
 </footer>
 
 <script>
-/* ===== COUNTRIES DATA ===== */
-const countriesByContinent = {
-  asia: [
-    {v:"iraq",l:"العراق"},{v:"saudi",l:"المملكة العربية السعودية"},{v:"uae",l:"الإمارات العربية المتحدة"},
-    {v:"jordan",l:"الأردن"},{v:"syria",l:"سوريا"},{v:"lebanon",l:"لبنان"},{v:"egypt",l:"مصر"},
-    {v:"yemen",l:"اليمن"},{v:"oman",l:"سلطنة عُمان"},{v:"qatar",l:"قطر"},{v:"bahrain",l:"البحرين"},
-    {v:"palestine",l:"جمهورية فلسطين"},{v:"turkey",l:"تركيا"},{v:"iran",l:"إيران"},
-    {v:"pakistan",l:"باكستان"},{v:"india",l:"الهند"},{v:"bangladesh",l:"بنغلاديش"},
-    {v:"indonesia",l:"إندونيسيا"},{v:"malaysia",l:"ماليزيا"},{v:"china",l:"الصين"},
-    {v:"japan",l:"اليابان"},{v:"southkorea",l:"كوريا الجنوبية"},{v:"afghanistan",l:"أفغانستان"},
-    {v:"kazakhstan",l:"كازاخستان"},{v:"uzbekistan",l:"أوزبكستان"},{v:"azerbaijan",l:"أذربيجان"},
-    {v:"armenia",l:"أرمينيا"},{v:"georgia",l:"جورجيا"},{v:"singapore",l:"سنغافورة"},
-    {v:"thailand",l:"تايلاند"},{v:"vietnam",l:"فيتنام"},{v:"philippines",l:"الفلبين"},
-    {v:"myanmar",l:"ميانمار"},{v:"cambodia",l:"كمبوديا"},{v:"nepal",l:"نيبال"},{v:"srilanka",l:"سريلانكا"}
-  ],
-  africa: [
-    {v:"morocco",l:"المغرب"},{v:"algeria",l:"الجزائر"},{v:"tunisia",l:"تونس"},{v:"libya",l:"ليبيا"},
-    {v:"sudan",l:"السودان"},{v:"ethiopia",l:"إثيوبيا"},{v:"nigeria",l:"نيجيريا"},
-    {v:"southafrica",l:"جنوب أفريقيا"},{v:"kenya",l:"كينيا"},{v:"ghana",l:"غانا"},
-    {v:"cameroon",l:"الكاميرون"},{v:"tanzania",l:"تنزانيا"},{v:"senegal",l:"السنغال"},
-    {v:"uganda",l:"أوغندا"},{v:"mozambique",l:"موزمبيق"},{v:"zambia",l:"زامبيا"},
-    {v:"somalia",l:"الصومال"},{v:"mauritania",l:"موريتانيا"},{v:"mali",l:"مالي"},{v:"niger",l:"النيجر"}
-  ],
-  europe: [
-    {v:"uk",l:"المملكة المتحدة"},{v:"germany",l:"ألمانيا"},{v:"france",l:"فرنسا"},
-    {v:"netherlands",l:"هولندا"},{v:"sweden",l:"السويد"},{v:"norway",l:"النرويج"},
-    {v:"denmark",l:"الدنمارك"},{v:"finland",l:"فنلندا"},{v:"switzerland",l:"سويسرا"},
-    {v:"austria",l:"النمسا"},{v:"belgium",l:"بلجيكا"},{v:"spain",l:"إسبانيا"},
-    {v:"italy",l:"إيطاليا"},{v:"portugal",l:"البرتغال"},{v:"poland",l:"بولندا"},
-    {v:"czechia",l:"التشيك"},{v:"hungary",l:"المجر"},{v:"romania",l:"رومانيا"},
-    {v:"greece",l:"اليونان"},{v:"ukraine",l:"أوكرانيا"},{v:"russia",l:"روسيا"},
-    {v:"serbia",l:"صربيا"},{v:"croatia",l:"كرواتيا"},{v:"slovakia",l:"سلوفاكيا"},
-    {v:"bulgaria",l:"بلغاريا"},{v:"albania",l:"ألبانيا"}
-  ],
-  north_america: [
-    {v:"usa",l:"الولايات المتحدة الأمريكية"},{v:"canada",l:"كندا"},{v:"mexico",l:"المكسيك"},
-    {v:"cuba",l:"كوبا"},{v:"jamaica",l:"جامايكا"},{v:"dominicanrep",l:"جمهورية الدومينيكان"},
-    {v:"costarica",l:"كوستاريكا"},{v:"panama",l:"بنما"},{v:"guatemala",l:"غواتيمالا"},
-    {v:"honduras",l:"هندوراس"},{v:"elsalvador",l:"السلفادور"},{v:"nicaragua",l:"نيكاراغوا"}
-  ],
-  south_america: [
-    {v:"brazil",l:"البرازيل"},{v:"argentina",l:"الأرجنتين"},{v:"colombia",l:"كولومبيا"},
-    {v:"chile",l:"تشيلي"},{v:"peru",l:"بيرو"},{v:"venezuela",l:"فنزويلا"},
-    {v:"ecuador",l:"الإكوادور"},{v:"bolivia",l:"بوليفيا"},{v:"paraguay",l:"باراغواي"},
-    {v:"uruguay",l:"أوروغواي"},{v:"guyana",l:"غيانا"},{v:"suriname",l:"سورينام"}
-  ],
-  oceania: [
-    {v:"australia",l:"أستراليا"},{v:"newzealand",l:"نيوزيلندا"},{v:"fiji",l:"فيجي"},
-    {v:"png",l:"بابوا غينيا الجديدة"},{v:"samoa",l:"ساموا"},{v:"tonga",l:"تونغا"}
-  ]
-};
-
-let isIraq = false;
 let activeMethod = 'email';  // 'email' | 'phone'
 let forgotMethod = 'email';
 
-function loadLoginCountries() {
-  const cont = document.getElementById('lContinent').value;
-  const sel  = document.getElementById('lCountry');
-  sel.innerHTML = '<option value="" disabled selected>— الدولة —</option>';
-  (countriesByContinent[cont] || []).forEach(c => {
-    const o = document.createElement('option');
-    o.value = c.v; o.textContent = c.l;
-    sel.appendChild(o);
-  });
-  sel.disabled = false;
-  document.getElementById('err-lcontinent').classList.remove('show');
-}
-
-function onCountryChange() {
-  const country = document.getElementById('lCountry').value;
-  document.getElementById('err-lcountry').classList.remove('show');
-
-  isIraq = (country === 'iraq');
-
-  const tabPhone   = document.getElementById('tabPhone');
-  const nonIraq    = document.getElementById('nonIraqBadge');
-  const ftabPhone  = document.getElementById('ftabPhone');
-
-  if (isIraq) {
-    tabPhone.classList.remove('hidden-tab');
-    nonIraq.classList.remove('show');
-    ftabPhone.style.display = '';
-  } else {
-    tabPhone.classList.add('hidden-tab');
-    nonIraq.classList.add('show');
-    ftabPhone.style.display = 'none';
-    // force email method
-    switchMethod('email');
-    switchForgot('email');
-  }
-}
-
 function switchMethod(m) {
   activeMethod = m;
-  document.getElementById('tabEmail').classList.toggle('active', m === 'email');
-  document.getElementById('tabPhone').classList.toggle('active', m === 'phone');
+  window.activeMethod = m;
   document.getElementById('emailGroup').style.display = m === 'email' ? '' : 'none';
   document.getElementById('phoneGroup').style.display = m === 'phone' ? '' : 'none';
-  // clear errors
   ['email','phone'].forEach(id => {
     document.getElementById(id).classList.remove('error');
     document.getElementById('err-' + id).classList.remove('show');
@@ -521,12 +387,12 @@ function switchMethod(m) {
 }
 
 function toggleForgot() {
-  const box = document.getElementById('forgotBox');
-  box.classList.toggle('show');
+  document.getElementById('forgotBox').classList.toggle('show');
 }
 
 function switchForgot(m) {
   forgotMethod = m;
+  window.forgotMethod = m;
   document.getElementById('ftabEmail').classList.toggle('active', m === 'email');
   document.getElementById('ftabPhone').classList.toggle('active', m === 'phone');
   document.getElementById('forgotEmailWrap').style.display = m === 'email' ? '' : 'none';
@@ -535,10 +401,13 @@ function switchForgot(m) {
 }
 </script>
 
+
 <script type="module">
   import { initializeApp }                                            from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
   import { getAuth, signInWithEmailAndPassword, onAuthStateChanged,
            sendPasswordResetEmail }                                   from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+  import { rateLimit, fmtWait } from "./js/moderation.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
@@ -550,6 +419,9 @@ function switchForgot(m) {
     measurementId: "G-6L0FRLSVZW"
   };
   const app  = initializeApp(firebaseConfig);
+  /* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+     استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+  try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
   const auth = getAuth(app);
 
   let isLoggingIn = false;
@@ -606,12 +478,12 @@ function switchForgot(m) {
         note.style.color = '#dc2626';
       }
       btn.disabled = false;
-      btn.innerHTML = '<span>📨</span><span>إرسال رابط الاستعادة</span>';
+      btn.innerHTML = '<span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><span>إرسال رابط الاستعادة</span>';
 
     } else {
       // phone → mailto support
       const ph = document.getElementById('forgotPhone').value.replace(/\s/g,'');
-      if (!/^07[0-9]{9}$/.test(ph)) {
+      if (!/^07[0-9]{9}$/.test(ph) && !/^\+[1-9][0-9]{7,14}$/.test(ph)) {
         document.getElementById('err-forgot-phone').classList.add('show');
         return;
       }
@@ -623,7 +495,7 @@ function switchForgot(m) {
 الوقت: ${now.toLocaleTimeString('ar-EG')} (توقيت بغداد +3:00)
 ------
 الرجاء التواصل مع صاحب الرقم لتأكيد هويته ومساعدته في استعادة الحساب.`;
-      window.location.href = `mailto:esc.irq@gmail.com?subject=${encodeURIComponent('طلب استعادة كلمة المرور')}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:info@esc-iq.net?subject=${encodeURIComponent('طلب استعادة كلمة المرور')}&body=${encodeURIComponent(body)}`;
     }
   };
 
@@ -631,13 +503,9 @@ function switchForgot(m) {
   document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
 
-    // Validate location first
-    const continent = document.getElementById('lContinent').value;
-    const country   = document.getElementById('lCountry').value;
-    let locValid = true;
-    if (!continent) { document.getElementById('err-lcontinent').classList.add('show'); locValid=false; }
-    if (!country)   { document.getElementById('err-lcountry').classList.add('show');   locValid=false; }
-    if (!locValid) return;
+    /* حدّ معدّل ضد محاولات التخمين (brute-force): 8 محاولات كل 10 دقائق */
+    const _rl = rateLimit('login', 8, 10*60*1000);
+    if (!_rl.ok) { alert('محاولات دخول كثيرة. حاول بعد ' + fmtWait(_rl.waitMs) + '.'); return; }
 
     const method = window.activeMethod || 'email';
     const pass   = document.getElementById('password').value;
@@ -654,7 +522,7 @@ function switchForgot(m) {
       }
     } else {
       const ph = document.getElementById('phone').value.replace(/\s/g,'');
-      if (!/^07[0-9]{9}$/.test(ph)) {
+      if (!/^07[0-9]{9}$/.test(ph) && !/^\+[1-9][0-9]{7,14}$/.test(ph)) {
         showErr('phone','err-phone'); valid=false;
       } else {
         clearErr('phone','err-phone');
@@ -678,7 +546,7 @@ function switchForgot(m) {
 
       // Check email verification (skip for legacy phone accounts)
       if (!user.emailVerified && method === 'email') {
-        btn.innerHTML = '<span>📧</span><span>يُرجى تأكيد بريدك أولاً</span>';
+        btn.innerHTML = '<span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span><span>يُرجى تأكيد بريدك أولاً</span>';
         btn.disabled = false;
         isLoggingIn = false;
         document.getElementById('successMsg').textContent = '⚠️ لم يتم تأكيد بريدك الإلكتروني بعد. يُرجى مراجعة صندوق الوارد.';
@@ -692,7 +560,7 @@ function switchForgot(m) {
       document.getElementById('successMsg').textContent = '✅ تم تسجيل الدخول بنجاح! جاري تحويلك...';
       document.getElementById('successMsg').style = '';
       document.getElementById('successMsg').classList.add('show');
-      btn.innerHTML = '<span>✔️</span><span>تم الدخول</span>';
+      btn.innerHTML = '<span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg></span><span>تم الدخول</span>';
       setTimeout(() => { window.location.href = "profile.html"; }, 1500);
 
     } catch (error) {
@@ -710,21 +578,9 @@ function switchForgot(m) {
     }
   });
 
-  // expose globals
+  // default method = email
   window.activeMethod = 'email';
   window.forgotMethod = 'email';
-
-  // keep globals in sync
-  const origSwitchMethod = window.switchMethod;
-  window.switchMethod = function(m) {
-    window.activeMethod = m;
-    origSwitchMethod(m);
-  };
-  const origSwitchForgot = window.switchForgot;
-  window.switchForgot = function(m) {
-    window.forgotMethod = m;
-    origSwitchForgot(m);
-  };
 </script>
 </body>
 </html>

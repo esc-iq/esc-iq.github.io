@@ -570,7 +570,7 @@ body {
   gap: 12px; margin-bottom: 16px;
 }
 .info-row:last-child { margin-bottom: 0; }
-.info-icon { font-size: 18px; flex-shrink: 0; margin-top: 2px; }
+.info-icon { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; color: var(--blue); }
 .info-label {
   font-size: 11px; color: #999; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 3px;
@@ -665,6 +665,25 @@ body {
 }
 .edit-inline-btn:hover { background: rgba(0,71,171,0.08); }
 .owner-mode .edit-inline-btn { display: inline-flex; align-items: center; gap: 4px; }
+
+/* ── SETTINGS GEAR (owner only, inline with name) ── */
+.settings-gear-btn {
+  display: none; align-items: center; justify-content: center;
+  align-self: center; flex-shrink: 0;
+  box-sizing: content-box;
+  width: 1em; height: 1em;                 /* الأيقونة بنفس امتداد نص الاسم (1em = حجم خط الاسم) */
+  padding: 5px;                            /* مساحة النقر وخلفية hover فقط — لا تغيّر حجم الأيقونة */
+  position: relative; top: 5px;            /* موازنة بصرية: حروف العربية تجلس أسفل صندوق السطر */
+  color: var(--text-light); text-decoration: none;
+  background: transparent; border: none; border-radius: 9px;
+  transition: color var(--transition), background var(--transition);
+}
+.settings-gear-btn:hover  { color: var(--blue); background: rgba(0,71,171,0.08); }
+.settings-gear-btn:active { color: var(--blue); background: rgba(0,71,171,0.14); }
+.settings-gear-btn svg { width: 100%; height: 100%; display: block; }
+@media (max-width: 768px) {
+  .settings-gear-btn { top: 1px; }
+}
 
 /* ============================================================
    CONTENT CARD (main column)
@@ -1104,9 +1123,11 @@ body {
 .article-author-info { flex: 1; }
 .article-author-name {
   font-size: 14px; font-weight: 700; color: var(--text-dark);
-  text-decoration: none;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 4px;
 }
 .article-author-name:hover { text-decoration: underline; }
+.article-author-badge { width: 15px; height: 15px; flex-shrink: 0; }
+.sv-author-badge { width: 15px; height: 15px; }
 .article-author-sub {
   font-size: 12px; color: var(--text-light); font-weight: 700; margin-top: 1px;
 }
@@ -1246,6 +1267,7 @@ body {
 .cpp-badge { width: 15px; height: 15px; }
 .cpp-sub { font-size: 11px; color: #9ca3af; }
 .cpp-text { font-size: 14px; color: var(--text-dark); line-height: 1.8; margin-top: 10px; white-space: pre-wrap; word-wrap: break-word; }
+.cpp-text .bold-heading { font-size: 16px; font-weight: 700; display: block; margin: 10px 0 5px; }
 .cpp-video { width: 100%; max-height: 280px; border-radius: 12px; background: #000; margin-top: 10px; }
 .cpp-actions { display: flex; gap: 8px; padding: 10px 0 4px; }
 .cpp-act-btn { display: inline-flex; align-items: center; gap: 5px; background: #f3f4f6; border: none; border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 700; color: var(--text-mid); cursor: pointer; font-family: inherit; }
@@ -1275,24 +1297,43 @@ body {
 /* ── قائمة تعليقات المقاطع الجانبية (تنزلق من اليسار) ── */
 .sc-drawer { position: fixed; inset: 0; z-index: 6000; display: none; }
 .sc-drawer.show { display: block; }
-.sc-drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.4); }
+.sc-drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(2px); }
 .sc-drawer-panel {
   position: absolute; top: 0; left: 0; height: 100%;
-  width: 380px; max-width: 88vw; background: #fff;
+  width: 400px; max-width: 92vw; background: #fff;
   display: flex; flex-direction: column;
-  box-shadow: 4px 0 30px rgba(0,0,0,0.3);
-  transform: translateX(-100%); transition: transform .28s cubic-bezier(.4,0,.2,1);
+  box-shadow: 6px 0 40px rgba(0,0,0,0.25);
+  transform: translateX(-100%); transition: transform .3s cubic-bezier(.4,0,.2,1);
+  border-radius: 0 16px 16px 0;
 }
 .sc-drawer.show .sc-drawer-panel { transform: translateX(0); }
-.sc-drawer-head { display: flex; align-items: center; justify-content: center; position: relative; padding: 14px 18px; border-bottom: 1px solid rgba(0,0,0,0.07); }
+.sc-drawer-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 18px; border-bottom: 1px solid rgba(0,0,0,0.07);
+  background: #fff; border-radius: 0 16px 0 0;
+}
 .sc-drawer-head h3 { font-size: 15px; font-weight: 800; color: var(--text-dark); }
-.sc-drawer-close { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; border-radius: 50%; background: #f3f4f6; border: none; color: var(--text-mid); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-family: 'Ubuntu', sans-serif; }
-.sc-drawer-close:hover { background: #e5e7eb; }
-.sc-drawer-list { flex: 1; overflow-y: auto; padding: 10px 12px; }
-.sc-drawer-input { display: flex; gap: 8px; align-items: center; padding: 12px 14px; border-top: 1px solid rgba(0,0,0,0.07); }
+.sc-drawer-close {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #f3f4f6; border: none; color: var(--text-mid);
+  font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  font-family: 'Ubuntu', sans-serif; transition: background .15s;
+}
+.sc-drawer-close:hover { background: #e5e7eb; color: var(--text-dark); }
+.sc-drawer-list { flex: 1; overflow-y: auto; padding: 12px 14px; }
+.sc-drawer-input {
+  display: flex; gap: 8px; align-items: center;
+  padding: 12px 14px; border-top: 1px solid rgba(0,0,0,0.07);
+  background: #fff; border-radius: 0 0 16px 0;
+}
 .sc-drawer-input .form-control { flex: 1; margin: 0; }
 .sc-drawer-input .modal-submit-btn { width: auto; padding: 10px 18px; margin: 0; white-space: nowrap; }
-.comment-del-btn { background: none; border: none; color: #dc2626; cursor: pointer; font-size: 13px; }
+.comment-del-btn {
+  background: none; border: none; color: #dc2626; cursor: pointer;
+  font-size: 11px; font-weight: 700; font-family: 'Ubuntu', sans-serif;
+  padding: 2px 6px; border-radius: 5px; transition: background .12s;
+}
+.comment-del-btn:hover { background: #fee2e2; }
 .comments-input-bar { display: flex; gap: 8px; align-items: center; padding: 12px 16px; border-top: 1px solid rgba(0,0,0,0.07); background: #fff; }
 .comments-input-bar .form-control { flex: 1; margin: 0; }
 .comments-input-bar .modal-submit-btn { width: auto; padding: 10px 18px; margin: 0; white-space: nowrap; }
@@ -1361,15 +1402,19 @@ body {
 @media(min-width:700px){ .sv-slide .sv-video { max-width: 460px; } }
 
 /* لوحة المعلومات أسفل المقطع */
-.sv-info { position: absolute; right: 0; left: 70px; bottom: 0; padding: 18px 18px 26px; color: #fff;
-  background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.25) 70%, transparent 100%); pointer-events: none; }
+.sv-info { position: absolute; right: 0; left: 70px; bottom: 0; padding: 24px 18px 28px; color: #fff;
+  background: linear-gradient(to top, rgba(0,0,0,0.86) 0%, rgba(0,0,0,0.55) 35%, rgba(0,0,0,0.12) 75%, transparent 100%); pointer-events: none;
+  animation: svInfoUp .45s cubic-bezier(.22,.61,.36,1) both; }
 .sv-info * { pointer-events: auto; }
-.sv-author { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: #fff; }
-.sv-author img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.5); }
-.sv-author-name { font-size: 14px; font-weight: 800; }
-.sv-desc { font-size: 13px; line-height: 1.7; margin-top: 8px; white-space: pre-wrap; word-wrap: break-word; max-height: 22vh; overflow-y: auto; }
-.sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.sv-tag { font-size: 11px; font-weight: 700; color: #bcd4ff; }
+@keyframes svInfoUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+.sv-author { display: inline-flex; align-items: center; gap: 9px; text-decoration: none; color: #fff; }
+.sv-author img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.85); box-shadow: 0 2px 8px rgba(0,0,0,0.4); transition: transform .15s; }
+.sv-author:hover img { transform: scale(1.06); }
+.sv-author-name { font-size: 14.5px; font-weight: 800; text-shadow: 0 1px 4px rgba(0,0,0,0.6); letter-spacing: .2px; }
+.sv-desc { font-size: 13.5px; line-height: 1.75; margin-top: 10px; white-space: pre-wrap; word-wrap: break-word; max-height: 22vh; overflow-y: auto; text-shadow: 0 1px 3px rgba(0,0,0,0.55); scrollbar-width: none; }
+.sv-desc::-webkit-scrollbar { display: none; }
+.sv-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.sv-tag { font-size: 11.5px; font-weight: 700; color: #dbe7ff; background: rgba(255,255,255,0.14); padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(4px); }
 
 /* شريط الأزرار الجانبي */
 .sv-rail { position: absolute; left: 10px; bottom: 70px; z-index: 4015; display: flex; flex-direction: column; gap: 16px; align-items: center; }
@@ -1410,7 +1455,14 @@ body {
 
 /* Short video player modal */
 #shortPlayerModal .modal-box { max-width: 420px; background: #0a0a0f; border-radius: 20px; }
-#shortPlayerModal .modal-head { background: #0d1117; }
+#shortPlayerModal .modal-head {
+  background: #0d1117; border-bottom-color: rgba(255,255,255,0.06);
+  border-radius: 20px 20px 0 0;
+}
+#shortPlayerModal .modal-head h3 { color: #fff; }
+#shortPlayerModal .modal-head h3::before { background: #4d9cf8; }
+#shortPlayerModal .modal-close-btn { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+#shortPlayerModal .modal-close-btn:hover { background: rgba(255,255,255,0.2); color: #fff; }
 .short-player-wrap {
   position: relative; background: #000; border-radius: 0 0 8px 8px;
   overflow: hidden; max-height: 70vh;
@@ -1604,21 +1656,35 @@ body {
 @keyframes slideUp { from{transform:translateY(14px);opacity:0} to{transform:translateY(0);opacity:1} }
 .modal-head {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 22px;
-  background: var(--blue); color: #fff;
+  padding: 15px 20px;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px 16px 0 0;
   position: sticky; top: 0; z-index: 1;
 }
-.modal-head h3 { font-size: 16px; font-weight: 700; }
-.modal-close-btn {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.18);
-  border: 1px solid rgba(255,255,255,0.28);
-  color: #fff; font-size: 17px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background var(--transition);
-  font-family: 'Ubuntu', sans-serif;
+.modal-head h3 {
+  font-size: 15px; font-weight: 800;
+  color: var(--text-dark);
+  display: flex; align-items: center; gap: 8px;
 }
-.modal-close-btn:hover { background: rgba(255,255,255,0.32); }
+.modal-head h3::before {
+  content: '';
+  display: inline-block;
+  width: 3px; height: 16px;
+  background: var(--blue);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.modal-close-btn {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #f3f4f6;
+  border: none;
+  color: var(--text-mid); font-size: 15px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--transition), color var(--transition);
+  font-family: 'Ubuntu', sans-serif; flex-shrink: 0;
+}
+.modal-close-btn:hover { background: #e5e7eb; color: var(--text-dark); }
 .modal-body { padding: 22px; }
 .form-group { margin-bottom: 16px; }
 .form-group label {
@@ -1649,18 +1715,17 @@ select.form-control { cursor: pointer; }
 .char-counter.warn { color: #dc2626; }
 
 .modal-submit-btn {
-  width: 100%; padding: 12px;
+  width: 100%; padding: 11px 18px;
   background: var(--blue); color: #fff;
-  border: none; border-radius: 10px;
+  border: none; border-radius: 9px;
   font-family: 'Ubuntu', sans-serif;
-  font-size: 15px; font-weight: 700; cursor: pointer;
-  transition: background var(--transition);
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background var(--transition), opacity var(--transition);
   margin-top: 4px;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
 }
-.modal-submit-btn:hover { background: #0059d4; }
-.modal-submit-btn:disabled { background: #9ca3af; cursor: not-allowed; }
-.modal-submit-btn.teal { background: var(--teal); }
-.modal-submit-btn.teal:hover { background: #006666; }
+.modal-submit-btn:hover { background: #003a8c; }
+.modal-submit-btn:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
 
 .toggle-row {
   display: flex; align-items: center;
@@ -1847,15 +1912,45 @@ footer {
 /* ============================================================
    CONFIRM DIALOG
    ============================================================ */
-#confirmModal .modal-box { max-width: 380px; }
-.confirm-box { max-width: 360px; }
-.confirm-body { padding: 22px 22px 16px; }
-.confirm-text { font-size: 14.5px; font-weight: 700; color: var(--text-dark); line-height: 1.7; margin: 0 0 18px; }
-.confirm-btns { display: flex; gap: 8px; justify-content: flex-start; }
-.confirm-yes { padding: 8px 18px; background: var(--blue); color: #fff; border: none; border-radius: 8px; font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
-.confirm-yes:hover { background: #003a8c; }
-.confirm-no  { padding: 8px 16px; background: #f3f4f6; color: var(--text-dark); border: 1px solid var(--border); border-radius: 8px; font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; }
-.confirm-no:hover { background: #e5e7eb; }
+#confirmModal .modal-box { max-width: 380px; padding: 0; }
+.confirm-box { max-width: 380px; }
+.confirm-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px 16px 0 0;
+}
+.confirm-head-title {
+  font-size: 15px; font-weight: 800; color: var(--text-dark);
+  display: flex; align-items: center; gap: 8px;
+}
+.confirm-head-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px; height: 16px;
+  background: #dc2626;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+.confirm-body { padding: 20px 20px 18px; }
+.confirm-text { font-size: 14px; font-weight: 600; color: var(--text-mid); line-height: 1.75; margin: 0 0 20px; }
+.confirm-btns { display: flex; gap: 8px; justify-content: flex-end; flex-direction: row-reverse; }
+.confirm-yes {
+  padding: 9px 22px; background: #dc2626; color: #fff;
+  border: none; border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .15s;
+}
+.confirm-yes:hover { background: #b91c1c; }
+.confirm-yes.confirm-yes-blue { background: var(--blue); }
+.confirm-yes.confirm-yes-blue:hover { background: #003a8c; }
+.confirm-no {
+  padding: 9px 18px; background: transparent; color: var(--text-mid);
+  border: 1px solid var(--border); border-radius: 9px;
+  font-family: 'Ubuntu', sans-serif; font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .15s, color .15s;
+}
+.confirm-no:hover { background: #f3f4f6; color: var(--text-dark); }
 
 /* Auth button */
 #authBtn {
@@ -1898,6 +1993,12 @@ footer {
 @media (max-width: 480px) {
   .shorts-grid { grid-template-columns: 1fr; }
 }
+</style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
 </style>
 </head>
 <body>
@@ -1984,7 +2085,7 @@ footer {
   <nav aria-label="روابط الموقع">
     <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="news.html">آخر الأخبار</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -1996,7 +2097,7 @@ footer {
   <div id="mobileMenu" class="mobile-menu" role="menu">
     <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="news.html">آخر الأخبار</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -2045,6 +2146,9 @@ footer {
         <img id="verifyBadgeImg" src="" alt="✅">
         <span class="verify-tooltip">هذا الحساب موثق ومعتمد من قبل ESC</span>
       </span>
+      <a id="settingsBtn" class="settings-gear-btn" href="settings.html" title="إعدادات الحساب" aria-label="إعدادات الحساب" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7.03 7.03 0 0 0-1.62-.94l-.36-2.54a.5.5 0 0 0-.5-.42h-3.84a.5.5 0 0 0-.5.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.74 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32a.5.5 0 0 0 .6.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54a.5.5 0 0 0 .5.42h3.84a.5.5 0 0 0 .5-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96a.5.5 0 0 0 .6-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58ZM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2Z"/></svg>
+      </a>
     </div>
     <div id="profileMemberTitle" class="profile-member-title"></div>
     <div id="profileUsername" class="profile-username">@...</div>
@@ -2082,7 +2186,7 @@ footer {
         <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
       </svg>
     </div>
-    المقاطع القصيرة
+    الشورتس
   </button>
   <button class="profile-tab-btn" data-tab="engineer" id="tabBtnEngineer">
     <div class="tab-circle">
@@ -2101,45 +2205,45 @@ footer {
     <div class="sidebar-card" id="infoCard">
       <div class="sidebar-card-title">
         <span>المعلومات</span>
-        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات">✏️ تعديل</button>
+        <button class="edit-inline-btn" id="editInfoBtn" title="تعديل المعلومات"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> تعديل</button>
       </div>
       <div class="info-row" id="rowUniversity">
-        <span class="info-icon">🎓</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <div style="flex:1">
           <div class="info-label">التعليم</div>
           <div class="info-value" id="infoUniversity">—</div>
         </div>
       </div>
       <div class="info-row" id="rowDept">
-        <span class="info-icon">🏛️</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
         <div style="flex:1">
           <div class="info-label">القسم</div>
           <div class="info-value" id="infoDept">—</div>
         </div>
       </div>
       <div class="info-row" id="rowStage">
-        <span class="info-icon">📚</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
         <div style="flex:1">
           <div class="info-label">المرحلة الدراسية</div>
           <div class="info-value" id="infoStage">—</div>
         </div>
       </div>
       <div class="info-row" id="rowCity">
-        <span class="info-icon">📍</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
         <div style="flex:1">
           <div class="info-label">المدينة</div>
           <div class="info-value" id="infoCity">—</div>
         </div>
       </div>
       <div class="info-row" id="rowJobStatus" style="display:none">
-        <span class="info-icon">💼</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg>
         <div style="flex:1">
           <div class="info-label">الحالة الوظيفية</div>
           <div class="info-value" id="infoJobStatus">—</div>
         </div>
       </div>
       <div class="info-row" id="rowMemberEmail" style="display:none">
-        <span class="info-icon">✉️</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         <div style="flex:1">
           <div class="info-label">التواصل</div>
           <div class="info-value" id="infoMemberEmail">—</div>
@@ -2151,21 +2255,21 @@ footer {
     <div class="sidebar-card" id="orgCard">
       <div class="sidebar-card-title">المنظمة</div>
       <div class="info-row">
-        <span class="info-icon">🏢</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <div>
           <div class="info-label">الاسم</div>
           <div class="info-value">مجتمع طلبة الهندسة — ESC</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">📌</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
         <div>
           <div class="info-label">الدور</div>
           <div class="info-value" id="orgRoleValue">—</div>
         </div>
       </div>
       <div class="info-row">
-        <span class="info-icon">🌐</span>
+        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
         <div>
           <div class="info-label">الموقع</div>
           <div class="info-value"><a href="index.html">esc-iq.net</a></div>
@@ -2209,7 +2313,7 @@ footer {
          ═══════════════════════════════════════════════ -->
     <div class="tab-panel" id="panel-shorts">
       <div class="content-card">
-        <div class="card-header"><h2>المقاطع القصيرة</h2></div>
+        <div class="card-header"><h2>الشورتس</h2></div>
         <div id="shortsContainer">
           <div class="feed-loading"><span class="feed-spinner"></span><p>يتم التحميل…</p></div>
         </div>
@@ -2229,7 +2333,7 @@ footer {
       <div class="content-card" id="mainAboutCard">
         <div class="card-header">
           <h2>حول</h2>
-          <button class="edit-inline-btn" id="editBioBtn" style="display:none;">✏️ تعديل</button>
+          <button class="edit-inline-btn" id="editBioBtn" style="display:none;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> تعديل</button>
         </div>
         <div id="mainAboutContent">
           <p class="about-text-main" style="color:#c0c0c0;font-style:italic;">لم يُضَف وصف بعد.</p>
@@ -2325,7 +2429,7 @@ footer {
 <div id="bioModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>✏️ تعديل "حول"</h3>
+      <h3>تعديل "حول"</h3>
       <button class="modal-close-btn" data-close="bioModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2344,7 +2448,7 @@ footer {
 <div id="infoModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:520px;">
     <div class="modal-head">
-      <h3>✏️ تعديل المعلومات والمسار الأكاديمي</h3>
+      <h3>تعديل المعلومات والمسار الأكاديمي</h3>
       <button class="modal-close-btn" data-close="infoModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2425,7 +2529,7 @@ footer {
 <div id="linkModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>＋ إضافة رابط تواصل</h3>
+      <h3>إضافة رابط تواصل</h3>
       <button class="modal-close-btn" data-close="linkModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2482,7 +2586,7 @@ footer {
 <div id="skillModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>＋ إضافة مهارة</h3>
+      <h3>إضافة مهارة</h3>
       <button class="modal-close-btn" data-close="skillModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2500,7 +2604,7 @@ footer {
       <p id="skillLimitMsg" style="display:none;font-size:12px;font-weight:700;color:#dc2626;margin-bottom:10px;">
         وصلت للحد الأقصى (5 مهارات).
       </p>
-      <button class="modal-submit-btn teal" id="saveSkillBtn">إضافة المهارة</button>
+      <button class="modal-submit-btn" id="saveSkillBtn">إضافة المهارة</button>
     </div>
   </div>
 </div>
@@ -2509,7 +2613,7 @@ footer {
 <div id="uploadModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:520px;">
     <div class="modal-head">
-      <h3>📤 رفع ملف للمجتمع</h3>
+      <h3>رفع ملف للمجتمع</h3>
       <button class="modal-close-btn" data-close="uploadModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2552,12 +2656,7 @@ footer {
           <option value="najaf">جامعة النجف الأشرف التقنية</option>
           <option value="mustansiriyah">الجامعة المستنصرية</option>
           <option value="technology">الجامعة التكنولوجية</option>
-          <option value="other">جامعة أخرى</option>
         </select>
-      </div>
-      <div class="form-group upload-sub-select" id="otherUniGroup">
-        <label>اسم الجامعة</label>
-        <input type="text" id="otherUniInput" class="form-control" maxlength="60" placeholder="أدخل اسم الجامعة">
       </div>
       <div class="form-group">
         <label>القسم الهندسي</label>
@@ -2568,15 +2667,11 @@ footer {
           <option value="mechanical">هندسة ميكانيك</option>
           <option value="electromech">هندسة كهروميكانيك</option>
           <option value="Prosthetics">هندسة أطراف ومساند</option>
+          <option value="petroleum">هندسة النفط</option>
           <option value="biomedical">هندسة الطب الحياتي</option>
           <option value="architecture">هندسة معمارية</option>
           <option value="software">هندسة برمجيات</option>
-          <option value="other">أخرى</option>
         </select>
-      </div>
-      <div class="form-group upload-sub-select" id="otherDeptGroup">
-        <label>اسم القسم</label>
-        <input type="text" id="otherDeptInput" class="form-control" maxlength="50" placeholder="أدخل اسم قسمك الهندسي">
       </div>
       <div class="form-group">
         <label>المرحلة الدراسية</label>
@@ -2606,7 +2701,7 @@ footer {
         <div class="upload-progress-bar"><div class="upload-progress-fill" id="uploadProgressFill"></div></div>
         <div class="upload-progress-label" id="uploadProgressLabel">جاري الرفع...</div>
       </div>
-      <button class="modal-submit-btn teal" id="submitUploadBtn" style="margin-top:8px;">رفع الملف</button>
+      <button class="modal-submit-btn" id="submitUploadBtn" style="margin-top:8px;">رفع الملف</button>
     </div>
   </div>
 </div>
@@ -2615,7 +2710,7 @@ footer {
 <div id="editFileModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:480px;">
     <div class="modal-head">
-      <h3>✏️ تعديل بيانات الملف</h3>
+      <h3>تعديل بيانات الملف</h3>
       <button class="modal-close-btn" data-close="editFileModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2637,12 +2732,7 @@ footer {
           <option value="najaf">جامعة النجف الأشرف التقنية</option>
           <option value="mustansiriyah">الجامعة المستنصرية</option>
           <option value="technology">الجامعة التكنولوجية</option>
-          <option value="other">جامعة أخرى</option>
         </select>
-      </div>
-      <div class="form-group upload-sub-select" id="editOtherUniGroup">
-        <label>اسم الجامعة</label>
-        <input type="text" id="editOtherUniInput" class="form-control" maxlength="60">
       </div>
       <div class="form-group">
         <label>القسم الهندسي</label>
@@ -2653,10 +2743,10 @@ footer {
           <option value="mechanical">هندسة ميكانيك</option>
           <option value="electromech">هندسة كهروميكانيك</option>
           <option value="Prosthetics">هندسة أطراف ومساند</option>
+          <option value="petroleum">هندسة النفط</option>
           <option value="biomedical">هندسة الطب الحياتي</option>
           <option value="architecture">هندسة معمارية</option>
           <option value="software">هندسة برمجيات</option>
-          <option value="other">أخرى</option>
         </select>
       </div>
       <div class="form-group">
@@ -2671,7 +2761,7 @@ footer {
         <label>المادة / الموضوع</label>
         <input type="text" id="editFileSubjectInput" class="form-control" maxlength="60">
       </div>
-      <button class="modal-submit-btn teal" id="saveEditFileBtn">حفظ التعديلات</button>
+      <button class="modal-submit-btn" id="saveEditFileBtn">حفظ التعديلات</button>
     </div>
   </div>
 </div>
@@ -2680,7 +2770,7 @@ footer {
 <div id="publishArticleModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:640px;">
     <div class="modal-head">
-      <h3>📝 نشر مقالة</h3>
+      <h3>نشر مقالة</h3>
       <button class="modal-close-btn" data-close="publishArticleModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2722,6 +2812,7 @@ footer {
           <span class="hashtag-chip" data-tag="الطرق_والجسور">#الطرق_والجسور</span>
           <span class="hashtag-chip" data-tag="كونكريت_وخرسانة">#كونكريت_وخرسانة</span>
           <span class="hashtag-chip" data-tag="سوفت_وير">#سوفت_وير</span>
+          <span class="hashtag-chip" data-tag="مقالة_عامة">#مقالة_عامة</span>
         </div>
       </div>
 
@@ -2730,7 +2821,7 @@ footer {
         <div class="upload-progress-label" id="articleProgressLabel">جاري النشر...</div>
       </div>
 
-      <button class="modal-submit-btn teal" id="submitArticleBtn">نشر المقالة ✓</button>
+      <button class="modal-submit-btn" id="submitArticleBtn">نشر المقالة</button>
     </div>
   </div>
 </div>
@@ -2738,6 +2829,10 @@ footer {
 <!-- CONFIRM MODAL -->
 <div id="confirmModal" class="modal-backdrop">
   <div class="modal-box confirm-box">
+    <div class="confirm-head">
+      <span class="confirm-head-title" id="confirmTitle">تأكيد الإجراء</span>
+      <button class="modal-close-btn" data-close="confirmModal">✕</button>
+    </div>
     <div class="confirm-body">
       <p id="confirmMsg" class="confirm-text">هل أنت متأكد؟</p>
       <div class="confirm-btns">
@@ -2752,7 +2847,7 @@ footer {
 <div id="shareModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>📤 مشاركة المنشور</h3>
+      <h3>مشاركة المنشور</h3>
       <button class="modal-close-btn" data-close="shareModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2814,7 +2909,7 @@ footer {
 <div id="publishShortModal" class="modal-backdrop">
   <div class="modal-box" style="max-width:520px;">
     <div class="modal-head">
-      <h3>🎬 نشر مقطع قصير</h3>
+      <h3>نشر مقطع قصير</h3>
       <button class="modal-close-btn" data-close="publishShortModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2843,13 +2938,14 @@ footer {
           <span class="hashtag-chip" data-tag="الطرق_والجسور">#الطرق_والجسور</span>
           <span class="hashtag-chip" data-tag="كونكريت_وخرسانة">#كونكريت_وخرسانة</span>
           <span class="hashtag-chip" data-tag="سوفت_وير">#سوفت_وير</span>
+          <span class="hashtag-chip" data-tag="مقالة_عامة">#مقالة_عامة</span>
         </div>
       </div>
       <div class="upload-progress-wrap" id="shortUploadProgress">
         <div class="upload-progress-bar"><div class="upload-progress-fill" id="shortProgressFill"></div></div>
         <div class="upload-progress-label" id="shortProgressLabel">جاري الرفع...</div>
       </div>
-      <button class="modal-submit-btn teal" id="submitShortBtn" style="margin-top:8px;">نشر المقطع ✓</button>
+      <button class="modal-submit-btn" id="submitShortBtn" style="margin-top:8px;">نشر المقطع</button>
     </div>
   </div>
 </div>
@@ -2858,7 +2954,7 @@ footer {
 <div id="editShortModal" class="modal-backdrop">
   <div class="modal-box">
     <div class="modal-head">
-      <h3>✏️ تعديل وصف المقطع</h3>
+      <h3>تعديل وصف المقطع</h3>
       <button class="modal-close-btn" data-close="editShortModal">✕</button>
     </div>
     <div class="modal-body">
@@ -2868,7 +2964,7 @@ footer {
         <textarea id="editShortDescInput" class="form-control" maxlength="400" rows="3"></textarea>
         <div class="char-counter" id="editShortCounter">0 / 400</div>
       </div>
-      <button class="modal-submit-btn teal" id="saveEditShortBtn">حفظ التعديلات ✓</button>
+      <button class="modal-submit-btn" id="saveEditShortBtn">حفظ التعديلات</button>
     </div>
   </div>
 </div>
@@ -2887,7 +2983,7 @@ footer {
     </div>
     <div class="comments-input-bar">
       <input type="text" id="commentInput" class="form-control" placeholder="اكتب تعليقاً..." maxlength="300">
-      <button id="submitCommentBtn" class="modal-submit-btn teal">إرسال</button>
+      <button id="submitCommentBtn" class="modal-submit-btn">إرسال</button>
     </div>
   </div>
 </div>
@@ -2903,7 +2999,7 @@ footer {
     <div class="sc-drawer-list" id="scDrawerList"></div>
     <div class="sc-drawer-input">
       <input type="text" id="scCommentInput" class="form-control" placeholder="اكتب تعليقاً..." maxlength="300">
-      <button id="scSubmitCommentBtn" class="modal-submit-btn teal">إرسال</button>
+      <button id="scSubmitCommentBtn" class="modal-submit-btn">إرسال</button>
     </div>
   </div>
 </div>
@@ -2913,6 +3009,7 @@ footer {
      ====================================================== -->
 <script type="module">
 import { initializeApp }      from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
 import { getAuth, onAuthStateChanged }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
@@ -2921,6 +3018,7 @@ import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject }
                                from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+import { checkText, checkImage, rateLimit, fmtWait } from "./js/moderation.js";
 
 /* ─── FIREBASE CONFIG ─── */
 const firebaseConfig = {
@@ -2932,9 +3030,53 @@ const firebaseConfig = {
   appId:             "1:371432549665:web:4d3b9617243731fb06e260"
 };
 const app     = initializeApp(firebaseConfig);
+/* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+   استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
 const auth    = getAuth(app);
 const db      = getFirestore(app);
 const storage = getStorage(app);
+
+/* ─── CONTENT MODERATION ─── */
+const BANNED_PATTERNS = [
+  /* عنف وإرهاب */
+  /\b(اغتصاب|اغتصب|تحرش|تحرش_جنسي|ابتزاز|إرهاب|قتل|انتحار|ذبح|تفجير|بمب|قنبلة)\b/i,
+  /* جنسي عربي وعراقي */
+  /\b(سكس|بورن|إباحي|إباحية|عاهرة|شرموطة|كحبة|زانية|فاحشة|متناكة|منيوكة|ززز|كس|طيز|زب|نيك|يني[كق]|تنا[كق]|مناكة|حيوان_سكس)\b/i,
+  /* مصطلحات إنجليزية +18 */
+  /\b(sex|porn|xxx|nude|naked|fuck|shit|bitch|pussy|cock|dick|ass|boobs|tits|horny|masturbat|hentai|rape|pedoph)\b/i,
+  /* روابط مشبوهة */
+  /\b(onlyfans\.com|pornhub|xvideos|xnxx|redtube|youporn)\b/i,
+];
+
+/* يفوّض إلى وحدة الإشراف المشتركة (تطبيع متقدّم يكسر التحايل + كشف سبام).
+   يرجّع رسالة الخطأ أو null إن كان سليماً — متوافق مع كل الاستدعاءات الموجودة. */
+function moderateText(text){
+  const r=checkText(text);
+  return r.ok ? null : r.reason;
+}
+
+/* ─── POST ID GENERATOR ─── */
+async function genPostId(author, coll){
+  const today=new Date();
+  const yy=today.getFullYear(), mm=String(today.getMonth()+1).padStart(2,'0'), dd=String(today.getDate()).padStart(2,'0');
+  const dateStr=`${yy}${mm}${dd}`;
+  const prefix=`${author}_${dateStr}`;
+  const snap=await getDocs(query(collection(db,coll),where("author","==",author)));
+  const todayPosts=snap.docs.filter(d=>d.id.startsWith(prefix));
+  const num=String(todayPosts.length+1).padStart(3,'0');
+  return `${prefix}post${num}`;
+}
+async function genShortId(author){
+  const today=new Date();
+  const yy=today.getFullYear(), mm=String(today.getMonth()+1).padStart(2,'0'), dd=String(today.getDate()).padStart(2,'0');
+  const dateStr=`${yy}${mm}${dd}`;
+  const prefix=`${author}_${dateStr}`;
+  const snap=await getDocs(query(collection(db,"shorts"),where("author","==",author)));
+  const todayPosts=snap.docs.filter(d=>d.id.startsWith(prefix));
+  const num=String(todayPosts.length+1).padStart(3,'0');
+  return `${prefix}short${num}`;
+}
 
 /* ─── DICTIONARIES ─── */
 const UNIVERSITY_DICT = {
@@ -2945,13 +3087,14 @@ const UNIVERSITY_DICT = {
 const DEPT_DICT = {
   "civil":"هندسة مدنية","electrical":"هندسة كهرباء وإلكترونيك","mechanical":"هندسة ميكانيك",
   "electromech":"هندسة كهروميكانيك","Prosthetics":"هندسة أطراف ومساند","architecture":"هندسة معمارية",
-  "chemical":"هندسة كيميائية","biomedical":"هندسة الطب الحياتي","software":"هندسة برمجيات","other":"أخرى"
+  "chemical":"هندسة كيميائية","petroleum":"هندسة النفط","biomedical":"هندسة الطب الحياتي","software":"هندسة برمجيات","other":"أخرى"
 };
 const SUBJECTS_CONFIG = {
   civil:{1:["رياضيات","فيزياء","كيمياء","ميكانيكا هندسية","رسم هندسي"],2:["هيدروليك","ميكانيكا مواد","مساحة هندسية","مقاومة مواد","رياضيات هندسية"],3:["ميكانيكا التربة","الخرسانة المسلحة 1","هندسة المرور","الري والبزل","هندسة الإنشاءات","إدارة المشاريع","التحليل الهندسي"],4:["هندسة التخمين","المنشآت الحديدية","تصميم الطرق","تصميم الأسس","الخرسانة المسلحة","هندسة صحية","علم المياه","المنشآت الهيدروليكية"]},
   electrical:{1:["رياضيات","فيزياء","مبادئ الكهرباء"],2:["دوائر كهربائية","إلكترونيات","رياضيات هندسية"],3:["آلات كهربائية","إشارات وأنظمة","اتصالات"],4:["محطات طاقة","نظم تحكم","حماية منظومات"]},
   mechanical:{1:["رياضيات","فيزياء","رسم هندسي","ميكانيكا هندسية"],2:["ترموديناميك","ميكانيكا الموائع","مقاومة مواد"],3:["آلات حرارية","تصميم آلي","تصنيع"],4:["محركات احتراق","تبريد وتكييف","تصميم منظومات"]},
-  software:{1:["رياضيات","مقدمة في البرمجة","منطق رقمي"],2:["هياكل بيانات","خوارزميات","قواعد بيانات"],3:["شبكات حاسوب","أنظمة تشغيل"],4:["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]}
+  software:{1:["رياضيات","مقدمة في البرمجة","منطق رقمي"],2:["هياكل بيانات","خوارزميات","قواعد بيانات"],3:["شبكات حاسوب","أنظمة تشغيل"],4:["ذكاء اصطناعي","أمن معلومات","مشروع تخرج"]},
+  petroleum:{1:["رياضيات","فيزياء","كيمياء","جيولوجيا عامة","رسم هندسي"],2:["ميكانيكا الموائع","ترموديناميك","كيمياء فيزيائية","خواص الصخور المكمنية"],3:["هندسة المكامن","هندسة الحفر","هندسة الإنتاج","ميكانيكا الصخور"],4:["هندسة الإنتاج المتقدمة","تنشيط الآبار","نقل النفط والغاز","مشروع تخرج"]}
 };
 const TAG_COLORS = ['color-0','color-1','color-2','color-3','color-4'];
 const FILETYPE_LABELS = { summary:"ملخص دراسي", exams:"اسئلة إمتحان وحلول", homework:"واجبات محلولة" };
@@ -3050,10 +3193,15 @@ function openModal(id)  { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 document.querySelectorAll('[data-close]').forEach(btn=>btn.addEventListener('click',()=>closeModal(btn.dataset.close)));
 document.querySelectorAll('.modal-backdrop').forEach(bd=>bd.addEventListener('click',e=>{if(e.target===bd)closeModal(bd.id);}));
-function showConfirm(msg,cb,yesTxt='نعم، تأكيد') {
-  document.getElementById('confirmMsg').textContent=msg;
-  document.getElementById('confirmYesBtn').textContent=yesTxt;
-  confirmCallback=cb; openModal('confirmModal');
+function showConfirm(msg, cb, yesTxt='نعم، تأكيد', title='تأكيد الإجراء', danger=true) {
+  document.getElementById('confirmMsg').textContent = msg;
+  const yesBtn = document.getElementById('confirmYesBtn');
+  yesBtn.textContent = yesTxt;
+  yesBtn.classList.toggle('confirm-yes-blue', !danger);
+  const titleEl = document.getElementById('confirmTitle');
+  if (titleEl) titleEl.textContent = title;
+  confirmCallback = cb;
+  openModal('confirmModal');
 }
 document.getElementById('confirmYesBtn').addEventListener('click',()=>{closeModal('confirmModal');if(confirmCallback)confirmCallback();confirmCallback=null;});
 document.getElementById('confirmNoBtn').addEventListener('click',()=>{closeModal('confirmModal');confirmCallback=null;});
@@ -3081,6 +3229,8 @@ function openPostMenu(anchor, items){
 document.addEventListener('click',(e)=>{ const m=document.getElementById('postMenuPop'); if(m && !m.contains(e.target)) closePostMenu(); });
 document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') closePostMenu(); });
 function escHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+/* يمنع روابط javascript:/data: في href (حماية XSS من روابط المستخدمين) */
+function safeUrl(u){const s=String(u||'').trim();return /^(https?:|mailto:|tel:|\/|#)/i.test(s)?s:'#';}
 function fadeOutLoader() {
   const ov=document.getElementById('loadingOverlay');
   if(!ov) return;
@@ -3371,6 +3521,8 @@ function activateOwnerMode() {
   document.body.classList.add('owner-mode');
   document.getElementById('editBioBtn').style.display='inline-flex';
   document.getElementById('globalCreateBtn').classList.add('visible');
+  const settingsBtn = document.getElementById('settingsBtn');
+  if (settingsBtn) settingsBtn.style.display='inline-flex';
   /* زر رفع PDF: مفعّل لو مصرح، رمادي معطل لو غير مصرح */
   const fi=document.getElementById('cmUploadFile');
   if (!uploadAllowed) {
@@ -3380,6 +3532,13 @@ function activateOwnerMode() {
     fi.classList.remove('disabled');
     fi.style.opacity='1';
     fi.style.cursor='pointer';
+  }
+  /* فتح نافذة النشر تلقائياً عند الوصول من شريط النشر بالصفحة الرئيسية (?compose=1) */
+  if(params.get('compose')==='1'){
+    setTimeout(()=>{
+      if(params.get('short_compose')==='1'){ document.getElementById('cmPublishVideo').click(); }
+      else { openPublishModal(); }
+    }, 300);
   }
 }
 
@@ -3399,7 +3558,7 @@ function renderLinks(links) {
     const item=document.createElement('div'); item.className='contact-link-item';
     const icon=LINK_ICONS[lnk.type]||'🔗';
     item.innerHTML=`
-      <a class="contact-link-anchor" href="${escHtml(lnk.url)}" target="_blank" rel="noopener" title="${escHtml(lnk.name||lnk.url)}">
+      <a class="contact-link-anchor" href="${escHtml(safeUrl(lnk.url))}" target="_blank" rel="noopener" title="${escHtml(lnk.name||lnk.url)}">
         ${icon} ${escHtml(lnk.name||LINK_NAMES[lnk.type]||'رابط')}
       </a>
       <button class="contact-link-delete" data-index="${i}" title="حذف الرابط">✕</button>
@@ -3407,7 +3566,7 @@ function renderLinks(links) {
     el.appendChild(item);
   });
   el.querySelectorAll('.contact-link-delete').forEach(btn=>btn.addEventListener('click',()=>{
-    showConfirm('هل تريد حذف هذا الرابط؟',()=>deleteLink(parseInt(btn.dataset.index)),'نعم، احذف');
+    showConfirm('هل تريد حذف هذا الرابط؟',()=>deleteLink(parseInt(btn.dataset.index)),'حذف','حذف الرابط');
   }));
 }
 
@@ -3466,7 +3625,7 @@ document.getElementById('saveLinkBtn').addEventListener('click',async()=>{
   try {
     await updateDoc(doc(db,"students",TARGET_USERNAME),{links});
     profileData.links=links; renderLinks(links);
-    closeModal('linkModal'); toast('تم إضافة الرابط ✓','success');
+    closeModal('linkModal'); toast('تم إضافة الرابط','success');
   } catch(e){toast('خطأ: '+e.message,'error');}
 });
 async function deleteLink(idx){
@@ -3489,7 +3648,7 @@ function renderSkills(skills){
     grid.appendChild(item);
   });
   container.appendChild(grid);
-  container.querySelectorAll('.skill-delete-btn').forEach(btn=>btn.addEventListener('click',()=>showConfirm('هل تريد حذف هذه المهارة؟',()=>deleteSkill(parseInt(btn.dataset.index)),'نعم، احذف')));
+  container.querySelectorAll('.skill-delete-btn').forEach(btn=>btn.addEventListener('click',()=>showConfirm('هل تريد حذف هذه المهارة؟',()=>deleteSkill(parseInt(btn.dataset.index)),'حذف','حذف المهارة')));
 }
 const skillDescInput=document.getElementById('skillDescInput'), skillDescCounter=document.getElementById('skillDescCounter');
 skillDescInput.addEventListener('input',()=>{const l=skillDescInput.value.length;skillDescCounter.textContent=`${l} / 150`;skillDescCounter.classList.toggle('warn',l>130);});
@@ -3505,7 +3664,7 @@ document.getElementById('saveSkillBtn').addEventListener('click',async()=>{
   const skills=[...(profileData.skills||[])];
   if(skills.length>=5){toast('الحد الأقصى 5 مهارات.','error');return;}
   skills.push({title,desc});
-  try{await updateDoc(doc(db,"students",TARGET_USERNAME),{skills});profileData.skills=skills;renderSkills(skills);closeModal('skillModal');toast('تم إضافة المهارة ✓','success');}
+  try{await updateDoc(doc(db,"students",TARGET_USERNAME),{skills});profileData.skills=skills;renderSkills(skills);closeModal('skillModal');toast('تم إضافة المهارة','success');}
   catch(e){toast('خطأ: '+e.message,'error');}
 });
 async function deleteSkill(idx){
@@ -3536,7 +3695,7 @@ function renderFilesList(){
     const row=document.createElement('div'); row.className='file-item-row'; row.dataset.fileId=f.id;
     row.innerHTML=`<div class="file-icon-box">PDF</div>
       <div class="file-info">
-        <a href="${escHtml(f.url)}" target="_blank" class="file-title">${escHtml(f.name)}</a>
+        <a href="${escHtml(safeUrl(f.url))}" target="_blank" class="file-title">${escHtml(f.name)}</a>
         <div class="file-sub">
           <a href="profile.html?u=${encodeURIComponent(f.uploader)}" class="file-uploader-tag">@${escHtml(f.uploader)}</a>
           ${f.fileType?`<span class="file-badge">${escHtml(FILETYPE_LABELS[f.fileType]||f.fileType)}</span>`:''}
@@ -3546,41 +3705,36 @@ function renderFilesList(){
         </div>
       </div>
       <div class="file-actions">
-        <button class="file-edit-btn" data-id="${escHtml(f.id)}">✏️ تعديل</button>
+        <button class="file-edit-btn" data-id="${escHtml(f.id)}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> تعديل</button>
         <button class="file-delete-btn" data-id="${escHtml(f.id)}" data-url="${escHtml(f.url||'')}">🗑 حذف</button>
-        <a href="${escHtml(f.url)}" download class="file-dl-btn">⬇ تحميل</a>
+        <a href="${escHtml(safeUrl(f.url))}" download class="file-dl-btn">⬇ تحميل</a>
       </div>`;
     wrap.appendChild(row);
   });
   cont.innerHTML=''; cont.appendChild(wrap);
   cont.querySelectorAll('.file-edit-btn').forEach(btn=>btn.addEventListener('click',()=>openEditFileModal(btn.dataset.id)));
-  cont.querySelectorAll('.file-delete-btn').forEach(btn=>btn.addEventListener('click',()=>showConfirm('هل تريد حذف هذا الملف نهائياً؟',()=>deleteFile(btn.dataset.id,btn.dataset.url),'نعم، احذف الملف')));
+  cont.querySelectorAll('.file-delete-btn').forEach(btn=>btn.addEventListener('click',()=>showConfirm('هل تريد حذف هذا الملف نهائياً؟',()=>deleteFile(btn.dataset.id,btn.dataset.url),'حذف الملف','حذف الملف')));
 }
 function openEditFileModal(fileId){
   const f=loadedFiles.find(x=>x.id===fileId); if(!f)return;
   document.getElementById('editFileDocId').value=fileId;
   document.getElementById('editFileNameInput').value=f.name||'';
-  document.getElementById('editFileUniSelect').value=UNIVERSITY_DICT[f.uni]?f.uni:(f.uni==='other'?'other':f.uni||'');
+  document.getElementById('editFileUniSelect').value=f.uni||'';
   document.getElementById('editFileDeptSelect').value=f.dept||'';
   document.getElementById('editFileStageSelect').value=f.stage||'';
   document.getElementById('editFileSubjectInput').value=f.subject||'';
-  document.getElementById('editOtherUniGroup').classList.toggle('active',f.uni==='other');
-  document.getElementById('editOtherUniInput').value=(!UNIVERSITY_DICT[f.uni]&&f.uni)?f.uni:'';
   openModal('editFileModal');
 }
-document.getElementById('editFileUniSelect').addEventListener('change',function(){document.getElementById('editOtherUniGroup').classList.toggle('active',this.value==='other');});
 document.getElementById('saveEditFileBtn').addEventListener('click',async()=>{
   const fileId=document.getElementById('editFileDocId').value, name=document.getElementById('editFileNameInput').value.trim();
-  const uniVal=document.getElementById('editFileUniSelect').value, dept=document.getElementById('editFileDeptSelect').value;
+  const uni=document.getElementById('editFileUniSelect').value, dept=document.getElementById('editFileDeptSelect').value;
   const stage=document.getElementById('editFileStageSelect').value, subject=document.getElementById('editFileSubjectInput').value.trim();
-  const otherUni=document.getElementById('editOtherUniInput').value.trim();
-  if(!name){toast('أدخل اسم الملف.','error');return;} if(!uniVal){toast('اختر الجامعة.','error');return;}
-  const uni=uniVal==='other'?(otherUni||'أخرى'):uniVal;
+  if(!name){toast('أدخل اسم الملف.','error');return;} if(!uni){toast('اختر الجامعة.','error');return;}
   try{
     await updateDoc(doc(db,"uploads",fileId),{name,uni,dept,stage,subject});
     const idx=loadedFiles.findIndex(x=>x.id===fileId);
     if(idx!==-1) Object.assign(loadedFiles[idx],{name,uni,dept,stage,subject});
-    renderFilesList(); closeModal('editFileModal'); toast('تم حفظ التعديلات ✓','success');
+    renderFilesList(); closeModal('editFileModal'); toast('تم حفظ التعديلات','success');
   }catch(e){toast('خطأ: '+e.message,'error');}
 });
 async function deleteFile(fileId,fileUrl){
@@ -3610,19 +3764,18 @@ function openUploadModal(){
   document.getElementById('uploadStageSelect').value=''; document.getElementById('uploadSubjectSelect').value='';
   document.getElementById('customSubjectInput').value='';
   selectedFileType=''; document.querySelectorAll('.filetype-select-card').forEach(c=>c.classList.remove('selected'));
-  ['otherUniGroup','otherDeptGroup','subjectGroup','customSubjectGroup'].forEach(id=>document.getElementById(id).classList.remove('active'));
+  ['subjectGroup','customSubjectGroup'].forEach(id=>document.getElementById(id).classList.remove('active'));
   document.getElementById('uploadProgressWrap').classList.remove('active');
   document.getElementById('copyrightCheck').checked=false;
   const cw=document.getElementById('copyrightWrap'); cw.classList.remove('shake'); cw.style.borderColor='';
   openModal('uploadModal');
 }
-document.getElementById('uploadUniSelect').addEventListener('change',function(){document.getElementById('otherUniGroup').classList.toggle('active',this.value==='other');});
-document.getElementById('uploadDeptSelect').addEventListener('change',function(){document.getElementById('otherDeptGroup').classList.toggle('active',this.value==='other');updateSubjectSelect();});
+document.getElementById('uploadDeptSelect').addEventListener('change',function(){updateSubjectSelect();});
 document.getElementById('uploadStageSelect').addEventListener('change',updateSubjectSelect);
 function updateSubjectSelect(){
   const dept=document.getElementById('uploadDeptSelect').value, stage=document.getElementById('uploadStageSelect').value;
   const sel=document.getElementById('uploadSubjectSelect'), sg=document.getElementById('subjectGroup'), csg=document.getElementById('customSubjectGroup');
-  if(!dept||dept==='other'||!stage){sg.classList.remove('active');csg.classList.add('active');return;}
+  if(!dept||!stage){sg.classList.remove('active');csg.classList.add('active');return;}
   const subjects=(SUBJECTS_CONFIG[dept]||{})[stage]||[];
   sel.innerHTML='<option value="">— اختر المادة —</option>';
   subjects.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});
@@ -3635,7 +3788,6 @@ document.getElementById('submitUploadBtn').addEventListener('click',async()=>{
   const uniVal=document.getElementById('uploadUniSelect').value, deptVal=document.getElementById('uploadDeptSelect').value;
   const stageVal=document.getElementById('uploadStageSelect').value, subjectEl=document.getElementById('uploadSubjectSelect').value;
   const customSub=document.getElementById('customSubjectInput').value.trim();
-  const otherDept=document.getElementById('otherDeptInput').value.trim(), otherUni=document.getElementById('otherUniInput').value.trim();
   const copyrightOk=document.getElementById('copyrightCheck').checked;
   if(!file){toast('اختر ملف PDF.','error');return;} if(!name){toast('أدخل اسم الملف.','error');return;}
   if(!selectedFileType){toast('اختر نوع الملف.','error');return;}
@@ -3644,20 +3796,23 @@ document.getElementById('submitUploadBtn').addEventListener('click',async()=>{
   if(file.type!=='application/pdf'){toast('يُقبل ملفات PDF فقط.','error');return;}
   if(file.size>12*1024*1024){toast('حجم الملف يتجاوز 12 ميجابايت.','error');return;}
   if(!copyrightOk){const cw=document.getElementById('copyrightWrap');cw.classList.remove('shake');void cw.offsetWidth;cw.classList.add('shake');setTimeout(()=>cw.classList.remove('shake'),600);return;}
-  const uni=uniVal==='other'?(otherUni||'أخرى'):uniVal;
-  const dept=deptVal==='other'?(otherDept||'أخرى'):deptVal;
+  const uni=uniVal, dept=deptVal;
   const subject=(subjectEl&&subjectEl!=='__other__')?subjectEl:(customSub||'عام');
+  const _rlu=rateLimit('upload',8,10*60*1000);
+  if(!_rlu.ok){ toast('ترفع بسرعة كبيرة. انتظر '+fmtWait(_rlu.waitMs)+'.','error'); return; }
+  const _txu=moderateText(name+' '+subject);
+  if(_txu){ toast('الاسم/المادة مرفوض: '+_txu,'error'); return; }
   const progWrap=document.getElementById('uploadProgressWrap'), progFill=document.getElementById('uploadProgressFill');
   const progLabel=document.getElementById('uploadProgressLabel'), btn=document.getElementById('submitUploadBtn');
   progWrap.classList.add('active'); btn.disabled=true; progFill.style.width='20%'; progLabel.textContent='جاري الرفع...';
   try{
-    const storRef=ref(storage,`community_files/${TARGET_USERNAME}/${Date.now()}_${file.name}`);
+    const storRef=ref(storage,`community_files/${currentUser.uid}/${Date.now()}_${file.name}`);
     progFill.style.width='55%';
     const snap=await uploadBytes(storRef,file); progFill.style.width='80%';
     const url=await getDownloadURL(snap.ref); progFill.style.width='95%';
     await addDoc(collection(db,"uploads"),{name,url,uploader:TARGET_USERNAME,uni,dept,stage:stageVal,subject,fileType:selectedFileType,timestamp:new Date().toISOString()});
     progFill.style.width='100%'; progLabel.textContent='تم الرفع بنجاح!';
-    setTimeout(()=>{closeModal('uploadModal');toast('تم رفع الملف بنجاح ✓','success');btn.disabled=false;progWrap.classList.remove('active');loadFiles();},700);
+    setTimeout(()=>{closeModal('uploadModal');toast('تم رفع الملف بنجاح','success');btn.disabled=false;progWrap.classList.remove('active');loadFiles();},700);
   }catch(e){progLabel.textContent='فشل الرفع: '+e.message;progFill.style.background='#dc2626';btn.disabled=false;toast('فشل الرفع: '+e.message,'error');}
 });
 
@@ -3813,19 +3968,20 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
   head.innerHTML=`
     <img class="article-author-avatar" src="${escHtml(av)}" onerror="this.src='media/1nkown.png'" alt="">
     <div class="article-author-info">
-      <a class="article-author-name" href="profile.html?u=${encodeURIComponent(article.author||'')}">${escHtml("المهندس "+(article.authorName||article.author||''))}</a>
+      <a class="article-author-name" href="profile.html?u=${encodeURIComponent(article.author||'')}">${escHtml("المهندس "+(article.authorName||article.author||''))}<span class="article-author-badge-slot"></span></a>
       <div class="article-author-sub">@${escHtml(article.author||'')} · ${formatTime(article.createdAt)}${article.editedAt?' · <span class="edited-flag">مُعدَّل</span>':''}</div>
     </div>
     ${(isOwner&&article.author===TARGET_USERNAME&&!isRepost)?`<div class="post-menu-wrap"><button class="article-more-btn" title="خيارات">⋯</button></div>`:''}
   `;
   card.appendChild(head);
+  if(article.author){ getMemberBadge(article.author).then(url=>{ if(url){ const slot=head.querySelector('.article-author-badge-slot'); if(slot) slot.outerHTML=`<img class="article-author-badge" src="${escHtml(url)}" alt="✔">`; } }); }
   if(isOwner&&article.author===TARGET_USERNAME&&!isRepost){
     const moreBtn=head.querySelector('.article-more-btn');
     moreBtn.addEventListener('click',(e)=>{
       e.stopPropagation();
       openPostMenu(moreBtn, [
-        { label:'تعديل المنشور', icon:'✏️', action:()=>openEditArticleModal(article) },
-        { label:'حذف المنشور', icon:'🗑', danger:true, action:()=>showConfirm('سيُحذف هذا المنشور نهائياً.',async()=>{
+        { label:'تعديل المنشور', icon:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>', action:()=>openEditArticleModal(article) },
+        { label:'حذف المنشور', icon:'🗑', danger:true, action:()=>showConfirm('سيُحذف هذا المنشور نهائياً ولا يمكن التراجع عن هذا الإجراء.',async()=>{
             try{await deleteDoc(doc(db,"articles",article.id));card.remove();toast('تم حذف المقالة.','success');}
             catch(err){toast('خطأ: '+err.message,'error');}
           },'حذف') }
@@ -3839,7 +3995,7 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     const MAX_LEN=300;
     const fullText=article.text;
     const rendered=renderArticleText(fullText);
-    const shortText=fullText.length>MAX_LEN?renderArticleText(fullText.slice(0,MAX_LEN)+'...'):null;
+    const shortText=fullText.length>MAX_LEN?renderArticleText(fullText.slice(0,MAX_LEN).replace(/\[H\]?\s*$/,'')+' ...'):null;
     const tp=document.createElement('div'); tp.className='article-text';
     tp.innerHTML=shortText||rendered;
     body.appendChild(tp);
@@ -3855,7 +4011,6 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
         let expanded=false;
         rm.addEventListener('click',()=>{
           expanded=!expanded; tp.innerHTML=expanded?rendered:shortText; rm.textContent=expanded?'عرض أقل ▴':'عرض المزيد ▾';
-          hashWrap.style.display=expanded?'flex':'none';
         });
       }
       body.appendChild(rm);
@@ -3882,10 +4037,8 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
     card.appendChild(imgGrid);
   }
 
-      /* Hashtags (hidden by default if text truncated) */
+      /* Hashtags — always visible */
   const hashWrap=document.createElement('div'); hashWrap.className='article-hashtags';
-  const hasTruncation=article.text&&article.text.length>300;
-  if(hasTruncation) hashWrap.style.display='none';
   if(article.hashtags&&article.hashtags.length>0){
     article.hashtags.forEach(ht=>{
       const chip=document.createElement('span'); chip.className='article-hashtag';
@@ -3895,7 +4048,7 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
         try {
           await setDoc(doc(db,"follows",currentUsername,"hashtags",ht),{tag:ht,addedAt:new Date().toISOString()});
           if(!followingHashtagsCache.includes(ht)) followingHashtagsCache.push(ht);
-          chip.querySelector('.hashtag-follow-btn').textContent='✓';
+          chip.querySelector('.hashtag-follow-btn').textContent='−';
           chip.querySelector('.hashtag-follow-btn').classList.add('followed');
           toast(`تمت متابعة #${ht}`,'success');
         } catch(e){toast('خطأ: '+e.message,'error');}
@@ -3917,7 +4070,7 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
       </button>
       <button class="article-action-btn comment-btn" data-id="${escHtml(article.id)}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-        التعليقات <span class="comment-count"></span>
+        <span class="comment-count"></span> تعليق
       </button>
       <button class="article-action-btn repost-btn" data-id="${escHtml(article.id)}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
@@ -3971,7 +4124,7 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
       }else{
         await setDoc(repostRef,{username:currentUsername,postId:article.id,postType:'articles',originalAuthor:article.author,originalAuthorName:article.authorName||article.author,createdAt:serverTimestamp()});
         myRepostsCache.add(article.id);
-        toast('تمت إعادة النشر على ملفك ✓','success');
+        toast('تمت إعادة النشر على ملفك','success');
       }
     }catch(e){ setRepostState(on); toast('خطأ: '+e.message,'error'); }
   });
@@ -3987,9 +4140,13 @@ function buildArticleCard(article, isRepost=false, repostBy=''){
 
 function renderArticleText(text){
   return text.split('\n').map(line=>{
-    if(line.startsWith('[H] ')){return `<span class="bold-heading">${escHtml(line.slice(4))}</span>`;}
+    const trimmed=line.trimStart();
+    if(trimmed.startsWith('[H] ')||trimmed.startsWith('[H]')){
+      const content=trimmed.replace(/^\[H\]\s*/,'');
+      return `<span class="bold-heading">${escHtml(content)}</span>`;
+    }
     return escHtml(line);
-  }).join('\n');
+  }).join('<br>');
 }
 
 /* رابط مباشر لمنشور بعينه (لا رابط المستخدم فقط) — يحوي معرّف المنشور الداخلي */
@@ -4000,10 +4157,19 @@ function postShareUrl(coll, id){
   return `${base}&${param}=${encodeURIComponent(id)}`;
 }
 
+/* عرض زمني نسبي ذكي: "الآن"، "منذ 3 د"، "منذ 5 س"، "منذ 2 يوم"، ثم التاريخ */
 function formatTime(ts){
   if(!ts) return '';
   try{
     const d=ts.toDate?ts.toDate():new Date(ts);
+    const diff=Date.now()-d.getTime();
+    const m=Math.floor(diff/60000);
+    if(m<1) return 'الآن';
+    if(m<60) return `منذ ${m} د`;
+    const h=Math.floor(m/60);
+    if(h<24) return `منذ ${h} س`;
+    const days=Math.floor(h/24);
+    if(days<30) return `منذ ${days} يوم`;
     return d.toLocaleDateString('ar-IQ',{year:'numeric',month:'short',day:'numeric'});
   }catch(e){return '';}
 }
@@ -4064,7 +4230,7 @@ function renderCommentsPostPreview(){
         <div class="cpp-sub">@${escHtml(post.author||'')} · ${formatTime(post.createdAt)}</div>
       </div>
     </div>
-    ${bodyText?`<div class="cpp-text">${escHtml(bodyText)}</div>`:''}
+    ${bodyText?`<div class="cpp-text">${coll==='shorts'?escHtml(bodyText):renderArticleText(bodyText)}</div>`:''}
     ${media}
     <div class="cpp-actions">
       <button class="cpp-act-btn cpp-like${myLiked?' liked':''}">
@@ -4099,7 +4265,7 @@ function renderCommentsPostPreview(){
     btn.classList.toggle('reposted',!on); svg.setAttribute('stroke',!on?'#0047AB':'currentColor');
     try{
       if(on){ await deleteDoc(rRef); myRepostsCache.delete(post.id); }
-      else{ await setDoc(rRef,{username:currentUsername,postId:post.id,postType:coll,originalAuthor:post.author,originalAuthorName:post.authorName||post.author,createdAt:serverTimestamp()}); myRepostsCache.add(post.id); toast('تمت إعادة النشر على ملفك ✓','success'); }
+      else{ await setDoc(rRef,{username:currentUsername,postId:post.id,postType:coll,originalAuthor:post.author,originalAuthorName:post.authorName||post.author,createdAt:serverTimestamp()}); myRepostsCache.add(post.id); toast('تمت إعادة النشر على ملفك','success'); }
     }catch(err){ btn.classList.toggle('reposted',on); svg.setAttribute('stroke',on?'#0047AB':'currentColor'); toast('خطأ: '+err.message,'error'); }
   });
   /* مشاركة */
@@ -4204,6 +4370,10 @@ async function submitComment(){
   if(!text) return;
   if(!currentUser){ toast('سجّل الدخول للتعليق.','error'); return; }
   if(!coll||!id) return;
+  const rlc=rateLimit('comment',10,5*60*1000);
+  if(!rlc.ok){ toast('تعلّق بسرعة كبيرة. انتظر '+fmtWait(rlc.waitMs)+'.','error'); return; }
+  const modErr=moderateText(text);
+  if(modErr){toast('التعليق مرفوض: '+modErr,'error');return;}
   const btn = document.getElementById('submitCommentBtn');
   btn.disabled = true;
   try{
@@ -4311,6 +4481,10 @@ async function submitScComment(){
   if(!text) return;
   if(!currentUser){ toast('سجّل الدخول للتعليق.','error'); return; }
   if(!scTarget.id) return;
+  const rlc=rateLimit('comment',10,5*60*1000);
+  if(!rlc.ok){ toast('تعلّق بسرعة كبيرة. انتظر '+fmtWait(rlc.waitMs)+'.','error'); return; }
+  const modErr=moderateText(text);
+  if(modErr){toast('التعليق مرفوض: '+modErr,'error');return;}
   const btn=document.getElementById('scSubmitCommentBtn'); btn.disabled=true;
   try{
     let authorName=currentUsername||'', authorAvatar='media/1nkown.png';
@@ -4340,8 +4514,8 @@ function openPublishModal(){
   const aProg=document.getElementById('articleUploadProgress'), aFill=document.getElementById('articleProgressFill');
   aProg.classList.remove('active'); aFill.style.width='0%'; aFill.style.background='';
   document.getElementById('articleProgressLabel').textContent='جاري النشر...';
-  document.querySelector('#publishArticleModal .modal-head h3').textContent='📝 نشر مقالة';
-  document.getElementById('submitArticleBtn').textContent='نشر المقالة ✓';
+  document.querySelector('#publishArticleModal .modal-head h3').textContent='نشر مقالة';
+  document.getElementById('submitArticleBtn').textContent='نشر المقالة';
   openModal('publishArticleModal');
 }
 
@@ -4360,8 +4534,8 @@ function openEditArticleModal(article){
   });
   const aProg=document.getElementById('articleUploadProgress'), aFill=document.getElementById('articleProgressFill');
   aProg.classList.remove('active'); aFill.style.width='0%'; aFill.style.background='';
-  document.querySelector('#publishArticleModal .modal-head h3').textContent='✏️ تعديل المقالة';
-  document.getElementById('submitArticleBtn').textContent='حفظ التعديلات ✓';
+  document.querySelector('#publishArticleModal .modal-head h3').textContent='تعديل المقالة';
+  document.getElementById('submitArticleBtn').textContent='حفظ التعديلات';
   openModal('publishArticleModal');
 }
 document.getElementById('openPublishArticleModal').addEventListener('click',()=>{if(!isOwner)return;openPublishModal();});
@@ -4435,6 +4609,10 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
   const text=document.getElementById('articleTextInput').value.trim();
   if(!text&&articleImages.length===0){toast('اكتب شيئاً أو أضف صورة.','error');return;}
   if(!currentUser){toast('يجب تسجيل الدخول.','error');return;}
+  const rlp=rateLimit('post',5,5*60*1000);
+  if(!rlp.ok){ toast('تنشر بسرعة كبيرة. انتظر '+fmtWait(rlp.waitMs)+'.','error'); return; }
+  const modErr=moderateText(text);
+  if(modErr){toast('المحتوى مرفوض: '+modErr,'error');return;}
   const btn=document.getElementById('submitArticleBtn');
   const prog=document.getElementById('articleUploadProgress');
   const fill=document.getElementById('articleProgressFill');
@@ -4443,6 +4621,12 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
   btn.disabled=true; btn.textContent=isEdit?'جاري الحفظ...':'جاري النشر...';
   prog.classList.add('active'); fill.style.width='8%'; fill.style.background=''; label.textContent='جاري التحضير...';
   try{
+    /* فحص الصور الجديدة (عُري/إباحية) قبل الرفع */
+    const _newImgs=articleImages.filter(im=>!im.existing);
+    if(_newImgs.length){
+      label.textContent='جاري فحص الصور...';
+      for(const im of _newImgs){ const mm=await checkImage(im.file); if(!mm.ok){ throw new Error(mm.reason); } }
+    }
     /* Upload images — مسار community_files/articles/ مسموح به في Firebase Rules.
        في وضع التعديل: نُبقي الروابط الموجودة كما هي ونرفع الجديدة فقط */
     const finalUrls=[];
@@ -4453,7 +4637,7 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
       if(img.existing){ finalUrls.push(img.url); continue; }
       uploadedCount++;
       label.textContent=`جاري رفع الصور (${uploadedCount}/${newImgs.length})...`;
-      const storRef=ref(storage,`community_files/${TARGET_USERNAME}/articles/${Date.now()}_${Math.random().toString(36).slice(2)}`);
+      const storRef=ref(storage,`community_files/${currentUser.uid}/articles/${Date.now()}_${Math.random().toString(36).slice(2)}`);
       const snap=await uploadBytes(storRef,img.file);
       finalUrls.push(await getDownloadURL(snap.ref));
       fill.style.width=`${10+Math.round((uploadedCount/Math.max(newImgs.length,1))*70)}%`;
@@ -4464,8 +4648,8 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
       await updateDoc(doc(db,"articles",editingArticleId),{ text, images:finalUrls, hashtags:articleTags, editedAt:serverTimestamp() });
       fill.style.width='100%'; label.textContent='تم الحفظ بنجاح!';
       setTimeout(async()=>{
-        closeModal('publishArticleModal'); toast('تم حفظ التعديلات ✓','success');
-        prog.classList.remove('active'); btn.disabled=false; btn.textContent='نشر المقالة ✓';
+        closeModal('publishArticleModal'); toast('تم حفظ التعديلات','success');
+        prog.classList.remove('active'); btn.disabled=false; btn.textContent='نشر المقالة';
         editingArticleId=null;
         await loadArticles();
       },500);
@@ -4474,21 +4658,22 @@ document.getElementById('submitArticleBtn').addEventListener('click',async()=>{
       const q2=query(collection(db,"students"),where("uid","==",currentUser.uid));
       const s2=await getDocs(q2); let authorName=TARGET_USERNAME, authorAvatar='media/1nkown.png';
       if(!s2.empty){const d2=s2.docs[0].data();authorName=d2.fullName||TARGET_USERNAME;authorAvatar=d2.avatarURL||'media/1nkown.png';}
-      await addDoc(collection(db,"articles"),{
+      const newArticleId = await genPostId(TARGET_USERNAME,'articles');
+      await setDoc(doc(db,"articles",newArticleId),{
         author:TARGET_USERNAME, authorName, authorAvatar,
         text, images:finalUrls, hashtags:articleTags,
         likes:[], createdAt:serverTimestamp()
       });
       fill.style.width='100%'; label.textContent='تم النشر بنجاح!';
       setTimeout(async()=>{
-        closeModal('publishArticleModal'); toast('تم نشر المقالة ✓','success');
-        prog.classList.remove('active'); btn.disabled=false; btn.textContent='نشر المقالة ✓';
+        closeModal('publishArticleModal'); toast('تم نشر المقالة','success');
+        prog.classList.remove('active'); btn.disabled=false; btn.textContent='نشر المقالة';
         await loadArticles();
       },500);
     }
   }catch(e){
     label.textContent='فشل العملية: '+e.message; fill.style.background='#dc2626';
-    btn.disabled=false; btn.textContent=isEdit?'حفظ التعديلات ✓':'نشر المقالة ✓';
+    btn.disabled=false; btn.textContent=isEdit?'حفظ التعديلات':'نشر المقالة';
     toast('فشل: '+e.message,'error');
   }
 });
@@ -4510,7 +4695,7 @@ document.getElementById('lightboxNext').addEventListener('click',()=>{if(current
 
 /* ─── SHARE MODAL ─── */
 document.getElementById('shareCopyLink').addEventListener('click',()=>{
-  navigator.clipboard.writeText(currentShareUrl).then(()=>{toast('تم نسخ الرابط ✓','success');closeModal('shareModal');});
+  navigator.clipboard.writeText(currentShareUrl).then(()=>{toast('تم نسخ الرابط','success');closeModal('shareModal');});
 });
 document.getElementById('shareWhatsapp').addEventListener('click',()=>{window.open(`https://wa.me/?text=${encodeURIComponent(currentShareUrl)}`,'_blank');closeModal('shareModal');});
 document.getElementById('shareTelegram').addEventListener('click',()=>{window.open(`https://t.me/share/url?url=${encodeURIComponent(currentShareUrl)}`,'_blank');closeModal('shareModal');});
@@ -4535,9 +4720,9 @@ document.addEventListener('click',()=>closeAllContextMenus());
 document.getElementById('avatarContextMenu').addEventListener('click',e=>e.stopPropagation());
 document.getElementById('ctxViewAvatar').addEventListener('click',()=>{closeAllContextMenus();viewAvatarImage();});
 document.getElementById('ctxChangeAvatar').addEventListener('click',()=>{closeAllContextMenus();document.getElementById('avatarInput').click();});
-document.getElementById('ctxDeleteAvatar').addEventListener('click',()=>{closeAllContextMenus();showConfirm('هل تريد حذف صورتك والعودة إلى الصورة الافتراضية؟',deleteAvatar,'نعم، احذف الصورة');});
+document.getElementById('ctxDeleteAvatar').addEventListener('click',()=>{closeAllContextMenus();showConfirm('هل تريد حذف صورتك والعودة إلى الصورة الافتراضية؟',deleteAvatar,'حذف الصورة','حذف الصورة الشخصية');});
 async function deleteAvatar(){
-  try{if(profileData.avatarURL){try{await deleteObject(ref(storage,`avatars/${TARGET_USERNAME}`));}catch(e){}}
+  try{if(profileData.avatarURL){try{await deleteObject(ref(storage,`avatars/${currentUser.uid}/avatar`));}catch(e){} try{await deleteObject(ref(storage,`avatars/${TARGET_USERNAME}`));}catch(e){}}
   await updateDoc(doc(db,"students",TARGET_USERNAME),{avatarURL:null});
   profileData.avatarURL=null;document.getElementById('profileAvatar').src='media/1nkown.png';toast('تم حذف الصورة.','success');}
   catch(e){toast('فشل حذف الصورة: '+e.message,'error');}
@@ -4548,11 +4733,15 @@ document.getElementById('avatarInput').addEventListener('change',async(e)=>{
   if(file.size>5*1024*1024){toast('حجم الصورة يجب أن يكون أقل من 5 ميجابايت.','error');return;}
   const isSquare=await new Promise(resolve=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{URL.revokeObjectURL(url);resolve(img.naturalWidth===img.naturalHeight);};img.onerror=()=>{URL.revokeObjectURL(url);resolve(false);};img.src=url;});
   if(!isSquare){toast('يجب أن تكون الصورة مربعة (1:1).','error');return;}
+  /* فحص عُري/إباحية — avatars لا يفحصها الخادم، فالفحص هنا إلزامي (strict) */
+  toast('جاري فحص الصورة...');
+  const mav=await checkImage(file,{strict:true});
+  if(!mav.ok){ toast(mav.reason,'error'); return; }
   try{
     toast('جاري رفع الصورة...');
-    const r=ref(storage,`avatars/${TARGET_USERNAME}`), snap=await uploadBytes(r,file), url=await getDownloadURL(snap.ref);
+    const r=ref(storage,`avatars/${currentUser.uid}/avatar`), snap=await uploadBytes(r,file), url=await getDownloadURL(snap.ref);
     await updateDoc(doc(db,"students",TARGET_USERNAME),{avatarURL:url});
-    document.getElementById('profileAvatar').src=url; profileData.avatarURL=url; toast('تم تحديث الصورة ✓','success');
+    document.getElementById('profileAvatar').src=url; profileData.avatarURL=url; toast('تم تحديث الصورة','success');
   }catch(err){toast('فشل رفع الصورة: '+err.message,'error');}
 });
 
@@ -4562,7 +4751,7 @@ bioInput.addEventListener('input',()=>{const l=bioInput.value.length;bioCounter.
 document.getElementById('editBioBtn').addEventListener('click',()=>{bioInput.value=profileData.bio||'';bioInput.dispatchEvent(new Event('input'));openModal('bioModal');});
 document.getElementById('saveBioBtn').addEventListener('click',async()=>{
   const bio=bioInput.value.trim();
-  try{await updateDoc(doc(db,"students",TARGET_USERNAME),{bio});profileData.bio=bio;renderBio(bio,memberData);closeModal('bioModal');toast('تم حفظ "حول" ✓','success');}
+  try{await updateDoc(doc(db,"students",TARGET_USERNAME),{bio});profileData.bio=bio;renderBio(bio,memberData);closeModal('bioModal');toast('تم حفظ "حول"','success');}
   catch(e){toast('خطأ: '+e.message,'error');}
 });
 
@@ -4604,7 +4793,7 @@ document.getElementById('saveInfoBtn').addEventListener('click',async()=>{
   try{
     await updateDoc(doc(db,"students",TARGET_USERNAME),{city,hiddenFields:hidden,isStudent:isStud,degreeLevel:degLvl,stage:stg,mscUniversity:mscUni,phdUniversity:phdUni,jobStatus});
     Object.assign(profileData,{city,hiddenFields:hidden,isStudent:isStud,degreeLevel:degLvl,stage:stg,mscUniversity:mscUni,phdUniversity:phdUni,jobStatus});
-    renderProfile(); closeModal('infoModal'); toast('تم حفظ المعلومات ✓','success');
+    renderProfile(); closeModal('infoModal'); toast('تم حفظ المعلومات','success');
   }catch(e){toast('خطأ: '+e.message,'error');}
 });
 
@@ -4732,7 +4921,7 @@ async function loadShorts() {
     }catch(e){}
 
     if (items.length===0) {
-      container.innerHTML = `<div class="shorts-empty"><svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><p style="margin-top:12px">لم تُرفع أي مقاطع قصيرة بعد.</p></div>`;
+      container.innerHTML = `<div class="shorts-empty"><svg style="width:48px;height:48px;opacity:0.3;margin:0 auto;display:block" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.5"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg><p style="margin-top:12px">لم تُرفع أي شورتس بعد.</p></div>`;
       shortsData=[]; return;
     }
     items.sort((a,b)=>b.t-a.t);
@@ -4742,7 +4931,7 @@ async function loadShorts() {
     const shortId=params.get('short');
     if(shortId){
       const idx=shortsData.findIndex(s=>s.id===shortId);
-      if(idx!==-1) openShortsViewer(idx);
+      if(idx!==-1) setTimeout(()=>openShortsViewer(idx), 100);
     }
   } catch(e) {
     console.error('loadShorts error:',e);
@@ -4753,20 +4942,20 @@ async function loadShorts() {
 function renderShortsGrid() {
   const container = document.getElementById('shortsContainer');
   if (shortsData.length === 0) {
-    container.innerHTML = `<div class="shorts-empty"><p>لم تُرفع أي مقاطع قصيرة بعد.</p></div>`;
+    container.innerHTML = `<div class="shorts-empty"><p>لم تُرفع أي شورتس بعد.</p></div>`;
     return;
   }
   const grid = document.createElement('div'); grid.className = 'shorts-grid';
   shortsData.forEach((sh, idx) => {
     const card = document.createElement('div'); card.className = 'short-card';
     card.dataset.id = sh.id;
-    const likes = sh.likes||[];
+    const views = (sh.viewers||[]).length;
     card.innerHTML = `
       <video class="short-thumbnail" src="${escHtml(sh.url)}#t=0.1" muted preload="metadata" style="width:100%;height:100%;object-fit:cover;pointer-events:none;"></video>
       <div class="short-play-icon"><svg viewBox="0 0 24 24" fill="#0047AB"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
       <div class="short-overlay">
         <div class="short-title">${escHtml(sh.desc||'')}</div>
-        <div class="short-meta"><span>❤️ ${likes.length}</span></div>
+        <div class="short-meta"><span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> ${views}</span></div>
       </div>`;
     card.addEventListener('click', () => openShortsViewer(idx));
     grid.appendChild(card);
@@ -4802,18 +4991,19 @@ function buildShortSlide(sh){
         <span class="sv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span>
         <span>مشاركة</span>
       </button>
-      ${isOwner?`<button class="sv-rail-btn sv-edit"><span class="sv-ico">✏️</span><span>تعديل</span></button>
+      ${isOwner?`<button class="sv-rail-btn sv-edit"><span class="sv-ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span><span>تعديل</span></button>
       <button class="sv-rail-btn sv-delete"><span class="sv-ico">🗑</span><span>حذف</span></button>`:''}
     </div>
     <div class="sv-info">
       <a class="sv-author" href="profile.html?u=${encodeURIComponent(sh.author||'')}">
         <img src="${escHtml(sh.authorAvatar||'media/1nkown.png')}" onerror="this.src='media/1nkown.png'" alt="">
-        <span class="sv-author-name">${escHtml("المهندس "+(sh.authorName||sh.author||''))}</span>
+        <span class="sv-author-name">${escHtml("المهندس "+(sh.authorName||sh.author||''))}<span class="sv-author-badge-slot"></span></span>
       </a>
       ${sh.desc?`<div class="sv-desc">${escHtml(sh.desc)}</div>`:''}
       ${tags?`<div class="sv-tags">${tags}</div>`:''}
     </div>`;
 
+  if(sh.author){ getMemberBadge(sh.author).then(url=>{ if(url){ const slot=slide.querySelector('.sv-author-badge-slot'); if(slot) slot.outerHTML=` <img class="sv-author-badge" src="${escHtml(url)}" alt="✔">`; } }); }
   const video=slide.querySelector('.sv-video');
   /* نقر للتشغيل/الإيقاف */
   video.addEventListener('click',()=>{ if(video.paused){ video.play(); slide.classList.remove('paused'); } else { video.pause(); slide.classList.add('paused'); } });
@@ -4832,7 +5022,7 @@ function buildShortSlide(sh){
     btn.classList.toggle('reposted',!on);
     try{
       if(on){ await deleteDoc(rRef); myRepostsCache.delete(sh.id); }
-      else{ await setDoc(rRef,{username:currentUsername,postId:sh.id,postType:'shorts',originalAuthor:sh.author,originalAuthorName:sh.authorName||sh.author,createdAt:serverTimestamp()}); myRepostsCache.add(sh.id); toast('تمت إعادة النشر على ملفك ✓','success'); }
+      else{ await setDoc(rRef,{username:currentUsername,postId:sh.id,postType:'shorts',originalAuthor:sh.author,originalAuthorName:sh.authorName||sh.author,createdAt:serverTimestamp()}); myRepostsCache.add(sh.id); toast('تمت إعادة النشر على ملفك','success'); }
     }catch(err){ btn.classList.toggle('reposted',on); toast('خطأ: '+err.message,'error'); }
   });
   /* مشاركة */
@@ -4851,7 +5041,7 @@ function buildShortSlide(sh){
           shortsData=shortsData.filter(x=>x.id!==sh.id);
           closeShortsViewer(); renderShortsGrid(); toast('تم حذف المقطع.','success');
         }catch(e){toast('خطأ: '+e.message,'error');}
-      },'نعم، احذف المقطع');
+      },'حذف المقطع','حذف المقطع القصير');
     });
   }
   return slide;
@@ -4873,6 +5063,15 @@ function openShortsViewer(startIdx){
         en.target.classList.remove('paused');
         v.play().catch(()=>{});
         currentShortId=en.target.dataset.id;
+        /* احتساب المشاهدة: سجّل UID المستخدم مرة واحدة فقط (يظهر العدّاد في العرض المصغّر) */
+        if(currentUser){
+          const shId=en.target.dataset.id;
+          const sh=shortsData.find(x=>x.id===shId);
+          if(sh&&!(sh.viewers||[]).includes(currentUser.uid)){
+            sh.viewers=[...(sh.viewers||[]),currentUser.uid];
+            updateDoc(doc(db,'shorts',shId),{viewers:arrayUnion(currentUser.uid)}).catch(()=>{});
+          }
+        }
       }else{ v.pause(); }
     });
   },{root:track, threshold:[0,0.6,1]});
@@ -4966,6 +5165,8 @@ document.getElementById('submitShortBtn').addEventListener('click', async () => 
   if (!file) { toast('اختر ملف فيديو.','error'); return; }
   if (!file.type.startsWith('video/')) { toast('يُقبل ملفات فيديو فقط.','error'); return; }
   if (file.size > 50*1024*1024) { toast('حجم الملف يتجاوز 50 ميجابايت.','error'); return; }
+  const modErrShort=moderateText(desc);
+  if(modErrShort){toast('الوصف مرفوض: '+modErrShort,'error');return;}
   const btn=document.getElementById('submitShortBtn');
   const prog=document.getElementById('shortUploadProgress');
   const fill=document.getElementById('shortProgressFill');
@@ -4973,7 +5174,7 @@ document.getElementById('submitShortBtn').addEventListener('click', async () => 
   btn.disabled=true; prog.classList.add('active');
   fill.style.width='15%'; label.textContent='جاري رفع المقطع...';
   try {
-    const storagePath=`community_files/${TARGET_USERNAME}/shorts/${Date.now()}_${file.name}`;
+    const storagePath=`community_files/${currentUser.uid}/shorts/${Date.now()}_${file.name}`;
     const storRef = ref(storage, storagePath);
     fill.style.width='50%';
     const snap = await uploadBytes(storRef, file); fill.style.width='80%';
@@ -4984,12 +5185,13 @@ document.getElementById('submitShortBtn').addEventListener('click', async () => 
     if(!s2.empty){const d2=s2.docs[0].data();authorName=d2.fullName||TARGET_USERNAME;authorAvatar=d2.avatarURL||'media/1nkown.png';}
     /* قراءة الهاشتاقات المحددة مباشرة من DOM لضمان عدم فقدان أي اختيار */
     const shortTags = Array.from(document.querySelectorAll('#shortHashtagChips .hashtag-chip.selected')).map(c=>c.dataset.tag);
-    await addDoc(collection(db,"shorts"),{
+    const newShortId = await genShortId(TARGET_USERNAME);
+    await setDoc(doc(db,"shorts",newShortId),{
       author:TARGET_USERNAME, authorName, authorAvatar, url, storagePath,
       desc, hashtags:shortTags, likes:[], createdAt:serverTimestamp()
     });
     fill.style.width='100%'; label.textContent='تم الرفع!';
-    setTimeout(()=>{ closeModal('publishShortModal'); toast('تم نشر المقطع ✓','success'); btn.disabled=false; prog.classList.remove('active'); loadShorts(); },700);
+    setTimeout(()=>{ closeModal('publishShortModal'); toast('تم نشر المقطع','success'); btn.disabled=false; prog.classList.remove('active'); loadShorts(); },700);
   } catch(e) { label.textContent='فشل الرفع: '+e.message; fill.style.background='#dc2626'; btn.disabled=false; toast('فشل الرفع: '+e.message,'error'); }
 });
 
@@ -5011,7 +5213,7 @@ document.getElementById('saveEditShortBtn').addEventListener('click',async()=>{
     await updateDoc(doc(db,"shorts",id),{desc});
     const idx=shortsData.findIndex(x=>x.id===id);
     if(idx!==-1) shortsData[idx].desc=desc;
-    renderShortsGrid(); closeModal('editShortModal'); toast('تم حفظ التعديلات ✓','success');
+    renderShortsGrid(); closeModal('editShortModal'); toast('تم حفظ التعديلات','success');
   } catch(e){toast('خطأ: '+e.message,'error');}
 });
 
@@ -5051,6 +5253,12 @@ async function performNavSearch(q){
 onAuthStateChanged(auth, user => {
   if(user) document.getElementById('globalCreateBtn').classList.add('visible');
 });
+</script>
+<script>
+(function(){
+  var i=document.getElementById('navSearchInput');
+  if(i){ i.addEventListener('keydown',function(e){ if(e.key==='Enter'){ var q=i.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); } }); }
+})();
 </script>
 </body>
 </html>

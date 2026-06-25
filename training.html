@@ -3,22 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المنح التعليمية الهندسية — مجتمع طلبة الهندسة | ESC</title>
-<meta name="description" content="فرص المنح والبعثات التعليمية لطلاب الهندسة في العراق عبر مجتمع طلبة الهندسة (ESC)، لمساعدة المهندسين على إكمال مسيرتهم العلمية.">
-<link rel="canonical" href="https://esc-iq.net/Scholarships.html">
-<meta name="author" content="Mohammed Baqer A. Azeez">
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="ESC — مجتمع طلبة الهندسة">
-<meta property="og:locale" content="ar_AR">
-<meta property="og:url" content="https://esc-iq.net/Scholarships.html">
-<meta property="og:title" content="المنح التعليمية الهندسية — مجتمع طلبة الهندسة | ESC">
-<meta property="og:description" content="فرص المنح والبعثات التعليمية لطلاب الهندسة في العراق.">
-<meta property="og:image" content="https://esc-iq.net/media/icon-512.png">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="المنح التعليمية الهندسية — مجتمع طلبة الهندسة | ESC">
-<meta name="twitter:description" content="فرص المنح والبعثات التعليمية لطلاب الهندسة في العراق.">
-<meta name="twitter:image" content="https://esc-iq.net/media/icon-512.png">
+<title>التدريب والتطوير - ESC</title>
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link rel="icon" type="image/png" sizes="32x32" href="media/favicon.png">
 <link rel="icon" type="image/png" sizes="512x512" href="media/icon-512-w.png">
@@ -105,6 +90,7 @@
   --transition: 0.3s ease;
   --text-dark: #111827;
   --text-light: #4B5563;
+  --text-mid: #374151;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -201,7 +187,6 @@ main { flex-grow: 1; }
   padding: 0 20px;
 }
 .page-head {
-  direction: ltr; text-align: left;
   margin-bottom: 6px;
 }
 .page-head h1 {
@@ -211,8 +196,8 @@ main { flex-grow: 1; }
 }
 .page-head p {
   margin-top: 6px; font-size: 14px;
-  color: var(--text-light); line-height: 1.6;
-  max-width: 640px;
+  color: var(--text-light); line-height: 1.7;
+  max-width: 680px;
 }
 
 /* ===== SEARCH ===== */
@@ -229,7 +214,7 @@ main { flex-grow: 1; }
   outline: none; color: var(--text-dark);
   font-family: 'Ubuntu', sans-serif;
   font-weight: 700; font-size: 14px;
-  direction: ltr; text-align: left;
+  direction: rtl; text-align: right;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
 .search-input::placeholder { color: rgba(17,24,39,0.42); font-weight: 400; }
@@ -238,7 +223,7 @@ main { flex-grow: 1; }
   box-shadow: 0 0 0 3px rgba(0,71,171,0.1);
 }
 .search-icon {
-  position: absolute; right: 14px;
+  position: absolute; left: 14px;
   pointer-events: none; opacity: 0.5;
   display: flex; align-items: center;
 }
@@ -338,101 +323,106 @@ footer {
   #authBtn { display: none; }
 }
 
-/* ── SCHOLARSHIP SEARCH-RESULT LIST ── */
-.sch-list {
+/* ── TRAINING LIST ── */
+.trn-list {
   background: #fff;
   border: 1px solid rgba(0,0,0,0.10);
   border-radius: 12px;
   overflow: hidden;
-  direction: ltr; text-align: left;
+  direction: rtl; text-align: right;
   box-shadow: 0 2px 10px rgba(0,0,0,0.04);
 }
-.sch-row {
+.trn-row {
   padding: 18px 20px;
   border-bottom: 1px solid rgba(0,0,0,0.07);
   transition: background var(--transition);
 }
-.sch-row:last-child { border-bottom: none; }
-.sch-row:hover { background: #fafbff; }
-.sch-name {
+.trn-row:last-child { border-bottom: none; }
+.trn-row:hover { background: #fafbff; }
+.trn-name {
   font-size: 17px; font-weight: 700;
   color: #1a0dab; cursor: pointer;
-  display: inline-block; line-height: 1.35;
+  display: inline-block; line-height: 1.4;
 }
-.sch-name:hover { text-decoration: underline; }
-.sch-meta {
+.trn-name:hover { text-decoration: underline; }
+.trn-company {
+  margin-top: 5px; font-size: 13.5px; font-weight: 700; color: var(--teal);
+}
+.trn-meta {
   margin-top: 6px;
-  font-size: 13px; font-weight: 700;
+  font-size: 12.5px; font-weight: 700;
+  display: flex; flex-wrap: wrap; gap: 7px;
 }
-.sch-meta .dept { color: var(--blue); }
-.sch-meta .fund { color: var(--teal); }
-.sch-meta .dot { color: #c0c4cc; margin: 0 7px; }
-.sch-desc {
-  margin-top: 7px;
+.trn-tag {
+  background: #eef3ff; color: var(--blue);
+  padding: 3px 10px; border-radius: 20px;
+}
+.trn-tag.type { background: #e6f4f1; color: var(--teal); }
+.trn-desc {
+  margin-top: 8px;
   font-size: 13px; line-height: 1.7; color: #6b7280;
 }
 
 /* ── OVERLAY + MODAL ── */
-.sch-overlay {
+.trn-overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
   z-index: 5000; align-items: flex-start; justify-content: center;
   padding: 40px 16px; overflow-y: auto;
 }
-.sch-overlay.show { display: flex; }
-.sch-modal {
+.trn-overlay.show { display: flex; }
+.trn-modal {
   background: #fff; border-radius: 16px;
   max-width: 620px; width: 100%;
   padding: 30px 30px 28px; position: relative;
   box-shadow: 0 24px 70px rgba(0,0,0,0.35);
   border: 1px solid rgba(0,0,0,0.06);
-  animation: schUp 0.22s ease;
-  direction: ltr; text-align: left;
+  animation: trnUp 0.22s ease;
+  direction: rtl; text-align: right;
 }
-@keyframes schUp { from{transform:translateY(18px);opacity:0} to{transform:translateY(0);opacity:1} }
-.sch-close {
-  position: absolute; top: 16px; right: 16px;
+@keyframes trnUp { from{transform:translateY(18px);opacity:0} to{transform:translateY(0);opacity:1} }
+.trn-close {
+  position: absolute; top: 16px; left: 16px;
   width: 32px; height: 32px; border: none; border-radius: 8px;
   background: #f3f4f6; color: #6b7280; font-size: 20px;
   cursor: pointer; line-height: 1;
   transition: background var(--transition);
 }
-.sch-close:hover { background: #e5e7eb; color: #111827; }
-.sch-modal-title {
+.trn-close:hover { background: #e5e7eb; color: #111827; }
+.trn-modal-title {
   font-size: 21px; font-weight: 700; color: var(--text-dark);
-  line-height: 1.4; padding-right: 36px; letter-spacing: -0.3px;
+  line-height: 1.45; padding-left: 36px; letter-spacing: -0.3px;
 }
-.sch-modal-meta {
-  font-size: 13px; font-weight: 700; margin-top: 8px;
+.trn-modal-company { font-size: 14px; font-weight: 700; color: var(--teal); margin-top: 8px; }
+.trn-modal-meta {
+  font-size: 12.5px; font-weight: 700; margin-top: 10px;
+  display: flex; flex-wrap: wrap; gap: 7px;
 }
-.sch-modal-meta .dept { color: var(--blue); }
-.sch-modal-meta .fund { color: var(--teal); }
-.sch-modal-meta .dot { color: #c0c4cc; margin: 0 7px; }
-.sch-modal-body {
-  font-size: 14px; line-height: 1.8; color: var(--text-mid);
+.trn-modal-body {
+  font-size: 14px; line-height: 1.85; color: var(--text-mid);
   margin-top: 18px; white-space: pre-line;
 }
-.sch-elig {
+.trn-req {
   margin-top: 24px; padding-top: 20px;
   border-top: 1px solid rgba(0,0,0,0.08);
 }
-.sch-elig h3 {
+.trn-req h3 {
   font-size: 12px; font-weight: 700; color: #9ca3af;
   letter-spacing: 1.4px; text-transform: uppercase;
   margin-bottom: 14px;
 }
-.sch-elig ul { list-style: none; padding: 0; }
-.sch-elig li {
+.trn-req ul { list-style: none; padding: 0; }
+.trn-req li {
   font-size: 13.5px; line-height: 1.65; color: var(--text-mid);
-  padding: 9px 0 9px 24px; position: relative;
+  padding: 9px 24px 9px 0; position: relative;
 }
-.sch-elig li + li { border-top: 1px solid rgba(0,0,0,0.05); }
-.sch-elig li::before {
-  content: ''; position: absolute; left: 0; top: 15px;
+.trn-req li + li { border-top: 1px solid rgba(0,0,0,0.05); }
+.trn-req li::before {
+  content: ''; position: absolute; right: 0; top: 15px;
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--teal);
 }
-.sch-apply-btn {
+.trn-apply-btn {
   width: 100%; margin-top: 24px;
   padding: 13px; border: none; border-radius: 10px;
   background: var(--blue);
@@ -440,14 +430,10 @@ footer {
   font-size: 14.5px; font-weight: 700; cursor: pointer;
   transition: background 0.2s;
 }
-.sch-apply-btn:hover { background: #0059d4; }
-.sch-apply-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-.sch-back-btn { background: #6b7280; }
-.sch-back-btn:hover { background: #565d68; }
-/* نموذج التقديم بالعربية → RTL */
-#applyModal .sch-modal { direction: rtl; text-align: right; }
-#applyModal .sch-close { right: auto; left: 16px; }
-#applyModal .sch-modal-title { padding-right: 0; padding-left: 36px; }
+.trn-apply-btn:hover { background: #0059d4; }
+.trn-apply-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.trn-back-btn { background: #6b7280; }
+.trn-back-btn:hover { background: #565d68; }
 
 /* ── APPLY FORM ── */
 .apply-steps {
@@ -548,7 +534,7 @@ footer {
   </div>
 
   <nav aria-label="روابط الموقع">
-    <a href="training.html">التدريب والتطوير</a>
+    <a href="training.html" class="active">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
     <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
@@ -572,17 +558,16 @@ footer {
   </div>
 </header>
 <div id="menuBackdrop" aria-hidden="true"></div>
-<div id="menuBackdrop" aria-hidden="true"></div>
 
 <main>
   <div class="page">
     <div class="page-head">
-      <h1>Scholarships</h1>
-      <p>Funded opportunities for outstanding engineering students. Select a scholarship to view its details and apply.</p>
+      <h1>التدريب والتطوير</h1>
+      <p>نوفّر للطلبة المتميّزين فرص تدريب مع شركات موثوقة لاكتساب الخبرة العملية بجانب التعليم الأكاديمي طوال فترة دراستهم. اختر فرصة لعرض تفاصيلها والتقديم عليها.</p>
     </div>
 
-    <div class="search-wrap" aria-label="Search scholarships">
-      <input type="search" id="searchInput" class="search-input" placeholder="Search scholarships by name or department..." autocomplete="off">
+    <div class="search-wrap" aria-label="البحث في فرص التدريب">
+      <input type="search" id="searchInput" class="search-input" placeholder="ابحث عن فرصة تدريب بالاسم أو القسم أو الشركة..." autocomplete="off">
       <span class="search-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none">
           <path d="M10.5 18.5C14.6421 18.5 18 15.1421 18 11C18 6.85786 14.6421 3.5 10.5 3.5C6.35786 3.5 3 6.85786 3 11C3 15.1421 6.35786 18.5 10.5 18.5Z" stroke="#111827" stroke-width="2"/>
@@ -592,31 +577,32 @@ footer {
     </div>
 
     <div class="empty-box" id="emptyBox">
-      <span class="empty-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></span>
-      <div class="empty-text">No scholarships are available at the moment.</div>
+      <span class="empty-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></span>
+      <div class="empty-text">لا توجد فرص تدريب متاحة حالياً.</div>
     </div>
-    <div class="sch-list" id="schList"></div>
-    <div id="noResults" class="no-results">No results found. Try different keywords.</div>
+    <div class="trn-list" id="trnList"></div>
+    <div id="noResults" class="no-results">لا توجد نتائج. جرّب كلمات بحث أخرى.</div>
   </div>
 </main>
 
 <!-- ── DETAIL MODAL ── -->
-<div id="schModal" class="sch-overlay">
-  <div class="sch-modal">
-    <button class="sch-close" id="schClose" aria-label="إغلاق">×</button>
-    <h2 class="sch-modal-title" id="schModalTitle"></h2>
-    <div class="sch-modal-meta" id="schModalMeta"></div>
-    <div class="sch-modal-body" id="schModalBody"></div>
-    <div class="sch-elig" id="schElig"></div>
-    <button class="sch-apply-btn" id="schApplyBtn">Apply to Scholarship</button>
+<div id="trnModal" class="trn-overlay">
+  <div class="trn-modal">
+    <button class="trn-close" id="trnClose" aria-label="إغلاق">×</button>
+    <h2 class="trn-modal-title" id="trnModalTitle"></h2>
+    <div class="trn-modal-company" id="trnModalCompany"></div>
+    <div class="trn-modal-meta" id="trnModalMeta"></div>
+    <div class="trn-modal-body" id="trnModalBody"></div>
+    <div class="trn-req" id="trnReq"></div>
+    <button class="trn-apply-btn" id="trnApplyBtn">التقديم على التدريب</button>
   </div>
 </div>
 
 <!-- ── APPLY MODAL ── -->
-<div id="applyModal" class="sch-overlay">
-  <div class="sch-modal">
-    <button class="sch-close" id="applyClose" aria-label="إغلاق">×</button>
-    <h2 class="sch-modal-title" id="applyTitle">التقديم على المنحة</h2>
+<div id="applyModal" class="trn-overlay">
+  <div class="trn-modal">
+    <button class="trn-close" id="applyClose" aria-label="إغلاق">×</button>
+    <h2 class="trn-modal-title" id="applyTitle">التقديم على التدريب</h2>
     <div class="apply-steps">
       <span class="apply-step active" id="dot1">1</span>
       <span class="apply-line"></span>
@@ -628,8 +614,11 @@ footer {
       <label class="fld-label">الاسم الجامعي الثلاثي واللقب</label>
       <input type="text" id="apFullName" class="fld-input" placeholder="مثال: محمد باقر عبدالعزيز الجبوري">
 
-      <label class="fld-label">الجامعة التي تدرس/درست فيها الهندسة؟</label>
+      <label class="fld-label">الجامعة التي تدرس فيها الهندسة؟</label>
       <input type="text" id="apUniversity" class="fld-input" placeholder="اسم الجامعة">
+
+      <label class="fld-label">القسم / التخصص الهندسي</label>
+      <input type="text" id="apDept" class="fld-input" placeholder="مثال: الهندسة المدنية">
 
       <label class="fld-label">المرحلة الدراسية</label>
       <div class="stage-chips" id="apStageChips">
@@ -647,32 +636,32 @@ footer {
       </label>
       <input type="file" id="apIdFile" accept="image/*,.pdf" hidden>
 
-      <label class="fld-label">رفع صورتين على الأقل تثبتان تفوقك الأكاديمي</label>
-      <label class="file-drop" for="apProofFiles" id="apProofLabel">
-        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> اختر صور إثبات التفوق (صورتان أو أكثر)</span>
+      <label class="fld-label">رفع السيرة الذاتية (CV) — اختياري</label>
+      <label class="file-drop" for="apCvFile" id="apCvLabel">
+        <span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:4px"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg> اختر ملف السيرة الذاتية</span>
       </label>
-      <input type="file" id="apProofFiles" accept="image/*,.pdf" multiple hidden>
+      <input type="file" id="apCvFile" accept="image/*,.pdf" hidden>
 
-      <button class="sch-apply-btn" id="applyNext">التالي ←</button>
+      <button class="trn-apply-btn" id="applyNext">التالي ←</button>
     </div>
 
     <!-- STEP 2 -->
     <div id="applyStep2" style="display:none;">
-      <label class="fld-label">لماذا تعتقد أن علينا أن نعطيك منحة على منصتنا؟</label>
+      <label class="fld-label">لماذا ترغب بالانضمام إلى هذا التدريب تحديداً؟</label>
       <textarea id="apQ1" class="fld-input fld-area"></textarea>
 
-      <label class="fld-label">هل سبق وحصلت على منحة؟</label>
+      <label class="fld-label">ما هي مهاراتك العملية والبرامج الهندسية التي تجيدها؟</label>
       <textarea id="apQ2" class="fld-input fld-area"></textarea>
 
-      <label class="fld-label">كيف تؤثر أنت في مجتمعك وبين زملائك؟ وماذا يجب أن نفعل من أجل الجميع؟</label>
+      <label class="fld-label">هل سبق وحصلت على خبرة عملية أو تدريب من قبل؟ اشرح.</label>
       <textarea id="apQ3" class="fld-input fld-area"></textarea>
 
-      <label class="fld-label">هل تعتقد أنك قادر على إكمال هذه الكورسات ودراستها بانتظام؟</label>
+      <label class="fld-label">هل أنت قادر على الالتزام الكامل بفترة التدريب بجانب دراستك؟</label>
       <textarea id="apQ4" class="fld-input fld-area"></textarea>
 
       <div style="display:flex;gap:10px;">
-        <button class="sch-apply-btn sch-back-btn" id="applyBack">→ رجوع</button>
-        <button class="sch-apply-btn" id="applySubmit">إرسال الطلب</button>
+        <button class="trn-apply-btn trn-back-btn" id="applyBack">→ رجوع</button>
+        <button class="trn-apply-btn" id="applySubmit">إرسال الطلب</button>
       </div>
       <div id="applyProg" class="apply-prog" style="display:none;"><div id="applyProgFill"></div></div>
     </div>
@@ -716,57 +705,64 @@ document.addEventListener('keydown', function(e) { if(e.key==='Escape') closeMen
 mobileMenu.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
 window.addEventListener('resize', function() { if(window.innerWidth > 768) closeMenu(); });
 
-window.SCH_DATA = [];
+window.TRN_DATA = [];
 
-var schList = document.getElementById('schList');
+var trnList = document.getElementById('trnList');
 var searchInput = document.getElementById('searchInput');
 var noResults = document.getElementById('noResults');
 var emptyBox = document.getElementById('emptyBox');
 
 function escH(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function renderSch(arr) {
-  schList.innerHTML = '';
-  if (window.SCH_DATA.length === 0) {
-    emptyBox.style.display='block'; noResults.style.display='none'; schList.style.display='none'; return;
+function renderTrn(arr) {
+  trnList.innerHTML = '';
+  if (window.TRN_DATA.length === 0) {
+    emptyBox.style.display='block'; noResults.style.display='none'; trnList.style.display='none'; return;
   }
   emptyBox.style.display = 'none';
   if (arr.length === 0) {
-    noResults.style.display='block'; schList.style.display='none'; return;
+    noResults.style.display='block'; trnList.style.display='none'; return;
   }
   noResults.style.display = 'none';
-  schList.style.display = 'block';
+  trnList.style.display = 'block';
   arr.forEach(function(item) {
+    var tags = '';
+    if (item.dept)     tags += '<span class="trn-tag">'+escH(item.dept)+'</span>';
+    if (item.type)     tags += '<span class="trn-tag type">'+escH(item.type)+'</span>';
+    if (item.duration) tags += '<span class="trn-tag">'+escH(item.duration)+'</span>';
+    if (item.location) tags += '<span class="trn-tag">'+escH(item.location)+'</span>';
     var row = document.createElement('div');
-    row.className = 'sch-row';
+    row.className = 'trn-row';
     row.innerHTML =
-      '<span class="sch-name" data-id="'+escH(item.id)+'">'+escH(item.title)+'</span>' +
-      '<div class="sch-meta"><span class="dept">'+escH(item.dept||'')+'</span>'+(item.funding?'<span class="dot">•</span><span class="fund">'+escH(item.funding)+'</span>':'')+'</div>' +
-      '<div class="sch-desc">'+escH(item.short||'')+'</div>';
-    schList.appendChild(row);
+      '<span class="trn-name" data-id="'+escH(item.id)+'">'+escH(item.title)+'</span>' +
+      (item.company?'<div class="trn-company">'+escH(item.company)+'</div>':'') +
+      '<div class="trn-meta">'+tags+'</div>' +
+      '<div class="trn-desc">'+escH(item.short||'')+'</div>';
+    trnList.appendChild(row);
   });
-  schList.querySelectorAll('.sch-name').forEach(function(el){
-    el.addEventListener('click', function(){ window.openSchDetail(el.dataset.id); });
+  trnList.querySelectorAll('.trn-name').forEach(function(el){
+    el.addEventListener('click', function(){ window.openTrnDetail(el.dataset.id); });
   });
 }
-window.renderSch = renderSch;
+window.renderTrn = renderTrn;
 
-renderSch(window.SCH_DATA);
+renderTrn(window.TRN_DATA);
 
 var searchTimer = null;
 searchInput.addEventListener('input', function() {
   clearTimeout(searchTimer);
   searchTimer = setTimeout(function() {
     var q = searchInput.value.toLowerCase();
-    renderSch(window.SCH_DATA.filter(function(n) {
+    renderTrn(window.TRN_DATA.filter(function(n) {
       return (n.title||'').toLowerCase().indexOf(q)!==-1 ||
              (n.short||'').toLowerCase().indexOf(q)!==-1 ||
+             (n.company||'').toLowerCase().indexOf(q)!==-1 ||
              (n.dept||'').toLowerCase().indexOf(q)!==-1;
     }));
   }, 120);
 });
 
-window.escapeHtmlSch = escH;
+window.escapeHtmlTrn = escH;
 </script>
 <script type="module">
 import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
@@ -798,21 +794,21 @@ const btn       = document.getElementById('authBtn');
 const btnMobile = document.getElementById('authBtnMobile');
 
 /* ── حالة المستخدم الحالي ── */
-let curUser = null;        // Firebase auth user
-let curUsername = null;    // doc id في students
+let curUser = null;
+let curUsername = null;
 
-/* ── تحميل المنح من JSON ── */
-let schById = {};
+/* ── تحميل فرص التدريب من JSON ── */
+let trnById = {};
 (async () => {
   try {
-    const res = await fetch('jsonfiles/scholarships_esc.json?_=' + Date.now());
+    const res = await fetch('jsonfiles/training_esc.json?_=' + Date.now());
     const data = await res.json();
-    window.SCH_DATA = data;
-    data.forEach(s => schById[s.id] = s);
-    window.renderSch(window.SCH_DATA);
+    window.TRN_DATA = data;
+    data.forEach(s => trnById[s.id] = s);
+    window.renderTrn(window.TRN_DATA);
   } catch (e) {
-    window.SCH_DATA = [];
-    window.renderSch([]);
+    window.TRN_DATA = [];
+    window.renderTrn([]);
   }
 })();
 
@@ -825,36 +821,39 @@ function toast(msg, type='') {
 }
 
 /* ════ DETAIL MODAL ════ */
-let activeSch = null;
-window.openSchDetail = (id) => {
-  const s = schById[id];
+let activeTrn = null;
+window.openTrnDetail = (id) => {
+  const s = trnById[id];
   if (!s) return;
-  activeSch = s;
-  document.getElementById('schModalTitle').textContent = s.title || '';
-  document.getElementById('schModalMeta').innerHTML =
-    '<span class="dept">' + window.escapeHtmlSch(s.dept||'') + '</span>' +
-    (s.funding ? '<span class="dot">•</span><span class="fund">' + window.escapeHtmlSch(s.funding) + '</span>' : '');
-  document.getElementById('schModalBody').textContent = s.description || '';
-  const elig = document.getElementById('schElig');
-  if (Array.isArray(s.eligibility) && s.eligibility.length) {
-    elig.innerHTML = '<h3>Scholarship Eligibility Requirements</h3><ul>' +
-      s.eligibility.map(e => '<li>' + window.escapeHtmlSch(e) + '</li>').join('') + '</ul>';
-  } else { elig.innerHTML = ''; }
-  document.getElementById('schModal').classList.add('show');
+  activeTrn = s;
+  document.getElementById('trnModalTitle').textContent = s.title || '';
+  document.getElementById('trnModalCompany').textContent = s.company || '';
+  const tags = [];
+  if (s.dept)     tags.push('<span class="trn-tag">' + window.escapeHtmlTrn(s.dept) + '</span>');
+  if (s.type)     tags.push('<span class="trn-tag type">' + window.escapeHtmlTrn(s.type) + '</span>');
+  if (s.duration) tags.push('<span class="trn-tag">' + window.escapeHtmlTrn(s.duration) + '</span>');
+  if (s.location) tags.push('<span class="trn-tag">' + window.escapeHtmlTrn(s.location) + '</span>');
+  document.getElementById('trnModalMeta').innerHTML = tags.join('');
+  document.getElementById('trnModalBody').textContent = s.description || '';
+  const req = document.getElementById('trnReq');
+  if (Array.isArray(s.requirements) && s.requirements.length) {
+    req.innerHTML = '<h3>شروط ومتطلبات التدريب</h3><ul>' +
+      s.requirements.map(e => '<li>' + window.escapeHtmlTrn(e) + '</li>').join('') + '</ul>';
+  } else { req.innerHTML = ''; }
+  document.getElementById('trnModal').classList.add('show');
   document.body.style.overflow = 'hidden';
 };
-function closeSchModal(){ document.getElementById('schModal').classList.remove('show'); document.body.style.overflow=''; }
-document.getElementById('schClose').addEventListener('click', closeSchModal);
-document.getElementById('schModal').addEventListener('click', e => { if(e.target.id==='schModal') closeSchModal(); });
+function closeTrnModal(){ document.getElementById('trnModal').classList.remove('show'); document.body.style.overflow=''; }
+document.getElementById('trnClose').addEventListener('click', closeTrnModal);
+document.getElementById('trnModal').addEventListener('click', e => { if(e.target.id==='trnModal') closeTrnModal(); });
 
 /* ════ APPLY MODAL ════ */
 let selectedStage = '';
 const applyModal = document.getElementById('applyModal');
 
-document.getElementById('schApplyBtn').addEventListener('click', () => {
-  if (!curUser) { toast('يجب تسجيل الدخول للتقديم على المنحة', 'error'); setTimeout(()=>location.href='login.html', 1400); return; }
-  closeSchModal();
-  // reset form
+document.getElementById('trnApplyBtn').addEventListener('click', () => {
+  if (!curUser) { toast('يجب تسجيل الدخول للتقديم على التدريب', 'error'); setTimeout(()=>location.href='login.html', 1400); return; }
+  closeTrnModal();
   document.getElementById('applyStep1').style.display='';
   document.getElementById('applyStep2').style.display='none';
   document.getElementById('dot1').classList.add('active');
@@ -879,26 +878,26 @@ document.getElementById('apIdFile').addEventListener('change', function(){
   const lbl = document.getElementById('apIdLabel');
   if (this.files.length) { lbl.classList.add('has-file'); lbl.querySelector('span').textContent = '✓ ' + this.files[0].name; }
 });
-document.getElementById('apProofFiles').addEventListener('change', function(){
-  const lbl = document.getElementById('apProofLabel');
-  if (this.files.length) { lbl.classList.add('has-file'); lbl.querySelector('span').textContent = '✓ تم اختيار ' + this.files.length + ' ملف'; }
+document.getElementById('apCvFile').addEventListener('change', function(){
+  const lbl = document.getElementById('apCvLabel');
+  if (this.files.length) { lbl.classList.add('has-file'); lbl.querySelector('span').textContent = '✓ ' + this.files[0].name; }
 });
 
 /* step nav */
 document.getElementById('applyNext').addEventListener('click', () => {
   const name = document.getElementById('apFullName').value.trim();
   const uni  = document.getElementById('apUniversity').value.trim();
+  const dept = document.getElementById('apDept').value.trim();
   const idF  = document.getElementById('apIdFile').files;
-  const prF  = document.getElementById('apProofFiles').files;
   if (!name) return toast('أدخل الاسم الجامعي الثلاثي واللقب', 'error');
   if (!uni)  return toast('أدخل اسم الجامعة', 'error');
+  if (!dept) return toast('أدخل القسم / التخصص الهندسي', 'error');
   if (!selectedStage) return toast('اختر المرحلة الدراسية', 'error');
   if (!idF.length) return toast('ارفع الهوية الجامعية', 'error');
-  if (prF.length < 2) return toast('ارفع صورتين على الأقل لإثبات التفوق', 'error');
   document.getElementById('applyStep1').style.display='none';
   document.getElementById('applyStep2').style.display='';
   document.getElementById('dot2').classList.add('active');
-  applyModal.querySelector('.sch-modal').scrollTop = 0;
+  applyModal.querySelector('.trn-modal').scrollTop = 0;
 });
 document.getElementById('applyBack').addEventListener('click', () => {
   document.getElementById('applyStep2').style.display='none';
@@ -923,48 +922,51 @@ document.getElementById('applySubmit').addEventListener('click', async () => {
 
   try {
     const uname = curUsername || curUser.uid;
-    const base  = `scholarship_applications/${uname}/${Date.now()}`;
+    const base  = `training_applications/${uname}/${Date.now()}`;
 
     // upload university id
     const idFile = document.getElementById('apIdFile').files[0];
     const idRef  = ref(storage, `${base}/id_${idFile.name}`);
     await uploadBytes(idRef, idFile);
     const idURL  = await getDownloadURL(idRef);
-    fill.style.width='40%';
+    fill.style.width='50%';
 
-    // upload proofs
-    const proofs = document.getElementById('apProofFiles').files;
-    const proofURLs = [];
-    for (let i=0;i<proofs.length;i++){
-      const r = ref(storage, `${base}/proof${i}_${proofs[i].name}`);
-      await uploadBytes(r, proofs[i]);
-      proofURLs.push(await getDownloadURL(r));
-      fill.style.width = (40 + Math.round(((i+1)/proofs.length)*40)) + '%';
+    // upload cv (optional)
+    let cvURL = '';
+    const cvFile = document.getElementById('apCvFile').files[0];
+    if (cvFile) {
+      const cvRef = ref(storage, `${base}/cv_${cvFile.name}`);
+      await uploadBytes(cvRef, cvFile);
+      cvURL = await getDownloadURL(cvRef);
     }
+    fill.style.width='85%';
 
-    await addDoc(collection(db,'scholarship_applications'), {
+    await addDoc(collection(db,'training_applications'), {
       username:        uname,
       uid:             curUser.uid,
-      scholarshipId:   activeSch ? activeSch.id : '',
-      scholarshipTitle: activeSch ? activeSch.title : '',
+      trainingId:      activeTrn ? activeTrn.id : '',
+      trainingTitle:   activeTrn ? activeTrn.title : '',
+      company:         activeTrn ? (activeTrn.company || '') : '',
       fullName:        document.getElementById('apFullName').value.trim(),
       university:      document.getElementById('apUniversity').value.trim(),
-      stage:          selectedStage,
-      idCardURL:      idURL,
-      proofURLs:      proofURLs,
+      department:      document.getElementById('apDept').value.trim(),
+      stage:           selectedStage,
+      idCardURL:       idURL,
+      cvURL:           cvURL,
       q1, q2, q3, q4,
-      read:           false,
-      createdAt:      serverTimestamp(),
-      createdAtISO:   new Date().toISOString()
+      read:            false,
+      createdAt:       serverTimestamp(),
+      createdAtISO:    new Date().toISOString()
     });
     fill.style.width='100%';
-    toast('تم إرسال طلب المنحة بنجاح ✅', 'success');
+    toast('تم إرسال طلب التدريب بنجاح ✅', 'success');
     setTimeout(closeApply, 900);
   } catch(e) {
     toast('خطأ في الإرسال: ' + e.message, 'error');
     submitBtn.disabled = false;
   }
 });
+
 // ── قاموس الجامعات ──
 const UNIVERSITY_DICT = {
   "karbala": "جامعة كربلاء المقدسة",
@@ -1051,6 +1053,7 @@ document.addEventListener('click', e => {
   if (!document.getElementById('navSearchWrap').contains(e.target))
     navSearchResults.classList.remove('show');
 });
+
 onAuthStateChanged(auth, async (user) => {
   curUser = user || null;
   if (!user) {
@@ -1077,7 +1080,9 @@ onAuthStateChanged(auth, async (user) => {
     curUsername      = username;
     const data       = snap.docs[0].data();
     // prefill apply form
-    if (data.fullName) document.getElementById('apFullName').value = data.fullName;
+    if (data.fullName)   document.getElementById('apFullName').value = data.fullName;
+    if (data.department) document.getElementById('apDept').value     = data.department;
+    if (data.university) document.getElementById('apUniversity').value = (UNIVERSITY_DICT[data.university] || data.university);
     const avatarSrc  = data.avatarURL || 'media/1nkown.png';
     const profileUrl = `profile.html?u=${encodeURIComponent(username)}`;
 

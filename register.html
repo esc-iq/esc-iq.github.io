@@ -418,8 +418,8 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
 <div class="modal-overlay" id="termsModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
   <div class="modal-box">
     <div class="modal-header">
-      <h2 id="modalTitle">📋 شروط وأحكام مجتمع طلبة الهندسة</h2>
-      <button class="modal-close" id="closeModal" aria-label="إغلاق">✕</button>
+      <h2 id="modalTitle">شروط وأحكام مجتمع طلبة الهندسة</h2>
+      <button class="modal-close" id="closeModal" aria-label="إغلاق"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <div class="modal-body">
       <p class="terms-intro">
@@ -446,7 +446,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
       </ul>
     </div>
     <div class="modal-footer">
-      <button class="btn-modal-accept" id="acceptTermsBtn">✔ فهمت وأوافق على الشروط</button>
+      <button class="btn-modal-accept" id="acceptTermsBtn">فهمت وأوافق على الشروط</button>
     </div>
   </div>
 </div>
@@ -468,7 +468,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <label class="field-label" for="studentName"><span>*</span> اسم الطالب</label>
           <div class="field-wrap">
             <input type="text" id="studentName" class="field-input" placeholder="أدخل اسمك الثلاثي بالعربية" autocomplete="name" maxlength="80">
-            <span class="field-icon">👤</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
           </div>
           <div class="field-error" id="err-name">الرجاء إدخال اسمك الكامل</div>
         </div>
@@ -488,7 +488,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <label class="field-label" for="email"><span>*</span> البريد الإلكتروني</label>
           <div class="field-wrap">
             <input type="email" id="email" class="field-input" placeholder="example@gmail.com" autocomplete="email" maxlength="120" style="direction:ltr;text-align:right;">
-            <span class="field-icon">✉️</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
           </div>
           <div class="field-error" id="err-email">الرجاء إدخال بريد إلكتروني صحيح</div>
         </div>
@@ -498,10 +498,10 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <label class="field-label"><span>*</span> الجنس</label>
           <div class="gender-row">
             <button type="button" class="gender-btn" id="genderMale" onclick="selectGender('male')">
-              <span class="gender-icon">👨‍🎓</span> ذكر
+              <span class="gender-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></span> ذكر
             </button>
             <button type="button" class="gender-btn" id="genderFemale" onclick="selectGender('female')">
-              <span class="gender-icon">👩‍🎓</span> أنثى
+              <span class="gender-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v9M9 18h6"/></svg></span> أنثى
             </button>
           </div>
           <input type="hidden" id="genderValue" value="">
@@ -524,7 +524,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
                   <option value="south_america">أمريكا الجنوبية</option>
                   <option value="oceania">أوقيانوسيا</option>
                 </select>
-                <span class="field-icon">🌍</span>
+                <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
                 <span class="select-arrow">▾</span>
               </div>
               <div class="field-error" id="err-continent">اختر القارة</div>
@@ -535,7 +535,7 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
                 <select id="country" class="field-input" disabled>
                   <option value="" disabled selected>— الدولة —</option>
                 </select>
-                <span class="field-icon">🏳️</span>
+                <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></span>
                 <span class="select-arrow">▾</span>
               </div>
               <div class="field-error" id="err-country">اختر الدولة</div>
@@ -560,14 +560,14 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
               <option value="technology">الجامعة التكنولوجية</option>
               <option value="other">جامعة أخرى</option>
             </select>
-            <span class="field-icon">🎓</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></span>
             <span class="select-arrow">▾</span>
           </div>
           <div class="field-error" id="err-university">الرجاء اختيار جامعتك</div>
           <div class="other-input-wrap" id="otherUniversityWrap">
             <div class="field-wrap">
               <input type="text" id="otherUniversity" class="field-input" placeholder="اكتب اسم جامعتك" maxlength="100">
-              <span class="field-icon">✏️</span>
+              <span class="field-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
             </div>
             <div class="field-error" id="err-other-university">الرجاء كتابة اسم الجامعة</div>
           </div>
@@ -583,20 +583,21 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
               <option value="electrical">هندسة كهرباء وإلكترونيك</option>
               <option value="electromech">هندسة كهروميكانيك</option>
               <option value="mechanical">هندسة ميكانيك</option>
+              <option value="petroleum">هندسة النفط</option>
               <option value="biomedical">هندسة الطب الحياتي</option>
               <option value="Prosthetics">هندسة أطراف ومساند</option>
               <option value="software">هندسة برمجيات</option>
               <option value="architecture">هندسة معمارية</option>
               <option value="other">قسم آخر</option>
             </select>
-            <span class="field-icon">🏗️</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg></span>
             <span class="select-arrow">▾</span>
           </div>
           <div class="field-error" id="err-department">الرجاء اختيار قسمك</div>
           <div class="other-input-wrap" id="otherDepartmentWrap">
             <div class="field-wrap">
               <input type="text" id="otherDepartment" class="field-input" placeholder="اكتب اسم قسمك" maxlength="100">
-              <span class="field-icon">✏️</span>
+              <span class="field-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span>
             </div>
             <div class="field-error" id="err-other-department">الرجاء كتابة اسم القسم</div>
           </div>
@@ -606,10 +607,10 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
         <div class="field-group">
           <label class="field-label" for="phone"><span>*</span> رقم الهاتف</label>
           <div class="field-wrap">
-            <input type="tel" id="phone" class="field-input" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="13" style="direction:ltr;text-align:right;">
-            <span class="field-icon">☎</span>
+            <input type="tel" id="phone" class="field-input" placeholder="+9647801112222 أو 07801112222" autocomplete="tel" maxlength="20" style="direction:ltr;text-align:right;">
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.69 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.33 1.85.56 2.81.69A2 2 0 0 1 22 16.92z"/></svg></span>
           </div>
-          <div class="field-error" id="err-phone">أدخل رقم هاتف صحيح (07801112222)</div>
+          <div class="field-error" id="err-phone">أدخل رقم هاتف صحيح. للعراق: 07801112222 — لباقي الدول استخدم الصيغة الدولية مثل +9647801112222</div>
         </div>
 
         <hr class="divider">
@@ -619,9 +620,9 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <label class="field-label" for="password"><span>*</span> كلمة المرور</label>
           <div class="field-wrap">
             <input type="password" id="password" class="field-input" placeholder="أدخل كلمة مرور قوية" autocomplete="new-password" maxlength="64">
-            <span class="field-icon">⚿</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
             <button type="button" class="pass-toggle" id="togglePass" aria-label="إظهار/إخفاء كلمة المرور">
-              <span id="eyeIcon">👁</span>
+              <span id="eyeIcon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
             </button>
           </div>
           <div class="strength-bar-wrap" id="strengthBar">
@@ -638,9 +639,9 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
           <label class="field-label" for="passwordConfirm"><span>*</span> إعد إدخال كلمة المرور</label>
           <div class="field-wrap">
             <input type="password" id="passwordConfirm" class="field-input" placeholder="أعد إدخال كلمة المرور" autocomplete="new-password" maxlength="64">
-            <span class="field-icon">⚿</span>
+            <span class="field-icon"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
             <button type="button" class="pass-toggle" id="togglePassConfirm" aria-label="إظهار/إخفاء">
-              <span id="eyeIcon2">👁</span>
+              <span id="eyeIcon2"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg></span>
             </button>
           </div>
           <div class="field-error" id="err-confirm">كلمتا المرور غير متطابقتان</div>
@@ -662,18 +663,18 @@ select.field-input { cursor:pointer;appearance:none;-webkit-appearance:none;padd
         </button>
 
         <div class="success-msg" id="successMsg">
-          ✅ تم إنشاء الحساب! يُرجى تأكيد بريدك الإلكتروني للمتابعة.
+          تم إنشاء الحساب! يُرجى تأكيد بريدك الإلكتروني للمتابعة.
         </div>
 
         <!-- ===== EMAIL VERIFICATION BANNER ===== -->
         <div class="verify-banner" id="verifyBanner">
-          <h3>📧 تحقق من بريدك الإلكتروني</h3>
+          <h3>تحقق من بريدك الإلكتروني</h3>
           <p>
             أرسلنا رابط التحقق إلى<br>
             <strong id="verifyEmailDisplay"></strong><br>
             يُرجى فتح بريدك والنقر على رابط التأكيد للوصول إلى حسابك. في حال عدم رؤيتك للبريد قم بالذهاب الرسائل المهملة او المزعجة, قد يقوم احيانا البريد التلقائي بأرشفة رسالة التحقق
           </p>
-          <button class="resend-btn" id="resendBtn" onclick="resendVerification()">⟳ إعادة إرسال الرابط</button>
+          <button class="resend-btn" id="resendBtn" onclick="resendVerification()">إعادة إرسال الرابط</button>
           <p class="resend-note" id="resendNote"></p>
         </div>
 
@@ -836,6 +837,88 @@ function loadCountries() {
   document.getElementById('err-continent').classList.remove('show');
 }
 
+// ===== AUTO COUNTRY DETECTION (IP geolocation) =====
+// خريطة رمز الدولة الدولي (ISO-2) → { القارة, القيمة } — مبنية فقط من الدول الموجودة أعلاه.
+// ملاحظة: نُبقي فلسطين فقط ولا نضيف أي دولة أخرى؛ زائر من فلسطين المحتلة (IL) يُوجَّه إلى فلسطين.
+const isoToCountry = {
+  // آسيا
+  IQ:{c:"asia",v:"iraq"},       SA:{c:"asia",v:"saudi"},      AE:{c:"asia",v:"uae"},
+  JO:{c:"asia",v:"jordan"},     SY:{c:"asia",v:"syria"},      LB:{c:"asia",v:"lebanon"},
+  YE:{c:"asia",v:"yemen"},      OM:{c:"asia",v:"oman"},       QA:{c:"asia",v:"qatar"},
+  BH:{c:"asia",v:"bahrain"},    PS:{c:"asia",v:"palestine"},  IL:{c:"asia",v:"palestine"},
+  TR:{c:"asia",v:"turkey"},     IR:{c:"asia",v:"iran"},       PK:{c:"asia",v:"pakistan"},
+  IN:{c:"asia",v:"india"},      BD:{c:"asia",v:"bangladesh"}, ID:{c:"asia",v:"indonesia"},
+  MY:{c:"asia",v:"malaysia"},   CN:{c:"asia",v:"china"},      JP:{c:"asia",v:"japan"},
+  KR:{c:"asia",v:"southkorea"}, AF:{c:"asia",v:"afghanistan"},KZ:{c:"asia",v:"kazakhstan"},
+  UZ:{c:"asia",v:"uzbekistan"}, AZ:{c:"asia",v:"azerbaijan"}, AM:{c:"asia",v:"armenia"},
+  GE:{c:"asia",v:"georgia"},    SG:{c:"asia",v:"singapore"},  TH:{c:"asia",v:"thailand"},
+  VN:{c:"asia",v:"vietnam"},    PH:{c:"asia",v:"philippines"},MM:{c:"asia",v:"myanmar"},
+  KH:{c:"asia",v:"cambodia"},   NP:{c:"asia",v:"nepal"},      LK:{c:"asia",v:"srilanka"},
+  // أفريقيا
+  MA:{c:"africa",v:"morocco"},  DZ:{c:"africa",v:"algeria"},  TN:{c:"africa",v:"tunisia"},
+  LY:{c:"africa",v:"libya"},    SD:{c:"africa",v:"sudan"},    ET:{c:"africa",v:"ethiopia"},
+  NG:{c:"africa",v:"nigeria"},  ZA:{c:"africa",v:"southafrica"},KE:{c:"africa",v:"kenya"},
+  GH:{c:"africa",v:"ghana"},    CM:{c:"africa",v:"cameroon"}, TZ:{c:"africa",v:"tanzania"},
+  SN:{c:"africa",v:"senegal"},  UG:{c:"africa",v:"uganda"},   MZ:{c:"africa",v:"mozambique"},
+  ZM:{c:"africa",v:"zambia"},   SO:{c:"africa",v:"somalia"},  MR:{c:"africa",v:"mauritania"},
+  ML:{c:"africa",v:"mali"},     NE:{c:"africa",v:"niger"},    EG:{c:"africa",v:"egypt"},
+  // أوروبا
+  GB:{c:"europe",v:"uk"},       DE:{c:"europe",v:"germany"},  FR:{c:"europe",v:"france"},
+  NL:{c:"europe",v:"netherlands"},SE:{c:"europe",v:"sweden"}, NO:{c:"europe",v:"norway"},
+  DK:{c:"europe",v:"denmark"},  FI:{c:"europe",v:"finland"},  CH:{c:"europe",v:"switzerland"},
+  AT:{c:"europe",v:"austria"},  BE:{c:"europe",v:"belgium"},  ES:{c:"europe",v:"spain"},
+  IT:{c:"europe",v:"italy"},    PT:{c:"europe",v:"portugal"}, PL:{c:"europe",v:"poland"},
+  CZ:{c:"europe",v:"czechia"},  HU:{c:"europe",v:"hungary"},  RO:{c:"europe",v:"romania"},
+  GR:{c:"europe",v:"greece"},   UA:{c:"europe",v:"ukraine"},  RU:{c:"europe",v:"russia"},
+  RS:{c:"europe",v:"serbia"},   HR:{c:"europe",v:"croatia"},  SK:{c:"europe",v:"slovakia"},
+  BG:{c:"europe",v:"bulgaria"}, AL:{c:"europe",v:"albania"},
+  // أمريكا الشمالية
+  US:{c:"north_america",v:"usa"},    CA:{c:"north_america",v:"canada"}, MX:{c:"north_america",v:"mexico"},
+  CU:{c:"north_america",v:"cuba"},   JM:{c:"north_america",v:"jamaica"},DO:{c:"north_america",v:"dominicanrep"},
+  CR:{c:"north_america",v:"costarica"},PA:{c:"north_america",v:"panama"},GT:{c:"north_america",v:"guatemala"},
+  HN:{c:"north_america",v:"honduras"},SV:{c:"north_america",v:"elsalvador"},NI:{c:"north_america",v:"nicaragua"},
+  // أمريكا الجنوبية
+  BR:{c:"south_america",v:"brazil"}, AR:{c:"south_america",v:"argentina"},CO:{c:"south_america",v:"colombia"},
+  CL:{c:"south_america",v:"chile"},  PE:{c:"south_america",v:"peru"},   VE:{c:"south_america",v:"venezuela"},
+  EC:{c:"south_america",v:"ecuador"},BO:{c:"south_america",v:"bolivia"},PY:{c:"south_america",v:"paraguay"},
+  UY:{c:"south_america",v:"uruguay"},GY:{c:"south_america",v:"guyana"},SR:{c:"south_america",v:"suriname"},
+  // أوقيانوسيا
+  AU:{c:"oceania",v:"australia"},NZ:{c:"oceania",v:"newzealand"},FJ:{c:"oceania",v:"fiji"},
+  PG:{c:"oceania",v:"png"},      WS:{c:"oceania",v:"samoa"},   TO:{c:"oceania",v:"tonga"}
+};
+
+// تطبيق الدولة المكتشفة على القائمتين مع إبقائهما قابلتين للتعديل
+function applyDetectedCountry(iso) {
+  const match = isoToCountry[(iso || '').toUpperCase()];
+  if (!match) return;
+  const contSel    = document.getElementById('continent');
+  const countrySel = document.getElementById('country');
+  // لا نُعدّل اختيار المستخدم إن سبق وحدّد القارة بنفسه
+  if (contSel.value) return;
+  contSel.value = match.c;
+  loadCountries();
+  countrySel.value = match.v;
+  document.getElementById('err-country').classList.remove('show');
+}
+
+// اكتشاف الدولة عبر الـ IP عند تحميل الصفحة (يتجاوز بصمت عند الفشل)
+async function autoDetectCountry() {
+  try {
+    const res  = await fetch('https://ipapi.co/json/');
+    if (!res.ok) throw new Error('geo');
+    const data = await res.json();
+    if (data && data.country_code) applyDetectedCountry(data.country_code);
+  } catch (_) {
+    // محاولة احتياطية بمزوّد آخر
+    try {
+      const r2 = await fetch('https://ipwho.is/');
+      const d2 = await r2.json();
+      if (d2 && d2.country_code) applyDetectedCountry(d2.country_code);
+    } catch (_) { /* يُترك للمستخدم اختيارها يدوياً */ }
+  }
+}
+autoDetectCountry();
+
 // ===== GENDER SELECTION =====
 function selectGender(g) {
   document.getElementById('genderValue').value = g;
@@ -847,10 +930,12 @@ function selectGender(g) {
 
 <script type="module">
   import { initializeApp }                         from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+import { initializeAppCheck, ReCaptchaV3Provider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
   import { getAuth, createUserWithEmailAndPassword,
            sendEmailVerification, onAuthStateChanged,
            reload }                                 from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   import { getFirestore, doc, setDoc, getDoc }     from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+  import { checkText, rateLimit, fmtWait, honeypotTrap, isHoneypotFilled } from "./js/moderation.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",
@@ -863,6 +948,9 @@ function selectGender(g) {
   };
 
   const app  = initializeApp(firebaseConfig);
+  /* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+     استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+  try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
@@ -965,7 +1053,7 @@ function selectGender(g) {
     btn.disabled = true;
     try {
       await sendEmailVerification(currentUser);
-      note.textContent = "✅ تم إعادة الإرسال، راجع صندوق الوارد.";
+      note.textContent = "تم إعادة الإرسال، راجع صندوق الوارد.";
       note.style.color = "#188038";
     } catch(e) {
       note.textContent = "حدث خطأ: " + e.message;
@@ -975,8 +1063,17 @@ function selectGender(g) {
   };
 
   // ─── FORM SUBMIT ───
+  /* فخّ البوتات: حقل خفي يملؤه الآليّون فقط */
+  honeypotTrap(document.getElementById('registerForm'));
+
   document.getElementById('registerForm').addEventListener('submit', async function(e) {
     e.preventDefault();
+
+    /* بوت ملأ الفخّ → نوقف بصمت (لا نكشف للبوت سبب الرفض) */
+    if (isHoneypotFilled(this)) { return; }
+    /* حدّ معدّل: 3 محاولات تسجيل كل 15 دقيقة (يبطّئ إنشاء الحسابات بالجملة) */
+    const _rl = rateLimit('register', 3, 15*60*1000);
+    if (!_rl.ok) { alert('محاولات كثيرة. حاول بعد ' + fmtWait(_rl.waitMs) + '.'); return; }
 
     if (!termsCheck.checked) { document.getElementById('err-terms').classList.add('show'); return; }
 
@@ -999,7 +1096,7 @@ function selectGender(g) {
     const emailRegex    = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     let isValid = true;
 
-    if (name.length < 4)               { showError('studentName','err-name');                  isValid=false; } else clearError('studentName','err-name');
+    if (name.length < 4 || !checkText(name).ok || !checkText(username).ok) { showError('studentName','err-name'); isValid=false; } else clearError('studentName','err-name');
     if (!usernameRegex.test(username)) { showError('username','err-username');                  isValid=false; } else clearError('username','err-username');
     if (!emailRegex.test(email))       { showError('email','err-email');                        isValid=false; } else clearError('email','err-email');
     if (!gender)                       { document.getElementById('err-gender').classList.add('show'); isValid=false; } else document.getElementById('err-gender').classList.remove('show');
@@ -1009,14 +1106,15 @@ function selectGender(g) {
     if (uniSel==='other'&&!uni)        { showError('otherUniversity','err-other-university');   isValid=false; } else clearError('otherUniversity','err-other-university');
     if (!depSel)                       { showError('department','err-department');              isValid=false; } else clearError('department','err-department');
     if (depSel==='other'&&!dep)        { showError('otherDepartment','err-other-department');   isValid=false; } else clearError('otherDepartment','err-other-department');
-    if (!/^07[0-9]{9}$/.test(ph))     { showError('phone','err-phone');                        isValid=false; } else clearError('phone','err-phone');
+    const phoneOk = /^07[0-9]{9}$/.test(ph) || /^\+[1-9][0-9]{7,14}$/.test(ph);
+    if (!phoneOk)                     { showError('phone','err-phone');                        isValid=false; } else clearError('phone','err-phone');
     if (pass.length < 6)              { showError('password','err-password');                   isValid=false; } else clearError('password','err-password');
     if (pass!==conf||!conf)            { showError('passwordConfirm','err-confirm');            isValid=false; } else clearError('passwordConfirm','err-confirm');
 
     if (!isValid) return;
 
     const btn = document.getElementById('submitBtn');
-    btn.innerHTML = '<span>⏳</span><span>جارٍ إنشاء الحساب...</span>';
+    btn.innerHTML = '<span>جارٍ إنشاء الحساب...</span>';
     btn.disabled = true;
     isRegistering = true;
 
@@ -1057,7 +1155,7 @@ function selectGender(g) {
       document.getElementById('successMsg').classList.add('show');
       document.getElementById('verifyEmailDisplay').textContent = email;
       document.getElementById('verifyBanner').classList.add('show');
-      btn.innerHTML = '<span>📧</span><span>في انتظار تأكيد البريد</span>';
+      btn.innerHTML = '<span>في انتظار تأكيد البريد</span>';
 
       // Poll for email verification
       startVerifyPolling(user);

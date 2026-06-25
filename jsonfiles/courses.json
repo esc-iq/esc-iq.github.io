@@ -1,0 +1,81 @@
+{
+  "_comment": "قاعدة بيانات الدورات لموقع ESC — هذا الملف يغذّي صفحة course.html. أضف/احذف الدورات من هنا فقط. الحقول: title عنوان الدورة، instructor المُقدّم، level (beginner|advanced)، category وسم العرض على البطاقة، department القسم الهندسي (civil|electrical|mechanical|petroleum|biomedical|general)، group عنوان مجموعة العرض، image صورة العرض، placeholder رمز بديل عند فقدان الصورة، link وجهة النقر، certificate هل توجد شهادة، course_type (free|paid)، price السعر بالدينار للدورة المدفوعة، currency العملة.",
+  "departments": {
+    "civil": "هندسة مدنية",
+    "electrical": "هندسة كهرباء وإلكترونيك",
+    "mechanical": "هندسة الميكانيك",
+    "petroleum": "هندسة النفط",
+    "biomedical": "هندسة الطب الحياتي",
+    "general": "عام لجميع التخصصات"
+  },
+  "courses": [
+    {
+      "title": "دورة Office الأساسية لطلاب الهندسة",
+      "instructor": "المهندس جعفر الحلفي",
+      "level": "beginner",
+      "category": "تقنية",
+      "department": "general",
+      "group": "كورسات عامة",
+      "image": "media/officecourse.png",
+      "placeholder": "📊",
+      "link": "nocourse.html",
+      "certificate": true,
+      "course_type": "free",
+      "price": 0,
+      "currency": "دينار عراقي"
+    },
+
+    {
+      "title": "دورة أوتوكاد للمبتدئين للمهندس المدني",
+      "instructor": "المهندس علي الأسدي",
+      "level": "intermediate",
+      "category": "هندسة مدنية",
+      "department": "civil",
+      "group": "كورسات الهندسة المدنية",
+      "image": "media/autocadcourse.png",
+      "placeholder": "📐",
+      "link": "nocourse.html",
+      "certificate": true,
+      "course_type": "free",
+      "price": 0,
+      "currency": "دينار عراقي"
+    },
+    {
+      "title": "تحليل وتصميم الأسس عبر PLAXIS 2D",
+      "instructor": "المهندس محمد الجبوري",
+      "level": "advanced",
+      "category": "هندسة مدنية",
+      "department": "civil",
+      "group": "كورسات الهندسة المدنية",
+      "image": "media/plaxis2dcourse.png",
+      "placeholder": "🔩",
+      "link": "nocourse.html",
+      "certificate": true,
+      "course_type": "free",
+      "price": 0,
+      "currency": "دينار عراقي"
+    },
+    {
+      "title": "أساسيات البرمجة عبر بايثون",
+      "instructor": "المهندس محمد الشيباني",
+      "level": "beginner",
+      "category": "هندسة كهربائية",
+      "department": "electrical",
+      "group": "كورسات الهندسة الكهربائية",
+      "image": "media/pythoncourse.png",
+      "placeholder": "⚡",
+      "link": "nocourse.html",
+      "certificate": true,
+      "course_type": "free",
+      "price": 0,
+      "currency": "دينار عراقي"
+    }
+  ],
+  "comingSoon": {
+    "free": [],
+    "paid": [
+      "كورسات الهندسة المدنية المتقدمة",
+      "كورسات الهندسة الكهربائية والإلكترونيك"
+    ]
+  }
+}
