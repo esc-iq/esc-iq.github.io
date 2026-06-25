@@ -3,7 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ESC — البرامج الهندسية</title>
+<title>البرامج الهندسية — تحميل برامج المهندسين | ESC</title>
+<meta name="description" content="تحميل البرامج الهندسية الأساسية لطلاب الهندسة في العراق عبر مجتمع طلبة الهندسة (ESC): AutoCAD وPlaxis وغيرها من أدوات المهندسين.">
+<link rel="canonical" href="https://esc-iq.net/softwaresdownload.html">
+<meta name="author" content="Mohammed Baqer A. Azeez">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ESC — مجتمع طلبة الهندسة">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:url" content="https://esc-iq.net/softwaresdownload.html">
+<meta property="og:title" content="البرامج الهندسية — تحميل برامج المهندسين | ESC">
+<meta property="og:description" content="تحميل البرامج الهندسية الأساسية لطلاب الهندسة في العراق.">
+<meta property="og:image" content="https://esc-iq.net/media/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="البرامج الهندسية — تحميل برامج المهندسين | ESC">
+<meta name="twitter:description" content="تحميل البرامج الهندسية الأساسية لطلاب الهندسة.">
+<meta name="twitter:image" content="https://esc-iq.net/media/icon-512.png">
 <link rel="icon" href="media/favicon.png" type="image/png">
 <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 
@@ -86,6 +101,27 @@ body {
 #authBtn.state-user    { background: rgba(255,255,255,0.14); color: #fff; border: 1.5px solid rgba(255,255,255,0.28); }
 #authBtn.state-user:hover  { background: rgba(255,255,255,0.24); }
 .auth-avatar { width: 26px; height: 26px; border-radius: 6px; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.35); display: block; flex-shrink: 0; }
+
+/* ===== NAV SEARCH (موحّد مع index) ===== */
+.nav-search-wrap { position:relative; display:flex; align-items:center; }
+.nav-search-input { width:280px; height:38px; padding:0 36px 0 12px; border-radius:9px; box-sizing:border-box; border:1.5px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.12); outline:none; color:#fff; font-weight:700; font-family:'Ubuntu',sans-serif; font-size:13px; direction:rtl; text-align:right; transition:background 0.2s,border-color 0.2s; backdrop-filter:blur(4px); }
+.nav-search-input::placeholder { color:rgba(255,255,255,0.55); font-weight:400; }
+.nav-search-input:focus { background:rgba(255,255,255,0.2); border-color:rgba(255,255,255,0.6); }
+.nav-search-icon { position:absolute; left:11px; pointer-events:none; display:flex; align-items:center; opacity:0.7; }
+.nav-search-icon svg { width:16px; height:16px; }
+.nav-search-results { display:none; position:absolute; top:calc(100% + 8px); right:0; min-width:300px; background:#fff; border-radius:14px; box-shadow:0 14px 40px rgba(0,0,0,0.2); border:1px solid rgba(0,0,0,0.08); overflow:hidden; z-index:2000; direction:rtl; text-align:right; }
+.nav-search-results.show { display:block; }
+.search-result-item { display:flex; align-items:center; gap:12px; padding:11px 14px; text-decoration:none; border-bottom:1px solid rgba(0,0,0,0.05); transition:background 0.15s; cursor:pointer; }
+.search-result-item:last-child { border-bottom:none; }
+.search-result-item:hover { background:#f3f7ff; }
+.search-result-avatar { width:40px; height:40px; border-radius:10px; object-fit:cover; flex-shrink:0; border:1px solid rgba(0,0,0,0.08); background:#e5e7eb; }
+.search-result-info { flex:1; min-width:0; }
+.search-result-name { font-size:14px; font-weight:700; color:#0d1b2a; }
+.search-result-username { font-size:12px; color:#0047AB; font-weight:700; margin-top:1px; }
+.search-result-uni { font-size:11px; color:#6b7280; font-weight:700; margin-top:1px; }
+.search-no-result { padding:20px 16px; text-align:center; font-size:13px; font-weight:700; color:#9ca3af; }
+.search-loading { padding:16px; text-align:center; font-size:13px; font-weight:700; color:#9ca3af; }
+@media (max-width:768px) { .nav-search-wrap { display:none; } }
 
 .menu-btn {
   display: none; height: 42px; width: 42px;
@@ -548,6 +584,12 @@ footer {
   .sw-hero-inner { padding: 0 18px 28px; }
 }
 </style>
+<style id="uniform-ui-overrides">
+#authBtn { min-width:185px; max-width:185px; height:38px; box-sizing:border-box; justify-content:center; overflow:hidden; }
+#authBtn span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.nav-search-input { width:280px !important; height:38px !important; box-sizing:border-box; transition:background 0.2s, border-color 0.2s !important; }
+.nav-search-input:focus { width:280px !important; }
+</style>
 </head>
 <body>
 
@@ -567,11 +609,18 @@ footer {
       <img src="media/icon-512-w.png" alt="ESC" style="height:38px;width:auto;display:block;">
     </a>
     <a id="authBtn" class="state-loading" href="login.html">⏳</a>
+    <div class="nav-search-wrap" id="navSearchWrap">
+      <input type="search" class="nav-search-input" id="navSearchInput" placeholder="البحث عن مستخدم..." autocomplete="off">
+      <span class="nav-search-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      </span>
+      <div class="nav-search-results" id="navSearchResults"></div>
+    </div>
   </div>
   <nav aria-label="روابط الموقع">
-    <a href="faq.html">الأسئلة الشائعة</a>
+    <a href="training.html">التدريب والتطوير</a>
     <a href="course.html">الدورات</a>
-    <a href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a href="research.html">الأبحاث</a>
     <a href="uploads.html">الملفات المرفوعة</a>
   </nav>
@@ -579,9 +628,9 @@ footer {
     <span class="menu-icon" aria-hidden="true"></span>
   </button>
   <div id="mobileMenu" class="mobile-menu" role="menu">
-    <a role="menuitem" href="faq.html">الأسئلة الشائعة</a>
+    <a role="menuitem" href="training.html">التدريب والتطوير</a>
     <a role="menuitem" href="course.html">الدورات</a>
-    <a role="menuitem" href="Scientific_contributions.html">المساهمات العلمية</a>
+    <a role="menuitem" href="Scientific_contributions.html">أخبار المؤسسة</a>
     <a role="menuitem" href="research.html">الأبحاث</a>
     <a role="menuitem" href="uploads.html">الملفات المرفوعة</a>
     <div style="border-top:1px solid rgba(0,0,0,0.08);margin-top:6px;padding-top:6px;">
@@ -795,7 +844,7 @@ footer {
           <li><div class="legal-dot"></div><span>هذا البرنامج مجاني ومقدَّم من منصة <strong>ESC — مجتمع طلبة الهندسة</strong>.</span></li>
           <li><div class="legal-dot"></div><span>جميع الحقوق محفوظة للمنصة والناشرين المذكورين. يُمنع إعادة نشر البرنامج أو توزيعه أو بيعه دون إذن صريح.</span></li>
           <li><div class="legal-dot"></div><span>يُسمح باستخدامه للأغراض الشخصية والأكاديمية غير التجارية فقط.</span></li>
-          <li><div class="legal-dot"></div><span>للتعاون أو طلب إذن خاص، تواصل مع الناشر أو راسل فريق ESC على <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a></span></li>
+          <li><div class="legal-dot"></div><span>للتعاون أو طلب إذن خاص، تواصل مع الناشر أو راسل فريق ESC على <a href="mailto:info@esc-iq.net">info@esc-iq.net</a></span></li>
         </ul>
       </div>
 
@@ -915,8 +964,8 @@ footer {
     </div>
     <div class="footer-col footer-contact">
       <h4>تواصل معنا</h4>
-      <p>هل لديك سؤال أو مقترح؟<br>
-        <a href="mailto:esc.irq@gmail.com">esc.irq@gmail.com</a>
+      <p>هل لديك سؤال أو مقترح؟ <a href="faq.html">الأسئلة الشائعة</a><br>
+        <a href="mailto:info@esc-iq.net">info@esc-iq.net</a>
       </p>
     </div>
   </div>
@@ -1173,9 +1222,13 @@ async function fetchPubAvatar(username){
   if(authBtnMob){ authBtnMob.href='login.html'; authBtnMob.textContent='تسجيل الدخول'; }
   try{
     const {initializeApp}      = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js");
+    const {initializeAppCheck, ReCaptchaV3Provider} = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js");
     const {getAuth,onAuthStateChanged} = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js");
     const {getFirestore,collection,query,where,getDocs} = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js");
     const app  = initializeApp({apiKey:"AIzaSyCYuVEURUE4GIebvS14KJMm3EdMpL9u9tw",authDomain:"engineering-students-community.firebaseapp.com",projectId:"engineering-students-community",storageBucket:"engineering-students-community.firebasestorage.app",messagingSenderId:"371432549665",appId:"1:371432549665:web:4d3b9617243731fb06e260"});
+    /* App Check — reCAPTCHA v3: يمنع أي طلب لا يأتي من الموقع الحقيقي (بوتات/إغراق/إساءة API).
+       استبدل RECAPTCHA_V3_SITE_KEY بمفتاح الموقع من Firebase Console ▸ App Check. */
+    try { initializeAppCheck(app, { provider: new ReCaptchaV3Provider('RECAPTCHA_V3_SITE_KEY'), isTokenAutoRefreshEnabled: true }); } catch (e) { console.warn('AppCheck init skipped', e); }
     const auth = getAuth(app); const db=getFirestore(app);
     onAuthStateChanged(auth,async(user)=>{
       if(!user){authBtn.className='state-guest';authBtn.href='login.html';authBtn.innerHTML='تسجيل الدخول';return;}
@@ -1188,7 +1241,7 @@ async function fetchPubAvatar(username){
         const pUrl=`profile.html?u=${encodeURIComponent(username)}`;
         authBtn.className='state-user'; authBtn.href=pUrl;
         authBtn.innerHTML=`<img class="auth-avatar" src="${av}" onerror="this.src='media/1nkown.png'" alt=""><span>@${username}</span>`;
-        if(authBtnMob){ authBtnMob.href=pUrl; authBtnMob.innerHTML='👤 @'+username; }
+        if(authBtnMob){ authBtnMob.href=pUrl; authBtnMob.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-left:3px"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> @'+username; }
       }catch(e){}
     });
   }catch(e){}
@@ -1196,6 +1249,54 @@ async function fetchPubAvatar(username){
 
 /* بدء التهيئة */
 init();
+</script>
+<script>
+/* ============================================================
+   NAV SEARCH (بحث حي عن المستخدمين عبر Firestore REST)
+   ============================================================ */
+(function(){
+  const UNIVERSITY_DICT={karbala:"جامعة كربلاء المقدسة",baghdad:"جامعة بغداد",basra:"جامعة البصرة",mosul:"جامعة الموصل",kufa:"جامعة الكوفة",najaf:"جامعة النجف الأشرف التقنية",mustansiriyah:"الجامعة المستنصرية",technology:"الجامعة التكنولوجية"};
+  const input=document.getElementById('navSearchInput');
+  const resultsEl=document.getElementById('navSearchResults');
+  const wrap=document.getElementById('navSearchWrap');
+  if(!input||!resultsEl) return;
+  let cache=null, timer=null;
+  async function getAllStudents(){
+    if(cache) return cache;
+    const res=await fetch('https://firestore.googleapis.com/v1/projects/engineering-students-community/databases/(default)/documents/students?pageSize=1000');
+    if(!res.ok) throw new Error('fetch');
+    const data=await res.json();
+    cache=(data.documents||[]).map(d=>{
+      const f=d.fields||{}; const id=d.name.split('/').pop();
+      return { id, fullName:f.fullName?.stringValue||'', university:f.university?.stringValue||'', avatarURL:f.avatarURL?.stringValue||'' };
+    });
+    return cache;
+  }
+  async function performSearch(q){
+    try{
+      const students=await getAllStudents(); const lq=q.toLowerCase();
+      const results=students.filter(s=>(s.id||'').toLowerCase().includes(lq)||(s.fullName||'').toLowerCase().includes(lq)).slice(0,6);
+      if(!results.length){ resultsEl.innerHTML='<div class="search-no-result">لا توجد نتائج.</div>'; return; }
+      resultsEl.innerHTML=results.map(s=>{
+        const uniName=UNIVERSITY_DICT[s.university]||s.university||'';
+        const avatar=s.avatarURL?esc(s.avatarURL):'media/1nkown.png';
+        return `<a class="search-result-item" href="profile.html?u=${encodeURIComponent(s.id)}"><img class="search-result-avatar" src="${avatar}" onerror="this.src='media/1nkown.png'" alt="${esc(s.fullName||s.id)}"><div class="search-result-info"><div class="search-result-name">${esc("المهندس "+(s.fullName||s.id))}</div><div class="search-result-username">@${esc(s.id)}</div>${uniName?`<div class="search-result-uni">${esc(uniName)}</div>`:''}</div></a>`;
+      }).join('');
+    }catch(e){ resultsEl.innerHTML='<div class="search-no-result">خطأ في البحث.</div>'; }
+  }
+  input.addEventListener('input',()=>{
+    clearTimeout(timer); const q=input.value.trim();
+    if(!q){ resultsEl.classList.remove('show'); resultsEl.innerHTML=''; return; }
+    resultsEl.innerHTML='<div class="search-loading">جاري البحث...</div>';
+    resultsEl.classList.add('show');
+    timer=setTimeout(()=>performSearch(q),300);
+  });
+  input.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){ resultsEl.classList.remove('show'); input.blur(); }
+    else if(e.key==='Enter'){ const q=input.value.trim(); if(q) location.href='search.html?u='+encodeURIComponent(q); }
+  });
+  document.addEventListener('click',e=>{ if(!wrap.contains(e.target)) resultsEl.classList.remove('show'); });
+})();
 </script>
 </body>
 </html>
